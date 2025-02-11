@@ -2,6 +2,8 @@
 
 ## Description
 
+Managing 3D frames of reference and 3D points conversion.
+
 ## Author
 - Name: Artezaru
 - Email: artezaru.github@proton.me
@@ -66,3 +68,4 @@ open build/latex/py3dframe.pdf
 
 ## License
 See LICENSE
+
