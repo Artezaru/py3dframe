@@ -721,6 +721,16 @@ class Frame(object):
         """
         Export the Frame's data as a dictionary.
 
+        The structure of the dictionary is as follows:
+
+        .. code-block:: python
+
+            {
+                "origin": self.origin.tolist(),
+                "quaternion": self.quaternion.tolist(),
+                "direct": self.direct,
+            }
+
         Returns
         -------
         dict
@@ -737,6 +747,18 @@ class Frame(object):
     def load(cls, data: Dict) -> Frame:
         """
         Create a Frame instance from a dictionary.
+
+        The dictionary should contain the keys "origin", "quaternion", and "direct".
+        For example:
+
+        .. code-block:: python
+
+            {
+                "origin": [1.0, 2.0, 3.0],
+                "quaternion": [0.5, 0.5, 0.5, 0.5],
+                "direct": True,
+            }
+
 
         Parameters
         ----------
