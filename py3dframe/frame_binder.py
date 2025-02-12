@@ -12,7 +12,7 @@ class FrameBinder:
     If a frame is linked to another frame, the world reference of the child frame became the parent frame.
     By default, the world frame is the default frame of the FrameBinder.
 
-    Properties
+    Attributes
     ----------
     names : List[str]
         Get a list of the names of the frames.

@@ -1,6 +1,5 @@
 from __future__ import annotations
 from typing import Optional, Dict
-
 import numpy
 from scipy.spatial.transform import Rotation
 
@@ -39,7 +38,7 @@ class Frame(object):
         To manage multiple frames and their relationships.
 
 
-    Properties
+    Attributes
     ----------
     origin : numpy.ndarray
         Get or set the origin of the frame in 3D space with shape (3,1). 
@@ -750,15 +749,14 @@ class Frame(object):
             A Frame instance.
         """
         # Check for required keys
-        required_keys = {"origin", "quaternion", "direct"}
-        if not required_keys.issubset(data.keys()):
-            raise ValueError(f"The dictionary must contain keys: {required_keys}")
-        
+        if not isinstance(data, dict):
+            raise ValueError("Data must be a dictionary.")
+
         # Create the Frame instance
         return cls(
-            origin=data["origin"],
-            quaternion=data["quaternion"],
-            direct=data["direct"],
+            origin=data.get("origin", None),
+            quaternion=data.get("quaternion", None),
+            direct=data.get("direct", True),
         )
 
 
