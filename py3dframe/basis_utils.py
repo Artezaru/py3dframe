@@ -146,7 +146,7 @@ class BasisUtils:
         Z_axis = direction / numpy.linalg.norm(direction)
 
         # Select the best reference vector
-        reference = FrameUtils.best_reference_vector(Z_axis)
+        reference = BasisUtils.best_reference_vector(Z_axis)
 
         # Compute X-axis
         X_axis = numpy.cross(reference, Z_axis)
