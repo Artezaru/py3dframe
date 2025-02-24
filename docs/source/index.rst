@@ -4,6 +4,7 @@ Welcome to py3dframe's documentation!
 Description of the package
 --------------------------
 
+``py3dframe`` is a Python package that provides tools to manage 3D frames and 3D points in space.
 
 Contents
 --------
