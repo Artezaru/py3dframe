@@ -2,6 +2,8 @@
 
 ## Description
 
+Managing 3D frames of reference and 3D points conversion.
+
 ## Author
 
 - Name: Artezaru
