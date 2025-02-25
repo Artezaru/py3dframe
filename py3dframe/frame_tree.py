@@ -219,7 +219,7 @@ class FrameTree:
         r"""
         Remove a frame from the FrameTree.
 
-        The frames linked to the removed frame will be linked to the parent frame of the removed frame.
+        The frames linked to the removed frame will be linked to the world frame.
 
         This method is equivalent to the following code:
 
@@ -263,20 +263,18 @@ class FrameTree:
 
             world
             ├── frame1
-            |   └── frame3
+            ├── frame3
             └── frame4
         """
         # Check if the frame name already exists
         if not self._exist_name(name):
             raise ValueError(f"Frame with name '{name}' does not exist.")
 
-        # Get the parent of the frame
-        parent = self._parents[name]
-
         # Remove the frame from the FrameTree
-        for key, value in self._parents.items():
+        for key, value in list(self._parents.items()):
             if value == name:
-                self._parents[key] = parent
+                self._parents[key] = None
+                
         del self._frames[name]
         del self._parents[name]
 

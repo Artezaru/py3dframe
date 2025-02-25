@@ -110,17 +110,17 @@ print(frame_tree)
 # └── frame3
 
 # Change parent of frame3 to 'base_frame'
-frame_tree.set_parent("frame3", "base_frame")
+frame_tree.set_parent("frame3", "frame2")
 print("Set 'base_frame' as the parent of 'frame3'.")
 
 # Print updated tree
-print("\nFrameTree after setting 'base_frame' as parent of 'frame3':")
+print("\nFrameTree after setting 'frame2' as parent of 'frame3':")
 print(frame_tree)
 # Expected Output:
 # world
 # └── base_frame
-#     ├── frame2
-#     └── frame3
+#     └── frame2
+#         └── frame3
 
 # Remove frame2 from the tree
 frame_tree.remove_frame("frame2")
@@ -131,8 +131,8 @@ print("\nFrameTree after removing 'frame2':")
 print(frame_tree)
 # Expected Output:
 # world
-# └── base_frame
-#     └── frame3
+# ├── base_frame
+# └── frame3
 
 # Display remaining frames
 print(f"Remaining frames: {frame_tree.names}")
