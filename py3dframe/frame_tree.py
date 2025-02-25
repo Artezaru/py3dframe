@@ -89,6 +89,48 @@ class FrameTree:
         return len(self._frames.keys())
 
 
+    
+    def __getitem__(self, name: str) -> Frame:
+        """Get a frame from the FrameTree."""
+        return self.get_frame(name, copy=False)
+
+    
+
+    def __delitem__(self, name: str) -> None:
+        """Remove a frame from the FrameTree."""
+        self.remove_frame(name)
+
+
+
+    def __setitem__(self, name: str, frame: Frame) -> None:
+        """Add a frame to the FrameTree."""
+        self.add_frame(frame, name, copy=False)
+
+    
+
+    def __repr__(self) -> str:
+        """Return a string representation of the FrameTree in a tree structure."""
+        def build_tree(name, prefix="", is_last=True):
+            """Recursively build the tree structure."""
+            connector = "└── " if is_last else "├── "
+            lines = [f"{prefix}{connector}{name}"]
+            children = [child for child, parent in self._parents.items() if parent == name]
+            for index, child in enumerate(sorted(children)):
+                is_child_last = index == (len(children) - 1)
+                child_prefix = prefix + ("    " if is_last else "│   ")
+                lines.extend(build_tree(child, child_prefix, is_child_last))
+            return lines
+
+        # Start building the tree from the world frame
+        lines = ["world"]
+        roots = [name for name, parent in self._parents.items() if parent is None]
+        for index, root in enumerate(sorted(roots)):
+            is_last_root = index == (len(roots) - 1)
+            lines.extend(build_tree(root, "", is_last_root))
+
+        return "\n".join(lines)
+
+
 
     # Public methods
     def add_frame(
@@ -172,18 +214,12 @@ class FrameTree:
         self._parents[name] = parent
 
 
-    
-    def __setitem__(self, name: str, frame: Frame) -> None:
-        """Add a frame to the FrameTree."""
-        self.add_frame(frame, name, copy=False)
-
-
 
     def remove_frame(self, name: str) -> None:
         r"""
         Remove a frame from the FrameTree.
 
-        The frames linked to the removed frame will be set to None.
+        The frames linked to the removed frame will be linked to the parent frame of the removed frame.
 
         This method is equivalent to the following code:
 
@@ -227,25 +263,26 @@ class FrameTree:
 
             world
             ├── frame1
-            ├── frame3
+            |   └── frame3
             └── frame4
         """
         # Check if the frame name already exists
         if not self._exist_name(name):
             raise ValueError(f"Frame with name '{name}' does not exist.")
 
+        # Get the parent of the frame
+        parent = self._parents[name]
+
         # Remove the frame from the FrameTree
         for key, value in self._parents.items():
             if value == name:
-                self._parents[key] = None
+                self._parents[key] = parent
         del self._frames[name]
         del self._parents[name]
 
 
     
-    def __delitem__(self, name: str) -> None:
-        """Remove a frame from the FrameTree."""
-        self.remove_frame(name)
+
         
 
 
@@ -349,12 +386,6 @@ class FrameTree:
         if copy:
             return copycopy(self._frames[name])
         return self._frames[name]
-
-
-
-    def __getitem__(self, name: str) -> Frame:
-        """Get a frame from the FrameTree."""
-        return self.get_frame(name, copy=False)
 
     
 
