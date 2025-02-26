@@ -44,10 +44,10 @@ class Frame(object):
     Parameters
     ----------
     origin : numpy.ndarray, optional
-        The origin of the frame in 3D space with shape (3,1). The default is None.
+        The origin of the frame in 3D space with shape (3,1). The default is None - [0.0, 0.0, 0.0].
     
     quaternion : numpy.ndarray, optional
-        The quaternion of the frame with shape (4,). The default is None.
+        The quaternion of the frame with shape (4,). The default is None - [1.0, 0.0, 0.0, 0.0].
     
     rotation_matrix : numpy.ndarray, optional
         The rotation matrix of the frame with shape (3,3). The default is None.
