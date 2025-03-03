@@ -1,5 +1,7 @@
+from __future__ import annotations
 from typing import Optional, List, Dict
 import numpy
+import json
 from copy import copy as copycopy
 from .frame import Frame
 
@@ -642,3 +644,165 @@ class FrameTree:
         """Clear all frames and parents in the FrameTree."""
         self._frames.clear()
         self._parents.clear()
+
+
+
+    def save_to_dict(self, description: str = "") -> Dict:
+        """
+        Export the Frame's data to a dictionary.
+
+        The structure of the dictionary is as follows:
+
+        .. code-block:: python
+
+            {
+                "type": "FrameTree [py3dframe]",
+                "description": "Description of the frame tree",
+                "frames": {
+                    "frame1": {
+                        "origin": [1.0, 2.0, 3.0],
+                        "quaternion": [0.5, 0.5, 0.5, 0.5],
+                        "direct": True,
+                        "parent": "frame2"
+                    },
+                    "frame2": {
+                        "origin": [1.0, 2.0, 4.0],
+                        "quaternion": [0.5, 0.2, 0.3, 0.0],
+                        "direct": False,
+                        "parent": null
+                    }
+                }
+            }
+
+        Parameters
+        ----------
+        description : str, optional
+            A description of the frame, by default "".
+
+        Returns
+        -------
+        dict
+            A dictionary containing the frames.
+
+        Raises
+        ------
+        ValueError
+            If the description is not a string.
+        """
+        # Check the description
+        if not isinstance(description, str):
+            raise ValueError("Description must be a string.")
+
+        # Create the dictionary
+        data = {
+            "type": "FrameTree [py3dframe]",
+            "description": description,
+            "frames": {}
+        }
+
+        # Add the frames to the dictionary
+        for name, frame in self._frames.items():
+            data["frames"][name] = frame.save_to_dict()
+            data["frames"][name]["parent"] = self._parents[name]
+        
+        return data
+
+
+
+    @classmethod
+    def load_from_dict(cls, data: Dict) -> FrameTree:
+        """
+        Create a FrameTree instance from a dictionary.
+
+        The structure of the dictionary should be as provided by the :meth:`py3dframe.FrameTree.save_to_dict` method.
+
+        The other keys in the dictionary are ignored.
+
+        Parameters
+        ----------
+        data : dict
+            A dictionary containing the frames.
+        
+        Returns
+        -------
+        FrameTree
+            A FrameTree instance.
+        
+        Raises
+        ------
+        ValueError
+            If the data is not a dictionary.
+        """
+        # Check for the input type
+        if not isinstance(data, dict):
+            raise ValueError("data must be a dictionary.")
+        
+        # Create the Frame instance
+        frame_tree = cls()
+        
+        # Add the frames to the FrameTree
+        for name, frame_data in data["frames"].items():
+            frame = Frame.load_from_dict(frame_data)
+            parent = frame_data["parent"]
+            frame_tree.add_frame(frame, name, parent)
+
+        return frame_tree
+
+
+
+    def save_to_json(self, filepath: str, description: str = "") -> None:
+        """
+        Export the Frame's data to a JSON file.
+
+        The structure of the JSON file follows the :meth:`py3dframe.FrameTree.save_to_dict` method.
+
+        Parameters
+        ----------
+        filepath : str
+            The path to the JSON file.
+        
+        description : str, optional
+            A description of the frame, by default "".
+        
+        Raises
+        ------
+        FileNotFoundError
+            If the filepath is not a valid path.
+        """
+        # Create the dictionary
+        data = self.save_to_dict(description=description)
+
+        # Save the dictionary to a JSON file
+        with open(filepath, "w") as file:
+            json.dump(data, file, indent=4)
+
+
+    
+    @classmethod
+    def load_from_json(cls, filepath: str) -> FrameTree:
+        """
+        Create a FrameTree instance from a JSON file.
+
+        The structure of the JSON file follows the :meth:`py3dframe.FrameTree.save_to_dict` method.
+
+        Parameters
+        ----------
+        filepath : str
+            The path to the JSON file.
+        
+        Returns
+        -------
+        FrameTree
+            A FrameTree instance.
+        
+        Raises
+        ------
+        FileNotFoundError
+            If the filepath is not a valid path.
+        """
+        # Load the dictionary from the JSON file
+        with open(filepath, "r") as file:
+            data = json.load(file)
+        
+        # Create the Frame instance
+        return cls.load_from_dict(data)

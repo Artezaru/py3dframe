@@ -58,7 +58,7 @@ def test_recursive_remove_frame(frame_tree):
     assert "frame4" not in frame_tree.names, "Child frame4 was not removed recursively."
 
 def test_get_worldcompose_frame(frame_tree):
-    world_point = np.array([1, 2, -1], dtype=np.float32)
+    world_point = np.array([1, 2, -1], dtype=np.float64)
     point_local_1 = frame_tree["frame1"].from_world_to_local(point=world_point)
     point_local_2 = frame_tree["frame2"].from_world_to_local(point=point_local_1)
     composed = frame_tree.get_worldcompose_frame("frame2")
@@ -71,9 +71,9 @@ def test_get_compose_frame(frame_tree):
     assert composed == frame_tree["frame2"], "Composed frame does not match frame2."
 
 def test_from_frame_to_frame(frame_tree):
-    point_in_frame1 = np.array([[10], [10], [10]], dtype=np.float32)
+    point_in_frame1 = np.array([[10], [10], [10]], dtype=np.float64)
     converted = frame_tree.from_frame_to_frame(input_name="frame1", output_name="frame2", point=point_in_frame1)
-    expected_point = point_in_frame1 - np.array([[0], [2], [0]], dtype=np.float32)
+    expected_point = point_in_frame1 - np.array([[0], [2], [0]], dtype=np.float64)
     assert np.allclose(converted, expected_point, atol=1e-6), \
         "Conversion from frame1 to frame2 did not yield the expected point."
 
@@ -81,3 +81,37 @@ def test_clear(frame_tree):
     frame_tree.clear()
     assert len(frame_tree.names) == 0, "FrameTree should be empty after clear()."
     assert len(frame_tree.parents) == 0, "Parent links should be empty after clear()."
+
+def test_save_load_dict(frame_tree):
+    """Test saving and loading a FrameTree from a dictionary."""
+    data = frame_tree.save_to_dict()
+    loaded_tree = FrameTree.load_from_dict(data)
+
+    assert set(loaded_tree.names) == set(frame_tree.names), \
+        "Loaded tree does not have the correct frame names."
+    assert loaded_tree.parents == frame_tree.parents, \
+        "Loaded tree parents do not match the original."
+
+    for name in frame_tree.names:
+        assert np.allclose(frame_tree[name].origin, loaded_tree[name].origin, atol=1e-6), \
+            f"Loaded frame '{name}' origin does not match."
+        assert np.allclose(frame_tree[name].rotation_matrix, loaded_tree[name].rotation_matrix, atol=1e-6), \
+            f"Loaded frame '{name}' rotation matrix does not match."
+
+def test_save_load_json(tmp_path, frame_tree):
+    """Test saving and loading a FrameTree to/from a JSON file."""
+    filepath = tmp_path / "test_frametree.json"
+    
+    frame_tree.save_to_json(filepath)
+    loaded_tree = FrameTree.load_from_json(filepath)
+
+    assert set(loaded_tree.names) == set(frame_tree.names), \
+        "Loaded JSON tree does not have the correct frame names."
+    assert loaded_tree.parents == frame_tree.parents, \
+        "Loaded JSON tree parents do not match the original."
+
+    for name in frame_tree.names:
+        assert np.allclose(frame_tree[name].origin, loaded_tree[name].origin, atol=1e-6), \
+            f"Loaded JSON frame '{name}' origin does not match."
+        assert np.allclose(frame_tree[name].rotation_matrix, loaded_tree[name].rotation_matrix, atol=1e-6), \
+            f"Loaded JSON frame '{name}' rotation matrix does not match."

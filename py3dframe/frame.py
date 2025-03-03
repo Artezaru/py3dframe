@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import Optional, Dict
 import numpy
+import json
 from scipy.spatial.transform import Rotation
 
 class Frame(object):
@@ -101,9 +102,9 @@ class Frame(object):
         
         # Default values if no orientation is provided
         elif sum([quaternion is not None, rotation_matrix is not None, euler_angles is not None, rotation_vector is not None]) == 0:
-            quaternion = numpy.array([1.0, 0.0, 0.0, 0.0], dtype=numpy.float32)
+            quaternion = numpy.array([1.0, 0.0, 0.0, 0.0]).astype(float)
         if origin is None:
-            origin = numpy.zeros((3,1), dtype=numpy.float32)
+            origin = numpy.zeros((3,1)).astype(float)
 
         # Initialize the frame
         self.origin = origin
@@ -143,7 +144,7 @@ class Frame(object):
     
     @origin.setter
     def origin(self, origin: numpy.ndarray) -> None:
-        self._origin = numpy.array(origin, dtype=numpy.float32).reshape((3,1))
+        self._origin = numpy.array(origin).reshape((3,1)).astype(float)
     
 
 
@@ -207,7 +208,7 @@ class Frame(object):
         TypeError
             If the quaternion is not a numpy array with shape (4,).
         """
-        quaternion = numpy.array(quaternion, dtype=numpy.float32).reshape((4,))
+        quaternion = numpy.array(quaternion).reshape((4,)).astype(float)
         norm = numpy.linalg.norm(quaternion, ord=None)
         if abs(norm) < self._tolerance:
             raise ValueError("Quaternion cannot have zero magnitude.")
@@ -267,7 +268,7 @@ class Frame(object):
 
     @rotation_matrix.setter
     def rotation_matrix(self, rotation_matrix: numpy.ndarray) -> None:
-        rotation_matrix = numpy.array(rotation_matrix, dtype=numpy.float32).reshape((3,3))
+        rotation_matrix = numpy.array(rotation_matrix).reshape((3,3)).astype(float)
         det = numpy.linalg.det(rotation_matrix)
         # Check if the determinant is close to 1
         if abs(abs(det) - 1.0) > self._tolerance:
@@ -340,7 +341,7 @@ class Frame(object):
         TypeError
             If the Euler angles are not a numpy array with shape (3,).
         """
-        euler_angles = numpy.array(euler_angles, dtype=numpy.float32).reshape((3,))
+        euler_angles = numpy.array(euler_angles).reshape((3,)).astype(float)
         self._rotation = Rotation.from_euler(axes, euler_angles, degrees=degrees)
         self.direct = direct
     
@@ -433,10 +434,10 @@ class Frame(object):
         TypeError
             If the rotation vector is not a numpy array with shape (3,).
         """
-        rotation_vector = numpy.array(rotation_vector, dtype=numpy.float32).reshape((3,))
+        rotation_vector = numpy.array(rotation_vector).reshape((3,)).astype(float)
         theta = numpy.linalg.norm(rotation_vector, ord=None)
         if abs(theta) < self._tolerance:
-            rotation_vector = numpy.zeros((3,), dtype=numpy.float32)
+            rotation_vector = numpy.zeros((3,)).astype(float)
         else:
             rotation_vector = rotation_vector / theta
         self._rotation = Rotation.from_rotvec(rotation_vector, degrees=degrees)
@@ -500,7 +501,7 @@ class Frame(object):
 
     @homogeneous_matrix.setter
     def homogeneous_matrix(self, matrix: numpy.ndarray) -> None:
-        homogeneous_matrix = numpy.array(matrix, dtype=numpy.float32).reshape((4,4))
+        homogeneous_matrix = numpy.array(matrix).reshape((4,4)).astype(float)
         self.origin = homogeneous_matrix[:3, 3]
         self.rotation_matrix = homogeneous_matrix[:3, :3]
 
@@ -670,8 +671,8 @@ class Frame(object):
             If the normal vector has zero magnitude.
         """
         # Compute the unit normal vector
-        point = numpy.array(point, dtype=numpy.float32).reshape((3,1))
-        normal = numpy.array(normal, dtype=numpy.float32).reshape((3,1))
+        point = numpy.array(point).reshape((3,1)).astype(float)
+        normal = numpy.array(normal).reshape((3,1)).astype(float)
 
         # Compute the unit normal vector
         norm = numpy.linalg.norm(normal, ord=None)
@@ -857,9 +858,9 @@ class Frame(object):
         
         # Convert the data into (3, N) shape
         if transpose:
-            data = numpy.array(data, dtype=numpy.float32).reshape((-1, 3)).T
+            data = numpy.array(data).reshape((-1, 3)).astype(float).T
         else:
-            data = numpy.array(data, dtype=numpy.float32).reshape((3, -1))
+            data = numpy.array(data).reshape((3, -1)).astype(float)
 
         # Convert the point to vector
         if point is not None:
@@ -930,9 +931,9 @@ class Frame(object):
 
         # Convert the data into (3, N) shape
         if transpose:
-            data = numpy.array(data, dtype=numpy.float32).reshape((-1, 3)).T
+            data = numpy.array(data).reshape((-1, 3)).astype(float).T
         else:
-            data = numpy.array(data, dtype=numpy.float32).reshape((3, -1))
+            data = numpy.array(data).reshape((3, -1)).astype(float)
         
         # Convert the data to world coordinates
         world_data = numpy.dot(self.rotation_matrix, data)
@@ -1178,49 +1179,72 @@ class Frame(object):
             return self.__mul__(self.__pow__(power - 1))
 
 
-    # Load and dump methods
-    def dump(self) -> Dict:
+
+    def save_to_dict(self, description: str = "") -> Dict:
         """
-        Export the Frame's data as a dictionary.
+        Export the Frame's data to a dictionary.
 
         The structure of the dictionary is as follows:
 
         .. code-block:: python
 
             {
-                "origin": self.origin.tolist(),
-                "quaternion": self.quaternion.tolist(),
-                "direct": self.direct,
+                "type": "Frame [py3dframe]",
+                "description": "Description of the frame",
+                "origin": [1.0, 2.0, 3.0],
+                "quaternion": [0.5, 0.5, 0.5, 0.5],
+                "direct": True
             }
+
+        Parameters
+        ----------
+        description : str, optional
+            A description of the frame, by default "".
 
         Returns
         -------
         dict
             A dictionary containing the origin, quaternion, and direct.
+
+        Raises
+        ------
+        ValueError
+            If the description is not a string.
         """
-        return {
+        # Check the description
+        if not isinstance(description, str):
+            raise ValueError("Description must be a string.")
+        
+        # Create the dictionary
+        data = {
+            "type": "Frame [py3dframe]",
             "origin": self.origin.tolist(),
             "quaternion": self.quaternion.tolist(),
-            "direct": self.direct,
+            "direct": self.direct
         }
+
+        # Add the description
+        if description != "":
+            data["description"] = description
+        
+        return data
+
 
 
     @classmethod
-    def load(cls, data: Dict) -> Frame:
+    def load_from_dict(cls, data: Dict) -> Frame:
         """
         Create a Frame instance from a dictionary.
 
-        The dictionary should contain the keys "origin", "quaternion", and "direct".
-        For example:
+        The structure of the dictionary should be as provided by the :meth:`py3dframe.Frame.save_to_dict` method.
 
-        .. code-block:: python
+        Where the quaternion is given is the scalar-first convention.
 
-            {
-                "origin": [1.0, 2.0, 3.0],
-                "quaternion": [0.5, 0.5, 0.5, 0.5],
-                "direct": True,
-            }
+        If origin is not given, the default value is None - [0.0, 0.0, 0.0]
+        If quaternion is not given, the default value is None - [1.0, 0.0, 0.0, 0.0]
+        If direct is not given, the default value is True.
 
+        The other keys are ignored.
 
         Parameters
         ----------
@@ -1231,27 +1255,89 @@ class Frame(object):
         -------
         Frame
             A Frame instance.
+        
+        Raises
+        ------
+        ValueError
+            If the data is not a dictionary.
         """
-        # Check for required keys
+        # Check for the input type
         if not isinstance(data, dict):
-            raise ValueError("Data must be a dictionary.")
-
+            raise ValueError("data must be a dictionary.")
+        
         # Create the Frame instance
-        return cls(
-            origin=data.get("origin", None),
-            quaternion=data.get("quaternion", None),
-            direct=data.get("direct", True),
-        )
+        if "origin" in data.keys():
+            origin = numpy.array(data["origin"]).reshape((3,1)).astype(float)
+        else:
+            origin = numpy.zeros((3,1)).astype(float)
+        
+        if "quaternion" in data.keys():
+            quaternion = numpy.array(data["quaternion"]).reshape((4,)).astype(float)
+        else:
+            quaternion = numpy.array([1.0, 0.0, 0.0, 0.0]).astype(float)
+        
+        if "direct" in data.keys():
+            direct = data["direct"]
+        else:
+            direct = True
+        
+        return Frame(origin=origin, quaternion=quaternion, direct=direct)
 
 
 
+    def save_to_json(self, filepath: str, description: str = "") -> None:
+        """
+        Export the Frame's data to a JSON file.
+
+        The structure of the JSON file follows the :meth:`py3dframe.Frame.save_to_dict` method.
+
+        Parameters
+        ----------
+        filepath : str
+            The path to the JSON file.
+        
+        description : str, optional
+            A description of the frame, by default "".
+        
+        Raises
+        ------
+        FileNotFoundError
+            If the filepath is not a valid path.
+        """
+        # Create the dictionary
+        data = self.save_to_dict(description=description)
+
+        # Save the dictionary to a JSON file
+        with open(filepath, "w") as file:
+            json.dump(data, file, indent=4)
 
 
+    
+    @classmethod
+    def load_from_json(cls, filepath: str) -> Frame:
+        """
+        Create a Frame instance from a JSON file.
 
+        The structure of the JSON file follows the :meth:`py3dframe.Frame.save_to_dict` method.
 
-
-
-
-
-
-
+        Parameters
+        ----------
+        filepath : str
+            The path to the JSON file.
+        
+        Returns
+        -------
+        Frame
+            A Frame instance.
+        
+        Raises
+        ------
+        FileNotFoundError
+            If the filepath is not a valid path.
+        """
+        # Load the dictionary from the JSON file
+        with open(filepath, "r") as file:
+            data = json.load(file)
+        
+        # Create the Frame instance
+        return cls.load_from_dict(data)
