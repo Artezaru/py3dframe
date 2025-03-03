@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>py3dframe.Frame &#8212; py3dframe 1.0.3 documentation</title>
+    <title>py3dframe.Frame &#8212; py3dframe 1.0.4 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=baaebd52"></script>
+    <script src="../_static/documentation_options.js?v=71272d9f"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -111,7 +111,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.0.3 documentation</p>
+    <p class="title logo__title">py3dframe 1.0.4 documentation</p>
   
 </a></div>
     
@@ -353,8 +353,8 @@ The associated direct frame correspond to the frame with the same origin but the
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>origin</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – The origin of the frame in 3D space with shape (3,1). The default is None.</p></li>
-<li><p><strong>quaternion</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – The quaternion of the frame with shape (4,). The default is None.</p></li>
+<li><p><strong>origin</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – The origin of the frame in 3D space with shape (3,1). The default is None - [0.0, 0.0, 0.0].</p></li>
+<li><p><strong>quaternion</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – The quaternion of the frame with shape (4,). The default is None - [1.0, 0.0, 0.0, 0.0].</p></li>
 <li><p><strong>rotation_matrix</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – The rotation matrix of the frame with shape (3,3). The default is None.</p></li>
 <li><p><strong>O3_project</strong> (<em>bool</em><em>, </em><em>optional</em>) – Set if the rotation matrix is projected to the orthogonal group O(3). The default is False.</p></li>
 <li><p><strong>euler_angles</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – The Euler angles of the frame in radians with shape (3,). The default is None.</p></li>
@@ -549,28 +549,6 @@ The frame is indirect if the determinant of the rotation matrix is -1.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ValueError</strong> – If the direct is not a boolean.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.dump">
-<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.dump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.dump" title="Link to this definition">#</a></dt>
-<dd><p>Export the Frame’s data as a dictionary.</p>
-<p>The structure of the dictionary is as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-    <span class="s2">&quot;quaternion&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">quaternion</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-    <span class="s2">&quot;direct&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">direct</span><span class="p">,</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A dictionary containing the origin, quaternion, and direct.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -813,18 +791,15 @@ This method compute the frame defined from the local to the world frame.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.load">
-<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.load" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="py3dframe.Frame.load_from_dict">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.load_from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.load_from_dict" title="Link to this definition">#</a></dt>
 <dd><p>Create a Frame instance from a dictionary.</p>
-<p>The dictionary should contain the keys “origin”, “quaternion”, and “direct”.
-For example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span>
-    <span class="s2">&quot;quaternion&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
-    <span class="s2">&quot;direct&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-<span class="p">}</span>
-</pre></div>
-</div>
+<p>The structure of the dictionary should be as provided by the <a class="reference internal" href="#py3dframe.Frame.save_to_dict" title="py3dframe.Frame.save_to_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">py3dframe.Frame.save_to_dict()</span></code></a> method.</p>
+<p>Where the quaternion is given is the scalar-first convention.</p>
+<p>If origin is not given, the default value is None - [0.0, 0.0, 0.0]
+If quaternion is not given, the default value is None - [1.0, 0.0, 0.0, 0.0]
+If direct is not given, the default value is True.</p>
+<p>The other keys are ignored.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – A dictionary containing the origin, quaternion, and direct.</p>
@@ -834,6 +809,30 @@ For example:</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.Frame">Frame</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the data is not a dictionary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py3dframe.Frame.load_from_json">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.load_from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.load_from_json" title="Link to this definition">#</a></dt>
+<dd><p>Create a Frame instance from a JSON file.</p>
+<p>The structure of the JSON file follows the <a class="reference internal" href="#py3dframe.Frame.save_to_dict" title="py3dframe.Frame.save_to_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">py3dframe.Frame.save_to_dict()</span></code></a> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<em>str</em>) – The path to the JSON file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Frame instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.Frame">Frame</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – If the filepath is not a valid path.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -933,6 +932,54 @@ The user must set the direct property to False if the rotation vector is for the
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>TypeError</strong> – If the rotation vector is not a numpy array with shape (3,).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py3dframe.Frame.save_to_dict">
+<span class="sig-name descname"><span class="pre">save_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.save_to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.save_to_dict" title="Link to this definition">#</a></dt>
+<dd><p>Export the Frame’s data to a dictionary.</p>
+<p>The structure of the dictionary is as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Frame [py3dframe]&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Description of the frame&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span>
+    <span class="s2">&quot;quaternion&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
+    <span class="s2">&quot;direct&quot;</span><span class="p">:</span> <span class="kc">True</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>description</strong> (<em>str</em><em>, </em><em>optional</em>) – A description of the frame, by default “”.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the origin, quaternion, and direct.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the description is not a string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py3dframe.Frame.save_to_json">
+<span class="sig-name descname"><span class="pre">save_to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.save_to_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.save_to_json" title="Link to this definition">#</a></dt>
+<dd><p>Export the Frame’s data to a JSON file.</p>
+<p>The structure of the JSON file follows the <a class="reference internal" href="#py3dframe.Frame.save_to_dict" title="py3dframe.Frame.save_to_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">py3dframe.Frame.save_to_dict()</span></code></a> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> (<em>str</em>) – The path to the JSON file.</p></li>
+<li><p><strong>description</strong> (<em>str</em><em>, </em><em>optional</em>) – A description of the frame, by default “”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – If the filepath is not a valid path.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1119,7 +1166,6 @@ The user must set the direct property to False if the rotation vector is for the
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.apply_symmetric_frame"><code class="docutils literal notranslate"><span class="pre">Frame.apply_symmetric_frame()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.compose"><code class="docutils literal notranslate"><span class="pre">Frame.compose()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.direct"><code class="docutils literal notranslate"><span class="pre">Frame.direct</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.dump"><code class="docutils literal notranslate"><span class="pre">Frame.dump()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.euler_angles"><code class="docutils literal notranslate"><span class="pre">Frame.euler_angles</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.from_local_to_world"><code class="docutils literal notranslate"><span class="pre">Frame.from_local_to_world()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.from_world_to_local"><code class="docutils literal notranslate"><span class="pre">Frame.from_world_to_local()</span></code></a></li>
@@ -1131,11 +1177,14 @@ The user must set the direct property to False if the rotation vector is for the
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.homogeneous_matrix"><code class="docutils literal notranslate"><span class="pre">Frame.homogeneous_matrix</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.is_direct"><code class="docutils literal notranslate"><span class="pre">Frame.is_direct</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.is_indirect"><code class="docutils literal notranslate"><span class="pre">Frame.is_indirect</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.load"><code class="docutils literal notranslate"><span class="pre">Frame.load()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.load_from_dict"><code class="docutils literal notranslate"><span class="pre">Frame.load_from_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.load_from_json"><code class="docutils literal notranslate"><span class="pre">Frame.load_from_json()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.origin"><code class="docutils literal notranslate"><span class="pre">Frame.origin</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.quaternion"><code class="docutils literal notranslate"><span class="pre">Frame.quaternion</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.rotation_matrix"><code class="docutils literal notranslate"><span class="pre">Frame.rotation_matrix</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.rotation_vector"><code class="docutils literal notranslate"><span class="pre">Frame.rotation_vector</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.save_to_dict"><code class="docutils literal notranslate"><span class="pre">Frame.save_to_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.save_to_json"><code class="docutils literal notranslate"><span class="pre">Frame.save_to_json()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.set_O3_rotation_matrix"><code class="docutils literal notranslate"><span class="pre">Frame.set_O3_rotation_matrix()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.set_direct"><code class="docutils literal notranslate"><span class="pre">Frame.set_direct()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.set_euler_angles"><code class="docutils literal notranslate"><span class="pre">Frame.set_euler_angles()</span></code></a></li>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>py3dframe.FrameTree &#8212; py3dframe 1.0.3 documentation</title>
+    <title>py3dframe.FrameTree &#8212; py3dframe 1.0.4 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=baaebd52"></script>
+    <script src="../_static/documentation_options.js?v=71272d9f"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api_doc/frame_tree';</script>
@@ -110,7 +110,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.0.3 documentation</p>
+    <p class="title logo__title">py3dframe 1.0.4 documentation</p>
   
 </a></div>
     
@@ -545,6 +545,49 @@ if output_name is None, the function will return the inverse worldcompose frame 
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="py3dframe.FrameTree.load_from_dict">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py3dframe.FrameTree" title="py3dframe.frame_tree.FrameTree"><span class="pre">FrameTree</span></a></span></span><a class="reference internal" href="../_modules/py3dframe/frame_tree.html#FrameTree.load_from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.FrameTree.load_from_dict" title="Link to this definition">#</a></dt>
+<dd><p>Create a FrameTree instance from a dictionary.</p>
+<p>The structure of the dictionary should be as provided by the <a class="reference internal" href="#py3dframe.FrameTree.save_to_dict" title="py3dframe.FrameTree.save_to_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">py3dframe.FrameTree.save_to_dict()</span></code></a> method.</p>
+<p>The other keys in the dictionary are ignored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – A dictionary containing the frames.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A FrameTree instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#py3dframe.FrameTree" title="py3dframe.FrameTree">FrameTree</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the data is not a dictionary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py3dframe.FrameTree.load_from_json">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py3dframe.FrameTree" title="py3dframe.frame_tree.FrameTree"><span class="pre">FrameTree</span></a></span></span><a class="reference internal" href="../_modules/py3dframe/frame_tree.html#FrameTree.load_from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.FrameTree.load_from_json" title="Link to this definition">#</a></dt>
+<dd><p>Create a FrameTree instance from a JSON file.</p>
+<p>The structure of the JSON file follows the <a class="reference internal" href="#py3dframe.FrameTree.save_to_dict" title="py3dframe.FrameTree.save_to_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">py3dframe.FrameTree.save_to_dict()</span></code></a> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<em>str</em>) – The path to the JSON file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A FrameTree instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#py3dframe.FrameTree" title="py3dframe.FrameTree">FrameTree</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – If the filepath is not a valid path.</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="py3dframe.FrameTree.names">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#py3dframe.FrameTree.names" title="Link to this definition">#</a></dt>
@@ -643,6 +686,65 @@ if output_name is None, the function will return the inverse worldcompose frame 
 <span class="go">└── frame4</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py3dframe.FrameTree.save_to_dict">
+<span class="sig-name descname"><span class="pre">save_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame_tree.html#FrameTree.save_to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.FrameTree.save_to_dict" title="Link to this definition">#</a></dt>
+<dd><p>Export the Frame’s data to a dictionary.</p>
+<p>The structure of the dictionary is as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;FrameTree [py3dframe]&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Description of the frame tree&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;frames&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;frame1&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span>
+            <span class="s2">&quot;quaternion&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
+            <span class="s2">&quot;direct&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="s2">&quot;frame2&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;frame2&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">],</span>
+            <span class="s2">&quot;quaternion&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+            <span class="s2">&quot;direct&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="n">null</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>description</strong> (<em>str</em><em>, </em><em>optional</em>) – A description of the frame, by default “”.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the frames.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the description is not a string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py3dframe.FrameTree.save_to_json">
+<span class="sig-name descname"><span class="pre">save_to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame_tree.html#FrameTree.save_to_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.FrameTree.save_to_json" title="Link to this definition">#</a></dt>
+<dd><p>Export the Frame’s data to a JSON file.</p>
+<p>The structure of the JSON file follows the <a class="reference internal" href="#py3dframe.FrameTree.save_to_dict" title="py3dframe.FrameTree.save_to_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">py3dframe.FrameTree.save_to_dict()</span></code></a> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> (<em>str</em>) – The path to the JSON file.</p></li>
+<li><p><strong>description</strong> (<em>str</em><em>, </em><em>optional</em>) – A description of the frame, by default “”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – If the filepath is not a valid path.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -763,11 +865,15 @@ That means the world reference of the frame will be the default world frame.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree.get_compose_frame"><code class="docutils literal notranslate"><span class="pre">FrameTree.get_compose_frame()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree.get_frame"><code class="docutils literal notranslate"><span class="pre">FrameTree.get_frame()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree.get_worldcompose_frame"><code class="docutils literal notranslate"><span class="pre">FrameTree.get_worldcompose_frame()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree.load_from_dict"><code class="docutils literal notranslate"><span class="pre">FrameTree.load_from_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree.load_from_json"><code class="docutils literal notranslate"><span class="pre">FrameTree.load_from_json()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree.names"><code class="docutils literal notranslate"><span class="pre">FrameTree.names</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree.num_frames"><code class="docutils literal notranslate"><span class="pre">FrameTree.num_frames</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree.parents"><code class="docutils literal notranslate"><span class="pre">FrameTree.parents</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree.recursive_remove_frame"><code class="docutils literal notranslate"><span class="pre">FrameTree.recursive_remove_frame()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree.remove_frame"><code class="docutils literal notranslate"><span class="pre">FrameTree.remove_frame()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree.save_to_dict"><code class="docutils literal notranslate"><span class="pre">FrameTree.save_to_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree.save_to_json"><code class="docutils literal notranslate"><span class="pre">FrameTree.save_to_json()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree.set_name"><code class="docutils literal notranslate"><span class="pre">FrameTree.set_name()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree.set_parent"><code class="docutils literal notranslate"><span class="pre">FrameTree.set_parent()</span></code></a></li>
 </ul>
