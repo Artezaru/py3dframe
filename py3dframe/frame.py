@@ -1224,7 +1224,7 @@ class Frame(object):
         }
 
         # Add the description
-        if description != "":
+        if len(description) > 0:
             data["description"] = description
         
         return data

@@ -696,9 +696,12 @@ class FrameTree:
         # Create the dictionary
         data = {
             "type": "FrameTree [py3dframe]",
-            "description": description,
             "frames": {}
         }
+
+        # Add the description
+        if len(description) > 0:
+            data["description"] = description
 
         # Add the frames to the dictionary
         for name, frame in self._frames.items():
