@@ -37,6 +37,7 @@ extensions = [
     "sphinx.ext.viewcode", # Add links to the code
     "sphinx.ext.napoleon", # Support for Google and Numpy docstring formats
     "sphinx.ext.githubpages", # Publish the documentation on GitHub
+    "sphinx.ext.autosummary", # Generate summaries of the modules
 ]
 
 napoleon_google_docstring = False
