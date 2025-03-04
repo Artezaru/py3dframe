@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>py3dframe.frame_tree &#8212; py3dframe 1.0.1 documentation</title>
+    <title>py3dframe.frame_tree &#8212; py3dframe 1.0.5 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=292eb321"></script>
+    <script src="../../_static/documentation_options.js?v=d55fa986"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/py3dframe/frame_tree';</script>
@@ -107,7 +107,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.0.1 documentation</p>
+    <p class="title logo__title">py3dframe 1.0.5 documentation</p>
   
 </a></div>
     
@@ -296,8 +296,10 @@
                 <article class="bd-article">
                   
   <h1>Source code for py3dframe.frame_tree</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">copy</span> <span class="k">as</span> <span class="n">copycopy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.frame</span><span class="w"> </span><span class="kn">import</span> <span class="n">Frame</span>
 
@@ -395,6 +397,48 @@
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
 
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a frame from the FrameTree.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_frame</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a frame from the FrameTree.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove_frame</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">Frame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a frame to the FrameTree.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a string representation of the FrameTree in a tree structure.&quot;&quot;&quot;</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">build_tree</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">is_last</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Recursively build the tree structure.&quot;&quot;&quot;</span>
+            <span class="n">connector</span> <span class="o">=</span> <span class="s2">&quot;└── &quot;</span> <span class="k">if</span> <span class="n">is_last</span> <span class="k">else</span> <span class="s2">&quot;├── &quot;</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">connector</span><span class="si">}{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+            <span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="n">child</span> <span class="k">for</span> <span class="n">child</span><span class="p">,</span> <span class="n">parent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">parent</span> <span class="o">==</span> <span class="n">name</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">children</span><span class="p">)):</span>
+                <span class="n">is_child_last</span> <span class="o">=</span> <span class="n">index</span> <span class="o">==</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">children</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">child_prefix</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="p">(</span><span class="s2">&quot;    &quot;</span> <span class="k">if</span> <span class="n">is_last</span> <span class="k">else</span> <span class="s2">&quot;│   &quot;</span><span class="p">)</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">build_tree</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">child_prefix</span><span class="p">,</span> <span class="n">is_child_last</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">lines</span>
+
+        <span class="c1"># Start building the tree from the world frame</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;world&quot;</span><span class="p">]</span>
+        <span class="n">roots</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">parent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">root</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">roots</span><span class="p">)):</span>
+            <span class="n">is_last_root</span> <span class="o">=</span> <span class="n">index</span> <span class="o">==</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">roots</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">build_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">is_last_root</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+
+
 
     <span class="c1"># Public methods</span>
 <div class="viewcode-block" id="FrameTree.add_frame">
@@ -481,12 +525,6 @@
 
 
 
-    
-    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">Frame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a frame to the FrameTree.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-
 
 <div class="viewcode-block" id="FrameTree.remove_frame">
 <a class="viewcode-back" href="../../api_doc/frame_tree.html#py3dframe.FrameTree.remove_frame">[docs]</a>
@@ -494,7 +532,7 @@
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove a frame from the FrameTree.</span>
 
-<span class="sd">        The frames linked to the removed frame will be set to None.</span>
+<span class="sd">        The frames linked to the removed frame will be linked to the world frame.</span>
 
 <span class="sd">        This method is equivalent to the following code:</span>
 
@@ -546,18 +584,17 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Frame with name &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; does not exist.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Remove the frame from the FrameTree</span>
-        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
             <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="p">[</span><span class="n">name</span><span class="p">]</span></div>
 
 
 
     
-    <span class="k">def</span><span class="w"> </span><span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a frame from the FrameTree.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">remove_frame</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
         
 
 
@@ -667,12 +704,6 @@
             <span class="k">return</span> <span class="n">copycopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">name</span><span class="p">]</span></div>
 
-
-
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a frame from the FrameTree.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_frame</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     
 
@@ -948,6 +979,183 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear all frames and parents in the FrameTree.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+
+
+
+
+<div class="viewcode-block" id="FrameTree.save_to_dict">
+<a class="viewcode-back" href="../../api_doc/frame_tree.html#py3dframe.FrameTree.save_to_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Export the Frame&#39;s data to a dictionary.</span>
+
+<span class="sd">        The structure of the dictionary is as follows:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            {</span>
+<span class="sd">                &quot;type&quot;: &quot;FrameTree [py3dframe]&quot;,</span>
+<span class="sd">                &quot;description&quot;: &quot;Description of the frame tree&quot;,</span>
+<span class="sd">                &quot;frames&quot;: {</span>
+<span class="sd">                    &quot;frame1&quot;: {</span>
+<span class="sd">                        &quot;origin&quot;: [1.0, 2.0, 3.0],</span>
+<span class="sd">                        &quot;quaternion&quot;: [0.5, 0.5, 0.5, 0.5],</span>
+<span class="sd">                        &quot;direct&quot;: True,</span>
+<span class="sd">                        &quot;parent&quot;: &quot;frame2&quot;</span>
+<span class="sd">                    },</span>
+<span class="sd">                    &quot;frame2&quot;: {</span>
+<span class="sd">                        &quot;origin&quot;: [1.0, 2.0, 4.0],</span>
+<span class="sd">                        &quot;quaternion&quot;: [0.5, 0.2, 0.3, 0.0],</span>
+<span class="sd">                        &quot;direct&quot;: False,</span>
+<span class="sd">                        &quot;parent&quot;: null</span>
+<span class="sd">                    }</span>
+<span class="sd">                }</span>
+<span class="sd">            }</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        description : str, optional</span>
+<span class="sd">            A description of the frame, by default &quot;&quot;.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            A dictionary containing the frames.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the description is not a string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check the description</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">description</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Description must be a string.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Create the dictionary</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;FrameTree [py3dframe]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;frames&quot;</span><span class="p">:</span> <span class="p">{}</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Add the description</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">description</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">description</span>
+
+        <span class="c1"># Add the frames to the dictionary</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">frame</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;frames&quot;</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">save_to_dict</span><span class="p">()</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;frames&quot;</span><span class="p">][</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">data</span></div>
+
+
+
+
+<div class="viewcode-block" id="FrameTree.load_from_dict">
+<a class="viewcode-back" href="../../api_doc/frame_tree.html#py3dframe.FrameTree.load_from_dict">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrameTree</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a FrameTree instance from a dictionary.</span>
+
+<span class="sd">        The structure of the dictionary should be as provided by the :meth:`py3dframe.FrameTree.save_to_dict` method.</span>
+
+<span class="sd">        The other keys in the dictionary are ignored.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : dict</span>
+<span class="sd">            A dictionary containing the frames.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        FrameTree</span>
+<span class="sd">            A FrameTree instance.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the data is not a dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check for the input type</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;data must be a dictionary.&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Create the Frame instance</span>
+        <span class="n">frame_tree</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+        
+        <span class="c1"># Add the frames to the FrameTree</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">frame_data</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;frames&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="o">.</span><span class="n">load_from_dict</span><span class="p">(</span><span class="n">frame_data</span><span class="p">)</span>
+            <span class="n">parent</span> <span class="o">=</span> <span class="n">frame_data</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span>
+            <span class="n">frame_tree</span><span class="o">.</span><span class="n">add_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">frame_tree</span></div>
+
+
+
+
+<div class="viewcode-block" id="FrameTree.save_to_json">
+<a class="viewcode-back" href="../../api_doc/frame_tree.html#py3dframe.FrameTree.save_to_json">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Export the Frame&#39;s data to a JSON file.</span>
+
+<span class="sd">        The structure of the JSON file follows the :meth:`py3dframe.FrameTree.save_to_dict` method.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filepath : str</span>
+<span class="sd">            The path to the JSON file.</span>
+<span class="sd">        </span>
+<span class="sd">        description : str, optional</span>
+<span class="sd">            A description of the frame, by default &quot;&quot;.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        FileNotFoundError</span>
+<span class="sd">            If the filepath is not a valid path.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Create the dictionary</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_to_dict</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">)</span>
+
+        <span class="c1"># Save the dictionary to a JSON file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
+
+
+
+    
+<div class="viewcode-block" id="FrameTree.load_from_json">
+<a class="viewcode-back" href="../../api_doc/frame_tree.html#py3dframe.FrameTree.load_from_json">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrameTree</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a FrameTree instance from a JSON file.</span>
+
+<span class="sd">        The structure of the JSON file follows the :meth:`py3dframe.FrameTree.save_to_dict` method.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filepath : str</span>
+<span class="sd">            The path to the JSON file.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        FrameTree</span>
+<span class="sd">            A FrameTree instance.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        FileNotFoundError</span>
+<span class="sd">            If the filepath is not a valid path.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Load the dictionary from the JSON file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        
+        <span class="c1"># Create the Frame instance</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load_from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
 </div>
 
 </pre></div>
