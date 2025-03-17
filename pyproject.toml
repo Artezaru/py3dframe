@@ -1,0 +1,49 @@
+[build-system]
+requires = [
+  "setuptools>=42",
+  "setuptools-scm>=8.0"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "py3dframe"
+requires-python = ">= 3.8"
+dynamic = ["dependencies", "version"]
+description = "3D Frame of Reference managing tools"
+license = {file = "LICENSE"}
+authors = [
+{name = "Artezaru", email = "artezaru.websites@proton.me"}
+]
+classifiers = [
+  "Programming Language :: Python"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["py3dframe", "py3dframe*"]
+exclude = ["laboratory", "laboratory.*", "tests", "tests*", "examples", "examples*"]
+
+[tool.setuptools.package-data]
+"py3dframe.ressources" = ["*"]
+
+[project.scripts]
+py3dframe = "py3dframe.__main__:__main__"
+
+[project.gui-scripts]
+py3dframe-gui = "py3dframe.__main__:__main_gui__"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+version = {attr = "py3dframe.__version__.__version__"}
+
+[project.optional-dependencies]
+dev = [
+    "sphinx",
+    "pydata-sphinx-theme",
+    "numpydoc",
+    "pytest",
+    "pyinstaller",
+    "pytest-cov",
+    "bumpver",
+    "pyinstaller"
+]
