@@ -56,11 +56,17 @@ The result will be:
 
 The difference between points and vectors is that the vectors are not translated when converted from the global frame to the frame.
 
+The usefull methods of the frame are:
+
+- from_global_to_frame
+- from_frame_to_global
+- from_parent_to_frame
+- from_frame_to_parent
+
 Operations on frames
 --------------------
 
 You can perform operations on frames, such as:
-- Symmetry
 - Inversion
 
 Inversing a frame is equivalent to inverting the transformation matrix of the frame.
@@ -74,25 +80,9 @@ To perform the inversion of a frame, you can use the following code:
 
     frame = py3dframe.Frame()
 
-    inverted_frame = frame.apply_inverse_frame()
+    inverted_frame = py3dframe.inverse_frame(frame)
 
-You can also only return the inverse frame without applying it to the current frame using the method `get_inverse_frame`.
-It is recommended to use this method when you want to keep the original frame unchanged (For example with a :class:`py3dframe.FrameTree` object).
 
-The symmetry of a frame with respect to a plane is managed by the method `apply_symmetric_frame`.
-
-For example, to apply the symmetry of the frame with respect to the plane :math:`xy`, you can use the following code:
-
-.. code-block:: python
-
-    import py3dframe
-
-    frame = py3dframe.Frame()
-
-    point_in_plane = [0, 0, 0]
-    normal = [0, 0, 1]
-
-    frame.apply_symmetric_frame(point=point_in_plane, normal=normal)
 
 
 

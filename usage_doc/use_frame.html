@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>How to use a Frame &#8212; py3dframe 0.0.3 documentation</title>
+    <title>How to use a Frame &#8212; py3dframe 0.0.4 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=47de8214"></script>
+    <script src="../_static/documentation_options.js?v=8c5712d9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -111,7 +111,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 0.0.3 documentation</p>
+    <p class="title logo__title">py3dframe 0.0.4 documentation</p>
   
 </a></div>
     
@@ -372,11 +372,17 @@
 </pre></div>
 </div>
 <p>The difference between points and vectors is that the vectors are not translated when converted from the global frame to the frame.</p>
+<p>The usefull methods of the frame are:</p>
+<ul class="simple">
+<li><p>from_global_to_frame</p></li>
+<li><p>from_frame_to_global</p></li>
+<li><p>from_parent_to_frame</p></li>
+<li><p>from_frame_to_parent</p></li>
+</ul>
 </section>
 <section id="operations-on-frames">
 <h2>Operations on frames<a class="headerlink" href="#operations-on-frames" title="Link to this heading">#</a></h2>
 <p>You can perform operations on frames, such as:
-- Symmetry
 - Inversion</p>
 <p>Inversing a frame is equivalent to inverting the transformation matrix of the frame.
 Thats means that the new frame space in the old global space and the new global space in the old frame space.</p>
@@ -385,21 +391,7 @@ Thats means that the new frame space in the old global space and the new global 
 
 <span class="n">frame</span> <span class="o">=</span> <span class="n">py3dframe</span><span class="o">.</span><span class="n">Frame</span><span class="p">()</span>
 
-<span class="n">inverted_frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">apply_inverse_frame</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>You can also only return the inverse frame without applying it to the current frame using the method <cite>get_inverse_frame</cite>.
-It is recommended to use this method when you want to keep the original frame unchanged (For example with a <a class="reference internal" href="../api_doc/frame_tree.html#py3dframe.FrameTree" title="py3dframe.FrameTree"><code class="xref py py-class docutils literal notranslate"><span class="pre">py3dframe.FrameTree</span></code></a> object).</p>
-<p>The symmetry of a frame with respect to a plane is managed by the method <cite>apply_symmetric_frame</cite>.</p>
-<p>For example, to apply the symmetry of the frame with respect to the plane <span class="math notranslate nohighlight">\(xy\)</span>, you can use the following code:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">py3dframe</span>
-
-<span class="n">frame</span> <span class="o">=</span> <span class="n">py3dframe</span><span class="o">.</span><span class="n">Frame</span><span class="p">()</span>
-
-<span class="n">point_in_plane</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">normal</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-
-<span class="n">frame</span><span class="o">.</span><span class="n">apply_symmetric_frame</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">point_in_plane</span><span class="p">,</span> <span class="n">normal</span><span class="o">=</span><span class="n">normal</span><span class="p">)</span>
+<span class="n">inverted_frame</span> <span class="o">=</span> <span class="n">py3dframe</span><span class="o">.</span><span class="n">inverse_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
