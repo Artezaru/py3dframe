@@ -1,8 +1,11 @@
 from __future__ import annotations
 from typing import Optional, Dict
 import numpy
+import uuid
 import json
 from scipy.spatial.transform import Rotation
+
+
 
 class Frame(object):
     r"""
@@ -15,7 +18,7 @@ class Frame(object):
 
     The frame use scipy.spatial.transform.Rotation to manage the rotation matrix.
 
-    By convention, the frame is defined from the global frame to the frame frame. 
+    By convention, the frame is defined from the global frame (or the parent frame if given) to the frame. 
     Thats means, the coordinates of the rotation matrix are the coordinates of the frame axis in the global coordinates.
 
     Lets consider a frame :math:`\mathcal{F}` defined by 3 vectors :math:`\mathbf{i}`, :math:`\mathbf{j}`, :math:`\mathbf{k}`.
@@ -25,6 +28,15 @@ class Frame(object):
 
         \mathbf{R} = \begin{bmatrix} \mathbf{i} & \mathbf{j} & \mathbf{k} \end{bmatrix}
 
+    Lets consider the transformation from a frame 1 to a frame 2.
+    The convention is defined by the following equation:
+
+    .. math::
+
+        \mathbf{p}_{\text{frame 1}} = \mathbf{R} \mathbf{p}_{\text{frame 2}} + \mathbf{O}
+
+    where :math:`\mathbf{R}` and :math:`\mathbf{O}` are the rotation matrix and the origin of the Frame object between the frame 1 and the frame 2.
+
     When the rotation matrix is set, the determinant is checked to determine if the frame is direct or indirect.
 
     However when the user create the frame using the quaternion or the euler angles, the frame is always considered as direct.
@@ -33,6 +45,7 @@ class Frame(object):
     The associated direct frame correspond to the frame with the same origin but the frame Z-axis inverted.
 
     In fact when the frame is indirect, the user can : 
+
     - set directly the indirect rotation matrix.
     - set the quaternion or the euler angles of the associated direct frame and then set the frame as indirect.
 
@@ -40,7 +53,7 @@ class Frame(object):
 
     .. seealso:: 
     
-        :class:`py3dframe.FrameTree` To manage multiple frames and their relationships.
+        :class:`py3dframe.FrameTree` To manage easily multiple frames and their relationships.
 
     Parameters
     ----------
@@ -64,6 +77,13 @@ class Frame(object):
     
     direct : bool, optional
         Set if the frame is direct or indirect. The default is True.
+
+    parent : Frame, optional
+        The parent frame of the current frame. The default is None.
+
+    _uuid : uuid.UUID, optional
+        The unique identifier of the frame. The default is None. This parameter is used by :class:`py3dframe.FrameTree`, do not use it.
+        This parameter is used to identify the frame in the FrameTree and it is not saved in the JSON file.
 
 
     Examples
@@ -95,6 +115,8 @@ class Frame(object):
         euler_angles: Optional[numpy.ndarray] = None,
         rotation_vector: Optional[numpy.ndarray] = None,
         direct: bool = True,
+        parent: Optional[Frame] = None,
+        _uuid: Optional[uuid.UUID] = None
         ) -> None:
         # Check if only one of the orientation parameters is provided
         if sum([quaternion is not None, rotation_matrix is not None, euler_angles is not None, rotation_vector is not None]) > 1:
@@ -109,6 +131,8 @@ class Frame(object):
         # Initialize the frame
         self.origin = origin
         self.direct = direct
+        self.parent = parent
+        self._uuid = _uuid
         if quaternion is not None:
             self.quaternion = quaternion
         elif rotation_matrix is not None:
@@ -248,6 +272,8 @@ class Frame(object):
         .. note::
 
             The direct property is changed when the rotation matrix is set.
+
+        To be sure that the rotation matrix is in the orthogonal group :math:`O(3)`, the user can use the method :meth:`py3dframe.Frame.set_O3_rotation_matrix`.
 
         Parameters
         ----------
@@ -540,6 +566,33 @@ class Frame(object):
 
 
     @property
+    def parent(self) -> Frame:
+        r"""
+        Get or set the parent frame of the current frame.
+
+        The parent frame is the frame in which the current frame is defined.
+
+        Parameters
+        ----------
+        parent : Frame
+            The parent frame of the current frame.
+        
+        Raises
+        ------
+        TypeError
+            If the parent is not a Frame.
+        """
+        return self._parent
+
+    @parent.setter
+    def parent(self, parent: Frame) -> None:
+        if parent is not None and not isinstance(parent, Frame):
+            raise TypeError("The parent must be a Frame.")
+        self._parent = parent
+
+
+
+    @property
     def x_axis(self) -> numpy.ndarray:
         """Get the X-axis of the frame with shape (3,1)"""
         x_axis = self.rotation_matrix[:, 0].reshape((3,1))
@@ -583,11 +636,11 @@ class Frame(object):
     # Private methods
     def _O3_projection(self, matrix: numpy.ndarray) -> numpy.ndarray:
         r"""
-        Project a matrix to the orthogonal group O(3) using SVD and minimisation of the frobenius norm.
+        Project a matrix to the orthogonal group :math:`O(3)` using SVD and minimisation of the frobenius norm.
 
-        The orthogonal group O(3) is the set of 3x3 matrices with determinant 1.
+        The orthogonal group `O(3)` is the set of 3x3 matrices with determinant 1.
 
-        To project a matrix to O(3), the SVD is computed and the orthogonal matrix is obtained by:
+        To project a matrix to `O(3)`, the SVD is computed and the orthogonal matrix is obtained by:
 
         .. math::
 
@@ -607,7 +660,7 @@ class Frame(object):
         Returns
         -------
         numpy.ndarray
-            The O(3) projection of the matrix.
+            The `O(3)` projection of the matrix.
 
         Raises
         ------
@@ -626,112 +679,18 @@ class Frame(object):
         U, _, Vt = numpy.linalg.svd(matrix)
         orthogonal_matrix = numpy.dot(U, Vt)
         return orthogonal_matrix
-
-
-
-    def _symmetric_conversion(self, point: numpy.ndarray, normal: numpy.ndarray) -> (numpy.ndarray, numpy.ndarray):
-        r"""
-        Convert the frame to the symmetric frame with respect to a plane.
-
-        The plane is defined by a point :math:`\mathbf{p}` and a normal vector :math:`\mathbf{n}`.
-        The point and normal vector are given in the global frame coordinates.
-
-        The point and the normal must be arrays with 3 elements.
-
-        For a global point :math:`\mathbf{p}_{\text{global}}`, the symmetric point :math:`\mathbf{p}_{\text{symmetric}}` with respect to the plane is:
-
-        .. math::
-
-            \mathbf{p}_{\text{symmetric}} = \mathbf{p} - 2 <\mathbf{p} - \mathbf{p}_{\text{global}} , \mathbf{n}> \mathbf{n}
-
-        Where :math:`<\cdot, \cdot>` is the dot product.
-
-        Parameters
-        ----------
-        point : numpy.ndarray
-            A point on the plane with shape (3,1).
-        
-        normal : numpy.ndarray
-            The normal vector of the plane with shape (3,1).
-        
-        Returns
-        -------
-        numpy.ndarray
-            The origin of the symmetric frame.
-        
-        numpy.ndarray
-            The rotation matrix of the symmetric frame.
-        
-        Raises
-        ------
-        TypeError
-            If the point or the normal is not a numpy array.
-        ValueError
-            If the point or the normal is not 3x1.
-            If the normal vector has zero magnitude.
-        """
-        # Compute the unit normal vector
-        point = numpy.array(point).reshape((3,1)).astype(float)
-        normal = numpy.array(normal).reshape((3,1)).astype(float)
-
-        # Compute the unit normal vector
-        norm = numpy.linalg.norm(normal, ord=None)
-        if abs(norm) < self._tolerance:
-            raise ValueError("Normal vector cannot have zero magnitude.")
-        normal = normal / norm
-
-        # Compute the reflected origin
-        symmetric_origin = self.origin - 2 * numpy.dot(normal.T, self.origin - point) * normal
-
-        # Compute the reflected rotation matrix
-        x_axis = self.x_axis - 2 * numpy.dot(normal.T, self.x_axis) * normal
-        y_axis = self.y_axis - 2 * numpy.dot(normal.T, self.y_axis) * normal
-        z_axis = self.z_axis - 2 * numpy.dot(normal.T, self.z_axis) * normal
-        symmetric_rotation_matrix = numpy.column_stack((x_axis, y_axis, z_axis))
-        return symmetric_origin, symmetric_rotation_matrix
-
-
-
-    def _inverse_conversion(self) -> (numpy.ndarray, numpy.ndarray):
-        r"""
-        By convention, the frame is defined from the global to the frame.
-        This method compute the frame defined from the frame to the global frame.
-
-        By convention, the frame is defined from the global to the frame.
-
-        .. math::
-
-            \mathbf{p}_{\text{frame}} = \mathbf{R}^T (\mathbf{p}_{\text{global}} - \mathbf{O})
-        
-        So the inverse frame is defined by:
-
-        .. math::
-
-            \mathbf{R}_{\text{inverse}} = \mathbf{R}^T
-
-        .. math::
-
-            \mathbf{p}_{\text{inverse}} = -\mathbf{R}^T \mathbf{O}
-
-        Returns
-        -------
-        numpy.ndarray
-            The origin of the inverse frame.
-        
-        numpy.ndarray
-            The rotation matrix of the inverse frame.    
-        """
-        # Compute the rotation matrix
-        inverse_rotation_matrix = self.rotation_matrix.T
-        inverse_origin = -numpy.dot(inverse_rotation_matrix, self.origin)
-        return inverse_origin, inverse_rotation_matrix
-
+    
 
 
     # Public methods
     def set_direct(self, direct: bool = True) -> None:
         r"""
         Set the frame as direct or indirect.
+
+        .. seealso::
+
+            :meth:`py3dframe.Frame.set_indirect` method to set the frame as indirect.
+            :attr:`py3dframe.Frame.direct` property to get or set the direct property.
 
         Parameters
         ----------
@@ -756,6 +715,11 @@ class Frame(object):
         r"""
         Set the frame as indirect or direct.
 
+        .. seealso::
+
+            :meth:`py3dframe.Frame.set_direct` method to set the frame as direct.
+            :attr:`py3dframe.Frame.direct` property to get or set the direct property.
+
         Parameters
         ----------
         indirect : bool, optional
@@ -779,10 +743,16 @@ class Frame(object):
         r"""
         Set the rotation matrix of the frame in :math:`O(3)`.
 
+        The given matrix is projected to the orthogonal group :math:`O(3)` using the SVD method before setting the rotation matrix.
+
+        .. seealso::
+
+            :meth:`py3dframe.Frame._O3_projection` method to project a matrix to :math:`O(3)`.
+
         Parameters
         ----------
         matrix : numpy.ndarray
-           The :math:`O(3)` rotation matrix with shape (3,3).
+           The rotation matrix with shape (3,3) to be projected to :math:`O(3)`.
         
         Raises
         ------
@@ -803,103 +773,151 @@ class Frame(object):
 
 
 
-    def from_global_to_frame(
-        self, 
-        *, 
-        point: Optional[numpy.ndarray] = None, 
+    def get_global_frame(self) -> Frame:
+        """
+        Get the transformation between the global frame and the frame. 
+
+        The transformation is defined by the Frame object between the global frame and the frame.
+
+        If the frame has a parent, the global frame is defined by the composition of the parent frame and the current frame (and recursively).
+
+        .. seealso::
+
+            :meth:`py3dframe.Frame.compose` method to compose two frames.
+
+        .. warning::
+
+            The global frame is defined in the current geometry ! If the current frame or a parent is modified, the global frame will not be affected.
+
+        Returns
+        -------
+        Frame
+            The transformation between the global frame and the frame.
+        """
+        global_frame = self
+        while global_frame.parent is not None:
+            parent = global_frame.parent
+            global_frame = parent * global_frame
+        return global_frame
+
+
+
+    def from_parent_to_frame(
+        self,
+        *,
+        point: Optional[numpy.ndarray] = None,
         vector: Optional[numpy.ndarray] = None,
         transpose: bool = False
         ) -> Optional[numpy.ndarray]:
         r"""
-        Convert a point or vector from global coordinates to frame coordinates.
+        Convert a point or vector from parent frame coordinates to frame coordinates.
 
         For a point, the equation is:
 
         .. math::
 
-            \mathbf{p}_{\text{frame}} = \mathbf{R}^T (\mathbf{p}_{\text{global}} - \mathbf{O})
+            \mathbf{p}_{\text{frame}} = \mathbf{R}^T (\mathbf{p}_{\text{parent}} - \mathbf{O})
 
         For a vector, the equation is:
 
         .. math::
 
-            \mathbf{v}_{\text{frame}} = \mathbf{R}^T \mathbf{v}_{\text{global}}
+            \mathbf{v}_{\text{frame}} = \mathbf{R}^T \mathbf{v}_{\text{parent}}
 
         if point is not None and vector is not None, the function will raise a ValueError.
         if point is None and vector is None, the function will return None.
 
+        .. seealso::
+
+            - :meth:`py3dframe.Frame.from_frame_to_parent` method to convert a point or vector from frame coordinates to parent frame coordinates.
+            - :meth:`py3dframe.Frame.from_global_to_frame` method to convert a point or vector from global coordinates to frame coordinates.
+
         Parameters
         ----------
         point : numpy.ndarray, optional
-            Point in global coordinates with shape (3, N), by default None.
+            Point in parent frame coordinates with shape (3, N), by default None.
         
         vector : numpy.ndarray, optional
-            Vector in global coordinates with shape (3, N), by default None.
-
+            Vector in parent frame coordinates with shape (3, N), by default None.
+        
         transpose : bool, optional
             Set if the input points or vectors are given in (N, 3) shape. The default is False.
         
         Returns
         -------
         numpy.ndarray
-            Point or vector in frame coordinates with shape (3, N).
-        
+            Point or vector in frame coordinates with shape (3, N), (or (N, 3) if transpose is True).
+
+        Raises
+        ------
+        ValueError
+            If both point and vector are provided.
+
         Examples
         --------
-        >>> frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)
-        >>> frame.from_global_to_frame(point=numpy.array([[1.0], [2.0], [3.0]]))
+
+        >>> parent = Frame(origin=numpy.array([1.0, -1.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)
+        >>> frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True, parent=parent)
+        >>> point_parent = numpy.array([[1.0], [2.0], [3.0]])
+        >>> point_frame = frame.from_parent_to_frame(point=point_parent)
+
         """
         if point is not None and vector is not None:
             raise ValueError("Only one of 'point' or 'vector' can be provided.")
         if point is None and vector is None:
             return None
-
-        data = point if point is not None else vector
         
+        parent_data = point if point is not None else vector
+
         # Convert the data into (3, N) shape
         if transpose:
-            data = numpy.array(data).reshape((-1, 3)).astype(float).T
+            parent_data = numpy.array(parent_data).reshape((-1, 3)).astype(float).T
         else:
-            data = numpy.array(data).reshape((3, -1)).astype(float)
-
+            parent_data = numpy.array(parent_data).reshape((3, -1)).astype(float)
+        
         # Convert the point to vector
         if point is not None:
-            data = data - self.origin
+            parent_data = parent_data - self.origin
         
         # Convert the data to frame coordinates
-        frame_data = numpy.dot(self.rotation_matrix.T, data)
+        frame_data = numpy.dot(self.rotation_matrix.T, parent_data)
 
         # Organize the output array
         if transpose:
             frame_data = frame_data.T
         return frame_data
+    
 
 
-
-    def from_frame_to_global(
-        self, 
-        *, 
+    def from_frame_to_parent(
+        self,
+        *,
         point: Optional[numpy.ndarray] = None,
         vector: Optional[numpy.ndarray] = None,
         transpose: bool = False
         ) -> Optional[numpy.ndarray]:
         r"""
-        Convert a point or vector from frame coordinates to global coordinates.
+        Convert a point or vector from frame coordinates to parent frame coordinates.
 
         For a point, the equation is:
 
         .. math::
 
-            \mathbf{p}_{\text{global}} = \mathbf{R} \mathbf{p}_{\text{frame}} + \mathbf{O}
-
+            \mathbf{p}_{\text{parent}} = \mathbf{R} \mathbf{p}_{\text{frame}} + \mathbf{O}
+        
         For a vector, the equation is:
 
-        .. math::   
-    
-            \mathbf{v}_{\text{global}} = \mathbf{R} \mathbf{v}_{\text{frame}}
+        .. math::
+
+            \mathbf{v}_{\text{parent}} = \mathbf{R} \mathbf{v}_{\text{frame}}  
 
         if point is not None and vector is not None, the function will raise a ValueError.
         if point is None and vector is None, the function will return None.
+
+        .. seealso::
+
+            - :meth:`py3dframe.Frame.from_parent_to_frame` method to convert a point or vector from parent frame coordinates to frame coordinates.
+            - :meth:`py3dframe.Frame.from_frame_to_global` method to convert a point or vector from frame coordinates to global coordinates.
 
         Parameters
         ----------
@@ -915,143 +933,174 @@ class Frame(object):
         Returns
         -------
         numpy.ndarray
-            Point or vector in global coordinates with shape (3, N).
+            Point or vector in parent frame coordinates with shape (3, N), (or (N, 3) if transpose is True).    
+        
+        Raises
+        ------
+        ValueError
+            If both point and vector are provided.
         
         Examples
         --------
-        >>> frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)
-        >>> frame.from_global_to_frame(point=numpy.array([[1.0], [2.0], [3.0]]))
+
+        >>> parent = Frame(origin=numpy.array([1.0, -1.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)
+        >>> frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True, parent=parent
+        >>> point_frame = numpy.array([[1.0], [2.0], [3.0]])
+        >>> point_parent = frame.from_frame_to_parent(point=point_frame)     
+
         """
         if point is not None and vector is not None:
             raise ValueError("Only one of 'point' or 'vector' can be provided.")
         if point is None and vector is None:
             return None
         
-        data = point if point is not None else vector
+        frame_data = point if point is not None else vector
 
         # Convert the data into (3, N) shape
         if transpose:
-            data = numpy.array(data).reshape((-1, 3)).astype(float).T
+            frame_data = numpy.array(frame_data).reshape((-1, 3)).astype(float).T
         else:
-            data = numpy.array(data).reshape((3, -1)).astype(float)
+            frame_data = numpy.array(frame_data).reshape((3, -1)).astype(float)
         
-        # Convert the data to global coordinates
-        global_data = numpy.dot(self.rotation_matrix, data)
+        # Convert the data to parent frame coordinates
+        parent_data = numpy.dot(self.rotation_matrix, frame_data)
 
         # Convert the vector to point
         if point is not None:
-            global_data = global_data + self.origin
+            parent_data = parent_data + self.origin
         
         # Organize the output array
         if transpose:
-            global_data = global_data.T
-        return global_data
+            parent_data = parent_data.T
+        return parent_data
 
 
 
-    def get_symmetric_frame(
+    def from_global_to_frame(
         self, 
-        point: numpy.ndarray, 
-        normal: numpy.ndarray,
-        ) -> Frame:
+        *, 
+        point: Optional[numpy.ndarray] = None, 
+        vector: Optional[numpy.ndarray] = None,
+        transpose: bool = False
+        ) -> Optional[numpy.ndarray]:
         r"""
-        Get the symmetric frame of the current frame with respect to a plane defined by a point and a normal vector.
+        Convert a point or vector from global coordinates to frame coordinates.
 
-        The point and the normal must be arrays with 3 elements.
+        This method get the global frame of the frame and convert the point or vector to the frame coordinates.
+
+        Lets note :math:`\mathbf{R_{(G)}}` and :math:`\mathbf{O_{(G)}}` the rotation matrix and the origin of the Frame object between the global frame and the frame.
+
+        For a point, the equation is:
+
+        .. math::
+
+            \mathbf{p}_{\text{frame}} = \mathbf{R_{(G)}}^T (\mathbf{p}_{\text{global}} - \mathbf{O_{(G)})
+
+        For a vector, the equation is:
+
+        .. math:: 
+
+            \mathbf{v}_{\text{frame}} = \mathbf{R_{(G)}}^T \mathbf{v}_{\text{global}}
+
+        if point is not None and vector is not None, the function will raise a ValueError.
+        if point is None and vector is None, the function will return None.
+
+        .. seealso::
+
+            - :meth:`py3dframe.Frame.from_frame_to_global` method to convert a point or vector from frame coordinates to global coordinates.
+            - :meth:`py3dframe.Frame.from_parent_to_frame` method to convert a point or vector from parent frame coordinates to frame coordinates.
 
         Parameters
         ----------
-        point : numpy.ndarray
-            A point on the plane with shape (3,1).
+        point : numpy.ndarray, optional
+            Point in global coordinates with shape (3, N), by default None.
         
-        normal : numpy.ndarray
-            The normal vector of the plane with shape (3,1).
+        vector : numpy.ndarray, optional
+            Vector in global coordinates with shape (3, N), by default None.
+
+        transpose : bool, optional
+            Set if the input points or vectors are given in (N, 3) shape. The default is False.
         
         Returns
         -------
-        Frame
-            The symmetric frame of the current frame with respect to the plane.
+        numpy.ndarray
+            Point or vector in frame coordinates with shape (3, N) (or (N, 3) if transpose is True).
         
         Examples
         --------
-        >>> frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)
-        >>> point = numpy.array([1.0, 2.0, 3.0])
-        >>> normal = numpy.array([0.0, 0.0, 1.0])
-        >>> symmetric_frame = frame.get_symmetric_frame(point, normal)
+
+        >>> parent = Frame(origin=numpy.array([1.0, -1.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)
+        >>> frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True, parent=parent)
+        >>> point_global = numpy.array([[1.0], [2.0], [3.0]])
+        >>> point_frame = frame.from_global_to_frame(point=point_global)
+
         """
-        symmetric_origin, symmetric_rotation_matrix = self._symmetric_conversion(point, normal)
-        return Frame(origin=symmetric_origin, rotation_matrix=symmetric_rotation_matrix, O3_project=True)
-    
+        global_frame = self.get_global_frame()
+        return global_frame.from_parent_to_frame(point=point, vector=vector, transpose=transpose)
 
 
-    def apply_symmetric_frame(
+
+    def from_frame_to_global(
         self, 
-        point: numpy.ndarray, 
-        normal: numpy.ndarray
-        ) -> None:
+        *, 
+        point: Optional[numpy.ndarray] = None,
+        vector: Optional[numpy.ndarray] = None,
+        transpose: bool = False
+        ) -> Optional[numpy.ndarray]:
         r"""
-        Apply a symmetry to the frame with respect to a plane defined by a point and a normal vector.
+        Convert a point or vector from frame coordinates to global coordinates.
 
-        The point and the normal must be arrays with 3 elements.
+        This method get the global frame of the frame and convert the point or vector to the global coordinates.
+
+        Lets note :math:`\mathbf{R_{(G)}}` and :math:`\mathbf{O_{(G)}}` the rotation matrix and the origin of the Frame object between the global frame and the frame.
+
+        For a point, the equation is:
+
+        .. math::
+
+            \mathbf{p}_{\text{global}} = \mathbf{R_{(G)}} (\mathbf{p}_{\text{frame}}) + \mathbf{O_{(G)}}
+        
+        For a vector, the equation is:
+
+        .. math::
+
+            \mathbf{v}_{\text{global}} = \mathbf{R_{(G)}} \mathbf{v}_{\text{frame}}
+
+        if point is not None and vector is not None, the function will raise a ValueError.
+        if point is None and vector is None, the function will return None.
+
+        .. seealso::
+
+            - :meth:`py3dframe.Frame.from_global_to_frame` method to convert a point or vector from global coordinates to frame coordinates.
+            - :meth:`py3dframe.Frame.from_frame_to_parent` method to convert a point or vector from frame coordinates to parent frame coordinates.
 
         Parameters
         ----------
-        point : numpy.ndarray
-            A point on the plane with shape (3,1).
+        point : numpy.ndarray, optional
+            Point in frame coordinates with shape (3, N), by default None.
+
+        vector : numpy.ndarray, optional
+            Vector in frame coordinates with shape (3, N), by default None.
         
-        normal : numpy.ndarray
-            The normal vector of the plane with shape (3,1).
+        transpose : bool, optional
+            Set if the input points or vectors are given in (N, 3) shape. The default is False.
         
-        Examples
-        --------
-        >>> frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)
-        >>> point = numpy.array([1.0, 2.0, 3.0])
-        >>> normal = numpy.array([0.0, 0.0, 1.0])
-        >>> frame.apply_symmetric_frame(point, normal)
-        """
-        symmetric_origin, symmetric_rotation_matrix = self._symmetric_conversion(point, normal)
-        self.set_O3_rotation_matrix(symmetric_rotation_matrix)
-        self.origin = symmetric_origin
-
-
-
-    def get_inverse_frame(self) -> Frame:
-        r"""
-        Get the inverse frame of the current frame.
-
-        By convention, the frame is defined from the global to the frame.
-        This method compute the frame defined from the frame to the global frame.
-
         Returns
         -------
-        Frame
-            The inverse frame of the current frame.
-        
-        Examples
-        --------
-        >>> frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)
-        >>> inverse_frame = frame.get_inverse_frame()
-        """
-        inverse_origin, inverse_rotation_matrix = self._inverse_conversion()
-        return Frame(origin=inverse_origin, rotation_matrix=inverse_rotation_matrix, O3_project=True)
-
-
-
-    def apply_inverse_frame(self) -> None:
-        r"""
-        Apply a inversion to the frame.
-        
-        By convention, the frame is defined from the global to the frame.
-        This method compute the frame defined from the frame to the global frame.
+        numpy.ndarray
+            Point or vector in global coordinates with shape (3, N), (or (N, 3) if transpose is True).
 
         Examples
         --------
-        >>> frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)
-        >>> frame.apply_inverse_frame()
+
+        >>> parent = Frame(origin=numpy.array([1.0, -1.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)
+        >>> frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True, parent=parent)
+        >>> point_frame = numpy.array([[1.0], [2.0], [3.0]])
+        >>> point_global = frame.from_frame_to_global(point=point_frame)
+
         """
-        inverse_origin, inverse_rotation_matrix = self._inverse_conversion()
-        self.set_O3_rotation_matrix(inverse_rotation_matrix)
-        self.origin = inverse_origin
+        global_frame = self.get_global_frame()
+        return global_frame.from_frame_to_parent(point=point, vector=vector, transpose=transpose)
 
 
     
@@ -1097,27 +1146,54 @@ class Frame(object):
         
         Examples
         --------
-        >>> frame_w_1 = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)
-        >>> frame_1_2 = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)
-        >>> frame_w_2 = frame1.compose(frame2)
+
+        >>> frame_global_to_1 = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)
+        >>> frame_1_to_2 = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)
+        >>> frame_global_to_2 = frame1.compose(frame2)
+
         """
-        return self * other
+        new_origin = self.origin + numpy.dot(self.rotation_matrix, other.origin)
+        new_rotation_matrix = numpy.dot(self.rotation_matrix, other.rotation_matrix)
+        return Frame(origin=new_origin, rotation_matrix=new_rotation_matrix, O3_project=True, parent=self.parent)
     
 
 
     # Overridden methods
     def __repr__(self) -> str:
-        """ String representation of the Frame object. """
-        return f"Frame(origin={self.origin}, quaternion={self.quaternion}, direct={self.direct})"
+        """ 
+        String representation of the Frame object. 
+        """
+        return f"Frame(origin={self.origin}, quaternion={self.quaternion}, direct={self.direct}, has parent={self.parent is not None})"
+
+
 
     def __eq__(self, other: Frame) -> bool:
-        """ Check if two Frame objects are equal. """
-        return numpy.allclose(self.origin, other.origin, atol=self._tolerance) and numpy.allclose(self.quaternion, other.quaternion, atol=self._tolerance) and self.direct == other.direct
+        """
+        Check if two Frame objects are equal. 
+
+        To be equal, the global frame of the two frames must have the same origin, quaternion, and direct properties.
+        """
+        if not isinstance(other, Frame):
+            return False
+        
+        # Check the origin, quaternion, and direct properties of the global frame
+        global_frame = self.get_global_frame()
+        other_global_frame = other.get_global_frame()
+
+        same_origin = numpy.allclose(global_frame.origin, other_global_frame.origin, atol=self._tolerance)
+        same_quaternion = numpy.allclose(global_frame.quaternion, other_global_frame.quaternion, atol=self._tolerance)
+        same_direct = global_frame.direct == other_global_frame.direct
+
+        return same_origin and same_quaternion and same_direct
+    
+
 
     def __ne__(self, other: Frame) -> bool:
         """ Check if two Frame objects are not equal. """
         return not self.__eq__(other)
     
+
+
     def __mul__(self, other: Frame) -> Frame:
         """ 
         Multiply two Frame objects. Return the composition of the two frames.
@@ -1126,6 +1202,10 @@ class Frame(object):
         The other frame is define from the frame (1) to the frame (2).
 
         The composition is define from the global to the frame (2).
+
+        .. seealso::
+
+            :meth:`py3dframe.Frame.compose` method to compose two frames.
 
         Parameters
         ----------
@@ -1137,9 +1217,9 @@ class Frame(object):
         Frame
             The composition of the two frames.
         """
-        new_origin = self.origin + numpy.dot(self.rotation_matrix, other.origin)
-        new_rotation_matrix = numpy.dot(self.rotation_matrix, other.rotation_matrix)
-        return Frame(origin=new_origin, rotation_matrix=new_rotation_matrix, O3_project=True)    
+        return self.compose(other)
+
+    
 
     def __pow__(self, power: int) -> Frame:
         r"""
@@ -1147,7 +1227,6 @@ class Frame(object):
 
         If the power is 0, the identity frame is returned.
         If the power is 1, the Frame object is returned.
-        If the power is -1, the inverse Frame object is returned.
         Otherwise, the Frame object is multiplied by itself power times.
 
         Parameters
@@ -1167,21 +1246,19 @@ class Frame(object):
         """
         if not isinstance(power, int):
             raise TypeError("The power must be an integer.")
-        if power < -1:
+        if power < 0:
             raise ValueError("The power must be greater or equal to -1.")
         if power == 0:
             return Frame(origin=numpy.zeros((3,1)), quaternion=numpy.array([1.0, 0.0, 0.0, 0.0]), direct=True)
         elif power == 1:
             return self
-        elif power == -1:
-            return self.get_inverse_frame()
         else:
             return self.__mul__(self.__pow__(power - 1))
 
 
 
-    def save_to_dict(self, description: str = "") -> Dict:
-        """
+    def save_to_dict(self, description: str = "", parent: bool = True) -> Dict:
+        r"""
         Export the Frame's data to a dictionary.
 
         The structure of the dictionary is as follows:
@@ -1194,6 +1271,13 @@ class Frame(object):
                 "origin": [1.0, 2.0, 3.0],
                 "quaternion": [0.5, 0.5, 0.5, 0.5],
                 "direct": True
+                "parent": {
+                    "type": "Frame [py3dframe]",
+                    "description": "Description of the parent frame",
+                    "origin": [1.0, -1.0, 3.0],
+                    "quaternion": [0.5, 0.5, 0.5, 0.5],
+                    "direct": True
+                }
             }
 
         Parameters
@@ -1201,19 +1285,27 @@ class Frame(object):
         description : str, optional
             A description of the frame, by default "".
 
+        parent : bool, optional
+            Set if the parent frame is included in the dictionary, by default True.
+
         Returns
         -------
         dict
-            A dictionary containing the origin, quaternion, and direct.
+            A dictionary containing the frame's data.
 
         Raises
         ------
         ValueError
             If the description is not a string.
+            If the parent is not a boolean.
         """
         # Check the description
         if not isinstance(description, str):
             raise ValueError("Description must be a string.")
+        
+        # Check the no_parent
+        if not isinstance(parent, bool):
+            raise ValueError("parent must be a boolean.")
         
         # Create the dictionary
         data = {
@@ -1226,14 +1318,18 @@ class Frame(object):
         # Add the description
         if len(description) > 0:
             data["description"] = description
+
+        # Add the parent frame
+        if self.parent is not None and parent:
+            data["parent"] = self.parent.save_to_dict()
         
         return data
 
 
 
     @classmethod
-    def load_from_dict(cls, data: Dict) -> Frame:
-        """
+    def load_from_dict(cls, data: Dict, parent: bool = True) -> Frame:
+        r"""
         Create a Frame instance from a dictionary.
 
         The structure of the dictionary should be as provided by the :meth:`py3dframe.Frame.save_to_dict` method.
@@ -1243,13 +1339,17 @@ class Frame(object):
         If origin is not given, the default value is None - [0.0, 0.0, 0.0]
         If quaternion is not given, the default value is None - [1.0, 0.0, 0.0, 0.0]
         If direct is not given, the default value is True.
+        If parent is not given, the default value is None.
 
         The other keys are ignored.
 
         Parameters
         ----------
         data : dict
-            A dictionary containing the origin, quaternion, and direct.
+            A dictionary containing the frame's data.
+
+        parent : bool, optional
+            Set if the parent frame is included in the dictionary, by default True.
         
         Returns
         -------
@@ -1260,10 +1360,14 @@ class Frame(object):
         ------
         ValueError
             If the data is not a dictionary.
+            If parent is not a boolean.
         """
         # Check for the input type
         if not isinstance(data, dict):
             raise ValueError("data must be a dictionary.")
+        
+        if not isinstance(parent, bool):
+            raise ValueError("parent must be a boolean.")
         
         # Create the Frame instance
         if "origin" in data.keys():
@@ -1280,12 +1384,17 @@ class Frame(object):
             direct = data["direct"]
         else:
             direct = True
+
+        if "parent" in data.keys() and parent:
+            parent_frame = cls.load_from_dict(data["parent"])
+        else:
+            parent_frame = None
         
-        return Frame(origin=origin, quaternion=quaternion, direct=direct)
+        return Frame(origin=origin, quaternion=quaternion, direct=direct, parent=parent_frame)
 
 
 
-    def save_to_json(self, filepath: str, description: str = "") -> None:
+    def save_to_json(self, filepath: str, description: str = "", parent: bool = True) -> None:
         """
         Export the Frame's data to a JSON file.
 
@@ -1298,6 +1407,9 @@ class Frame(object):
         
         description : str, optional
             A description of the frame, by default "".
+
+        parent : bool, optional
+            Set if the parent frame is included in the dictionary, by default True.
         
         Raises
         ------
@@ -1305,7 +1417,7 @@ class Frame(object):
             If the filepath is not a valid path.
         """
         # Create the dictionary
-        data = self.save_to_dict(description=description)
+        data = self.save_to_dict(description=description, parent=parent)
 
         # Save the dictionary to a JSON file
         with open(filepath, "w") as file:
@@ -1314,7 +1426,7 @@ class Frame(object):
 
     
     @classmethod
-    def load_from_json(cls, filepath: str) -> Frame:
+    def load_from_json(cls, filepath: str, parent: bool = True) -> Frame:
         """
         Create a Frame instance from a JSON file.
 
@@ -1324,6 +1436,9 @@ class Frame(object):
         ----------
         filepath : str
             The path to the JSON file.
+        
+        parent : bool, optional
+            Set if the parent frame is included in the dictionary, by default True.
         
         Returns
         -------
@@ -1340,4 +1455,4 @@ class Frame(object):
             data = json.load(file)
         
         # Create the Frame instance
-        return cls.load_from_dict(data)
+        return cls.load_from_dict(data, parent=parent)
