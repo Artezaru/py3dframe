@@ -35,11 +35,11 @@ frame2 = Frame(origin=np.array([0, 2, 0]).reshape((3, 1)),
 frame_tree.add_frame(frame2, "frame2", parent="frame1")
 print("Added 'frame2' with origin [0, 2, 0], as a child of 'frame1'.")
 
-# Frame3: Translation [0, 0, 3] in world coordinates
+# Frame3: Translation [0, 0, 3] in global coordinates
 frame3 = Frame(origin=np.array([0, 0, 3]).reshape((3, 1)),
                rotation_matrix=np.eye(3))
 frame_tree.add_frame(frame3, "frame3")
-print("Added 'frame3' with origin [0, 0, 3] in the world frame.")
+print("Added 'frame3' with origin [0, 0, 3] in the global frame.")
 
 # Print the tree structure
 print("\nCurrent FrameTree structure:")
@@ -47,7 +47,7 @@ print(frame_tree)
 
 # Expected Output:
 # ----------------
-# world
+# global
 # ├── frame1
 # │   └── frame2
 # └── frame3
@@ -73,23 +73,23 @@ print(f"Retrieved 'frame1': Origin = {f1.origin.flatten()}")
 print("\n\nTransforming Points Between Frames")
 print("------------------------")
 
-# Define a point in world coordinates
-world_point = np.array([[3], [3], [0]])
-print(f"World point: {world_point.flatten()}")
+# Define a point in global coordinates
+global_point = np.array([[3], [3], [0]])
+print(f"global point: {global_point.flatten()}")
 # Expected Output:
-# World point: [3 3 0]
+# global point: [3 3 0]
 
-# Convert world point to frame2's local coordinates
-point_in_frame2 = frame_tree.from_frame_to_frame(input_name=None, output_name="frame2", point=world_point)
+# Convert global point to frame2's local coordinates
+point_in_frame2 = frame_tree.from_frame_to_frame(input_name=None, output_name="frame2", point=global_point)
 print(f"Point in 'frame2' coordinates: {point_in_frame2.flatten()}")
 # Expected Output (depends on transforms):
 # Point in 'frame2' coordinates: [2. 1. 0.]
 
-# Convert it back to world coordinates
-point_back_to_world = frame_tree.from_frame_to_frame(input_name="frame2", output_name=None, point=point_in_frame2)
-print(f"Converted back to world coordinates: {point_back_to_world.flatten()}")
+# Convert it back to global coordinates
+point_back_to_global = frame_tree.from_frame_to_frame(input_name="frame2", output_name=None, point=point_in_frame2)
+print(f"Converted back to global coordinates: {point_back_to_global.flatten()}")
 # Expected Output:
-# Converted back to world coordinates: [3. 3. 0.]
+# Converted back to global coordinates: [3. 3. 0.]
 
 
 #####
@@ -104,7 +104,7 @@ print("Renamed 'frame1' to 'base_frame'.")
 print("\nFrameTree after renaming 'frame1' to 'base_frame':")
 print(frame_tree)
 # Expected Output:
-# world
+# global
 # ├── base_frame
 # │   └── frame2
 # └── frame3
@@ -117,7 +117,7 @@ print("Set 'base_frame' as the parent of 'frame3'.")
 print("\nFrameTree after setting 'frame2' as parent of 'frame3':")
 print(frame_tree)
 # Expected Output:
-# world
+# global
 # └── base_frame
 #     └── frame2
 #         └── frame3
@@ -130,7 +130,7 @@ print("'frame2' has been removed from the tree.")
 print("\nFrameTree after removing 'frame2':")
 print(frame_tree)
 # Expected Output:
-# world
+# global
 # ├── base_frame
 # └── frame3
 
@@ -152,7 +152,7 @@ print("FrameTree has been cleared.")
 print("\nFrameTree after clearing:")
 print(frame_tree)
 # Expected Output:
-# world
+# global
 
 # Display frames after clearing
 print(f"Frames after clearing: {frame_tree.names}")
