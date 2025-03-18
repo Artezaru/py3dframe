@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>py3dframe.frame &#8212; py3dframe 0.0.2 documentation</title>
+    <title>py3dframe.frame &#8212; py3dframe 0.0.3 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=e3a6060d"></script>
+    <script src="../../_static/documentation_options.js?v=47de8214"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/py3dframe/frame';</script>
@@ -107,7 +107,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 0.0.2 documentation</p>
+    <p class="title logo__title">py3dframe 0.0.3 documentation</p>
   
 </a></div>
     
@@ -313,8 +313,11 @@
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.transform</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rotation</span>
+
+
 
 <div class="viewcode-block" id="Frame">
 <a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame">[docs]</a>
@@ -329,7 +332,7 @@
 
 <span class="sd">    The frame use scipy.spatial.transform.Rotation to manage the rotation matrix.</span>
 
-<span class="sd">    By convention, the frame is defined from the global frame to the frame frame. </span>
+<span class="sd">    By convention, the frame is defined from the global frame (or the parent frame if given) to the frame. </span>
 <span class="sd">    Thats means, the coordinates of the rotation matrix are the coordinates of the frame axis in the global coordinates.</span>
 
 <span class="sd">    Lets consider a frame :math:`\mathcal{F}` defined by 3 vectors :math:`\mathbf{i}`, :math:`\mathbf{j}`, :math:`\mathbf{k}`.</span>
@@ -339,6 +342,15 @@
 
 <span class="sd">        \mathbf{R} = \begin{bmatrix} \mathbf{i} &amp; \mathbf{j} &amp; \mathbf{k} \end{bmatrix}</span>
 
+<span class="sd">    Lets consider the transformation from a frame 1 to a frame 2.</span>
+<span class="sd">    The convention is defined by the following equation:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \mathbf{p}_{\text{frame 1}} = \mathbf{R} \mathbf{p}_{\text{frame 2}} + \mathbf{O}</span>
+
+<span class="sd">    where :math:`\mathbf{R}` and :math:`\mathbf{O}` are the rotation matrix and the origin of the Frame object between the frame 1 and the frame 2.</span>
+
 <span class="sd">    When the rotation matrix is set, the determinant is checked to determine if the frame is direct or indirect.</span>
 
 <span class="sd">    However when the user create the frame using the quaternion or the euler angles, the frame is always considered as direct.</span>
@@ -347,6 +359,7 @@
 <span class="sd">    The associated direct frame correspond to the frame with the same origin but the frame Z-axis inverted.</span>
 
 <span class="sd">    In fact when the frame is indirect, the user can : </span>
+
 <span class="sd">    - set directly the indirect rotation matrix.</span>
 <span class="sd">    - set the quaternion or the euler angles of the associated direct frame and then set the frame as indirect.</span>
 
@@ -354,7 +367,7 @@
 
 <span class="sd">    .. seealso:: </span>
 <span class="sd">    </span>
-<span class="sd">        :class:`py3dframe.FrameTree` To manage multiple frames and their relationships.</span>
+<span class="sd">        :class:`py3dframe.FrameTree` To manage easily multiple frames and their relationships.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -378,6 +391,13 @@
 <span class="sd">    </span>
 <span class="sd">    direct : bool, optional</span>
 <span class="sd">        Set if the frame is direct or indirect. The default is True.</span>
+
+<span class="sd">    parent : Frame, optional</span>
+<span class="sd">        The parent frame of the current frame. The default is None.</span>
+
+<span class="sd">    _uuid : uuid.UUID, optional</span>
+<span class="sd">        The unique identifier of the frame. The default is None. This parameter is used by :class:`py3dframe.FrameTree`, do not use it.</span>
+<span class="sd">        This parameter is used to identify the frame in the FrameTree and it is not saved in the JSON file.</span>
 
 
 <span class="sd">    Examples</span>
@@ -409,6 +429,8 @@
         <span class="n">euler_angles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">rotation_vector</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">direct</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">parent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">_uuid</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Check if only one of the orientation parameters is provided</span>
         <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="n">quaternion</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rotation_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="n">euler_angles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rotation_vector</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -423,6 +445,8 @@
         <span class="c1"># Initialize the frame</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">origin</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">direct</span> <span class="o">=</span> <span class="n">direct</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_uuid</span> <span class="o">=</span> <span class="n">_uuid</span>
         <span class="k">if</span> <span class="n">quaternion</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">quaternion</span> <span class="o">=</span> <span class="n">quaternion</span>
         <span class="k">elif</span> <span class="n">rotation_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -499,7 +523,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_quaternion</span><span class="p">(</span><span class="n">quaternion</span><span class="p">,</span> <span class="n">scalar_first</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">direct</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Frame.set_quaternion">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.set_quaternion">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.set_quaternion.html#py3dframe.Frame.set_quaternion">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_quaternion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quaternion</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">scalar_first</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">direct</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the quaternion of the frame and the direct property.</span>
@@ -534,7 +558,7 @@
 
 
 <div class="viewcode-block" id="Frame.get_quaternion">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.get_quaternion">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.get_quaternion.html#py3dframe.Frame.get_quaternion">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_quaternion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar_first</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the quaternion of the frame with a given convention.</span>
@@ -568,6 +592,8 @@
 <span class="sd">        .. note::</span>
 
 <span class="sd">            The direct property is changed when the rotation matrix is set.</span>
+
+<span class="sd">        To be sure that the rotation matrix is in the orthogonal group :math:`O(3)`, the user can use the method :meth:`py3dframe.Frame.set_O3_rotation_matrix`.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -637,7 +663,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_euler_angles</span><span class="p">(</span><span class="n">euler_angles</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">direct</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     
 <div class="viewcode-block" id="Frame.set_euler_angles">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.set_euler_angles">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.set_euler_angles.html#py3dframe.Frame.set_euler_angles">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_euler_angles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">euler_angles</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">degrees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">axes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">direct</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the Euler angles of the frame and the direct property.</span>
@@ -669,7 +695,7 @@
 
     
 <div class="viewcode-block" id="Frame.get_euler_angles">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.get_euler_angles">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.get_euler_angles.html#py3dframe.Frame.get_euler_angles">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_euler_angles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">degrees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">axes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;XYZ&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the Euler angles of the frame with a given convention.</span>
@@ -741,7 +767,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_rotation_vector</span><span class="p">(</span><span class="n">rotation_vector</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">direct</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     
 <div class="viewcode-block" id="Frame.set_rotation_vector">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.set_rotation_vector">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.set_rotation_vector.html#py3dframe.Frame.set_rotation_vector">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_rotation_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rotation_vector</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">degrees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">direct</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the rotation vector of the frame and the direct property.</span>
@@ -773,7 +799,7 @@
 
     
 <div class="viewcode-block" id="Frame.get_rotation_vector">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.get_rotation_vector">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.get_rotation_vector.html#py3dframe.Frame.get_rotation_vector">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_rotation_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">degrees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the rotation vector of the frame with a given convention.</span>
@@ -872,6 +898,33 @@
 
 
     <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get or set the parent frame of the current frame.</span>
+
+<span class="sd">        The parent frame is the frame in which the current frame is defined.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        parent : Frame</span>
+<span class="sd">            The parent frame of the current frame.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If the parent is not a Frame.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span>
+
+    <span class="nd">@parent</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">Frame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">Frame</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The parent must be a Frame.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="o">=</span> <span class="n">parent</span>
+
+
+
+    <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">x_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the X-axis of the frame with shape (3,1)&quot;&quot;&quot;</span>
         <span class="n">x_axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation_matrix</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
@@ -914,14 +967,14 @@
 
     <span class="c1"># Private methods</span>
 <div class="viewcode-block" id="Frame._O3_projection">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame._O3_projection">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame._O3_projection.html#py3dframe.Frame._O3_projection">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_O3_projection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Project a matrix to the orthogonal group O(3) using SVD and minimisation of the frobenius norm.</span>
+<span class="sd">        Project a matrix to the orthogonal group :math:`O(3)` using SVD and minimisation of the frobenius norm.</span>
 
-<span class="sd">        The orthogonal group O(3) is the set of 3x3 matrices with determinant 1.</span>
+<span class="sd">        The orthogonal group `O(3)` is the set of 3x3 matrices with determinant 1.</span>
 
-<span class="sd">        To project a matrix to O(3), the SVD is computed and the orthogonal matrix is obtained by:</span>
+<span class="sd">        To project a matrix to `O(3)`, the SVD is computed and the orthogonal matrix is obtained by:</span>
 
 <span class="sd">        .. math::</span>
 
@@ -941,7 +994,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        numpy.ndarray</span>
-<span class="sd">            The O(3) projection of the matrix.</span>
+<span class="sd">            The `O(3)` projection of the matrix.</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
@@ -961,120 +1014,20 @@
         <span class="n">orthogonal_matrix</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">Vt</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">orthogonal_matrix</span></div>
 
-
-
-
-<div class="viewcode-block" id="Frame._symmetric_conversion">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame._symmetric_conversion">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_symmetric_conversion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">normal</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convert the frame to the symmetric frame with respect to a plane.</span>
-
-<span class="sd">        The plane is defined by a point :math:`\mathbf{p}` and a normal vector :math:`\mathbf{n}`.</span>
-<span class="sd">        The point and normal vector are given in the global frame coordinates.</span>
-
-<span class="sd">        The point and the normal must be arrays with 3 elements.</span>
-
-<span class="sd">        For a global point :math:`\mathbf{p}_{\text{global}}`, the symmetric point :math:`\mathbf{p}_{\text{symmetric}}` with respect to the plane is:</span>
-
-<span class="sd">        .. math::</span>
-
-<span class="sd">            \mathbf{p}_{\text{symmetric}} = \mathbf{p} - 2 &lt;\mathbf{p} - \mathbf{p}_{\text{global}} , \mathbf{n}&gt; \mathbf{n}</span>
-
-<span class="sd">        Where :math:`&lt;\cdot, \cdot&gt;` is the dot product.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        point : numpy.ndarray</span>
-<span class="sd">            A point on the plane with shape (3,1).</span>
-<span class="sd">        </span>
-<span class="sd">        normal : numpy.ndarray</span>
-<span class="sd">            The normal vector of the plane with shape (3,1).</span>
-<span class="sd">        </span>
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        numpy.ndarray</span>
-<span class="sd">            The origin of the symmetric frame.</span>
-<span class="sd">        </span>
-<span class="sd">        numpy.ndarray</span>
-<span class="sd">            The rotation matrix of the symmetric frame.</span>
-<span class="sd">        </span>
-<span class="sd">        Raises</span>
-<span class="sd">        ------</span>
-<span class="sd">        TypeError</span>
-<span class="sd">            If the point or the normal is not a numpy array.</span>
-<span class="sd">        ValueError</span>
-<span class="sd">            If the point or the normal is not 3x1.</span>
-<span class="sd">            If the normal vector has zero magnitude.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Compute the unit normal vector</span>
-        <span class="n">point</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">point</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-        <span class="n">normal</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-
-        <span class="c1"># Compute the unit normal vector</span>
-        <span class="n">norm</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">norm</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tolerance</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Normal vector cannot have zero magnitude.&quot;</span><span class="p">)</span>
-        <span class="n">normal</span> <span class="o">=</span> <span class="n">normal</span> <span class="o">/</span> <span class="n">norm</span>
-
-        <span class="c1"># Compute the reflected origin</span>
-        <span class="n">symmetric_origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="o">-</span> <span class="n">point</span><span class="p">)</span> <span class="o">*</span> <span class="n">normal</span>
-
-        <span class="c1"># Compute the reflected rotation matrix</span>
-        <span class="n">x_axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_axis</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_axis</span><span class="p">)</span> <span class="o">*</span> <span class="n">normal</span>
-        <span class="n">y_axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_axis</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_axis</span><span class="p">)</span> <span class="o">*</span> <span class="n">normal</span>
-        <span class="n">z_axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_axis</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_axis</span><span class="p">)</span> <span class="o">*</span> <span class="n">normal</span>
-        <span class="n">symmetric_rotation_matrix</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">x_axis</span><span class="p">,</span> <span class="n">y_axis</span><span class="p">,</span> <span class="n">z_axis</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">symmetric_origin</span><span class="p">,</span> <span class="n">symmetric_rotation_matrix</span></div>
-
-
-
-
-<div class="viewcode-block" id="Frame._inverse_conversion">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame._inverse_conversion">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_inverse_conversion</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        By convention, the frame is defined from the global to the frame.</span>
-<span class="sd">        This method compute the frame defined from the frame to the global frame.</span>
-
-<span class="sd">        By convention, the frame is defined from the global to the frame.</span>
-
-<span class="sd">        .. math::</span>
-
-<span class="sd">            \mathbf{p}_{\text{frame}} = \mathbf{R}^T (\mathbf{p}_{\text{global}} - \mathbf{O})</span>
-<span class="sd">        </span>
-<span class="sd">        So the inverse frame is defined by:</span>
-
-<span class="sd">        .. math::</span>
-
-<span class="sd">            \mathbf{R}_{\text{inverse}} = \mathbf{R}^T</span>
-
-<span class="sd">        .. math::</span>
-
-<span class="sd">            \mathbf{p}_{\text{inverse}} = -\mathbf{R}^T \mathbf{O}</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        numpy.ndarray</span>
-<span class="sd">            The origin of the inverse frame.</span>
-<span class="sd">        </span>
-<span class="sd">        numpy.ndarray</span>
-<span class="sd">            The rotation matrix of the inverse frame.    </span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Compute the rotation matrix</span>
-        <span class="n">inverse_rotation_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation_matrix</span><span class="o">.</span><span class="n">T</span>
-        <span class="n">inverse_origin</span> <span class="o">=</span> <span class="o">-</span><span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">inverse_rotation_matrix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">inverse_origin</span><span class="p">,</span> <span class="n">inverse_rotation_matrix</span></div>
-
-
+    
 
 
     <span class="c1"># Public methods</span>
 <div class="viewcode-block" id="Frame.set_direct">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.set_direct">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.set_direct.html#py3dframe.Frame.set_direct">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">direct</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the frame as direct or indirect.</span>
+
+<span class="sd">        .. seealso::</span>
+
+<span class="sd">            :meth:`py3dframe.Frame.set_indirect` method to set the frame as indirect.</span>
+<span class="sd">            :attr:`py3dframe.Frame.direct` property to get or set the direct property.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1097,10 +1050,15 @@
 
 
 <div class="viewcode-block" id="Frame.set_indirect">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.set_indirect">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.set_indirect.html#py3dframe.Frame.set_indirect">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_indirect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indirect</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the frame as indirect or direct.</span>
+
+<span class="sd">        .. seealso::</span>
+
+<span class="sd">            :meth:`py3dframe.Frame.set_direct` method to set the frame as direct.</span>
+<span class="sd">            :attr:`py3dframe.Frame.direct` property to get or set the direct property.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1123,15 +1081,21 @@
 
 
 <div class="viewcode-block" id="Frame.set_O3_rotation_matrix">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.set_O3_rotation_matrix">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.set_O3_rotation_matrix.html#py3dframe.Frame.set_O3_rotation_matrix">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_O3_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the rotation matrix of the frame in :math:`O(3)`.</span>
 
+<span class="sd">        The given matrix is projected to the orthogonal group :math:`O(3)` using the SVD method before setting the rotation matrix.</span>
+
+<span class="sd">        .. seealso::</span>
+
+<span class="sd">            :meth:`py3dframe.Frame._O3_projection` method to project a matrix to :math:`O(3)`.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        matrix : numpy.ndarray</span>
-<span class="sd">           The :math:`O(3)` rotation matrix with shape (3,3).</span>
+<span class="sd">           The rotation matrix with shape (3,3) to be projected to :math:`O(3)`.</span>
 <span class="sd">        </span>
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
@@ -1153,108 +1117,159 @@
 
 
 
-<div class="viewcode-block" id="Frame.from_global_to_frame">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.from_global_to_frame">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_global_to_frame</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> 
-        <span class="o">*</span><span class="p">,</span> 
-        <span class="n">point</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+<div class="viewcode-block" id="Frame.get_global_frame">
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.get_global_frame.html#py3dframe.Frame.get_global_frame">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_global_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the transformation between the global frame and the frame. </span>
+
+<span class="sd">        The transformation is defined by the Frame object between the global frame and the frame.</span>
+
+<span class="sd">        If the frame has a parent, the global frame is defined by the composition of the parent frame and the current frame (and recursively).</span>
+
+<span class="sd">        .. seealso::</span>
+
+<span class="sd">            :meth:`py3dframe.Frame.compose` method to compose two frames.</span>
+
+<span class="sd">        .. warning::</span>
+
+<span class="sd">            The global frame is defined in the current geometry ! If the current frame or a parent is modified, the global frame will not be affected.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Frame</span>
+<span class="sd">            The transformation between the global frame and the frame.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">global_frame</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="k">while</span> <span class="n">global_frame</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">parent</span> <span class="o">=</span> <span class="n">global_frame</span><span class="o">.</span><span class="n">parent</span>
+            <span class="n">global_frame</span> <span class="o">=</span> <span class="n">parent</span> <span class="o">*</span> <span class="n">global_frame</span>
+        <span class="k">return</span> <span class="n">global_frame</span></div>
+
+
+
+
+<div class="viewcode-block" id="Frame.from_parent_to_frame">
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.from_parent_to_frame.html#py3dframe.Frame.from_parent_to_frame">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_parent_to_frame</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">point</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">vector</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">transpose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convert a point or vector from global coordinates to frame coordinates.</span>
+<span class="sd">        Convert a point or vector from parent frame coordinates to frame coordinates.</span>
 
 <span class="sd">        For a point, the equation is:</span>
 
 <span class="sd">        .. math::</span>
 
-<span class="sd">            \mathbf{p}_{\text{frame}} = \mathbf{R}^T (\mathbf{p}_{\text{global}} - \mathbf{O})</span>
+<span class="sd">            \mathbf{p}_{\text{frame}} = \mathbf{R}^T (\mathbf{p}_{\text{parent}} - \mathbf{O})</span>
 
 <span class="sd">        For a vector, the equation is:</span>
 
 <span class="sd">        .. math::</span>
 
-<span class="sd">            \mathbf{v}_{\text{frame}} = \mathbf{R}^T \mathbf{v}_{\text{global}}</span>
+<span class="sd">            \mathbf{v}_{\text{frame}} = \mathbf{R}^T \mathbf{v}_{\text{parent}}</span>
 
 <span class="sd">        if point is not None and vector is not None, the function will raise a ValueError.</span>
 <span class="sd">        if point is None and vector is None, the function will return None.</span>
 
+<span class="sd">        .. seealso::</span>
+
+<span class="sd">            - :meth:`py3dframe.Frame.from_frame_to_parent` method to convert a point or vector from frame coordinates to parent frame coordinates.</span>
+<span class="sd">            - :meth:`py3dframe.Frame.from_global_to_frame` method to convert a point or vector from global coordinates to frame coordinates.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        point : numpy.ndarray, optional</span>
-<span class="sd">            Point in global coordinates with shape (3, N), by default None.</span>
+<span class="sd">            Point in parent frame coordinates with shape (3, N), by default None.</span>
 <span class="sd">        </span>
 <span class="sd">        vector : numpy.ndarray, optional</span>
-<span class="sd">            Vector in global coordinates with shape (3, N), by default None.</span>
-
+<span class="sd">            Vector in parent frame coordinates with shape (3, N), by default None.</span>
+<span class="sd">        </span>
 <span class="sd">        transpose : bool, optional</span>
 <span class="sd">            Set if the input points or vectors are given in (N, 3) shape. The default is False.</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        numpy.ndarray</span>
-<span class="sd">            Point or vector in frame coordinates with shape (3, N).</span>
-<span class="sd">        </span>
+<span class="sd">            Point or vector in frame coordinates with shape (3, N), (or (N, 3) if transpose is True).</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If both point and vector are provided.</span>
+
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)</span>
-<span class="sd">        &gt;&gt;&gt; frame.from_global_to_frame(point=numpy.array([[1.0], [2.0], [3.0]]))</span>
+
+<span class="sd">        &gt;&gt;&gt; parent = Frame(origin=numpy.array([1.0, -1.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)</span>
+<span class="sd">        &gt;&gt;&gt; frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True, parent=parent)</span>
+<span class="sd">        &gt;&gt;&gt; point_parent = numpy.array([[1.0], [2.0], [3.0]])</span>
+<span class="sd">        &gt;&gt;&gt; point_frame = frame.from_parent_to_frame(point=point_parent)</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">point</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">vector</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only one of &#39;point&#39; or &#39;vector&#39; can be provided.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">point</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">vector</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-
-        <span class="n">data</span> <span class="o">=</span> <span class="n">point</span> <span class="k">if</span> <span class="n">point</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">vector</span>
         
+        <span class="n">parent_data</span> <span class="o">=</span> <span class="n">point</span> <span class="k">if</span> <span class="n">point</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">vector</span>
+
         <span class="c1"># Convert the data into (3, N) shape</span>
         <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">parent_data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">parent_data</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-
+            <span class="n">parent_data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">parent_data</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        
         <span class="c1"># Convert the point to vector</span>
         <span class="k">if</span> <span class="n">point</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span>
+            <span class="n">parent_data</span> <span class="o">=</span> <span class="n">parent_data</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span>
         
         <span class="c1"># Convert the data to frame coordinates</span>
-        <span class="n">frame_data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotation_matrix</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="n">frame_data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotation_matrix</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">parent_data</span><span class="p">)</span>
 
         <span class="c1"># Organize the output array</span>
         <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
             <span class="n">frame_data</span> <span class="o">=</span> <span class="n">frame_data</span><span class="o">.</span><span class="n">T</span>
         <span class="k">return</span> <span class="n">frame_data</span></div>
 
+    
 
 
-
-<div class="viewcode-block" id="Frame.from_frame_to_global">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.from_frame_to_global">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_frame_to_global</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> 
-        <span class="o">*</span><span class="p">,</span> 
+<div class="viewcode-block" id="Frame.from_frame_to_parent">
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.from_frame_to_parent.html#py3dframe.Frame.from_frame_to_parent">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_frame_to_parent</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
         <span class="n">point</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">vector</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">transpose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convert a point or vector from frame coordinates to global coordinates.</span>
+<span class="sd">        Convert a point or vector from frame coordinates to parent frame coordinates.</span>
 
 <span class="sd">        For a point, the equation is:</span>
 
 <span class="sd">        .. math::</span>
 
-<span class="sd">            \mathbf{p}_{\text{global}} = \mathbf{R} \mathbf{p}_{\text{frame}} + \mathbf{O}</span>
-
+<span class="sd">            \mathbf{p}_{\text{parent}} = \mathbf{R} \mathbf{p}_{\text{frame}} + \mathbf{O}</span>
+<span class="sd">        </span>
 <span class="sd">        For a vector, the equation is:</span>
 
-<span class="sd">        .. math::   </span>
-<span class="sd">    </span>
-<span class="sd">            \mathbf{v}_{\text{global}} = \mathbf{R} \mathbf{v}_{\text{frame}}</span>
+<span class="sd">        .. math::</span>
+
+<span class="sd">            \mathbf{v}_{\text{parent}} = \mathbf{R} \mathbf{v}_{\text{frame}}  </span>
 
 <span class="sd">        if point is not None and vector is not None, the function will raise a ValueError.</span>
 <span class="sd">        if point is None and vector is None, the function will return None.</span>
+
+<span class="sd">        .. seealso::</span>
+
+<span class="sd">            - :meth:`py3dframe.Frame.from_parent_to_frame` method to convert a point or vector from parent frame coordinates to frame coordinates.</span>
+<span class="sd">            - :meth:`py3dframe.Frame.from_frame_to_global` method to convert a point or vector from frame coordinates to global coordinates.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1270,161 +1285,186 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        numpy.ndarray</span>
-<span class="sd">            Point or vector in global coordinates with shape (3, N).</span>
+<span class="sd">            Point or vector in parent frame coordinates with shape (3, N), (or (N, 3) if transpose is True).    </span>
+<span class="sd">        </span>
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If both point and vector are provided.</span>
 <span class="sd">        </span>
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)</span>
-<span class="sd">        &gt;&gt;&gt; frame.from_global_to_frame(point=numpy.array([[1.0], [2.0], [3.0]]))</span>
+
+<span class="sd">        &gt;&gt;&gt; parent = Frame(origin=numpy.array([1.0, -1.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)</span>
+<span class="sd">        &gt;&gt;&gt; frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True, parent=parent</span>
+<span class="sd">        &gt;&gt;&gt; point_frame = numpy.array([[1.0], [2.0], [3.0]])</span>
+<span class="sd">        &gt;&gt;&gt; point_parent = frame.from_frame_to_parent(point=point_frame)     </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">point</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">vector</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only one of &#39;point&#39; or &#39;vector&#39; can be provided.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">point</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">vector</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         
-        <span class="n">data</span> <span class="o">=</span> <span class="n">point</span> <span class="k">if</span> <span class="n">point</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">vector</span>
+        <span class="n">frame_data</span> <span class="o">=</span> <span class="n">point</span> <span class="k">if</span> <span class="n">point</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">vector</span>
 
         <span class="c1"># Convert the data into (3, N) shape</span>
         <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">frame_data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">frame_data</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+            <span class="n">frame_data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">frame_data</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
         
-        <span class="c1"># Convert the data to global coordinates</span>
-        <span class="n">global_data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotation_matrix</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="c1"># Convert the data to parent frame coordinates</span>
+        <span class="n">parent_data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotation_matrix</span><span class="p">,</span> <span class="n">frame_data</span><span class="p">)</span>
 
         <span class="c1"># Convert the vector to point</span>
         <span class="k">if</span> <span class="n">point</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">global_data</span> <span class="o">=</span> <span class="n">global_data</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span>
+            <span class="n">parent_data</span> <span class="o">=</span> <span class="n">parent_data</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span>
         
         <span class="c1"># Organize the output array</span>
         <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
-            <span class="n">global_data</span> <span class="o">=</span> <span class="n">global_data</span><span class="o">.</span><span class="n">T</span>
-        <span class="k">return</span> <span class="n">global_data</span></div>
+            <span class="n">parent_data</span> <span class="o">=</span> <span class="n">parent_data</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">return</span> <span class="n">parent_data</span></div>
 
 
 
 
-<div class="viewcode-block" id="Frame.get_symmetric_frame">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.get_symmetric_frame">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_symmetric_frame</span><span class="p">(</span>
+<div class="viewcode-block" id="Frame.from_global_to_frame">
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.from_global_to_frame.html#py3dframe.Frame.from_global_to_frame">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_global_to_frame</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> 
-        <span class="n">point</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
-        <span class="n">normal</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+        <span class="o">*</span><span class="p">,</span> 
+        <span class="n">point</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+        <span class="n">vector</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">transpose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the symmetric frame of the current frame with respect to a plane defined by a point and a normal vector.</span>
+<span class="sd">        Convert a point or vector from global coordinates to frame coordinates.</span>
 
-<span class="sd">        The point and the normal must be arrays with 3 elements.</span>
+<span class="sd">        This method get the global frame of the frame and convert the point or vector to the frame coordinates.</span>
+
+<span class="sd">        Lets note :math:`\mathbf{R_{(G)}}` and :math:`\mathbf{O_{(G)}}` the rotation matrix and the origin of the Frame object between the global frame and the frame.</span>
+
+<span class="sd">        For a point, the equation is:</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">            \mathbf{p}_{\text{frame}} = \mathbf{R_{(G)}}^T (\mathbf{p}_{\text{global}} - \mathbf{O_{(G)})</span>
+
+<span class="sd">        For a vector, the equation is:</span>
+
+<span class="sd">        .. math:: </span>
+
+<span class="sd">            \mathbf{v}_{\text{frame}} = \mathbf{R_{(G)}}^T \mathbf{v}_{\text{global}}</span>
+
+<span class="sd">        if point is not None and vector is not None, the function will raise a ValueError.</span>
+<span class="sd">        if point is None and vector is None, the function will return None.</span>
+
+<span class="sd">        .. seealso::</span>
+
+<span class="sd">            - :meth:`py3dframe.Frame.from_frame_to_global` method to convert a point or vector from frame coordinates to global coordinates.</span>
+<span class="sd">            - :meth:`py3dframe.Frame.from_parent_to_frame` method to convert a point or vector from parent frame coordinates to frame coordinates.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        point : numpy.ndarray</span>
-<span class="sd">            A point on the plane with shape (3,1).</span>
+<span class="sd">        point : numpy.ndarray, optional</span>
+<span class="sd">            Point in global coordinates with shape (3, N), by default None.</span>
 <span class="sd">        </span>
-<span class="sd">        normal : numpy.ndarray</span>
-<span class="sd">            The normal vector of the plane with shape (3,1).</span>
+<span class="sd">        vector : numpy.ndarray, optional</span>
+<span class="sd">            Vector in global coordinates with shape (3, N), by default None.</span>
+
+<span class="sd">        transpose : bool, optional</span>
+<span class="sd">            Set if the input points or vectors are given in (N, 3) shape. The default is False.</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Frame</span>
-<span class="sd">            The symmetric frame of the current frame with respect to the plane.</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            Point or vector in frame coordinates with shape (3, N) (or (N, 3) if transpose is True).</span>
 <span class="sd">        </span>
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)</span>
-<span class="sd">        &gt;&gt;&gt; point = numpy.array([1.0, 2.0, 3.0])</span>
-<span class="sd">        &gt;&gt;&gt; normal = numpy.array([0.0, 0.0, 1.0])</span>
-<span class="sd">        &gt;&gt;&gt; symmetric_frame = frame.get_symmetric_frame(point, normal)</span>
+
+<span class="sd">        &gt;&gt;&gt; parent = Frame(origin=numpy.array([1.0, -1.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)</span>
+<span class="sd">        &gt;&gt;&gt; frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True, parent=parent)</span>
+<span class="sd">        &gt;&gt;&gt; point_global = numpy.array([[1.0], [2.0], [3.0]])</span>
+<span class="sd">        &gt;&gt;&gt; point_frame = frame.from_global_to_frame(point=point_global)</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">symmetric_origin</span><span class="p">,</span> <span class="n">symmetric_rotation_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symmetric_conversion</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">normal</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Frame</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">symmetric_origin</span><span class="p">,</span> <span class="n">rotation_matrix</span><span class="o">=</span><span class="n">symmetric_rotation_matrix</span><span class="p">,</span> <span class="n">O3_project</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-
-    
+        <span class="n">global_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_global_frame</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">global_frame</span><span class="o">.</span><span class="n">from_parent_to_frame</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">point</span><span class="p">,</span> <span class="n">vector</span><span class="o">=</span><span class="n">vector</span><span class="p">,</span> <span class="n">transpose</span><span class="o">=</span><span class="n">transpose</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Frame.apply_symmetric_frame">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.apply_symmetric_frame">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">apply_symmetric_frame</span><span class="p">(</span>
+
+
+<div class="viewcode-block" id="Frame.from_frame_to_global">
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.from_frame_to_global.html#py3dframe.Frame.from_frame_to_global">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_frame_to_global</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> 
-        <span class="n">point</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
-        <span class="n">normal</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span>
-        <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="o">*</span><span class="p">,</span> 
+        <span class="n">point</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">vector</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">transpose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Apply a symmetry to the frame with respect to a plane defined by a point and a normal vector.</span>
+<span class="sd">        Convert a point or vector from frame coordinates to global coordinates.</span>
 
-<span class="sd">        The point and the normal must be arrays with 3 elements.</span>
+<span class="sd">        This method get the global frame of the frame and convert the point or vector to the global coordinates.</span>
+
+<span class="sd">        Lets note :math:`\mathbf{R_{(G)}}` and :math:`\mathbf{O_{(G)}}` the rotation matrix and the origin of the Frame object between the global frame and the frame.</span>
+
+<span class="sd">        For a point, the equation is:</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">            \mathbf{p}_{\text{global}} = \mathbf{R_{(G)}} (\mathbf{p}_{\text{frame}}) + \mathbf{O_{(G)}}</span>
+<span class="sd">        </span>
+<span class="sd">        For a vector, the equation is:</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">            \mathbf{v}_{\text{global}} = \mathbf{R_{(G)}} \mathbf{v}_{\text{frame}}</span>
+
+<span class="sd">        if point is not None and vector is not None, the function will raise a ValueError.</span>
+<span class="sd">        if point is None and vector is None, the function will return None.</span>
+
+<span class="sd">        .. seealso::</span>
+
+<span class="sd">            - :meth:`py3dframe.Frame.from_global_to_frame` method to convert a point or vector from global coordinates to frame coordinates.</span>
+<span class="sd">            - :meth:`py3dframe.Frame.from_frame_to_parent` method to convert a point or vector from frame coordinates to parent frame coordinates.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        point : numpy.ndarray</span>
-<span class="sd">            A point on the plane with shape (3,1).</span>
+<span class="sd">        point : numpy.ndarray, optional</span>
+<span class="sd">            Point in frame coordinates with shape (3, N), by default None.</span>
+
+<span class="sd">        vector : numpy.ndarray, optional</span>
+<span class="sd">            Vector in frame coordinates with shape (3, N), by default None.</span>
 <span class="sd">        </span>
-<span class="sd">        normal : numpy.ndarray</span>
-<span class="sd">            The normal vector of the plane with shape (3,1).</span>
+<span class="sd">        transpose : bool, optional</span>
+<span class="sd">            Set if the input points or vectors are given in (N, 3) shape. The default is False.</span>
 <span class="sd">        </span>
-<span class="sd">        Examples</span>
-<span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)</span>
-<span class="sd">        &gt;&gt;&gt; point = numpy.array([1.0, 2.0, 3.0])</span>
-<span class="sd">        &gt;&gt;&gt; normal = numpy.array([0.0, 0.0, 1.0])</span>
-<span class="sd">        &gt;&gt;&gt; frame.apply_symmetric_frame(point, normal)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">symmetric_origin</span><span class="p">,</span> <span class="n">symmetric_rotation_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symmetric_conversion</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">normal</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_O3_rotation_matrix</span><span class="p">(</span><span class="n">symmetric_rotation_matrix</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">symmetric_origin</span></div>
-
-
-
-
-<div class="viewcode-block" id="Frame.get_inverse_frame">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.get_inverse_frame">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_inverse_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the inverse frame of the current frame.</span>
-
-<span class="sd">        By convention, the frame is defined from the global to the frame.</span>
-<span class="sd">        This method compute the frame defined from the frame to the global frame.</span>
-
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Frame</span>
-<span class="sd">            The inverse frame of the current frame.</span>
-<span class="sd">        </span>
-<span class="sd">        Examples</span>
-<span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)</span>
-<span class="sd">        &gt;&gt;&gt; inverse_frame = frame.get_inverse_frame()</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">inverse_origin</span><span class="p">,</span> <span class="n">inverse_rotation_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inverse_conversion</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">Frame</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">inverse_origin</span><span class="p">,</span> <span class="n">rotation_matrix</span><span class="o">=</span><span class="n">inverse_rotation_matrix</span><span class="p">,</span> <span class="n">O3_project</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-
-
-
-
-<div class="viewcode-block" id="Frame.apply_inverse_frame">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.apply_inverse_frame">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">apply_inverse_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Apply a inversion to the frame.</span>
-<span class="sd">        </span>
-<span class="sd">        By convention, the frame is defined from the global to the frame.</span>
-<span class="sd">        This method compute the frame defined from the frame to the global frame.</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            Point or vector in global coordinates with shape (3, N), (or (N, 3) if transpose is True).</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)</span>
-<span class="sd">        &gt;&gt;&gt; frame.apply_inverse_frame()</span>
+
+<span class="sd">        &gt;&gt;&gt; parent = Frame(origin=numpy.array([1.0, -1.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)</span>
+<span class="sd">        &gt;&gt;&gt; frame = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True, parent=parent)</span>
+<span class="sd">        &gt;&gt;&gt; point_frame = numpy.array([[1.0], [2.0], [3.0]])</span>
+<span class="sd">        &gt;&gt;&gt; point_global = frame.from_frame_to_global(point=point_frame)</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">inverse_origin</span><span class="p">,</span> <span class="n">inverse_rotation_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inverse_conversion</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_O3_rotation_matrix</span><span class="p">(</span><span class="n">inverse_rotation_matrix</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">inverse_origin</span></div>
+        <span class="n">global_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_global_frame</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">global_frame</span><span class="o">.</span><span class="n">from_frame_to_parent</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">point</span><span class="p">,</span> <span class="n">vector</span><span class="o">=</span><span class="n">vector</span><span class="p">,</span> <span class="n">transpose</span><span class="o">=</span><span class="n">transpose</span><span class="p">)</span></div>
 
 
 
     
 <div class="viewcode-block" id="Frame.compose">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.compose">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.compose.html#py3dframe.Frame.compose">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Frame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compose the current frame with another frame.</span>
@@ -1467,28 +1507,63 @@
 <span class="sd">        </span>
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; frame_w_1 = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)</span>
-<span class="sd">        &gt;&gt;&gt; frame_1_2 = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)</span>
-<span class="sd">        &gt;&gt;&gt; frame_w_2 = frame1.compose(frame2)</span>
+
+<span class="sd">        &gt;&gt;&gt; frame_global_to_1 = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)</span>
+<span class="sd">        &gt;&gt;&gt; frame_1_to_2 = Frame(origin=numpy.array([1.0, 2.0, 3.0]), quaternion=numpy.array([0.5, 0.5, 0.5, 0.5]), direct=True)</span>
+<span class="sd">        &gt;&gt;&gt; frame_global_to_2 = frame1.compose(frame2)</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span> <span class="o">*</span> <span class="n">other</span></div>
+        <span class="n">new_origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="o">+</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotation_matrix</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">origin</span><span class="p">)</span>
+        <span class="n">new_rotation_matrix</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotation_matrix</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">rotation_matrix</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Frame</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">new_origin</span><span class="p">,</span> <span class="n">rotation_matrix</span><span class="o">=</span><span class="n">new_rotation_matrix</span><span class="p">,</span> <span class="n">O3_project</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span></div>
 
     
 
 
     <span class="c1"># Overridden methods</span>
+<div class="viewcode-block" id="Frame.__repr__">
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.__repr__.html#py3dframe.Frame.__repr__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; String representation of the Frame object. &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Frame(origin=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">origin</span><span class="si">}</span><span class="s2">, quaternion=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">quaternion</span><span class="si">}</span><span class="s2">, direct=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">direct</span><span class="si">}</span><span class="s2">)&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        String representation of the Frame object. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Frame(origin=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">origin</span><span class="si">}</span><span class="s2">, quaternion=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">quaternion</span><span class="si">}</span><span class="s2">, direct=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">direct</span><span class="si">}</span><span class="s2">, has parent=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="kc">None</span><span class="si">}</span><span class="s2">)&quot;</span></div>
 
+
+
+
+<div class="viewcode-block" id="Frame.__eq__">
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.__eq__.html#py3dframe.Frame.__eq__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Frame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot; Check if two Frame objects are equal. &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">origin</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">origin</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_tolerance</span><span class="p">)</span> <span class="ow">and</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quaternion</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">quaternion</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_tolerance</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">direct</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">direct</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if two Frame objects are equal. </span>
+
+<span class="sd">        To be equal, the global frame of the two frames must have the same origin, quaternion, and direct properties.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Frame</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="c1"># Check the origin, quaternion, and direct properties of the global frame</span>
+        <span class="n">global_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_global_frame</span><span class="p">()</span>
+        <span class="n">other_global_frame</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">get_global_frame</span><span class="p">()</span>
+
+        <span class="n">same_origin</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">global_frame</span><span class="o">.</span><span class="n">origin</span><span class="p">,</span> <span class="n">other_global_frame</span><span class="o">.</span><span class="n">origin</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_tolerance</span><span class="p">)</span>
+        <span class="n">same_quaternion</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">global_frame</span><span class="o">.</span><span class="n">quaternion</span><span class="p">,</span> <span class="n">other_global_frame</span><span class="o">.</span><span class="n">quaternion</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_tolerance</span><span class="p">)</span>
+        <span class="n">same_direct</span> <span class="o">=</span> <span class="n">global_frame</span><span class="o">.</span><span class="n">direct</span> <span class="o">==</span> <span class="n">other_global_frame</span><span class="o">.</span><span class="n">direct</span>
+
+        <span class="k">return</span> <span class="n">same_origin</span> <span class="ow">and</span> <span class="n">same_quaternion</span> <span class="ow">and</span> <span class="n">same_direct</span></div>
+
+    
+
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Frame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Check if two Frame objects are not equal. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
     
+
+
+<div class="viewcode-block" id="Frame.__mul__">
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.__mul__.html#py3dframe.Frame.__mul__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Frame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">        Multiply two Frame objects. Return the composition of the two frames.</span>
@@ -1497,6 +1572,10 @@
 <span class="sd">        The other frame is define from the frame (1) to the frame (2).</span>
 
 <span class="sd">        The composition is define from the global to the frame (2).</span>
+
+<span class="sd">        .. seealso::</span>
+
+<span class="sd">            :meth:`py3dframe.Frame.compose` method to compose two frames.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1508,17 +1587,19 @@
 <span class="sd">        Frame</span>
 <span class="sd">            The composition of the two frames.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">new_origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="o">+</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotation_matrix</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">origin</span><span class="p">)</span>
-        <span class="n">new_rotation_matrix</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotation_matrix</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">rotation_matrix</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Frame</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">new_origin</span><span class="p">,</span> <span class="n">rotation_matrix</span><span class="o">=</span><span class="n">new_rotation_matrix</span><span class="p">,</span> <span class="n">O3_project</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>    
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
 
+
+    
+
+<div class="viewcode-block" id="Frame.__pow__">
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.__pow__.html#py3dframe.Frame.__pow__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">power</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Raise the Frame object to a power.</span>
 
 <span class="sd">        If the power is 0, the identity frame is returned.</span>
 <span class="sd">        If the power is 1, the Frame object is returned.</span>
-<span class="sd">        If the power is -1, the inverse Frame object is returned.</span>
 <span class="sd">        Otherwise, the Frame object is multiplied by itself power times.</span>
 
 <span class="sd">        Parameters</span>
@@ -1538,23 +1619,22 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">power</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The power must be an integer.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">power</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">power</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The power must be greater or equal to -1.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">power</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Frame</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">quaternion</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span> <span class="n">direct</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">power</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span>
-        <span class="k">elif</span> <span class="n">power</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_inverse_frame</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__pow__</span><span class="p">(</span><span class="n">power</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__pow__</span><span class="p">(</span><span class="n">power</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span></div>
+
 
 
 
 <div class="viewcode-block" id="Frame.save_to_dict">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.save_to_dict">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">save_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.save_to_dict.html#py3dframe.Frame.save_to_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Export the Frame&#39;s data to a dictionary.</span>
 
 <span class="sd">        The structure of the dictionary is as follows:</span>
@@ -1567,6 +1647,13 @@
 <span class="sd">                &quot;origin&quot;: [1.0, 2.0, 3.0],</span>
 <span class="sd">                &quot;quaternion&quot;: [0.5, 0.5, 0.5, 0.5],</span>
 <span class="sd">                &quot;direct&quot;: True</span>
+<span class="sd">                &quot;parent&quot;: {</span>
+<span class="sd">                    &quot;type&quot;: &quot;Frame [py3dframe]&quot;,</span>
+<span class="sd">                    &quot;description&quot;: &quot;Description of the parent frame&quot;,</span>
+<span class="sd">                    &quot;origin&quot;: [1.0, -1.0, 3.0],</span>
+<span class="sd">                    &quot;quaternion&quot;: [0.5, 0.5, 0.5, 0.5],</span>
+<span class="sd">                    &quot;direct&quot;: True</span>
+<span class="sd">                }</span>
 <span class="sd">            }</span>
 
 <span class="sd">        Parameters</span>
@@ -1574,19 +1661,27 @@
 <span class="sd">        description : str, optional</span>
 <span class="sd">            A description of the frame, by default &quot;&quot;.</span>
 
+<span class="sd">        parent : bool, optional</span>
+<span class="sd">            Set if the parent frame is included in the dictionary, by default True.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        dict</span>
-<span class="sd">            A dictionary containing the origin, quaternion, and direct.</span>
+<span class="sd">            A dictionary containing the frame&#39;s data.</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        ValueError</span>
 <span class="sd">            If the description is not a string.</span>
+<span class="sd">            If the parent is not a boolean.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Check the description</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">description</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Description must be a string.&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Check the no_parent</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;parent must be a boolean.&quot;</span><span class="p">)</span>
         
         <span class="c1"># Create the dictionary</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
@@ -1599,6 +1694,10 @@
         <span class="c1"># Add the description</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">description</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">description</span>
+
+        <span class="c1"># Add the parent frame</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">parent</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">save_to_dict</span><span class="p">()</span>
         
         <span class="k">return</span> <span class="n">data</span></div>
 
@@ -1606,10 +1705,10 @@
 
 
 <div class="viewcode-block" id="Frame.load_from_dict">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.load_from_dict">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.load_from_dict.html#py3dframe.Frame.load_from_dict">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">load_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a Frame instance from a dictionary.</span>
 
 <span class="sd">        The structure of the dictionary should be as provided by the :meth:`py3dframe.Frame.save_to_dict` method.</span>
@@ -1619,13 +1718,17 @@
 <span class="sd">        If origin is not given, the default value is None - [0.0, 0.0, 0.0]</span>
 <span class="sd">        If quaternion is not given, the default value is None - [1.0, 0.0, 0.0, 0.0]</span>
 <span class="sd">        If direct is not given, the default value is True.</span>
+<span class="sd">        If parent is not given, the default value is None.</span>
 
 <span class="sd">        The other keys are ignored.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        data : dict</span>
-<span class="sd">            A dictionary containing the origin, quaternion, and direct.</span>
+<span class="sd">            A dictionary containing the frame&#39;s data.</span>
+
+<span class="sd">        parent : bool, optional</span>
+<span class="sd">            Set if the parent frame is included in the dictionary, by default True.</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1636,10 +1739,14 @@
 <span class="sd">        ------</span>
 <span class="sd">        ValueError</span>
 <span class="sd">            If the data is not a dictionary.</span>
+<span class="sd">            If parent is not a boolean.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Check for the input type</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;data must be a dictionary.&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;parent must be a boolean.&quot;</span><span class="p">)</span>
         
         <span class="c1"># Create the Frame instance</span>
         <span class="k">if</span> <span class="s2">&quot;origin&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -1656,15 +1763,20 @@
             <span class="n">direct</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;direct&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">direct</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="s2">&quot;parent&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="n">parent</span><span class="p">:</span>
+            <span class="n">parent_frame</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load_from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">parent_frame</span> <span class="o">=</span> <span class="kc">None</span>
         
-        <span class="k">return</span> <span class="n">Frame</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">origin</span><span class="p">,</span> <span class="n">quaternion</span><span class="o">=</span><span class="n">quaternion</span><span class="p">,</span> <span class="n">direct</span><span class="o">=</span><span class="n">direct</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">Frame</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">origin</span><span class="p">,</span> <span class="n">quaternion</span><span class="o">=</span><span class="n">quaternion</span><span class="p">,</span> <span class="n">direct</span><span class="o">=</span><span class="n">direct</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent_frame</span><span class="p">)</span></div>
 
 
 
 
 <div class="viewcode-block" id="Frame.save_to_json">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.save_to_json">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">save_to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.save_to_json.html#py3dframe.Frame.save_to_json">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Export the Frame&#39;s data to a JSON file.</span>
 
@@ -1677,6 +1789,9 @@
 <span class="sd">        </span>
 <span class="sd">        description : str, optional</span>
 <span class="sd">            A description of the frame, by default &quot;&quot;.</span>
+
+<span class="sd">        parent : bool, optional</span>
+<span class="sd">            Set if the parent frame is included in the dictionary, by default True.</span>
 <span class="sd">        </span>
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
@@ -1684,7 +1799,7 @@
 <span class="sd">            If the filepath is not a valid path.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Create the dictionary</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_to_dict</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_to_dict</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">)</span>
 
         <span class="c1"># Save the dictionary to a JSON file</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
@@ -1694,9 +1809,9 @@
 
     
 <div class="viewcode-block" id="Frame.load_from_json">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame.load_from_json">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Frame-generated/py3dframe.Frame.load_from_json.html#py3dframe.Frame.load_from_json">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">load_from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a Frame instance from a JSON file.</span>
 
@@ -1706,6 +1821,9 @@
 <span class="sd">        ----------</span>
 <span class="sd">        filepath : str</span>
 <span class="sd">            The path to the JSON file.</span>
+<span class="sd">        </span>
+<span class="sd">        parent : bool, optional</span>
+<span class="sd">            Set if the parent frame is included in the dictionary, by default True.</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1722,7 +1840,7 @@
             <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
         
         <span class="c1"># Create the Frame instance</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load_from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load_from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">)</span></div>
 </div>
 
 </pre></div>

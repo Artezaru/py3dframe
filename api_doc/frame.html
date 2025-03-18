@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>py3dframe.Frame &#8212; py3dframe 0.0.2 documentation</title>
+    <title>py3dframe.Frame &#8212; py3dframe 0.0.3 documentation</title>
   
   
   
@@ -38,14 +38,14 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=e3a6060d"></script>
+    <script src="../_static/documentation_options.js?v=47de8214"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api_doc/frame';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="py3dframe.FrameTree" href="frame_tree.html" />
+    <link rel="next" title="py3dframe.Frame.origin" href="Frame-generated/py3dframe.Frame.origin.html" />
     <link rel="prev" title="API Reference" href="../api.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -111,7 +111,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 0.0.2 documentation</p>
+    <p class="title logo__title">py3dframe 0.0.3 documentation</p>
   
 </a></div>
     
@@ -267,8 +267,70 @@
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">API:</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">py3dframe.Frame</a></li>
-<li class="toctree-l1"><a class="reference internal" href="frame_tree.html">py3dframe.FrameTree</a></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">py3dframe.Frame</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.origin.html">py3dframe.Frame.origin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.quaternion.html">py3dframe.Frame.quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.set_quaternion.html">py3dframe.Frame.set_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.get_quaternion.html">py3dframe.Frame.get_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.rotation_matrix.html">py3dframe.Frame.rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.euler_angles.html">py3dframe.Frame.euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.set_euler_angles.html">py3dframe.Frame.set_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.get_euler_angles.html">py3dframe.Frame.get_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.rotation_vector.html">py3dframe.Frame.rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.set_rotation_vector.html">py3dframe.Frame.set_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.get_rotation_vector.html">py3dframe.Frame.get_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.homogeneous_matrix.html">py3dframe.Frame.homogeneous_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.direct.html">py3dframe.Frame.direct</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.parent.html">py3dframe.Frame.parent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.x_axis.html">py3dframe.Frame.x_axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.y_axis.html">py3dframe.Frame.y_axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.z_axis.html">py3dframe.Frame.z_axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.is_direct.html">py3dframe.Frame.is_direct</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.is_indirect.html">py3dframe.Frame.is_indirect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame._O3_projection.html">py3dframe.Frame._O3_projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.set_direct.html">py3dframe.Frame.set_direct</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.set_indirect.html">py3dframe.Frame.set_indirect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.set_O3_rotation_matrix.html">py3dframe.Frame.set_O3_rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.get_global_frame.html">py3dframe.Frame.get_global_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.from_parent_to_frame.html">py3dframe.Frame.from_parent_to_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.from_frame_to_parent.html">py3dframe.Frame.from_frame_to_parent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.from_global_to_frame.html">py3dframe.Frame.from_global_to_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.from_frame_to_global.html">py3dframe.Frame.from_frame_to_global</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.compose.html">py3dframe.Frame.compose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.__mul__.html">py3dframe.Frame.__mul__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.__repr__.html">py3dframe.Frame.__repr__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.__eq__.html">py3dframe.Frame.__eq__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.__pow__.html">py3dframe.Frame.__pow__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.save_to_dict.html">py3dframe.Frame.save_to_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.load_from_dict.html">py3dframe.Frame.load_from_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.save_to_json.html">py3dframe.Frame.save_to_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame-generated/py3dframe.Frame.load_from_json.html">py3dframe.Frame.load_from_json</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="frame_tree.html">py3dframe.FrameTree</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.names.html">py3dframe.FrameTree.names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.frames.html">py3dframe.FrameTree.frames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.num_frames.html">py3dframe.FrameTree.num_frames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.get_frame.html">py3dframe.FrameTree.get_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.set_name.html">py3dframe.FrameTree.set_name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.get_parent.html">py3dframe.FrameTree.get_parent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.set_parent.html">py3dframe.FrameTree.set_parent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.get_parent_name.html">py3dframe.FrameTree.get_parent_name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.get_children_names.html">py3dframe.FrameTree.get_children_names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.add_frame.html">py3dframe.FrameTree.add_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.remove_frame.html">py3dframe.FrameTree.remove_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.recursive_remove_frame.html">py3dframe.FrameTree.recursive_remove_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.get_global_frame.html">py3dframe.FrameTree.get_global_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.get_composed_frame.html">py3dframe.FrameTree.get_composed_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.from_frame_to_frame.html">py3dframe.FrameTree.from_frame_to_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.clear.html">py3dframe.FrameTree.clear</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.save_to_dict.html">py3dframe.FrameTree.save_to_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.load_from_dict.html">py3dframe.FrameTree.load_from_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.save_to_json.html">py3dframe.FrameTree.save_to_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FrameTree-generated/py3dframe.FrameTree.load_from_json.html">py3dframe.FrameTree.load_from_json</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="inverse_frame.html">py3dframe.inverse_frame</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="utils.html">py3dframe.utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="is_orthonormal.html">py3dframe.utils.is_orthonormal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="orthonormal_frame.html">py3dframe.utils.orthonormal_frame</a></li>
@@ -338,31 +400,38 @@
 <h1>py3dframe.Frame<a class="headerlink" href="#py3dframe-frame" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="py3dframe.Frame">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py3dframe.</span></span><span class="sig-name descname"><span class="pre">Frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quaternion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">O3_project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">euler_angles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py3dframe.</span></span><span class="sig-name descname"><span class="pre">Frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quaternion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">O3_project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">euler_angles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_uuid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame" title="Link to this definition">#</a></dt>
 <dd><p>Represents a orthonormal reference frame in <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span>.</p>
 <p>The frame is defined by a origin and an orientation.
 The orientation can be defined using a rotation matrix.
 The frame can be direct or indirect, depending on the determinant of the rotation matrix.
 The convention for quaternion is scalar first <span class="math notranslate nohighlight">\([w, x, y, z]\)</span>.</p>
 <p>The frame use scipy.spatial.transform.Rotation to manage the rotation matrix.</p>
-<p>By convention, the frame is defined from the global frame to the frame frame.
+<p>By convention, the frame is defined from the global frame (or the parent frame if given) to the frame.
 Thats means, the coordinates of the rotation matrix are the coordinates of the frame axis in the global coordinates.</p>
 <p>Lets consider a frame <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> defined by 3 vectors <span class="math notranslate nohighlight">\(\mathbf{i}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{j}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{k}\)</span>.
 The rotation matrix <span class="math notranslate nohighlight">\(\mathbf{R}\)</span> of the frame is defined by the following equation:</p>
 <div class="math notranslate nohighlight">
 \[\mathbf{R} = \begin{bmatrix} \mathbf{i} &amp; \mathbf{j} &amp; \mathbf{k} \end{bmatrix}\]</div>
+<p>Lets consider the transformation from a frame 1 to a frame 2.
+The convention is defined by the following equation:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{p}_{\text{frame 1}} = \mathbf{R} \mathbf{p}_{\text{frame 2}} + \mathbf{O}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{R}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{O}\)</span> are the rotation matrix and the origin of the Frame object between the frame 1 and the frame 2.</p>
 <p>When the rotation matrix is set, the determinant is checked to determine if the frame is direct or indirect.</p>
 <p>However when the user create the frame using the quaternion or the euler angles, the frame is always considered as direct.
 Then the user must set the frame as indirect using the set_indirect method.
 In this case the rotation matrix is inverted to have a right-handed frame.
 The associated direct frame correspond to the frame with the same origin but the frame Z-axis inverted.</p>
-<p>In fact when the frame is indirect, the user can :
-- set directly the indirect rotation matrix.
-- set the quaternion or the euler angles of the associated direct frame and then set the frame as indirect.</p>
+<p>In fact when the frame is indirect, the user can :</p>
+<ul class="simple">
+<li><p>set directly the indirect rotation matrix.</p></li>
+<li><p>set the quaternion or the euler angles of the associated direct frame and then set the frame as indirect.</p></li>
+</ul>
 <p>The associated direct frame correspond to the frame with the same origin but the frame Z-axis inverted.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="frame_tree.html#py3dframe.FrameTree" title="py3dframe.FrameTree"><code class="xref py py-class docutils literal notranslate"><span class="pre">py3dframe.FrameTree</span></code></a> To manage multiple frames and their relationships.</p>
+<p><a class="reference internal" href="frame_tree.html#py3dframe.FrameTree" title="py3dframe.FrameTree"><code class="xref py py-class docutils literal notranslate"><span class="pre">py3dframe.FrameTree</span></code></a> To manage easily multiple frames and their relationships.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -374,6 +443,9 @@ The associated direct frame correspond to the frame with the same origin but the
 <li><p><strong>euler_angles</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – The Euler angles of the frame in radians with shape (3,). The default is None.</p></li>
 <li><p><strong>rotation_vector</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – The rotation vector of the frame with shape (3,). The default is None.</p></li>
 <li><p><strong>direct</strong> (<em>bool</em><em>, </em><em>optional</em>) – Set if the frame is direct or indirect. The default is True.</p></li>
+<li><p><strong>parent</strong> (<a class="reference internal" href="#py3dframe.Frame" title="py3dframe.Frame"><em>Frame</em></a><em>, </em><em>optional</em>) – The parent frame of the current frame. The default is None.</p></li>
+<li><p><strong>_uuid</strong> (<em>uuid.UUID</em><em>, </em><em>optional</em>) – The unique identifier of the frame. The default is None. This parameter is used by <a class="reference internal" href="frame_tree.html#py3dframe.FrameTree" title="py3dframe.FrameTree"><code class="xref py py-class docutils literal notranslate"><span class="pre">py3dframe.FrameTree</span></code></a>, do not use it.
+This parameter is used to identify the frame in the FrameTree and it is not saved in the JSON file.</p></li>
 </ul>
 </dd>
 </dl>
@@ -387,742 +459,124 @@ The associated direct frame correspond to the frame with the same origin but the
 <span class="nb">print</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">rotation_matrix</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame._O3_projection">
-<span class="sig-name descname"><span class="pre">_O3_projection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame._O3_projection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame._O3_projection" title="Link to this definition">#</a></dt>
-<dd><p>Project a matrix to the orthogonal group O(3) using SVD and minimisation of the frobenius norm.</p>
-<p>The orthogonal group O(3) is the set of 3x3 matrices with determinant 1.</p>
-<p>To project a matrix to O(3), the SVD is computed and the orthogonal matrix is obtained by:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{O} = \mathbf{U} \mathbf{V}^T\]</div>
-<p>where <span class="math notranslate nohighlight">\(\mathbf{U}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{V}\)</span> are the left and right singular vectors of the matrix such as:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{M} = \mathbf{U} \mathbf{\Sigma} \mathbf{V}^T\]</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>matrix</strong> (<em>numpy.ndarray</em>) – A 3x3 matrix to be projected.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The O(3) projection of the matrix.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>numpy.ndarray</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>TypeError</strong> – If the matrix is not a numpy array.</p></li>
-<li><p><strong>ValueError</strong> – If the matrix is not 3x3.</p></li>
-</ul>
-</dd>
-</dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame._inverse_conversion">
-<span class="sig-name descname"><span class="pre">_inverse_conversion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame._inverse_conversion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame._inverse_conversion" title="Link to this definition">#</a></dt>
-<dd><p>By convention, the frame is defined from the global to the frame.
-This method compute the frame defined from the frame to the global frame.</p>
-<p>By convention, the frame is defined from the global to the frame.</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{p}_{\text{frame}} = \mathbf{R}^T (\mathbf{p}_{\text{global}} - \mathbf{O})\]</div>
-<p>So the inverse frame is defined by:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{R}_{\text{inverse}} = \mathbf{R}^T\]</div>
-<div class="math notranslate nohighlight">
-\[\mathbf{p}_{\text{inverse}} = -\mathbf{R}^T \mathbf{O}\]</div>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><ul class="simple">
-<li><p><em>numpy.ndarray</em> – The origin of the inverse frame.</p></li>
-<li><p><em>numpy.ndarray</em> – The rotation matrix of the inverse frame.</p></li>
-</ul>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame._symmetric_conversion">
-<span class="sig-name descname"><span class="pre">_symmetric_conversion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame._symmetric_conversion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame._symmetric_conversion" title="Link to this definition">#</a></dt>
-<dd><p>Convert the frame to the symmetric frame with respect to a plane.</p>
-<p>The plane is defined by a point <span class="math notranslate nohighlight">\(\mathbf{p}\)</span> and a normal vector <span class="math notranslate nohighlight">\(\mathbf{n}\)</span>.
-The point and normal vector are given in the global frame coordinates.</p>
-<p>The point and the normal must be arrays with 3 elements.</p>
-<p>For a global point <span class="math notranslate nohighlight">\(\mathbf{p}_{\text{global}}\)</span>, the symmetric point <span class="math notranslate nohighlight">\(\mathbf{p}_{\text{symmetric}}\)</span> with respect to the plane is:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{p}_{\text{symmetric}} = \mathbf{p} - 2 &lt;\mathbf{p} - \mathbf{p}_{\text{global}} , \mathbf{n}&gt; \mathbf{n}\]</div>
-<p>Where <span class="math notranslate nohighlight">\(&lt;\cdot, \cdot&gt;\)</span> is the dot product.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>point</strong> (<em>numpy.ndarray</em>) – A point on the plane with shape (3,1).</p></li>
-<li><p><strong>normal</strong> (<em>numpy.ndarray</em>) – The normal vector of the plane with shape (3,1).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><em>numpy.ndarray</em> – The origin of the symmetric frame.</p></li>
-<li><p><em>numpy.ndarray</em> – The rotation matrix of the symmetric frame.</p></li>
-</ul>
-</p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>TypeError</strong> – If the point or the normal is not a numpy array.</p></li>
-<li><p><strong>ValueError</strong> – If the point or the normal is not 3x1.
-    If the normal vector has zero magnitude.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.apply_inverse_frame">
-<span class="sig-name descname"><span class="pre">apply_inverse_frame</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.apply_inverse_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.apply_inverse_frame" title="Link to this definition">#</a></dt>
-<dd><p>Apply a inversion to the frame.</p>
-<p>By convention, the frame is defined from the global to the frame.
-This method compute the frame defined from the frame to the global frame.</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]),</span> <span class="n">quaternion</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span> <span class="n">direct</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">apply_inverse_frame</span><span class="p">()</span>
-</pre></div>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.origin.html#py3dframe.Frame.origin" title="py3dframe.Frame.origin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.origin</span></code></a></p></td>
+<td><p>Get or set the origin of the frame in 3D space with shape (3,1).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.quaternion.html#py3dframe.Frame.quaternion" title="py3dframe.Frame.quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.quaternion</span></code></a></p></td>
+<td><p>Get or set the quaternion of the frame.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.set_quaternion.html#py3dframe.Frame.set_quaternion" title="py3dframe.Frame.set_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.set_quaternion</span></code></a>(quaternion[, ...])</p></td>
+<td><p>Set the quaternion of the frame and the direct property.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.get_quaternion.html#py3dframe.Frame.get_quaternion" title="py3dframe.Frame.get_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.get_quaternion</span></code></a>([scalar_first])</p></td>
+<td><p>Get the quaternion of the frame with a given convention.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.rotation_matrix.html#py3dframe.Frame.rotation_matrix" title="py3dframe.Frame.rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.rotation_matrix</span></code></a></p></td>
+<td><p>Get or set the rotation matrix of the frame.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.euler_angles.html#py3dframe.Frame.euler_angles" title="py3dframe.Frame.euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.euler_angles</span></code></a></p></td>
+<td><p>Get or set the Euler angles of the frame.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.set_euler_angles.html#py3dframe.Frame.set_euler_angles" title="py3dframe.Frame.set_euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.set_euler_angles</span></code></a>(euler_angles)</p></td>
+<td><p>Set the Euler angles of the frame and the direct property.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.get_euler_angles.html#py3dframe.Frame.get_euler_angles" title="py3dframe.Frame.get_euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.get_euler_angles</span></code></a>([degrees, axes])</p></td>
+<td><p>Get the Euler angles of the frame with a given convention.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.rotation_vector.html#py3dframe.Frame.rotation_vector" title="py3dframe.Frame.rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.rotation_vector</span></code></a></p></td>
+<td><p>Get or set the rotation vector of the frame.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.set_rotation_vector.html#py3dframe.Frame.set_rotation_vector" title="py3dframe.Frame.set_rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.set_rotation_vector</span></code></a>(...[, ...])</p></td>
+<td><p>Set the rotation vector of the frame and the direct property.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.get_rotation_vector.html#py3dframe.Frame.get_rotation_vector" title="py3dframe.Frame.get_rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.get_rotation_vector</span></code></a>([degrees])</p></td>
+<td><p>Get the rotation vector of the frame with a given convention.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.homogeneous_matrix.html#py3dframe.Frame.homogeneous_matrix" title="py3dframe.Frame.homogeneous_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.homogeneous_matrix</span></code></a></p></td>
+<td><p>Get or set the homogeneous transformation matrix of the frame.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.direct.html#py3dframe.Frame.direct" title="py3dframe.Frame.direct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.direct</span></code></a></p></td>
+<td><p>Get or set if the frame is direct or indirect.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.parent.html#py3dframe.Frame.parent" title="py3dframe.Frame.parent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.parent</span></code></a></p></td>
+<td><p>Get or set the parent frame of the current frame.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.x_axis.html#py3dframe.Frame.x_axis" title="py3dframe.Frame.x_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.x_axis</span></code></a></p></td>
+<td><p>Get the X-axis of the frame with shape (3,1)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.y_axis.html#py3dframe.Frame.y_axis" title="py3dframe.Frame.y_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.y_axis</span></code></a></p></td>
+<td><p>Get the Y-axis of the frame with shape (3,1)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.z_axis.html#py3dframe.Frame.z_axis" title="py3dframe.Frame.z_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.z_axis</span></code></a></p></td>
+<td><p>Get the Z-axis of the frame with shape (3,1)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.is_direct.html#py3dframe.Frame.is_direct" title="py3dframe.Frame.is_direct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.is_direct</span></code></a></p></td>
+<td><p>Check if the frame is direct.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.is_indirect.html#py3dframe.Frame.is_indirect" title="py3dframe.Frame.is_indirect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.is_indirect</span></code></a></p></td>
+<td><p>Check if the frame is indirect.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame._O3_projection.html#py3dframe.Frame._O3_projection" title="py3dframe.Frame._O3_projection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame._O3_projection</span></code></a>(matrix)</p></td>
+<td><p>Project a matrix to the orthogonal group <span class="math notranslate nohighlight">\(O(3)\)</span> using SVD and minimisation of the frobenius norm.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.set_direct.html#py3dframe.Frame.set_direct" title="py3dframe.Frame.set_direct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.set_direct</span></code></a>([direct])</p></td>
+<td><p>Set the frame as direct or indirect.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.set_indirect.html#py3dframe.Frame.set_indirect" title="py3dframe.Frame.set_indirect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.set_indirect</span></code></a>([indirect])</p></td>
+<td><p>Set the frame as indirect or direct.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.set_O3_rotation_matrix.html#py3dframe.Frame.set_O3_rotation_matrix" title="py3dframe.Frame.set_O3_rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.set_O3_rotation_matrix</span></code></a>(matrix)</p></td>
+<td><p>Set the rotation matrix of the frame in <span class="math notranslate nohighlight">\(O(3)\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.get_global_frame.html#py3dframe.Frame.get_global_frame" title="py3dframe.Frame.get_global_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.get_global_frame</span></code></a>()</p></td>
+<td><p>Get the transformation between the global frame and the frame.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.from_parent_to_frame.html#py3dframe.Frame.from_parent_to_frame" title="py3dframe.Frame.from_parent_to_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.from_parent_to_frame</span></code></a>(*[, ...])</p></td>
+<td><p>Convert a point or vector from parent frame coordinates to frame coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.from_frame_to_parent.html#py3dframe.Frame.from_frame_to_parent" title="py3dframe.Frame.from_frame_to_parent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.from_frame_to_parent</span></code></a>(*[, ...])</p></td>
+<td><p>Convert a point or vector from frame coordinates to parent frame coordinates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.from_global_to_frame.html#py3dframe.Frame.from_global_to_frame" title="py3dframe.Frame.from_global_to_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.from_global_to_frame</span></code></a>(*[, ...])</p></td>
+<td><p>Convert a point or vector from global coordinates to frame coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.from_frame_to_global.html#py3dframe.Frame.from_frame_to_global" title="py3dframe.Frame.from_frame_to_global"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.from_frame_to_global</span></code></a>(*[, ...])</p></td>
+<td><p>Convert a point or vector from frame coordinates to global coordinates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.compose.html#py3dframe.Frame.compose" title="py3dframe.Frame.compose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.compose</span></code></a>(other)</p></td>
+<td><p>Compose the current frame with another frame.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.__mul__.html#py3dframe.Frame.__mul__" title="py3dframe.Frame.__mul__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.__mul__</span></code></a>(other)</p></td>
+<td><p>Multiply two Frame objects.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.__repr__.html#py3dframe.Frame.__repr__" title="py3dframe.Frame.__repr__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.__repr__</span></code></a>()</p></td>
+<td><p>String representation of the Frame object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.__eq__.html#py3dframe.Frame.__eq__" title="py3dframe.Frame.__eq__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.__eq__</span></code></a>(other)</p></td>
+<td><p>Check if two Frame objects are equal.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.__pow__.html#py3dframe.Frame.__pow__" title="py3dframe.Frame.__pow__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.__pow__</span></code></a>(power)</p></td>
+<td><p>Raise the Frame object to a power.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.save_to_dict.html#py3dframe.Frame.save_to_dict" title="py3dframe.Frame.save_to_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.save_to_dict</span></code></a>([description, ...])</p></td>
+<td><p>Export the Frame's data to a dictionary.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.load_from_dict.html#py3dframe.Frame.load_from_dict" title="py3dframe.Frame.load_from_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.load_from_dict</span></code></a>(data[, parent])</p></td>
+<td><p>Create a Frame instance from a dictionary.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.save_to_json.html#py3dframe.Frame.save_to_json" title="py3dframe.Frame.save_to_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.save_to_json</span></code></a>(filepath[, ...])</p></td>
+<td><p>Export the Frame's data to a JSON file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame-generated/py3dframe.Frame.load_from_json.html#py3dframe.Frame.load_from_json" title="py3dframe.Frame.load_from_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.load_from_json</span></code></a>(filepath[, ...])</p></td>
+<td><p>Create a Frame instance from a JSON file.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.apply_symmetric_frame">
-<span class="sig-name descname"><span class="pre">apply_symmetric_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.apply_symmetric_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.apply_symmetric_frame" title="Link to this definition">#</a></dt>
-<dd><p>Apply a symmetry to the frame with respect to a plane defined by a point and a normal vector.</p>
-<p>The point and the normal must be arrays with 3 elements.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>point</strong> (<em>numpy.ndarray</em>) – A point on the plane with shape (3,1).</p></li>
-<li><p><strong>normal</strong> (<em>numpy.ndarray</em>) – The normal vector of the plane with shape (3,1).</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]),</span> <span class="n">quaternion</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span> <span class="n">direct</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">point</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">normal</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">apply_symmetric_frame</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">normal</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.compose">
-<span class="sig-name descname"><span class="pre">compose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.compose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.compose" title="Link to this definition">#</a></dt>
-<dd><p>Compose the current frame with another frame.</p>
-<p>The current frame is define from the global to the frame (1).</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{p}_{\text{global}} = \mathbf{R_{(1)}} \mathbf{p}_{(1)} + \mathbf{O}_{(1)}\]</div>
-<p>The other frame is define from the frame (1) to the frame (2).</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{p}_{(1)} = \mathbf{R_{(2)}} \mathbf{p}_{(2)} + \mathbf{O}_{(2)}\]</div>
-<p>The composition is define from the global to the frame (2).</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{p}_{\text{global}} = \mathbf{R_{(1)}} \mathbf{R_{(2)}} \mathbf{p}_{(2)} + \mathbf{R_{(1)}} \mathbf{O}_{(2)} + \mathbf{O}_{(1)}\]</div>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p>Using the multiplication operator is equivalent to this method.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">frame_w_2</span> <span class="o">=</span> <span class="n">frame_w_1</span> <span class="o">*</span> <span class="n">frame_1_2</span>
-</pre></div>
-</div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#py3dframe.Frame" title="py3dframe.Frame"><em>Frame</em></a>) – The other Frame object to compose.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The composition of the two frames.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.Frame">Frame</a></p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">frame_w_1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]),</span> <span class="n">quaternion</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span> <span class="n">direct</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame_1_2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]),</span> <span class="n">quaternion</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span> <span class="n">direct</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame_w_2</span> <span class="o">=</span> <span class="n">frame1</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">frame2</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="py3dframe.Frame.direct">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">direct</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#py3dframe.Frame.direct" title="Link to this definition">#</a></dt>
-<dd><p>Get or set if the frame is direct or indirect.</p>
-<p>The frame is direct if the determinant of the rotation matrix is 1.
-The frame is indirect if the determinant of the rotation matrix is -1.</p>
-<p>If indirect is set to True, the Z-axis of the frame is inverted to have a right-handed frame.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>direct</strong> (<em>bool</em>) – Set the frame as direct or indirect.</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the direct is not a boolean.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="py3dframe.Frame.euler_angles">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">euler_angles</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#py3dframe.Frame.euler_angles" title="Link to this definition">#</a></dt>
-<dd><p>Get or set the Euler angles of the frame.</p>
-<p>The Euler angles are in radians and in XYZ convention.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The direct property is set to True when the Euler angles are set.
-The user must set the direct property to False if the Euler angles are for the associated indirect frame.</p>
-</div>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#py3dframe.Frame.set_euler_angles" title="py3dframe.Frame.set_euler_angles"><code class="xref py py-meth docutils literal notranslate"><span class="pre">py3dframe.Frame.set_euler_angles()</span></code></a> method to set the Euler angles, the direct property, and the convention.
-<a class="reference internal" href="#py3dframe.Frame.get_euler_angles" title="py3dframe.Frame.get_euler_angles"><code class="xref py py-meth docutils literal notranslate"><span class="pre">py3dframe.Frame.get_euler_angles()</span></code></a> method to get the Euler angles with a given convention.</p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>euler_angles</strong> (<em>numpy.ndarray</em>) – The Euler angles of the frame in radians with shape (3,) and XYZ convention.</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>TypeError</strong> – If the Euler angles are not a numpy array with shape (3,).</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.from_frame_to_global">
-<span class="sig-name descname"><span class="pre">from_frame_to_global</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transpose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.from_frame_to_global"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.from_frame_to_global" title="Link to this definition">#</a></dt>
-<dd><p>Convert a point or vector from frame coordinates to global coordinates.</p>
-<p>For a point, the equation is:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{p}_{\text{global}} = \mathbf{R} \mathbf{p}_{\text{frame}} + \mathbf{O}\]</div>
-<p>For a vector, the equation is:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{v}_{\text{global}} = \mathbf{R} \mathbf{v}_{\text{frame}}\]</div>
-<p>if point is not None and vector is not None, the function will raise a ValueError.
-if point is None and vector is None, the function will return None.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>point</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – Point in frame coordinates with shape (3, N), by default None.</p></li>
-<li><p><strong>vector</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – Vector in frame coordinates with shape (3, N), by default None.</p></li>
-<li><p><strong>transpose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Set if the input points or vectors are given in (N, 3) shape. The default is False.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Point or vector in global coordinates with shape (3, N).</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>numpy.ndarray</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]),</span> <span class="n">quaternion</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span> <span class="n">direct</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">from_global_to_frame</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.0</span><span class="p">]]))</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.from_global_to_frame">
-<span class="sig-name descname"><span class="pre">from_global_to_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transpose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.from_global_to_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.from_global_to_frame" title="Link to this definition">#</a></dt>
-<dd><p>Convert a point or vector from global coordinates to frame coordinates.</p>
-<p>For a point, the equation is:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{p}_{\text{frame}} = \mathbf{R}^T (\mathbf{p}_{\text{global}} - \mathbf{O})\]</div>
-<p>For a vector, the equation is:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{v}_{\text{frame}} = \mathbf{R}^T \mathbf{v}_{\text{global}}\]</div>
-<p>if point is not None and vector is not None, the function will raise a ValueError.
-if point is None and vector is None, the function will return None.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>point</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – Point in global coordinates with shape (3, N), by default None.</p></li>
-<li><p><strong>vector</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – Vector in global coordinates with shape (3, N), by default None.</p></li>
-<li><p><strong>transpose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Set if the input points or vectors are given in (N, 3) shape. The default is False.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Point or vector in frame coordinates with shape (3, N).</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>numpy.ndarray</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]),</span> <span class="n">quaternion</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span> <span class="n">direct</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">from_global_to_frame</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.0</span><span class="p">]]))</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.get_euler_angles">
-<span class="sig-name descname"><span class="pre">get_euler_angles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'XYZ'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.get_euler_angles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.get_euler_angles" title="Link to this definition">#</a></dt>
-<dd><p>Get the Euler angles of the frame with a given convention.</p>
-<p>The axes convention can be set to XYZ, ZYX, ZXY, YXZ, YZX, or XZY.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>degrees</strong> (<em>bool</em>) – Set if the Euler angles are in degrees. The default is False.</p></li>
-<li><p><strong>axes</strong> (<em>str</em>) – Set the axes convention of the Euler angles. The default is “XYZ”.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The Euler angles of the frame in radians with shape (3,).</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>numpy.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.get_inverse_frame">
-<span class="sig-name descname"><span class="pre">get_inverse_frame</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.get_inverse_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.get_inverse_frame" title="Link to this definition">#</a></dt>
-<dd><p>Get the inverse frame of the current frame.</p>
-<p>By convention, the frame is defined from the global to the frame.
-This method compute the frame defined from the frame to the global frame.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The inverse frame of the current frame.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.Frame">Frame</a></p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]),</span> <span class="n">quaternion</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span> <span class="n">direct</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">inverse_frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">get_inverse_frame</span><span class="p">()</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.get_quaternion">
-<span class="sig-name descname"><span class="pre">get_quaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scalar_first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.get_quaternion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.get_quaternion" title="Link to this definition">#</a></dt>
-<dd><p>Get the quaternion of the frame with a given convention.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>scalar_first</strong> (<em>bool</em>) – Set the scalar first convention of the quaternion. The default is True.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The quaternion of the frame with shape (4,).</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>numpy.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.get_rotation_vector">
-<span class="sig-name descname"><span class="pre">get_rotation_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.get_rotation_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.get_rotation_vector" title="Link to this definition">#</a></dt>
-<dd><p>Get the rotation vector of the frame with a given convention.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>degrees</strong> (<em>bool</em>) – Set if the rotation vector is in degrees. The default is False.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The rotation vector of the frame with shape (3,).</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>numpy.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.get_symmetric_frame">
-<span class="sig-name descname"><span class="pre">get_symmetric_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.get_symmetric_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.get_symmetric_frame" title="Link to this definition">#</a></dt>
-<dd><p>Get the symmetric frame of the current frame with respect to a plane defined by a point and a normal vector.</p>
-<p>The point and the normal must be arrays with 3 elements.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>point</strong> (<em>numpy.ndarray</em>) – A point on the plane with shape (3,1).</p></li>
-<li><p><strong>normal</strong> (<em>numpy.ndarray</em>) – The normal vector of the plane with shape (3,1).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The symmetric frame of the current frame with respect to the plane.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.Frame">Frame</a></p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]),</span> <span class="n">quaternion</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span> <span class="n">direct</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">point</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">normal</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">symmetric_frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">get_symmetric_frame</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">normal</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="py3dframe.Frame.homogeneous_matrix">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">homogeneous_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#py3dframe.Frame.homogeneous_matrix" title="Link to this definition">#</a></dt>
-<dd><p>Get or set the homogeneous transformation matrix of the frame.</p>
-<p>The homogeneous matrix is a 4x4 matrix defined by:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{bmatrix}
-    \mathbf{R} &amp; \mathbf{p} \\
-    0 &amp; 1
-\end{bmatrix}\end{split}\]</div>
-<p>Where <span class="math notranslate nohighlight">\(\mathbf{R}\)</span> is the rotation matrix and <span class="math notranslate nohighlight">\(\mathbf{p}\)</span> is the origin.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The direct property is changed when the rotation matrix is set.</p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>matrix</strong> (<em>numpy.ndarray</em>) – The homogeneous transformation matrix of the frame with shape (4,4).</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>TypeError</strong> – If the matrix is not a numpy array.</p></li>
-<li><p><strong>ValueError</strong> – If the matrix is not 4x4.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="py3dframe.Frame.is_direct">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_direct</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#py3dframe.Frame.is_direct" title="Link to this definition">#</a></dt>
-<dd><p>Check if the frame is direct.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="py3dframe.Frame.is_indirect">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_indirect</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#py3dframe.Frame.is_indirect" title="Link to this definition">#</a></dt>
-<dd><p>Check if the frame is indirect.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.load_from_dict">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.load_from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.load_from_dict" title="Link to this definition">#</a></dt>
-<dd><p>Create a Frame instance from a dictionary.</p>
-<p>The structure of the dictionary should be as provided by the <a class="reference internal" href="#py3dframe.Frame.save_to_dict" title="py3dframe.Frame.save_to_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">py3dframe.Frame.save_to_dict()</span></code></a> method.</p>
-<p>Where the quaternion is given is the scalar-first convention.</p>
-<p>If origin is not given, the default value is None - [0.0, 0.0, 0.0]
-If quaternion is not given, the default value is None - [1.0, 0.0, 0.0, 0.0]
-If direct is not given, the default value is True.</p>
-<p>The other keys are ignored.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – A dictionary containing the origin, quaternion, and direct.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A Frame instance.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.Frame">Frame</a></p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the data is not a dictionary.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.load_from_json">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.load_from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.load_from_json" title="Link to this definition">#</a></dt>
-<dd><p>Create a Frame instance from a JSON file.</p>
-<p>The structure of the JSON file follows the <a class="reference internal" href="#py3dframe.Frame.save_to_dict" title="py3dframe.Frame.save_to_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">py3dframe.Frame.save_to_dict()</span></code></a> method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>filepath</strong> (<em>str</em>) – The path to the JSON file.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A Frame instance.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.Frame">Frame</a></p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>FileNotFoundError</strong> – If the filepath is not a valid path.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="py3dframe.Frame.origin">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">origin</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#py3dframe.Frame.origin" title="Link to this definition">#</a></dt>
-<dd><p>Get or set the origin of the frame in 3D space with shape (3,1).</p>
-<p>The origin is the coordinates of the frame in the global frame.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>origin</strong> (<em>numpy.ndarray</em>) – The origin of the frame with shape (3,1).</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>TypeError</strong> – If the origin is not a numpy array with shape (3,).</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="py3dframe.Frame.quaternion">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">quaternion</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#py3dframe.Frame.quaternion" title="Link to this definition">#</a></dt>
-<dd><p>Get or set the quaternion of the frame.</p>
-<p>The convention for quaternion is scalar first <span class="math notranslate nohighlight">\([w, x, y, z]\)</span>.
-The quaternion is normalized to have a unit magnitude.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The direct property is set to True when the quaternion is set.
-The user must set the direct property to False if the quaternion is for the associated indirect frame.</p>
-</div>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#py3dframe.Frame.set_quaternion" title="py3dframe.Frame.set_quaternion"><code class="xref py py-meth docutils literal notranslate"><span class="pre">py3dframe.Frame.set_quaternion()</span></code></a> method to set the quaternion, the direct property, and the convention.
-<a class="reference internal" href="#py3dframe.Frame.get_quaternion" title="py3dframe.Frame.get_quaternion"><code class="xref py py-meth docutils literal notranslate"><span class="pre">py3dframe.Frame.get_quaternion()</span></code></a> method to get the quaternion with a given convention.</p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>quaternion</strong> (<em>numpy.ndarray</em>) – The quaternion of the frame with shape (4,) and scalar first <span class="math notranslate nohighlight">\([w, x, y, z]\)</span> convention.</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – If the quaternion has zero magnitude.</p></li>
-<li><p><strong>TypeError</strong> – If the quaternion is not a numpy array with shape (4,).</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="py3dframe.Frame.rotation_matrix">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rotation_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#py3dframe.Frame.rotation_matrix" title="Link to this definition">#</a></dt>
-<dd><p>Get or set the rotation matrix of the frame.</p>
-<p>The rotation matrix is normalized to have a determinant of 1.
-The frame is considered as direct if the determinant is 1.
-The frame is considered as indirect if the determinant is -1.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The direct property is changed when the rotation matrix is set.</p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>rotation_matrix</strong> (<em>numpy.ndarray</em>) – The rotation matrix of the frame with shape (3,3).</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – If the rotation matrix has a determinant different from 1 or -1.</p></li>
-<li><p><strong>TypeError</strong> – If the rotation matrix is not a numpy array with shape (3,3).</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="py3dframe.Frame.rotation_vector">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rotation_vector</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#py3dframe.Frame.rotation_vector" title="Link to this definition">#</a></dt>
-<dd><p>Get or set the rotation vector of the frame.</p>
-<p>The rotation associted is defined by the Rodrigues formula:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{R} = \mathbf{I} + \sin(\theta) \mathbf{K} + (1 - \cos(\theta)) \mathbf{K}^2\]</div>
-<p>The associated rotation vector is:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{r} = \theta \mathbf{k}\]</div>
-<p>Where <span class="math notranslate nohighlight">\(k\)</span> is the unit vector axis and <span class="math notranslate nohighlight">\(\theta\)</span> is the rotation angle in radians.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The direct property is set to True when the rotation vector is set.
-The user must set the direct property to False if the rotation vector is for the associated indirect frame.</p>
-</div>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#py3dframe.Frame.set_rotation_vector" title="py3dframe.Frame.set_rotation_vector"><code class="xref py py-meth docutils literal notranslate"><span class="pre">py3dframe.Frame.set_rotation_vector()</span></code></a> method to set the rotation vector, the direct property, and the convention.
-<a class="reference internal" href="#py3dframe.Frame.get_rotation_vector" title="py3dframe.Frame.get_rotation_vector"><code class="xref py py-meth docutils literal notranslate"><span class="pre">py3dframe.Frame.get_rotation_vector()</span></code></a> method to get the rotation vector with a given convention.</p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>rotation_vector</strong> (<em>numpy.ndarray</em>) – The rotation vector of the frame with shape (3,).</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>TypeError</strong> – If the rotation vector is not a numpy array with shape (3,).</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.save_to_dict">
-<span class="sig-name descname"><span class="pre">save_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.save_to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.save_to_dict" title="Link to this definition">#</a></dt>
-<dd><p>Export the Frame’s data to a dictionary.</p>
-<p>The structure of the dictionary is as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Frame [py3dframe]&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Description of the frame&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span>
-    <span class="s2">&quot;quaternion&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
-    <span class="s2">&quot;direct&quot;</span><span class="p">:</span> <span class="kc">True</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>description</strong> (<em>str</em><em>, </em><em>optional</em>) – A description of the frame, by default “”.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A dictionary containing the origin, quaternion, and direct.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the description is not a string.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.save_to_json">
-<span class="sig-name descname"><span class="pre">save_to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.save_to_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.save_to_json" title="Link to this definition">#</a></dt>
-<dd><p>Export the Frame’s data to a JSON file.</p>
-<p>The structure of the JSON file follows the <a class="reference internal" href="#py3dframe.Frame.save_to_dict" title="py3dframe.Frame.save_to_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">py3dframe.Frame.save_to_dict()</span></code></a> method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>filepath</strong> (<em>str</em>) – The path to the JSON file.</p></li>
-<li><p><strong>description</strong> (<em>str</em><em>, </em><em>optional</em>) – A description of the frame, by default “”.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>FileNotFoundError</strong> – If the filepath is not a valid path.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.set_O3_rotation_matrix">
-<span class="sig-name descname"><span class="pre">set_O3_rotation_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.set_O3_rotation_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.set_O3_rotation_matrix" title="Link to this definition">#</a></dt>
-<dd><p>Set the rotation matrix of the frame in <span class="math notranslate nohighlight">\(O(3)\)</span>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>matrix</strong> (<em>numpy.ndarray</em>) – The <span class="math notranslate nohighlight">\(O(3)\)</span> rotation matrix with shape (3,3).</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>TypeError</strong> – If the matrix is not a numpy array.</p></li>
-<li><p><strong>ValueError</strong> – If the matrix is not 3x3.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.set_direct">
-<span class="sig-name descname"><span class="pre">set_direct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.set_direct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.set_direct" title="Link to this definition">#</a></dt>
-<dd><p>Set the frame as direct or indirect.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>direct</strong> (<em>bool</em><em>, </em><em>optional</em>) – Set the frame as direct or indirect, by default True.</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>TypeError</strong> – If the direct is not a boolean</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.set_euler_angles">
-<span class="sig-name descname"><span class="pre">set_euler_angles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">euler_angles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'XYZ'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.set_euler_angles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.set_euler_angles" title="Link to this definition">#</a></dt>
-<dd><p>Set the Euler angles of the frame and the direct property.</p>
-<p>The axes convention can be set to XYZ, ZYX, ZXY, YXZ, YZX, or XZY.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>euler_angles</strong> (<em>numpy.ndarray</em>) – The Euler angles of the frame in radians with shape (3,).</p></li>
-<li><p><strong>degrees</strong> (<em>bool</em>) – Set if the Euler angles are in degrees. The default is False.</p></li>
-<li><p><strong>axes</strong> (<em>str</em>) – Set the axes convention of the Euler angles. The default is “XYZ”.</p></li>
-<li><p><strong>direct</strong> (<em>bool</em>) – Set the frame as direct or indirect. The default is True.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>TypeError</strong> – If the Euler angles are not a numpy array with shape (3,).</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.set_indirect">
-<span class="sig-name descname"><span class="pre">set_indirect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indirect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.set_indirect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.set_indirect" title="Link to this definition">#</a></dt>
-<dd><p>Set the frame as indirect or direct.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>indirect</strong> (<em>bool</em><em>, </em><em>optional</em>) – Set the frame as indirect or direct, by default True.</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>TypeError</strong> – If the indirect is not a boolean</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.set_quaternion">
-<span class="sig-name descname"><span class="pre">set_quaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quaternion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scalar_first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.set_quaternion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.set_quaternion" title="Link to this definition">#</a></dt>
-<dd><p>Set the quaternion of the frame and the direct property.</p>
-<p>The quaternion is normalized to have a unit magnitude.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>quaternion</strong> (<em>numpy.ndarray</em>) – The quaternion of the frame with shape (4,).</p></li>
-<li><p><strong>scalar_first</strong> (<em>bool</em>) – Set the scalar first convention of the quaternion. The default is True.</p></li>
-<li><p><strong>direct</strong> (<em>bool</em>) – Set the frame as direct or indirect. The default is True.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – If the quaternion has zero magnitude.</p></li>
-<li><p><strong>TypeError</strong> – If the quaternion is not a numpy array with shape (4,).</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.set_rotation_vector">
-<span class="sig-name descname"><span class="pre">set_rotation_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rotation_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.set_rotation_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.set_rotation_vector" title="Link to this definition">#</a></dt>
-<dd><p>Set the rotation vector of the frame and the direct property.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>rotation_vector</strong> (<em>numpy.ndarray</em>) – The rotation vector of the frame with shape (3,).</p></li>
-<li><p><strong>degrees</strong> (<em>bool</em>) – Set if the rotation vector is in degrees. The default is False.</p></li>
-<li><p><strong>direct</strong> (<em>bool</em>) – Set the frame as direct or indirect. The default is True.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>TypeError</strong> – If the rotation vector is not a numpy array with shape (3,).</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="py3dframe.Frame.x_axis">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x_axis</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#py3dframe.Frame.x_axis" title="Link to this definition">#</a></dt>
-<dd><p>Get the X-axis of the frame with shape (3,1)</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="py3dframe.Frame.y_axis">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y_axis</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#py3dframe.Frame.y_axis" title="Link to this definition">#</a></dt>
-<dd><p>Get the Y-axis of the frame with shape (3,1)</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="py3dframe.Frame.z_axis">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">z_axis</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#py3dframe.Frame.z_axis" title="Link to this definition">#</a></dt>
-<dd><p>Get the Z-axis of the frame with shape (3,1)</p>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 
 
@@ -1145,11 +599,11 @@ The user must set the direct property to False if the rotation vector is for the
       </div>
     </a>
     <a class="right-next"
-       href="frame_tree.html"
+       href="Frame-generated/py3dframe.Frame.origin.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">py3dframe.FrameTree</p>
+        <p class="prev-next-title">py3dframe.Frame.origin</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1172,44 +626,7 @@ The user must set the direct property to False if the rotation vector is for the
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame"><code class="docutils literal notranslate"><span class="pre">Frame</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame._O3_projection"><code class="docutils literal notranslate"><span class="pre">Frame._O3_projection()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame._inverse_conversion"><code class="docutils literal notranslate"><span class="pre">Frame._inverse_conversion()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame._symmetric_conversion"><code class="docutils literal notranslate"><span class="pre">Frame._symmetric_conversion()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.apply_inverse_frame"><code class="docutils literal notranslate"><span class="pre">Frame.apply_inverse_frame()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.apply_symmetric_frame"><code class="docutils literal notranslate"><span class="pre">Frame.apply_symmetric_frame()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.compose"><code class="docutils literal notranslate"><span class="pre">Frame.compose()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.direct"><code class="docutils literal notranslate"><span class="pre">Frame.direct</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.euler_angles"><code class="docutils literal notranslate"><span class="pre">Frame.euler_angles</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.from_frame_to_global"><code class="docutils literal notranslate"><span class="pre">Frame.from_frame_to_global()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.from_global_to_frame"><code class="docutils literal notranslate"><span class="pre">Frame.from_global_to_frame()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.get_euler_angles"><code class="docutils literal notranslate"><span class="pre">Frame.get_euler_angles()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.get_inverse_frame"><code class="docutils literal notranslate"><span class="pre">Frame.get_inverse_frame()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.get_quaternion"><code class="docutils literal notranslate"><span class="pre">Frame.get_quaternion()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.get_rotation_vector"><code class="docutils literal notranslate"><span class="pre">Frame.get_rotation_vector()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.get_symmetric_frame"><code class="docutils literal notranslate"><span class="pre">Frame.get_symmetric_frame()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.homogeneous_matrix"><code class="docutils literal notranslate"><span class="pre">Frame.homogeneous_matrix</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.is_direct"><code class="docutils literal notranslate"><span class="pre">Frame.is_direct</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.is_indirect"><code class="docutils literal notranslate"><span class="pre">Frame.is_indirect</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.load_from_dict"><code class="docutils literal notranslate"><span class="pre">Frame.load_from_dict()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.load_from_json"><code class="docutils literal notranslate"><span class="pre">Frame.load_from_json()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.origin"><code class="docutils literal notranslate"><span class="pre">Frame.origin</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.quaternion"><code class="docutils literal notranslate"><span class="pre">Frame.quaternion</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.rotation_matrix"><code class="docutils literal notranslate"><span class="pre">Frame.rotation_matrix</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.rotation_vector"><code class="docutils literal notranslate"><span class="pre">Frame.rotation_vector</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.save_to_dict"><code class="docutils literal notranslate"><span class="pre">Frame.save_to_dict()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.save_to_json"><code class="docutils literal notranslate"><span class="pre">Frame.save_to_json()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.set_O3_rotation_matrix"><code class="docutils literal notranslate"><span class="pre">Frame.set_O3_rotation_matrix()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.set_direct"><code class="docutils literal notranslate"><span class="pre">Frame.set_direct()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.set_euler_angles"><code class="docutils literal notranslate"><span class="pre">Frame.set_euler_angles()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.set_indirect"><code class="docutils literal notranslate"><span class="pre">Frame.set_indirect()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.set_quaternion"><code class="docutils literal notranslate"><span class="pre">Frame.set_quaternion()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.set_rotation_vector"><code class="docutils literal notranslate"><span class="pre">Frame.set_rotation_vector()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.x_axis"><code class="docutils literal notranslate"><span class="pre">Frame.x_axis</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.y_axis"><code class="docutils literal notranslate"><span class="pre">Frame.y_axis</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.z_axis"><code class="docutils literal notranslate"><span class="pre">Frame.z_axis</span></code></a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame"><code class="docutils literal notranslate"><span class="pre">Frame</span></code></a></li>
 </ul>
   </nav></div>
 
