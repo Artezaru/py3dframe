@@ -326,44 +326,64 @@
 <span class="sd">    Represents a orthonormal reference frame in :math:`\mathbb{R}^3`.</span>
 
 <span class="sd">    The frame is defined by a origin and an orientation.</span>
-<span class="sd">    The orientation can be defined using a rotation matrix.</span>
+<span class="sd">    The orientation can be defined using a rotation matrix, quaternion, Euler angles, or a rotation vector.</span>
 <span class="sd">    The frame can be direct or indirect, depending on the determinant of the rotation matrix.</span>
 <span class="sd">    The convention for quaternion is scalar first :math:`[w, x, y, z]`.</span>
 
 <span class="sd">    The frame use scipy.spatial.transform.Rotation to manage the rotation matrix.</span>
 
-<span class="sd">    By convention, the frame is defined from the global frame (or the parent frame if given) to the frame. </span>
-<span class="sd">    Thats means, the coordinates of the rotation matrix are the coordinates of the frame axis in the global coordinates.</span>
+<span class="sd">    Convention for the frame :</span>
 
-<span class="sd">    Lets consider a frame :math:`\mathcal{F}` defined by 3 vectors :math:`\mathbf{i}`, :math:`\mathbf{j}`, :math:`\mathbf{k}`.</span>
-<span class="sd">    The rotation matrix :math:`\mathbf{R}` of the frame is defined by the following equation:</span>
+<span class="sd">    Lets consider a first frame :math:`E = (\mathbf{O}, \mathbf{\vec{e_x}}, \mathbf{\vec{e_y}}, \mathbf{\vec{e_z}})`.</span>
+<span class="sd">    Lets consider a second frame :math:`F = (\mathbf{C}, \mathbf{\vec{i}}, \mathbf{\vec{j}}, \mathbf{\vec{k}})`.</span>
 
-<span class="sd">    .. math::</span>
-
-<span class="sd">        \mathbf{R} = \begin{bmatrix} \mathbf{i} &amp; \mathbf{j} &amp; \mathbf{k} \end{bmatrix}</span>
-
-<span class="sd">    Lets consider the transformation from a frame 1 to a frame 2.</span>
-<span class="sd">    The convention is defined by the following equation:</span>
+<span class="sd">    The transformation from the frame E (parent frame) to the frame F (child frame) can be stored in a Frame object.</span>
+<span class="sd">    To construct the Frame object, the user must provide the origin and the orientation of the child frame expressed in the parent frame coordinates.</span>
+<span class="sd">    The `origin` is the coordinates of the origin of the child frame in the parent frame coordinates.</span>
+<span class="sd">    The `rotation_matrix` is constructed as follow:</span>
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        \mathbf{p}_{\text{frame 1}} = \mathbf{R} \mathbf{p}_{\text{frame 2}} + \mathbf{O}</span>
+<span class="sd">        \mathbf{R} = \begin{bmatrix} \mathbf{\vec{i}} &amp; \mathbf{\vec{j}} &amp; \mathbf{\vec{k}} \end{bmatrix}</span>
 
-<span class="sd">    where :math:`\mathbf{R}` and :math:`\mathbf{O}` are the rotation matrix and the origin of the Frame object between the frame 1 and the frame 2.</span>
+<span class="sd">    For example, to construct the frame where teh x and y axis are inverted, the user can use the following code:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        origin = numpy.array([0.0, 0.0, 0.0]) # Express the origin of the child frame in the parent frame coordinates</span>
+<span class="sd">        x_axis = numpy.array([0.0, 1.0, 0.0]) # Express the x-axis of the child frame in the parent frame coordinates</span>
+<span class="sd">        y_axis = numpy.array([1.0, 0.0, 0.0]) # Express the y-axis of the child frame in the parent frame coordinates</span>
+<span class="sd">        z_axis = numpy.array([0.0, 0.0, 1.0]) # Express the z-axis of the child frame in the parent frame coordinates</span>
+<span class="sd">        rotation_matrix = numpy.array([x_axis, y_axis, z_axis]) # Construct the rotation matrix</span>
+<span class="sd">        frame = Frame(origin=origin, rotation_matrix=rotation_matrix, parent=None)</span>
+
+<span class="sd">    With this convention, if we consider a point :math:`\mathbf{p}` and we note </span>
+<span class="sd">    :math:`\mathbf{p}_{\text{parent}}` the coordinates of the point in the parent frame (:math:`E`), </span>
+<span class="sd">    and :math:`\mathbf{p}_{\text{frame}}` the coordinates of the point in the child frame (:math:`F`),</span>
+<span class="sd">    the equation between :math:`\mathbf{p}_{\text{parent}}` and :math:`\mathbf{p}_{\text{frame}}` is:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \mathbf{p}_{\text{parent}} = \mathbf{R} \mathbf{p}_{\text{frame}} + \mathbf{O}</span>
+
+<span class="sd">    where :math:`\mathbf{R}` and :math:`\mathbf{O}` are the rotation matrix and the origin of the Frame object between the parent frame and the child frame.</span>
+
+<span class="sd">    We have the reverse equation to convert a point from the child frame to the parent frame:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \mathbf{p}_{\text{frame}} = \mathbf{R}^T (\mathbf{p}_{\text{parent}} - \mathbf{O})</span>
 
 <span class="sd">    When the rotation matrix is set, the determinant is checked to determine if the frame is direct or indirect.</span>
 
 <span class="sd">    However when the user create the frame using the quaternion or the euler angles, the frame is always considered as direct.</span>
 <span class="sd">    Then the user must set the frame as indirect using the set_indirect method.</span>
-<span class="sd">    In this case the rotation matrix is inverted to have a right-handed frame.</span>
-<span class="sd">    The associated direct frame correspond to the frame with the same origin but the frame Z-axis inverted.</span>
+<span class="sd">    In this case the Z-axis is inverted to have a right-handed frame.</span>
 
 <span class="sd">    In fact when the frame is indirect, the user can : </span>
 
 <span class="sd">    - set directly the indirect rotation matrix.</span>
 <span class="sd">    - set the quaternion or the euler angles of the associated direct frame and then set the frame as indirect.</span>
-
-<span class="sd">    The associated direct frame correspond to the frame with the same origin but the frame Z-axis inverted.</span>
 
 <span class="sd">    .. seealso:: </span>
 <span class="sd">    </span>
@@ -372,16 +392,19 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    origin : numpy.ndarray, optional</span>
-<span class="sd">        The origin of the frame in 3D space with shape (3,1). The default is None - [0.0, 0.0, 0.0].</span>
+<span class="sd">        The origin of the frame in 3D space with shape (3,1) expressed in the parent frame coordinates.</span>
+<span class="sd">        The default is None - [0.0, 0.0, 0.0].</span>
 <span class="sd">    </span>
 <span class="sd">    quaternion : numpy.ndarray, optional</span>
-<span class="sd">        The quaternion of the frame with shape (4,). The default is None - [1.0, 0.0, 0.0, 0.0].</span>
+<span class="sd">        The quaternion of the frame with shape (4,) in scalar first :math:`[w, x, y, z]` convention.</span>
+<span class="sd">        The default is None - [1.0, 0.0, 0.0, 0.0].</span>
 <span class="sd">    </span>
 <span class="sd">    rotation_matrix : numpy.ndarray, optional</span>
-<span class="sd">        The rotation matrix of the frame with shape (3,3). The default is None.</span>
+<span class="sd">        The rotation matrix of the frame with shape (3,3) expressed in the parent frame coordinates.</span>
+<span class="sd">        The default is None - identity matrix.</span>
 
 <span class="sd">    O3_project : bool, optional</span>
-<span class="sd">        Set if the rotation matrix is projected to the orthogonal group O(3). The default is False.</span>
+<span class="sd">        If True, the input rotation matrrix is projected</span>
 <span class="sd">    </span>
 <span class="sd">    euler_angles : numpy.ndarray, optional</span>
 <span class="sd">        The Euler angles of the frame in radians with shape (3,). The default is None.</span>

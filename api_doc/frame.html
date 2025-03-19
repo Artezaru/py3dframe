@@ -403,32 +403,47 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py3dframe.</span></span><span class="sig-name descname"><span class="pre">Frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quaternion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">O3_project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">euler_angles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_uuid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">UUID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame" title="Link to this definition">#</a></dt>
 <dd><p>Represents a orthonormal reference frame in <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span>.</p>
 <p>The frame is defined by a origin and an orientation.
-The orientation can be defined using a rotation matrix.
+The orientation can be defined using a rotation matrix, quaternion, Euler angles, or a rotation vector.
 The frame can be direct or indirect, depending on the determinant of the rotation matrix.
 The convention for quaternion is scalar first <span class="math notranslate nohighlight">\([w, x, y, z]\)</span>.</p>
 <p>The frame use scipy.spatial.transform.Rotation to manage the rotation matrix.</p>
-<p>By convention, the frame is defined from the global frame (or the parent frame if given) to the frame.
-Thats means, the coordinates of the rotation matrix are the coordinates of the frame axis in the global coordinates.</p>
-<p>Lets consider a frame <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> defined by 3 vectors <span class="math notranslate nohighlight">\(\mathbf{i}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{j}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{k}\)</span>.
-The rotation matrix <span class="math notranslate nohighlight">\(\mathbf{R}\)</span> of the frame is defined by the following equation:</p>
+<p>Convention for the frame :</p>
+<p>Lets consider a first frame <span class="math notranslate nohighlight">\(E = (\mathbf{O}, \mathbf{\vec{e_x}}, \mathbf{\vec{e_y}}, \mathbf{\vec{e_z}})\)</span>.
+Lets consider a second frame <span class="math notranslate nohighlight">\(F = (\mathbf{C}, \mathbf{\vec{i}}, \mathbf{\vec{j}}, \mathbf{\vec{k}})\)</span>.</p>
+<p>The transformation from the frame E (parent frame) to the frame F (child frame) can be stored in a Frame object.
+To construct the Frame object, the user must provide the origin and the orientation of the child frame expressed in the parent frame coordinates.
+The <cite>origin</cite> is the coordinates of the origin of the child frame in the parent frame coordinates.
+The <cite>rotation_matrix</cite> is constructed as follow:</p>
 <div class="math notranslate nohighlight">
-\[\mathbf{R} = \begin{bmatrix} \mathbf{i} &amp; \mathbf{j} &amp; \mathbf{k} \end{bmatrix}\]</div>
-<p>Lets consider the transformation from a frame 1 to a frame 2.
-The convention is defined by the following equation:</p>
+\[\mathbf{R} = \begin{bmatrix} \mathbf{\vec{i}} &amp; \mathbf{\vec{j}} &amp; \mathbf{\vec{k}} \end{bmatrix}\]</div>
+<p>For example, to construct the frame where teh x and y axis are inverted, the user can use the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">origin</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span> <span class="c1"># Express the origin of the child frame in the parent frame coordinates</span>
+<span class="n">x_axis</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span> <span class="c1"># Express the x-axis of the child frame in the parent frame coordinates</span>
+<span class="n">y_axis</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span> <span class="c1"># Express the y-axis of the child frame in the parent frame coordinates</span>
+<span class="n">z_axis</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span> <span class="c1"># Express the z-axis of the child frame in the parent frame coordinates</span>
+<span class="n">rotation_matrix</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_axis</span><span class="p">,</span> <span class="n">y_axis</span><span class="p">,</span> <span class="n">z_axis</span><span class="p">])</span> <span class="c1"># Construct the rotation matrix</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">origin</span><span class="p">,</span> <span class="n">rotation_matrix</span><span class="o">=</span><span class="n">rotation_matrix</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>With this convention, if we consider a point <span class="math notranslate nohighlight">\(\mathbf{p}\)</span> and we note
+<span class="math notranslate nohighlight">\(\mathbf{p}_{\text{parent}}\)</span> the coordinates of the point in the parent frame (<span class="math notranslate nohighlight">\(E\)</span>),
+and <span class="math notranslate nohighlight">\(\mathbf{p}_{\text{frame}}\)</span> the coordinates of the point in the child frame (<span class="math notranslate nohighlight">\(F\)</span>),
+the equation between <span class="math notranslate nohighlight">\(\mathbf{p}_{\text{parent}}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{p}_{\text{frame}}\)</span> is:</p>
 <div class="math notranslate nohighlight">
-\[\mathbf{p}_{\text{frame 1}} = \mathbf{R} \mathbf{p}_{\text{frame 2}} + \mathbf{O}\]</div>
-<p>where <span class="math notranslate nohighlight">\(\mathbf{R}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{O}\)</span> are the rotation matrix and the origin of the Frame object between the frame 1 and the frame 2.</p>
+\[\mathbf{p}_{\text{parent}} = \mathbf{R} \mathbf{p}_{\text{frame}} + \mathbf{O}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{R}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{O}\)</span> are the rotation matrix and the origin of the Frame object between the parent frame and the child frame.</p>
+<p>We have the reverse equation to convert a point from the child frame to the parent frame:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{p}_{\text{frame}} = \mathbf{R}^T (\mathbf{p}_{\text{parent}} - \mathbf{O})\]</div>
 <p>When the rotation matrix is set, the determinant is checked to determine if the frame is direct or indirect.</p>
 <p>However when the user create the frame using the quaternion or the euler angles, the frame is always considered as direct.
 Then the user must set the frame as indirect using the set_indirect method.
-In this case the rotation matrix is inverted to have a right-handed frame.
-The associated direct frame correspond to the frame with the same origin but the frame Z-axis inverted.</p>
+In this case the Z-axis is inverted to have a right-handed frame.</p>
 <p>In fact when the frame is indirect, the user can :</p>
 <ul class="simple">
 <li><p>set directly the indirect rotation matrix.</p></li>
 <li><p>set the quaternion or the euler angles of the associated direct frame and then set the frame as indirect.</p></li>
 </ul>
-<p>The associated direct frame correspond to the frame with the same origin but the frame Z-axis inverted.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p><a class="reference internal" href="frame_tree.html#py3dframe.FrameTree" title="py3dframe.FrameTree"><code class="xref py py-class docutils literal notranslate"><span class="pre">py3dframe.FrameTree</span></code></a> To manage easily multiple frames and their relationships.</p>
@@ -436,10 +451,13 @@ The associated direct frame correspond to the frame with the same origin but the
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>origin</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – The origin of the frame in 3D space with shape (3,1). The default is None - [0.0, 0.0, 0.0].</p></li>
-<li><p><strong>quaternion</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – The quaternion of the frame with shape (4,). The default is None - [1.0, 0.0, 0.0, 0.0].</p></li>
-<li><p><strong>rotation_matrix</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – The rotation matrix of the frame with shape (3,3). The default is None.</p></li>
-<li><p><strong>O3_project</strong> (<em>bool</em><em>, </em><em>optional</em>) – Set if the rotation matrix is projected to the orthogonal group O(3). The default is False.</p></li>
+<li><p><strong>origin</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – The origin of the frame in 3D space with shape (3,1) expressed in the parent frame coordinates.
+The default is None - [0.0, 0.0, 0.0].</p></li>
+<li><p><strong>quaternion</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – The quaternion of the frame with shape (4,) in scalar first <span class="math notranslate nohighlight">\([w, x, y, z]\)</span> convention.
+The default is None - [1.0, 0.0, 0.0, 0.0].</p></li>
+<li><p><strong>rotation_matrix</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – The rotation matrix of the frame with shape (3,3) expressed in the parent frame coordinates.
+The default is None - identity matrix.</p></li>
+<li><p><strong>O3_project</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the input rotation matrrix is projected</p></li>
 <li><p><strong>euler_angles</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – The Euler angles of the frame in radians with shape (3,). The default is None.</p></li>
 <li><p><strong>rotation_vector</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – The rotation vector of the frame with shape (3,). The default is None.</p></li>
 <li><p><strong>direct</strong> (<em>bool</em><em>, </em><em>optional</em>) – Set if the frame is direct or indirect. The default is True.</p></li>
