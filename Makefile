@@ -4,6 +4,8 @@ SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = docs/source
 BUILDDIR      = docs/build
 
+current_branch := $(shell git rev-parse --abbrev-ref HEAD)
+
 message ?= Default-commit-message
 level ?= patch
 
@@ -41,10 +43,10 @@ bump:
 
 # 6. Git Push origin Master
 git:
-	git checkout master
+	git checkout $(current_branch)
 	git add -A .
 	git commit -m "$(message)"
-	git push origin master
+	git push origin $(current_branch)
 
 # 7. Create the application
 app:
