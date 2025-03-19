@@ -12,44 +12,64 @@ class Frame(object):
     Represents a orthonormal reference frame in :math:`\mathbb{R}^3`.
 
     The frame is defined by a origin and an orientation.
-    The orientation can be defined using a rotation matrix.
+    The orientation can be defined using a rotation matrix, quaternion, Euler angles, or a rotation vector.
     The frame can be direct or indirect, depending on the determinant of the rotation matrix.
     The convention for quaternion is scalar first :math:`[w, x, y, z]`.
 
     The frame use scipy.spatial.transform.Rotation to manage the rotation matrix.
 
-    By convention, the frame is defined from the global frame (or the parent frame if given) to the frame. 
-    Thats means, the coordinates of the rotation matrix are the coordinates of the frame axis in the global coordinates.
+    Convention for the frame :
 
-    Lets consider a frame :math:`\mathcal{F}` defined by 3 vectors :math:`\mathbf{i}`, :math:`\mathbf{j}`, :math:`\mathbf{k}`.
-    The rotation matrix :math:`\mathbf{R}` of the frame is defined by the following equation:
+    Lets consider a first frame :math:`E = (\mathbf{O}, \mathbf{\vec{e_x}}, \mathbf{\vec{e_y}}, \mathbf{\vec{e_z}})`.
+    Lets consider a second frame :math:`F = (\mathbf{C}, \mathbf{\vec{i}}, \mathbf{\vec{j}}, \mathbf{\vec{k}})`.
 
-    .. math::
-
-        \mathbf{R} = \begin{bmatrix} \mathbf{i} & \mathbf{j} & \mathbf{k} \end{bmatrix}
-
-    Lets consider the transformation from a frame 1 to a frame 2.
-    The convention is defined by the following equation:
+    The transformation from the frame E (parent frame) to the frame F (child frame) can be stored in a Frame object.
+    To construct the Frame object, the user must provide the origin and the orientation of the child frame expressed in the parent frame coordinates.
+    The `origin` is the coordinates of the origin of the child frame in the parent frame coordinates.
+    The `rotation_matrix` is constructed as follow:
 
     .. math::
 
-        \mathbf{p}_{\text{frame 1}} = \mathbf{R} \mathbf{p}_{\text{frame 2}} + \mathbf{O}
+        \mathbf{R} = \begin{bmatrix} \mathbf{\vec{i}} & \mathbf{\vec{j}} & \mathbf{\vec{k}} \end{bmatrix}
 
-    where :math:`\mathbf{R}` and :math:`\mathbf{O}` are the rotation matrix and the origin of the Frame object between the frame 1 and the frame 2.
+    For example, to construct the frame where teh x and y axis are inverted, the user can use the following code:
+
+    .. code-block:: python
+
+        origin = numpy.array([0.0, 0.0, 0.0]) # Express the origin of the child frame in the parent frame coordinates
+        x_axis = numpy.array([0.0, 1.0, 0.0]) # Express the x-axis of the child frame in the parent frame coordinates
+        y_axis = numpy.array([1.0, 0.0, 0.0]) # Express the y-axis of the child frame in the parent frame coordinates
+        z_axis = numpy.array([0.0, 0.0, 1.0]) # Express the z-axis of the child frame in the parent frame coordinates
+        rotation_matrix = numpy.array([x_axis, y_axis, z_axis]) # Construct the rotation matrix
+        frame = Frame(origin=origin, rotation_matrix=rotation_matrix, parent=None)
+
+    With this convention, if we consider a point :math:`\mathbf{p}` and we note 
+    :math:`\mathbf{p}_{\text{parent}}` the coordinates of the point in the parent frame (:math:`E`), 
+    and :math:`\mathbf{p}_{\text{frame}}` the coordinates of the point in the child frame (:math:`F`),
+    the equation between :math:`\mathbf{p}_{\text{parent}}` and :math:`\mathbf{p}_{\text{frame}}` is:
+
+    .. math::
+
+        \mathbf{p}_{\text{parent}} = \mathbf{R} \mathbf{p}_{\text{frame}} + \mathbf{O}
+
+    where :math:`\mathbf{R}` and :math:`\mathbf{O}` are the rotation matrix and the origin of the Frame object between the parent frame and the child frame.
+
+    We have the reverse equation to convert a point from the child frame to the parent frame:
+
+    .. math::
+
+        \mathbf{p}_{\text{frame}} = \mathbf{R}^T (\mathbf{p}_{\text{parent}} - \mathbf{O})
 
     When the rotation matrix is set, the determinant is checked to determine if the frame is direct or indirect.
 
     However when the user create the frame using the quaternion or the euler angles, the frame is always considered as direct.
     Then the user must set the frame as indirect using the set_indirect method.
-    In this case the rotation matrix is inverted to have a right-handed frame.
-    The associated direct frame correspond to the frame with the same origin but the frame Z-axis inverted.
+    In this case the Z-axis is inverted to have a right-handed frame.
 
     In fact when the frame is indirect, the user can : 
 
     - set directly the indirect rotation matrix.
     - set the quaternion or the euler angles of the associated direct frame and then set the frame as indirect.
-
-    The associated direct frame correspond to the frame with the same origin but the frame Z-axis inverted.
 
     .. seealso:: 
     
@@ -58,16 +78,19 @@ class Frame(object):
     Parameters
     ----------
     origin : numpy.ndarray, optional
-        The origin of the frame in 3D space with shape (3,1). The default is None - [0.0, 0.0, 0.0].
+        The origin of the frame in 3D space with shape (3,1) expressed in the parent frame coordinates.
+        The default is None - [0.0, 0.0, 0.0].
     
     quaternion : numpy.ndarray, optional
-        The quaternion of the frame with shape (4,). The default is None - [1.0, 0.0, 0.0, 0.0].
+        The quaternion of the frame with shape (4,) in scalar first :math:`[w, x, y, z]` convention.
+        The default is None - [1.0, 0.0, 0.0, 0.0].
     
     rotation_matrix : numpy.ndarray, optional
-        The rotation matrix of the frame with shape (3,3). The default is None.
+        The rotation matrix of the frame with shape (3,3) expressed in the parent frame coordinates.
+        The default is None - identity matrix.
 
     O3_project : bool, optional
-        Set if the rotation matrix is projected to the orthogonal group O(3). The default is False.
+        If True, the input rotation matrrix is projected
     
     euler_angles : numpy.ndarray, optional
         The Euler angles of the frame in radians with shape (3,). The default is None.
