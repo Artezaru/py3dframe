@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>py3dframe.Frame &#8212; py3dframe 0.1.1 documentation</title>
+    <title>py3dframe.Frame &#8212; py3dframe 0.1.2 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=a58bc63e"></script>
+    <script src="../_static/documentation_options.js?v=92734c54"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -111,7 +111,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 0.1.1 documentation</p>
+    <p class="title logo__title">py3dframe 0.1.2 documentation</p>
   
 </a></div>
     
@@ -815,6 +815,55 @@ It describes the frame at the state of the call.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="py3dframe.Frame.load_from_dict">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.load_from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.load_from_dict" title="Link to this definition">#</a></dt>
+<dd><p>Load the Frame object from a dictionary.</p>
+<p>The dictionary has the following structure:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="s2">&quot;quaternion&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The quaternin is given in XYZW format.</p>
+<p>The quaternion is the rotation of the frame in the global frame coordinates with the convention 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – The dictionary containing the Frame object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Frame object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.Frame">Frame</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py3dframe.Frame.load_from_json">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.load_from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.load_from_json" title="Link to this definition">#</a></dt>
+<dd><p>Load the Frame object from a JSON file.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p>method <a class="reference internal" href="#py3dframe.Frame.load_from_dict" title="py3dframe.Frame.load_from_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">py3dframe.Frame.load_from_dict()</span></code></a> to load the Frame object from a dictionary.</p></li>
+</ul>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – The name of the JSON file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Frame object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.Frame">Frame</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="py3dframe.Frame.origin">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">origin</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#py3dframe.Frame.origin" title="Link to this definition">#</a></dt>
@@ -879,6 +928,46 @@ It describes the frame at the state of the call.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py3dframe.Frame.save_to_dict">
+<span class="sig-name descname"><span class="pre">save_to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.save_to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.save_to_dict" title="Link to this definition">#</a></dt>
+<dd><p>Save the Frame object to a dictionary.</p>
+<p>The dictionary has the following structure:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="s2">&quot;quaternion&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The quaternin is given in XYZW format.</p>
+<p>The quaternion is the rotation of the frame in the global frame coordinates with the convention 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The dictionary containing the Frame object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="py3dframe.Frame.save_to_json">
+<span class="sig-name descname"><span class="pre">save_to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.save_to_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.save_to_json" title="Link to this definition">#</a></dt>
+<dd><p>Save the Frame object to a JSON file.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p>method <a class="reference internal" href="#py3dframe.Frame.save_to_dict" title="py3dframe.Frame.save_to_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">py3dframe.Frame.save_to_dict()</span></code></a> to save the Frame object to a dictionary.</p></li>
+</ul>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – The name of the JSON file.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1111,10 +1200,14 @@ It describes the frame at the state of the call.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.global_x_axis"><code class="docutils literal notranslate"><span class="pre">Frame.global_x_axis</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.global_y_axis"><code class="docutils literal notranslate"><span class="pre">Frame.global_y_axis</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.global_z_axis"><code class="docutils literal notranslate"><span class="pre">Frame.global_z_axis</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.load_from_dict"><code class="docutils literal notranslate"><span class="pre">Frame.load_from_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.load_from_json"><code class="docutils literal notranslate"><span class="pre">Frame.load_from_json()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.origin"><code class="docutils literal notranslate"><span class="pre">Frame.origin</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.parent"><code class="docutils literal notranslate"><span class="pre">Frame.parent</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.rotation"><code class="docutils literal notranslate"><span class="pre">Frame.rotation</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.rotation_matrix"><code class="docutils literal notranslate"><span class="pre">Frame.rotation_matrix</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.save_to_dict"><code class="docutils literal notranslate"><span class="pre">Frame.save_to_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.save_to_json"><code class="docutils literal notranslate"><span class="pre">Frame.save_to_json()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.set_global_rotation"><code class="docutils literal notranslate"><span class="pre">Frame.set_global_rotation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.set_global_rotation_matrix"><code class="docutils literal notranslate"><span class="pre">Frame.set_global_rotation_matrix()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.set_global_translation"><code class="docutils literal notranslate"><span class="pre">Frame.set_global_translation()</span></code></a></li>
