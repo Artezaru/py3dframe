@@ -1267,6 +1267,10 @@ class Frame:
 
         The quaternion is the rotation of the frame in the global frame coordinates with the convention 0.
 
+        .. warning::
+
+            The global frame coordinates are saved and not the parent.
+
         Returns
         -------
         Dict[str, Any]
@@ -1295,6 +1299,10 @@ class Frame:
         The quaternin is given in XYZW format.
 
         The quaternion is the rotation of the frame in the global frame coordinates with the convention 0.
+
+        .. warning::
+
+            The global frame coordinates are saved and not the parent.
 
         Parameters
         ----------
