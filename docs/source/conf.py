@@ -22,8 +22,9 @@ def read_version():
         exec(file.read()) 
     return locals()["__version__"]
 
+import datetime
 project = "py3dframe"
-copyright = "2025-%Y, Artezaru"
+copyright = f"2025-{datetime.datetime.now().year}, Artezaru"
 author = "Artezaru"
 release = read_version()
 

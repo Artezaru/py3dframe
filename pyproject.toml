@@ -12,7 +12,7 @@ dynamic = ["dependencies", "version"]
 description = "3D Frame of Reference managing tools"
 license = {file = "LICENSE"}
 authors = [
-{name = "Artezaru", email = "artezaru.websites@proton.me"}
+{name = "Artezaru", email = "artezaru.github@proton.me"}
 ]
 classifiers = [
   "Programming Language :: Python"

@@ -6,7 +6,7 @@
 
 ## Authors
 
-- Artezaru <artezaru.websites@proton.me>
+- Artezaru <artezaru.github@proton.me>
 
 - **Git Plateform**: https://github.com/Artezaru/py3dframe.git
 - **Online Documentation**: https://Artezaru.github.io/py3dframe

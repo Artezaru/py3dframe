@@ -1,189 +1,92 @@
-from py3dframe import Frame, inverse_frame
 import numpy as np
 import pytest
+from scipy.spatial.transform import Rotation
+from py3dframe import Frame, switch_RT_convention
 
-def test_default_initialization():
-    """Test the default initialization of a Frame."""
-    f = Frame()
-    assert np.allclose(f.origin, np.zeros((3, 1)), atol=1e-6), \
-        "Default origin should be a 3x1 zero vector."
-    
-    expected_quat = np.array([1, 0, 0, 0], dtype=np.float64)
-    assert np.allclose(f.quaternion, expected_quat, atol=1e-6), \
-        "Default quaternion should be [1, 0, 0, 0]."
-    
-
-def test_quaternion_initialization():
-    """Test initialization with a quaternion (90° rotation about the X-axis)."""
-    quat = np.array([0.7071, 0.7071, 0, 0], dtype=np.float64)
+def test_frame_creation():
+    # Create a frame with the default values
     origin = np.array([1, 2, 3]).reshape((3, 1))
-    f = Frame(origin=origin, quaternion=quat, direct=True)
+    x_axis = np.array([1, 0, 0]).reshape((3, 1))
+    y_axis = np.array([0, 1, 0]).reshape((3, 1))
+    z_axis = np.array([0, 0, 1]).reshape((3, 1))
+    frame = Frame(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
+    assert np.allclose(frame.origin, origin)
+    assert np.allclose(frame.x_axis, x_axis)
+    assert np.allclose(frame.y_axis, y_axis)
+    assert np.allclose(frame.z_axis, z_axis)
 
-    assert np.allclose(f.origin, origin, atol=1e-6), "Origin is not set correctly."
-
-    expected_R = np.array([[1, 0, 0],
-                           [0, 0, -1],
-                           [0, 1, 0]], dtype=np.float64)
-    assert np.allclose(f.rotation_matrix, expected_R, atol=1e-2), \
-        "Rotation matrix does not match the expected 90° rotation around the X-axis."
-    
-
-def test_rotation_matrix_initialization():
-    """Test initialization with a rotation matrix (90° rotation about the Z-axis)."""
-    theta = np.pi / 2
-    Rz = np.array([[np.cos(theta), -np.sin(theta), 0],
-                   [np.sin(theta),  np.cos(theta), 0],
-                   [0,              0,             1]], dtype=np.float64)
-    origin = np.zeros((3, 1), dtype=np.float64)
-    f = Frame(origin=origin, rotation_matrix=Rz)
-
-    assert np.allclose(f.rotation_matrix, Rz, atol=1e-6), \
-        "Initialization via rotation_matrix failed."
-    
-
-def test_global_to_frame_correct():
-    """Test converting a point from global to frame coordinates."""
-    theta = np.pi / 2
-    Rz = np.array([[np.cos(theta), -np.sin(theta), 0],
-                   [np.sin(theta),  np.cos(theta), 0],
-                   [0,              0,             1]], dtype=np.float64)
-    origin = np.array([1, 1, 1]).reshape((3, 1))
-    f = Frame(origin=origin, rotation_matrix=Rz)
-
-    point_global = np.array([[2], [1], [0]], dtype=np.float64)
-    point_frame = f.from_global_to_frame(point=point_global)
-    expected_frame = np.array([[0], [-1], [-1]], dtype=np.float64)
-
-    assert np.allclose(point_frame, expected_frame, atol=1e-6), \
-        "global -> frame conversion did not produce the expected result."
-    
-
-def test_global_to_frame_transpose_correct():
-    """Test converting a point from global to frame coordinates."""
-    theta = np.pi / 2
-    Rz = np.array([[np.cos(theta), -np.sin(theta), 0],
-                   [np.sin(theta),  np.cos(theta), 0],
-                   [0,              0,             1]], dtype=np.float64)
-    origin = np.array([1, 1, 1]).reshape((3, 1))
-    f = Frame(origin=origin, rotation_matrix=Rz)
-
-    point_global = np.array([[2], [1], [0]], dtype=np.float64).T
-    point_frame = f.from_global_to_frame(point=point_global, transpose=True)
-    expected_frame = np.array([[0], [-1], [-1]], dtype=np.float64).T
-
-    assert np.allclose(point_frame, expected_frame, atol=1e-6), \
-        "global -> frame conversion did not produce the expected result."
-    
-
-def test_global_to_frame_conversion():
-    """Test converting a point from global to frame coordinates and back."""
-    quat = np.array([0.7071, 0.7071, 0, 0], dtype=np.float64)
+def test_change_convention_frame():
+    # Create a frame with the default values
     origin = np.array([1, 2, 3]).reshape((3, 1))
-    f = Frame(origin=origin, quaternion=quat)
+    x_axis = np.array([1, -1, 0]).reshape((3, 1))
+    y_axis = np.array([1, 1, 0]).reshape((3, 1))
+    z_axis = np.array([0, 0, 1]).reshape((3, 1))
+    frame = Frame(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
 
-    point_global = np.array([[4], [5], [6]], dtype=np.float64)
-    point_frame = f.from_global_to_frame(point=point_global)
-    point_global_reconstructed = f.from_frame_to_global(point=point_frame)
+    # Change the convention
+    R1 = frame.get_rotation(convention=1)
+    T1 = frame.get_translation(convention=1)
+    R7 = frame.get_rotation(convention=7)
+    T7 = frame.get_translation(convention=7)
 
-    assert np.allclose(point_global, point_global_reconstructed, atol=1e-4), \
-        "global <-> frame conversion did not properly invert the transformation."
-    
+    # Compute the change
+    R7_out, T7_out = switch_RT_convention(R1, T1, 1, 7)
 
-def test_inverse_frame():
-    """Test the generation and application of the inverse frame."""
-    quat = np.array([0.7071, 0.7071, 0, 0], dtype=np.float64)
+    # Check the results
+    assert np.allclose(R7.as_quat(), R7_out.as_quat())
+    assert np.allclose(T7, T7_out)
+
+def test_frame_parent():
+    # Create a parent frame
     origin = np.array([1, 2, 3]).reshape((3, 1))
-    f = Frame(origin=origin, quaternion=quat)
-    inv_f = inverse_frame(f)
+    x_axis = np.array([1, -1, 0]).reshape((3, 1))
+    y_axis = np.array([1, 1, 0]).reshape((3, 1))
+    z_axis = np.array([0, 0, 1]).reshape((3, 1))
+    parent = Frame(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
 
-    point_global = np.array([[7], [8], [9]], dtype=np.float64)
-    point_frame = f.from_parent_to_frame(point=point_global)
-    point_global_from_inv = inv_f.from_parent_to_frame(point=point_frame)
+    # Create a child frame relative to the parent
+    x_axis = np.array([1, 1, 0]).reshape((3, 1)) / np.sqrt(2)
+    y_axis = np.array([-1, 1, 0]).reshape((3, 1)) / np.sqrt(2)
+    z_axis = np.array([0, 0, 1]).reshape((3, 1))
+    origin = - x_axis - 2 * y_axis - 3 * z_axis
+    frame = Frame(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, parent=parent)
 
-    assert np.allclose(point_global, point_global_from_inv, atol=1e-4), \
-        "Inverse frame transformation did not return the original global point."
+    # Get the global frame
+    global_frame = frame.get_global_frame()
 
-def test_compose_frame():
-    """Test composing two frames."""
-    theta = np.pi / 2
-    Rz = np.array([[np.cos(theta), -np.sin(theta), 0],
-                   [np.sin(theta),  np.cos(theta), 0],
-                   [0,              0,             1]], dtype=np.float64)
-    origin1 = np.array([1, 1, 1]).reshape((3, 1))
-    f1 = Frame(origin=origin1, rotation_matrix=Rz)
+    # Check if the global frame is consistent
+    assert np.allclose(global_frame.global_origin, np.array([0, 0, 0]).reshape((3, 1)))
+    assert np.allclose(global_frame.global_axes, np.eye(3))
 
-    quat = np.array([0.7071, 0.7071, 0, 0], dtype=np.float64)
-    origin2 = np.array([2, 2, 2]).reshape((3, 1))
-    f2 = Frame(origin=origin2, quaternion=quat)
-
-    point_global = np.array([[2], [1], [-1]], dtype=np.float64)
-    point_frame_1 = f1.from_global_to_frame(point=point_global)
-    point_frame_2 = f2.from_global_to_frame(point=point_frame_1)
-
-    composed = f1.compose(f2)
-    point_frame_composed = composed.from_global_to_frame(point=point_global)
-
-    assert np.allclose(point_frame_2, point_frame_composed, atol=1e-6), \
-        "Composed frame did not produce the expected frame point."
-    
-def test_global_frame():
-    theta = np.pi / 2
-    Rz = np.array([[np.cos(theta), -np.sin(theta), 0],
-                   [np.sin(theta),  np.cos(theta), 0],
-                   [0,              0,             1]], dtype=np.float64)
-    origin1 = np.array([1, 1, 1]).reshape((3, 1))
-    f1 = Frame(origin=origin1, rotation_matrix=Rz)
-
-    quat = np.array([0.7071, 0.7071, 0, 0], dtype=np.float64)
-    origin2 = np.array([2, 2, 2]).reshape((3, 1))
-    f2 = Frame(origin=origin2, quaternion=quat, parent=f1)
-
-    point_global = np.array([[2], [1], [-1]], dtype=np.float64)
-    point_frame_1 = f1.from_parent_to_frame(point=point_global)
-    point_frame_2 = f2.from_parent_to_frame(point=point_frame_1)
-    point_frame_2_global = f2.from_global_to_frame(point=point_global)
-
-    global_frame = f2.get_global_frame()
-    point_frame_2_global_composed = global_frame.from_global_to_frame(point=point_global)
-
-    assert np.allclose(point_frame_2, point_frame_2_global, atol=1e-6), \
-        "Global frame did not produce the expected frame point."
-    assert np.allclose(point_frame_2_global, point_frame_2_global_composed, atol=1e-6), \
-        "Global frame did not produce the expected frame point."
-
-
-def test_save_load_dict():
-    """Test sabing a Frame to a dictionary and loading it back."""
-    quat = np.array([0.5, 0.5, 0.5, 0.5], dtype=np.float64)
+def test_set_and_get_rotation():
+    # Create a frame with the default values
     origin = np.array([1, 2, 3]).reshape((3, 1))
-    f = Frame(origin=origin, quaternion=quat, direct=False)
+    x_axis = np.array([1, -1, 0]).reshape((3, 1))
+    y_axis = np.array([1, 1, 0]).reshape((3, 1))
+    z_axis = np.array([0, 0, 1]).reshape((3, 1))
+    frame = Frame(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
 
-    data = f.save_to_dict()
-    f_loaded = Frame.load_from_dict(data)
+    frame.set_rotation(Rotation.from_euler('xyz', [0, 0, np.pi / 2]), convention=0)
+    R = frame.get_rotation(convention=0)
 
-    assert np.allclose(f.origin, f_loaded.origin, atol=1e-6), \
-        "Loaded origin does not match the original."
-    assert np.allclose(f.quaternion, f_loaded.quaternion, atol=1e-6), \
-        "Loaded quaternion does not match the original."
-    assert f.direct == f_loaded.direct, \
-        "Loaded direct flag does not match the original."
-    
-def test_save_load_json(tmp_path):
-    """Test saving a Frame to a JSON file and loading it back."""
-    quat = np.array([0.5, 0.5, 0.5, 0.5], dtype=np.float64)
+    assert np.allclose(R.as_euler('xyz'), [0, 0, np.pi / 2])
+
+def test_set_and_get_translation_global():
+    # Create a parent frame
     origin = np.array([1, 2, 3]).reshape((3, 1))
-    f = Frame(origin=origin, quaternion=quat, direct=False)
+    x_axis = np.array([1, -1, 0]).reshape((3, 1))
+    y_axis = np.array([1, 1, 0]).reshape((3, 1))
+    z_axis = np.array([0, 0, 1]).reshape((3, 1))
+    parent = Frame(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
 
-    filepath = tmp_path / "test_frame.json"
+    # Create a child frame relative to the parent
+    x_axis = np.array([1, 1, 0]).reshape((3, 1)) / np.sqrt(2)
+    y_axis = np.array([-1, 1, 0]).reshape((3, 1)) / np.sqrt(2)
+    z_axis = np.array([0, 0, 1]).reshape((3, 1))
+    origin = - x_axis - 2 * y_axis - 3 * z_axis
+    frame = Frame(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, parent=parent)
 
-    f.save_to_json(filepath)
-    f_loaded = Frame.load_from_json(filepath)
+    frame.set_global_rotation(Rotation.from_euler('xyz', [np.pi / 3, 0, np.pi / 2]), convention=0)
+    R = frame.get_global_rotation(convention=0)
 
-    assert np.allclose(f.origin, f_loaded.origin, atol=1e-6), \
-        "Loaded origin does not match the original."
-    assert np.allclose(f.quaternion, f_loaded.quaternion, atol=1e-6), \
-        "Loaded quaternion does not match the original."
-    assert f.direct == f_loaded.direct, \
-        "Loaded direct flag does not match the original."
-
-
+    assert np.allclose(R.as_euler('xyz'), [np.pi / 3, 0, np.pi / 2])

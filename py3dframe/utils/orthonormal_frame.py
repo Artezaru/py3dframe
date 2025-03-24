@@ -1,6 +1,6 @@
 import numpy
 from typing import Optional
-from ..frame import Frame
+from ..frame_old import Frame
 from .is_orthonormal import is_orthonormal
 
 def orthonormal_frame(
