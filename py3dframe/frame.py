@@ -1150,7 +1150,7 @@ class Frame:
         str
             The string representation of the Frame object.
         """
-        return f"Frame({self.global_origin}, {self.global_axes})"
+        return f"Frame(origin={self.global_origin}, x_axis={self.global_x_axis}, y_axis={self.global_y_axis}, z_axis={self.global_z_axis}"
     
 
 
