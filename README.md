@@ -2,7 +2,7 @@
 
 ## Description
 
-3D Frame of Reference managing tools
+3D Frame of Reference managing tools.
 
 ## Authors
 
