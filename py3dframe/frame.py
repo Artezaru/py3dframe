@@ -3,7 +3,8 @@ import numpy
 import scipy
 import matplotlib.pyplot
 import matplotlib.axes
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Dict, Any
+import json
 
 from .switch_RT_convention import switch_RT_convention
 from .matrix import is_SO3
@@ -1244,6 +1245,120 @@ class Frame:
         z_line = ax.plot(z[0,:], z[1,:], z[2,:], color=zcolor, **kwargs)[0]
         return x_line, y_line, z_line
 
-        
 
+
+    # ====================================================================================================================================
+    # Load and Save method
+    # ====================================================================================================================================
+    def save_to_dict(self) -> Dict[str, Any]:
+        r"""
+        Save the Frame object to a dictionary.
+
+        The dictionary has the following structure:
+
+        .. code-block:: python
+
+            {
+                "origin": [float, float, float],
+                "quaternion": [float, float, float, float],
+            }
+
+        The quaternin is given in XYZW format.
+
+        The quaternion is the rotation of the frame in the global frame coordinates with the convention 0.
+
+        Returns
+        -------
+        Dict[str, Any]
+            The dictionary containing the Frame object.
+        """
+        data = {
+            'origin': self.global_origin.flatten().tolist(),
+            'quaternion': self.get_global_rotation(convention=0).as_quat().tolist()
+        }
+        return data
+
+    @classmethod
+    def load_from_dict(cls, data: Dict[str, Any]) -> Frame:
+        r"""
+        Load the Frame object from a dictionary.
+
+        The dictionary has the following structure:
+
+        .. code-block:: python
+
+            {
+                "origin": [float, float, float],
+                "quaternion": [float, float, float, float],
+            }
+
+        The quaternin is given in XYZW format.
+
+        The quaternion is the rotation of the frame in the global frame coordinates with the convention 0.
+
+        Parameters
+        ----------
+        data : Dict[str, Any]
+            The dictionary containing the Frame object.
+        
+        Returns
+        -------
+        Frame
+            The Frame object.
+        """
+        if not isinstance(data, dict):
+            raise TypeError("The data must be a dictionary.")
+        if not 'origin' in data:
+            raise ValueError("The data must contain the 'origin' key.")
+        if not 'quaternion' in data:
+            raise ValueError("The data must contain the 'quaternion' key.")
+        origin = numpy.array(data['origin']).reshape((3,1))
+        quaternion = numpy.array(data['quaternion']).reshape((4,))
+        norm = numpy.linalg.norm(quaternion)
+        if norm == 0:
+            raise ValueError("The quaternion must be non-zero.")
+        quaternion = quaternion / norm
+        rotation = Rotation.from_quat(quaternion)
+        frame = cls(translation=origin, rotation=rotation, parent=None, convention=0)
+        return frame
+
+    def save_to_json(self, filename: str) -> None:
+        """
+        Save the Frame object to a JSON file.
+
+        .. seealso::
+
+            - method :meth:`py3dframe.Frame.save_to_dict` to save the Frame object to a dictionary.
+
+        Parameters
+        ----------
+        filename : str
+            The name of the JSON file.
+        """
+        data = self.save_to_dict()
+        with open(filename, 'w') as f:
+            json.dump(data, f, indent=4)
     
+    @classmethod
+    def load_from_json(cls, filename: str) -> Frame:
+        """
+        Load the Frame object from a JSON file.
+
+        .. seealso::
+
+            - method :meth:`py3dframe.Frame.load_from_dict` to load the Frame object from a dictionary.
+
+        Parameters
+        ----------
+        filename : str
+            The name of the JSON file.
+        
+        Returns
+        -------
+        Frame
+            The Frame object.
+        """
+        with open(filename, 'r') as f:
+            data = json.load(f)
+        frame = cls.load_from_dict(data)
+        return frame
