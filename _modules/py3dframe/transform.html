@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>py3dframe.transform &#8212; py3dframe 0.1.3 documentation</title>
+    <title>py3dframe.transform &#8212; py3dframe 0.1.5 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=360bc84d"></script>
+    <script src="../../_static/documentation_options.js?v=59fadc99"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/py3dframe/transform';</script>
@@ -107,7 +107,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 0.1.3 documentation</p>
+    <p class="title logo__title">py3dframe 0.1.5 documentation</p>
   
 </a></div>
     
@@ -618,7 +618,7 @@
     
 <div class="viewcode-block" id="Transform.get_rotation">
 <a class="viewcode-back" href="../../api_doc/transform.html#py3dframe.Transform.get_rotation">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">Rotation</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">Rotation</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the rotation between the input frame and the output frame in the given convention.</span>
 
@@ -662,7 +662,7 @@
 
 <div class="viewcode-block" id="Transform.get_translation">
 <a class="viewcode-back" href="../../api_doc/transform.html#py3dframe.Transform.get_translation">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_translation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_translation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the translation vector between the input frame and the output frame in the given convention.</span>
 
@@ -706,7 +706,7 @@
 
 <div class="viewcode-block" id="Transform.get_rotation_matrix">
 <a class="viewcode-back" href="../../api_doc/transform.html#py3dframe.Transform.get_rotation_matrix">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the rotation matrix between the input frame and the output frame in the given convention.</span>
 
@@ -738,6 +738,144 @@
 <span class="sd">            The rotation matrix between the input frame and the output frame in the convention of the frame with shape (3, 3).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_rotation_matrix</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_convention</span><span class="p">)</span>
+    
+
+
+<div class="viewcode-block" id="Transform.get_quaternion">
+<a class="viewcode-back" href="../../api_doc/transform.html#py3dframe.Transform.get_quaternion">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_quaternion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">scalar_first</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the quaternion between the input frame and the output frame in the given convention.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        convention : Optional[int], optional</span>
+<span class="sd">            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.</span>
+
+<span class="sd">        scalar_first : bool, optional</span>
+<span class="sd">            If True, the quaternion will be in the scalar-first convention. Default is True.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            The quaternion between the input frame and the output frame in the given convention with shape (4,).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scalar_first</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The scalar_first must be a boolean.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_rotation</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span><span class="o">.</span><span class="n">as_quat</span><span class="p">(</span><span class="n">scalar_first</span><span class="o">=</span><span class="n">scalar_first</span><span class="p">)</span></div>
+
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">quaternion</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Getter for the quaternion between the input frame and the output frame in the convention of the frame.</span>
+<span class="sd">        The quaternion is in the scalar-first convention.</span>
+
+<span class="sd">        .. seealso::</span>
+
+<span class="sd">            - method :meth:`py3dframe.Frame.get_quaternion` to get the quaternion in a specific convention.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            The quaternion between the input frame and the output frame in the convention of the frame with shape (4,) in the scalar-first convention.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_convention</span><span class="p">,</span> <span class="n">scalar_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+
+<div class="viewcode-block" id="Transform.get_euler_angles">
+<a class="viewcode-back" href="../../api_doc/transform.html#py3dframe.Transform.get_euler_angles">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_euler_angles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">seq</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;xyz&#39;</span><span class="p">,</span> <span class="n">degrees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the Euler angles between the input frame and the output frame in the given convention.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        convention : Optional[int], optional</span>
+<span class="sd">            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.</span>
+
+<span class="sd">        seq : str, optional</span>
+<span class="sd">            The sequence of the Euler angles. Default is &#39;xyz&#39;.</span>
+
+<span class="sd">        degrees : bool, optional</span>
+<span class="sd">            If True, the Euler angles will be in degrees. Default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            The Euler angles between the input frame and the output frame in the given convention with shape (3,).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The seq must be a string.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">degrees</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The degrees must be a boolean.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The seq must be a string of length 3.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">([</span><span class="n">s</span> <span class="ow">in</span> <span class="s1">&#39;XYZxyz&#39;</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The seq must contain only the characters &#39;X&#39;, &#39;Y&#39;, &#39;Z&#39;, &#39;x&#39;, &#39;y&#39;, &#39;z&#39;.&quot;</span><span class="p">)</span> 
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_rotation</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span><span class="o">.</span><span class="n">as_euler</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="n">degrees</span><span class="p">)</span></div>
+
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">euler_angles</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Getter for the Euler angles between the input frame and the output frame in the convention of the frame.</span>
+<span class="sd">        The Euler angles are in the &#39;xyz&#39; sequence and in radians.</span>
+
+<span class="sd">        .. seealso::</span>
+
+<span class="sd">            - method :meth:`py3dframe.Frame.get_euler_angles` to get the Euler angles in a specific convention.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            The Euler angles between the input frame and the output frame in the convention of the frame with shape (3,) in radians.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_euler_angles</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_convention</span><span class="p">,</span> <span class="n">seq</span><span class="o">=</span><span class="s1">&#39;xyz&#39;</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+
+
+<div class="viewcode-block" id="Transform.get_rotation_vector">
+<a class="viewcode-back" href="../../api_doc/transform.html#py3dframe.Transform.get_rotation_vector">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_rotation_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">degrees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the rotation vector between the input frame and the output frame in the given convention.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        convention : Optional[int], optional</span>
+<span class="sd">            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.</span>
+
+<span class="sd">        degrees : bool, optional</span>
+<span class="sd">            If True, the rotation vector will be in degrees. Default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            The rotation vector between the input frame and the output frame in the given convention with shape (3,).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">degrees</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The degrees must be a boolean.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_rotation</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span><span class="o">.</span><span class="n">as_rotvec</span><span class="p">(</span><span class="n">degrees</span><span class="o">=</span><span class="n">degrees</span><span class="p">)</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rotation_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Getter for the rotation vector between the input frame and the output frame in the convention of the frame.</span>
+<span class="sd">        The rotation vector is in radians.</span>
+
+<span class="sd">        .. seealso::</span>
+
+<span class="sd">            - method :meth:`py3dframe.Frame.get_rotation_vector` to get the rotation vector in a specific convention.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            The rotation vector between the input frame and the output frame in the convention of the frame with shape (3,) in radians.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_rotation_vector</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_convention</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     
 
