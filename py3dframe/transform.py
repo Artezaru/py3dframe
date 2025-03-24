@@ -302,7 +302,7 @@ class Transform:
 
 
     
-    def get_rotation(self, convention: Optional[int] = None) -> scipy.spatial.transform.Rotation:
+    def get_rotation(self, *, convention: Optional[int] = None) -> scipy.spatial.transform.Rotation:
         """
         Get the rotation between the input frame and the output frame in the given convention.
 
@@ -343,7 +343,7 @@ class Transform:
     
 
 
-    def get_translation(self, convention: Optional[int] = None) -> numpy.ndarray:
+    def get_translation(self, *, convention: Optional[int] = None) -> numpy.ndarray:
         """
         Get the translation vector between the input frame and the output frame in the given convention.
 
@@ -384,7 +384,7 @@ class Transform:
     
 
 
-    def get_rotation_matrix(self, convention: Optional[int] = None) -> numpy.ndarray:
+    def get_rotation_matrix(self, *, convention: Optional[int] = None) -> numpy.ndarray:
         """
         Get the rotation matrix between the input frame and the output frame in the given convention.
 
@@ -415,6 +415,135 @@ class Transform:
             The rotation matrix between the input frame and the output frame in the convention of the frame with shape (3, 3).
         """
         return self.get_rotation_matrix(convention=self._convention)
+    
+
+
+    def get_quaternion(self, *, convention: Optional[int] = None, scalar_first: bool = True) -> numpy.ndarray:
+        """
+        Get the quaternion between the input frame and the output frame in the given convention.
+        
+        Parameters
+        ----------
+        convention : Optional[int], optional
+            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+
+        scalar_first : bool, optional
+            If True, the quaternion will be in the scalar-first convention. Default is True.
+
+        Returns
+        -------
+        numpy.ndarray
+            The quaternion between the input frame and the output frame in the given convention with shape (4,).
+        """
+        if not isinstance(scalar_first, bool):
+            raise TypeError("The scalar_first must be a boolean.")
+        return self.get_rotation(convention=convention).as_quat(scalar_first=scalar_first)
+    
+    @property
+    def quaternion(self) -> numpy.ndarray:
+        """
+        Getter for the quaternion between the input frame and the output frame in the convention of the frame.
+        The quaternion is in the scalar-first convention.
+
+        .. seealso::
+
+            - method :meth:`py3dframe.Frame.get_quaternion` to get the quaternion in a specific convention.
+
+        Returns
+        -------
+        numpy.ndarray
+            The quaternion between the input frame and the output frame in the convention of the frame with shape (4,) in the scalar-first convention.
+        """
+        return self.get_quaternion(convention=self._convention, scalar_first=True)
+
+
+
+    def get_euler_angles(self, *, convention: Optional[int] = None, seq: str = 'xyz', degrees: bool = False) -> numpy.ndarray:
+        """
+        Get the Euler angles between the input frame and the output frame in the given convention.
+        
+        Parameters
+        ----------
+        convention : Optional[int], optional
+            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+
+        seq : str, optional
+            The sequence of the Euler angles. Default is 'xyz'.
+
+        degrees : bool, optional
+            If True, the Euler angles will be in degrees. Default is False.
+
+        Returns
+        -------
+        numpy.ndarray
+            The Euler angles between the input frame and the output frame in the given convention with shape (3,).
+        """
+        if not isinstance(seq, str):
+            raise TypeError("The seq must be a string.")
+        if not isinstance(degrees, bool):
+            raise TypeError("The degrees must be a boolean.")
+        if not len(seq) == 3:
+            raise ValueError("The seq must be a string of length 3.")
+        if not all([s in 'XYZxyz' for s in seq]):
+            raise ValueError("The seq must contain only the characters 'X', 'Y', 'Z', 'x', 'y', 'z'.") 
+        return self.get_rotation(convention=convention).as_euler(seq, degrees=degrees)
+    
+    @property
+    def euler_angles(self) -> numpy.ndarray:
+        """
+        Getter for the Euler angles between the input frame and the output frame in the convention of the frame.
+        The Euler angles are in the 'xyz' sequence and in radians.
+
+        .. seealso::
+
+            - method :meth:`py3dframe.Frame.get_euler_angles` to get the Euler angles in a specific convention.
+
+        Returns
+        -------
+        numpy.ndarray
+            The Euler angles between the input frame and the output frame in the convention of the frame with shape (3,) in radians.
+        """
+        return self.get_euler_angles(convention=self._convention, seq='xyz', degrees=False)
+    
+
+
+    def get_rotation_vector(self, *, convention: Optional[int] = None, degrees: bool = False) -> numpy.ndarray:
+        """
+        Get the rotation vector between the input frame and the output frame in the given convention.
+        
+        Parameters
+        ----------
+        convention : Optional[int], optional
+            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+
+        degrees : bool, optional
+            If True, the rotation vector will be in degrees. Default is False.
+
+        Returns
+        -------
+        numpy.ndarray
+            The rotation vector between the input frame and the output frame in the given convention with shape (3,).
+        """
+        if not isinstance(degrees, bool):
+            raise TypeError("The degrees must be a boolean.")
+        return self.get_rotation(convention=convention).as_rotvec(degrees=degrees)
+
+    @property
+    def rotation_vector(self) -> numpy.ndarray:
+        """
+        Getter for the rotation vector between the input frame and the output frame in the convention of the frame.
+        The rotation vector is in radians.
+
+        .. seealso::
+
+            - method :meth:`py3dframe.Frame.get_rotation_vector` to get the rotation vector in a specific convention.
+
+        Returns
+        -------
+        numpy.ndarray
+            The rotation vector between the input frame and the output frame in the convention of the frame with shape (3,) in radians.
+        """
+        return self.get_rotation_vector(convention=self._convention, degrees=False)
 
     
 

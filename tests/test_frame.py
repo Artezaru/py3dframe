@@ -90,3 +90,23 @@ def test_set_and_get_translation_global():
     R = frame.get_global_rotation(convention=0)
 
     assert np.allclose(R.as_euler('xyz'), [np.pi / 3, 0, np.pi / 2])
+
+def test_load_save():
+    # Create a frame with the default values
+    origin = np.array([1, 2, 3]).reshape((3, 1))
+    x_axis = np.array([1, -1, 0]).reshape((3, 1)) / np.sqrt(2)
+    y_axis = np.array([1, 1, 0]).reshape((3, 1)) / np.sqrt(2)
+    z_axis = np.array([0, 0, 1]).reshape((3, 1))
+    frame = Frame(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
+
+    # Save the frame
+    data = frame.save_to_dict()
+
+    # Load the frame
+    frame_loaded = Frame.load_from_dict(data)
+
+    # Check if the loaded frame is consistent
+    assert np.allclose(frame_loaded.origin, origin)
+    assert np.allclose(frame_loaded.x_axis, x_axis)
+    assert np.allclose(frame_loaded.y_axis, y_axis)
+    assert np.allclose(frame_loaded.z_axis, z_axis)

@@ -102,6 +102,18 @@ class Frame:
         The rotation matrix in the convention used to define the frame. Default is the identity matrix.
         The rotation matrix is a 3x3 matrix.
 
+    quaternion : array_like, optional
+        The quaternion in the convention used to define the frame. Default is the identity quaternion.
+        The quaternion is a 4-element vector [w, x, y, z] (scalar first convention).
+
+    euler_angles : array_like, optional
+        The euler angles in the convention used to define the frame. Default is the zero vector.
+        The euler angles are a 3-element vector with xyz convention in radians.
+
+    rotation_vector : array_like, optional
+        The rotation vector in the convention used to define the frame. Default is the zero vector.
+        The rotation vector is a 3-element vector.
+
     parent : Optional[Frame], optional
         The parent frame of the frame. Default is None - the global frame.
 
@@ -197,6 +209,8 @@ class Frame:
             translation: Optional[numpy.ndarray] = None,
             rotation: Optional[scipy.spatial.transform.Rotation] = None,
             rotation_matrix: Optional[numpy.ndarray] = None,
+            quaternion: Optional[numpy.ndarray] = None,
+            euler_angles: Optional[numpy.ndarray] = None,
             parent: Optional[Frame] = None,
             setup_only: bool = False,
             convention: Optional[int] = 0
@@ -208,8 +222,8 @@ class Frame:
         # ==============================================================================================================
 
         # Check the parameters
-        if rotation is not None and not isinstance(rotation, scipy.spatial.transform.Rotation):
-            raise TypeError("The rotation must be a scipy.spatial.transform.Rotation object.")
+        if rotation is not None and not isinstance(rotation, Rotation):
+            raise TypeError("The rotation must be a Rotation object.")
         if parent is not None and not isinstance(parent, Frame):
             raise TypeError("The parent must be a Frame object.")
         if not isinstance(setup_only, bool):
@@ -221,7 +235,7 @@ class Frame:
 
         # Get the method to define the frame.
         define_by_origin_and_axes = origin is not None or x_axis is not None or y_axis is not None or z_axis is not None or axes is not None
-        define_by_translation_and_rotation = translation is not None or rotation is not None or rotation_matrix is not None
+        define_by_translation_and_rotation = translation is not None or rotation is not None or rotation_matrix is not None or quaternion is not None or euler_angles is not None
         
         # Check if the parameters are consistent
         if define_by_origin_and_axes and define_by_translation_and_rotation:
@@ -234,7 +248,7 @@ class Frame:
             
         if define_by_translation_and_rotation:
             # Only one of the rotation parameters must be provided.
-            if sum([rotation is not None, rotation_matrix is not None]) > 1:
+            if sum([rotation is not None, rotation_matrix is not None, quaternion is not None, euler_angles is not None]) > 1:
                 raise ValueError("Only one of the rotation parameters must be provided.")
 
         # Default values if no orientation is provided.
@@ -283,12 +297,27 @@ class Frame:
 
             if rotation_matrix is not None:
                 rotation_matrix = numpy.array(rotation_matrix).reshape((3,3)).astype(float)
-                rotation_matrix = rotation_matrix / numpy.linalg.norm(rotation_matrix, axis=0)
+                norm = numpy.linalg.norm(rotation_matrix, axis=0)
+                if numpy.any(norm == 0):
+                    raise ValueError("The basis vectors can't be 0.")
+                rotation_matrix = rotation_matrix / norm
                 if not is_SO3(rotation_matrix):
                     raise ValueError("The rotation matrix must be a special orthogonal matrix.")
                 rotation = Rotation.from_matrix(rotation_matrix)
+            
+            if quaternion is not None:
+                quaternion = numpy.array(quaternion).reshape((4,)).astype(float)
+                norm = numpy.linalg.norm(quaternion)
+                if norm == 0:
+                    raise ValueError("The quaternion can't be 0.")
+                quaternion = quaternion / norm
+                rotation = Rotation.from_quat(quaternion, scalar_first=True)
+            
+            if euler_angles is not None:
+                euler_angles = numpy.array(euler_angles).reshape((3,)).astype(float)
+                rotation = Rotation.from_euler("XYZ", euler_angles, degrees=False)
 
-            if rotation is None and rotation_matrix is None:
+            if rotation is None:
                 rotation = Rotation.from_matrix(numpy.eye(3))
 
         # ====================================================================================================================================
@@ -548,7 +577,7 @@ class Frame:
 
 
 
-    def get_rotation(self, convention: Optional[int] = None) -> scipy.spatial.transform.Rotation:
+    def get_rotation(self, *, convention: Optional[int] = None) -> scipy.spatial.transform.Rotation:
         """
         Get the rotation between the parent frame and the frame in the given convention.
 
@@ -571,7 +600,7 @@ class Frame:
         R, _ = switch_RT_convention(self._R_dev, self._T_dev, 0, convention)
         return R
     
-    def set_rotation(self, rotation: Rotation, convention: Optional[int] = None) -> None:
+    def set_rotation(self, rotation: Rotation, *, convention: Optional[int] = None) -> None:
         """
         Set the rotation between the parent frame and the frame in the given convention.
 
@@ -616,7 +645,7 @@ class Frame:
     
 
 
-    def get_translation(self, convention: Optional[int] = None) -> numpy.ndarray:
+    def get_translation(self, *, convention: Optional[int] = None) -> numpy.ndarray:
         """
         Get the translation vector between the parent frame and the frame in the given convention.
 
@@ -639,7 +668,7 @@ class Frame:
         _, T = switch_RT_convention(self._R_dev, self._T_dev, 0, convention)
         return T
     
-    def set_translation(self, translation: numpy.ndarray, convention: Optional[int] = None) -> None:
+    def set_translation(self, translation: numpy.ndarray, *, convention: Optional[int] = None) -> None:
         """
         Set the translation vector between the parent frame and the frame in the given convention.
 
@@ -683,7 +712,7 @@ class Frame:
     
 
 
-    def get_rotation_matrix(self, convention: Optional[int] = None) -> numpy.ndarray:
+    def get_rotation_matrix(self, *, convention: Optional[int] = None) -> numpy.ndarray:
         """
         Get the rotation matrix between the parent frame and the frame in the given convention.
 
@@ -699,7 +728,7 @@ class Frame:
         """
         return self.get_rotation(convention=convention).as_matrix()
     
-    def set_rotation_matrix(self, rotation_matrix: numpy.ndarray, convention: Optional[int] = None) -> None:
+    def set_rotation_matrix(self, rotation_matrix: numpy.ndarray, *, convention: Optional[int] = None) -> None:
         """
         Set the rotation matrix between the parent frame and the frame in the given convention.
 
@@ -742,7 +771,234 @@ class Frame:
     @rotation_matrix.setter
     def rotation_matrix(self, rotation_matrix: numpy.ndarray) -> None:
         self.set_rotation_matrix(rotation_matrix, convention=self._convention)
+
+
+
+    def get_quaternion(self, *, convention: Optional[int] = None, scalar_first: bool = True) -> numpy.ndarray:
+        """
+        Get the quaternion between the parent frame and the frame in the given convention.
+
+        Parameters
+        ----------
+        convention : Optional[int], optional
+            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+
+        scalar_first : bool, optional
+            If True, the quaternion is returned in the scalar first convention. Default is True.
+        
+        Returns
+        -------
+        numpy.ndarray
+            The quaternion between the parent frame and the frame in the given convention with shape (4,).
+        """
+        return self.get_rotation(convention=convention).as_quat(scalar_first=scalar_first)
     
+    def set_quaternion(self, quaternion: numpy.ndarray, *, convention: Optional[int] = None, scalar_first: bool = True) -> None:
+        """
+        Set the quaternion between the parent frame and the frame in the given convention.
+
+        Parameters
+        ----------
+        quaternion : numpy.ndarray
+            The quaternion between the parent frame and the frame in the given convention with shape (4,).
+        
+        convention : Optional[int], optional
+            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+        
+        scalar_first : bool, optional
+            If True, the quaternion is in the scalar first convention. Default is True.
+        """
+        if convention is None:
+            convention = self._convention
+        if not isinstance(convention, int):
+            raise TypeError("The convention must be an integer.")
+        if not convention in range(8):
+            raise ValueError("The convention must be an integer between 0 and 7.")
+        if not isinstance(scalar_first, bool):
+            raise TypeError("The scalar_first parameter must be a boolean.")
+        quaternion = numpy.array(quaternion).reshape((4,)).astype(float)
+        norm = numpy.linalg.norm(quaternion)
+        if norm == 0:
+            raise ValueError("The quaternion can't be 0.")
+        quaternion = quaternion / norm
+        R = Rotation.from_quat(quaternion, scalar_first=scalar_first)
+        self.set_rotation(R, convention=convention)
+    
+    @property
+    def quaternion(self) -> numpy.ndarray:
+        """
+        Getter and setter for the quaternion between the parent frame and the frame in the convention of the frame.
+        The quaternion is in the scalar first convention.
+
+        .. seealso::
+
+            - method :meth:`py3dframe.Frame.get_quaternion` to get the quaternion in a specific convention.
+
+        Returns
+        -------
+        numpy.ndarray
+            The quaternion between the parent frame and the frame in the convention of the frame with shape (4,).
+        """
+        return self.get_quaternion(convention=self._convention, scalar_first=True)
+    
+    @quaternion.setter
+    def quaternion(self, quaternion: numpy.ndarray) -> None:
+        self.set_quaternion(quaternion, convention=self._convention, scalar_first=True)
+
+    
+
+    def get_euler_angles(self, *, convention: Optional[int] = None, degrees: bool = False, seq: str = "xyz") -> numpy.ndarray:
+        """
+        Get the Euler angles between the parent frame and the frame in the given convention.
+
+        Parameters
+        ----------
+        convention : Optional[int], optional
+            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+
+        degrees : bool, optional
+            If True, the Euler angles are returned in degrees. Default is False.
+
+        seq : str, optional
+            The axes of the Euler angles. Default is "xyz".
+
+        Returns
+        -------
+        numpy.ndarray
+            The Euler angles between the parent frame and the frame in the given convention with shape (3,).
+        """
+        if not isinstance(degrees, bool):
+            raise TypeError("The degrees parameter must be a boolean.")
+        if not isinstance(seq, str):
+            raise TypeError("The seq parameter must be a string.")
+        if not len(seq) == 3:
+            raise ValueError("The seq parameter must have 3 characters.")
+        if not all([s in 'XYZxyz' for s in seq]):
+            raise ValueError("The seq must contain only the characters 'X', 'Y', 'Z', 'x', 'y', 'z'.") 
+        return self.get_rotation(convention=convention).as_euler(seq, degrees=degrees)
+    
+    def set_euler_angles(self, euler_angles: numpy.ndarray, *, convention: Optional[int] = None, degrees: bool = False, seq: str = "xyz") -> None:
+        """
+        Set the Euler angles between the parent frame and the frame in the given convention.
+
+        Parameters
+        ----------
+        euler_angles : numpy.ndarray
+            The Euler angles between the parent frame and the frame in the given convention with shape (3,).
+        
+        convention : Optional[int], optional
+            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+
+        degrees : bool, optional
+            If True, the Euler angles are in degrees. Default is False.
+
+        seq : str, optional
+            The axes of the Euler angles. Default is "xyz".
+        """
+        if convention is None:
+            convention = self._convention
+        if not isinstance(convention, int):
+            raise TypeError("The convention must be an integer.")
+        if not convention in range(8):
+            raise ValueError("The convention must be an integer between 0 and 7.")
+        if not isinstance(degrees, bool):
+            raise TypeError("The degrees parameter must be a boolean.")
+        if not isinstance(seq, str):
+            raise TypeError("The seq parameter must be a string.")
+        if not len(seq) == 3:
+            raise ValueError("The seq parameter must have 3 characters.")
+        if not all([s in 'XYZxyz' for s in seq]):
+            raise ValueError("The seq must contain only the characters 'X', 'Y', 'Z', 'x', 'y', 'z'.") 
+        euler_angles = numpy.array(euler_angles).reshape((3,)).astype(float)
+        R = Rotation.from_euler(seq, euler_angles, degrees=degrees)
+        self.set_rotation(R, convention=convention)
+
+    @property
+    def euler_angles(self) -> numpy.ndarray:
+        """
+        Getter and setter for the Euler angles between the parent frame and the frame in the convention of the frame.
+        The Euler angles are in radians and the axes are "xyz".
+
+        .. seealso::
+
+            - method :meth:`py3dframe.Frame.get_euler_angles` to get the Euler angles in a specific convention.
+
+        Returns
+        -------
+        numpy.ndarray
+            The Euler angles between the parent frame and the frame in the convention of the frame with shape (3,).
+        """
+        return self.get_euler_angles(convention=self._convention, degrees=False, seq="xyz")
+
+    @euler_angles.setter
+    def euler_angles(self, euler_angles: numpy.ndarray) -> None:
+        self.set_euler_angles(euler_angles, convention=self._convention, degrees=False, seq="xyz")
+
+
+
+    def get_rotation_vector(self, *, convention: Optional[int] = None, degrees: bool = False) -> numpy.ndarray:
+        """
+        Get the rotation vector between the parent frame and the frame in the given convention.
+
+        Parameters
+        ----------
+        convention : Optional[int], optional
+            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+
+        degrees : bool, optional
+            If True, the rotation vector is returned in degrees. Default is False.
+
+        Returns
+        -------
+        numpy.ndarray
+            The rotation vector between the parent frame and the frame in the given convention with shape (3,).
+        """
+        if not isinstance(degrees, bool):
+            raise TypeError("The degrees parameter must be a boolean.")
+        return self.get_rotation(convention=convention).as_rotvec(degrees=degrees)
+
+    def set_rotation_vector(self, rotation_vector: numpy.ndarray, *, convention: Optional[int] = None, degrees: bool = False) -> None:
+        """
+        Set the rotation vector between the parent frame and the frame in the given convention.
+
+        Parameters
+        ----------
+        rotation_vector : numpy.ndarray
+            The rotation vector between the parent frame and the frame in the given convention with shape (3,).
+        
+        convention : Optional[int], optional
+            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+
+        degrees : bool, optional
+            If True, the rotation vector is in degrees. Default is False.
+        """
+        if not isinstance(degrees, bool):
+            raise TypeError("The degrees parameter must be a boolean.")
+        rotation_vector = numpy.array(rotation_vector).reshape((3,)).astype(float)
+        R = Rotation.from_rotvec(rotation_vector, degrees=degrees)
+        self.set_rotation(R, convention=convention)
+    
+    @property
+    def rotation_vector(self) -> numpy.ndarray:
+        """
+        Getter and setter for the rotation vector between the parent frame and the frame in the convention of the frame.
+        The rotation vector is in radians.
+
+        .. seealso::
+
+            - method :meth:`py3dframe.Frame.get_rotation_vector` to get the rotation vector in a specific convention.
+
+        Returns
+        -------
+        numpy.ndarray
+            The rotation vector between the parent frame and the frame in the convention of the frame with shape (3,).
+        """
+        return self.get_rotation_vector(convention=self._convention, degrees=False)
+    
+    @rotation_vector.setter
+    def rotation_vector(self, rotation_vector: numpy.ndarray) -> None:
+        self.set_rotation_vector(rotation_vector, convention=self._convention, degrees=False)
+
 
 
     def get_global_frame(self) -> Frame:
@@ -803,7 +1059,7 @@ class Frame:
 
 
 
-    def get_global_rotation(self, convention: Optional[int] = None) -> scipy.spatial.transform.Rotation:
+    def get_global_rotation(self, *, convention: Optional[int] = None) -> scipy.spatial.transform.Rotation:
         """
         Get the rotation between the global frame and the frame in the given convention.
 
@@ -820,7 +1076,7 @@ class Frame:
         global_frame = self.get_global_frame()
         return global_frame.get_rotation(convention=convention)
 
-    def set_global_rotation(self, rotation: scipy.spatial.transform.Rotation, convention: Optional[int] = None) -> None:
+    def set_global_rotation(self, rotation: scipy.spatial.transform.Rotation, *, convention: Optional[int] = None) -> None:
         """
         Set the rotation between the global frame and the frame in the given convention.
 
@@ -890,7 +1146,7 @@ class Frame:
     
 
 
-    def get_global_translation(self, convention: Optional[int] = None) -> numpy.ndarray:
+    def get_global_translation(self, *, convention: Optional[int] = None) -> numpy.ndarray:
         """
         Get the translation vector between the global frame and the frame in the given convention.
 
@@ -907,7 +1163,7 @@ class Frame:
         global_frame = self.get_global_frame()
         return global_frame.get_translation(convention=convention)
     
-    def set_global_translation(self, translation: numpy.ndarray, convention: Optional[int] = None) -> None:
+    def set_global_translation(self, translation: numpy.ndarray, *, convention: Optional[int] = None) -> None:
         """
         Set the translation vector between the global frame and the frame in the given convention.
 
@@ -978,7 +1234,7 @@ class Frame:
     
 
 
-    def get_global_rotation_matrix(self, convention: Optional[int] = None) -> numpy.ndarray:
+    def get_global_rotation_matrix(self, *, convention: Optional[int] = None) -> numpy.ndarray:
         """
         Get the rotation matrix between the global frame and the frame in the given convention.
 
@@ -995,7 +1251,7 @@ class Frame:
         global_frame = self.get_global_frame()
         return global_frame.get_rotation_matrix(convention=convention)
 
-    def set_global_rotation_matrix(self, rotation_matrix: numpy.ndarray, convention: Optional[int] = None) -> None:
+    def set_global_rotation_matrix(self, rotation_matrix: numpy.ndarray, *, convention: Optional[int] = None) -> None:
         """
         Set the rotation matrix between the global frame and the frame in the given convention.
 
@@ -1038,6 +1294,195 @@ class Frame:
     @global_rotation_matrix.setter
     def global_rotation_matrix(self, rotation_matrix: numpy.ndarray) -> None:
         self.set_global_rotation_matrix(rotation_matrix, convention=self._convention)
+
+
+    
+    def get_global_quaternion(self, *, convention: Optional[int] = None, scalar_first: bool = True) -> numpy.ndarray:
+        """
+        Get the quaternion between the global frame and the frame in the given convention.
+
+        Parameters
+        ----------
+        convention : Optional[int], optional
+            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+
+        scalar_first : bool, optional
+            If True, the quaternion is returned in the scalar first convention. Default is True.
+
+        Returns
+        -------
+        numpy.ndarray
+            The quaternion between the global frame and the frame in the given convention with shape (4,).
+        """
+        global_frame = self.get_global_frame()
+        return global_frame.get_quaternion(convention=convention, scalar_first=scalar_first)
+
+    def set_global_quaternion(self, quaternion: numpy.ndarray, *, convention: Optional[int] = None, scalar_first: bool = True) -> None:
+        """
+        Set the quaternion between the global frame and the frame in the given convention.
+
+        Parameters
+        ----------
+        quaternion : numpy.ndarray
+            The quaternion between the global frame and the frame in the given convention with shape (4,).
+        
+        convention : Optional[int], optional
+            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+        
+        scalar_first : bool, optional
+            If True, the quaternion is in the scalar first convention. Default is True.
+        """
+        global_frame = self.get_global_frame()
+        global_frame.set_quaternion(quaternion, convention=convention, scalar_first=scalar_first)
+    
+    @property
+    def global_quaternion(self) -> numpy.ndarray:
+        """
+        Getter and setter for the quaternion between the global frame and the frame in the convention of the frame.
+        The quaternion is in the scalar first convention.
+
+        .. seealso::
+
+            - method :meth:`py3dframe.Frame.get_global_quaternion` to get the quaternion in a specific convention.
+
+        Returns
+        -------
+        numpy.ndarray
+            The quaternion between the global frame and the frame in the convention of the frame with shape (4,).
+        """
+        return self.get_global_quaternion(convention=self._convention, scalar_first=True)
+
+    @global_quaternion.setter
+    def global_quaternion(self, quaternion: numpy.ndarray) -> None:
+        self.set_global_quaternion(quaternion, convention=self._convention, scalar_first=True)
+    
+
+
+    def get_global_euler_angles(self, *, convention: Optional[int] = None, degrees: bool = False, seq: str = "xyz") -> numpy.ndarray:
+        """
+        Get the Euler angles between the global frame and the frame in the given convention.
+
+        Parameters
+        ----------
+        convention : Optional[int], optional
+            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+
+        degrees : bool, optional
+            If True, the Euler angles are returned in degrees. Default is False.
+
+        seq : str, optional
+            The axes of the Euler angles. Default is "xyz".
+
+        Returns
+        -------
+        numpy.ndarray
+            The Euler angles between the global frame and the frame in the given convention with shape (3,).
+        """
+        global_frame = self.get_global_frame()
+        return global_frame.get_euler_angles(convention=convention, degrees=degrees, seq=seq)
+
+    def set_global_euler_angles(self, euler_angles: numpy.ndarray, *, convention: Optional[int] = None, degrees: bool = False, seq: str = "xyz") -> None:
+        """
+        Set the Euler angles between the global frame and the frame in the given convention.
+
+        Parameters
+        ----------
+        euler_angles : numpy.ndarray
+            The Euler angles between the global frame and the frame in the given convention with shape (3,).
+        
+        convention : Optional[int], optional
+            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+
+        degrees : bool, optional
+            If True, the Euler angles are in degrees. Default is False.
+
+        seq : str, optional
+            The axes of the Euler angles. Default is "xyz".
+        """
+        global_frame = self.get_global_frame()
+        global_frame.set_euler_angles(euler_angles, convention=convention, degrees=degrees, seq=seq)
+    
+    @property
+    def global_euler_angles(self) -> numpy.ndarray:
+        """
+        Getter and setter for the Euler angles between the global frame and the frame in the convention of the frame.
+        The Euler angles are in radians and the axes are "xyz".
+
+        .. seealso::
+
+            - method :meth:`py3dframe.Frame.get_global_euler_angles` to get the Euler angles in a specific convention.
+
+        Returns
+        -------
+        numpy.ndarray
+            The Euler angles between the global frame and the frame in the convention of the frame with shape (3,).
+        """
+        return self.get_global_euler_angles(convention=self._convention, degrees=False, seq="xyz")
+
+    @global_euler_angles.setter
+    def global_euler_angles(self, euler_angles: numpy.ndarray) -> None:
+        self.set_global_euler_angles(euler_angles, convention=self._convention, degrees=False, seq="xyz")
+    
+
+
+    def get_global_rotation_vector(self, *, convention: Optional[int] = None, degrees: bool = False) -> numpy.ndarray:
+        """
+        Get the rotation vector between the global frame and the frame in the given convention.
+
+        Parameters
+        ----------
+        convention : Optional[int], optional
+            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+
+        degrees : bool, optional
+            If True, the rotation vector is returned in degrees. Default is False.
+
+        Returns
+        -------
+        numpy.ndarray
+            The rotation vector between the global frame and the frame in the given convention with shape (3,).
+        """
+        global_frame = self.get_global_frame()
+        return global_frame.get_rotation_vector(convention=convention, degrees=degrees)
+
+    def set_global_rotation_vector(self, rotation_vector: numpy.ndarray, *, convention: Optional[int] = None, degrees: bool = False) -> None:
+        """
+        Set the rotation vector between the global frame and the frame in the given convention.
+
+        Parameters
+        ----------
+        rotation_vector : numpy.ndarray
+            The rotation vector between the global frame and the frame in the given convention with shape (3,).
+        
+        convention : Optional[int], optional
+            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+
+        degrees : bool, optional
+            If True, the rotation vector is in degrees. Default is False.
+        """
+        global_frame = self.get_global_frame()
+        global_frame.set_rotation_vector(rotation_vector, convention=convention, degrees=degrees)
+    
+    @property
+    def global_rotation_vector(self) -> numpy.ndarray:
+        """
+        Getter and setter for the rotation vector between the global frame and the frame in the convention of the frame.
+        The rotation vector is in radians.
+
+        .. seealso::
+
+            - method :meth:`py3dframe.Frame.get_global_rotation_vector` to get the rotation vector in a specific convention.
+
+        Returns
+        -------
+        numpy.ndarray
+            The rotation vector between the global frame and the frame in the convention of the frame with shape (3,).
+        """
+        return self.get_global_rotation_vector(convention=self._convention, degrees=False)
+
+    @global_rotation_vector.setter
+    def global_rotation_vector(self, rotation_vector: numpy.ndarray) -> None:
+        self.set_global_rotation_vector(rotation_vector, convention=self._convention, degrees=False)
     
 
 
@@ -1259,17 +1704,13 @@ class Frame:
         .. code-block:: python
 
             {
-                "origin": [float, float, float],
+                "translation": [float, float, float],
                 "quaternion": [float, float, float, float],
+                "convention": int
+                "parent": None
             }
 
-        The quaternin is given in XYZW format.
-
-        The quaternion is the rotation of the frame in the global frame coordinates with the convention 0.
-
-        .. warning::
-
-            The global frame coordinates are saved and not the parent.
+        The quaternion is given in WXYZ format (scalar first).
 
         Returns
         -------
@@ -1277,9 +1718,14 @@ class Frame:
             The dictionary containing the Frame object.
         """
         data = {
-            'origin': self.global_origin.flatten().tolist(),
-            'quaternion': self.get_global_rotation(convention=0).as_quat().tolist()
+            "translation": self.translation.flatten().tolist(),
+            "quaternion": self.quaternion.flatten().tolist(),
+            "convention": self._convention,
         }
+        if self._parent is None:
+            data["parent"] = None
+        else:
+            data["parent"] = self._parent.save_to_dict()
         return data
 
     @classmethod
@@ -1292,17 +1738,13 @@ class Frame:
         .. code-block:: python
 
             {
-                "origin": [float, float, float],
+                "translation": [float, float, float],
                 "quaternion": [float, float, float, float],
+                "convention": int
+                "parent": None
             }
 
-        The quaternin is given in XYZW format.
-
-        The quaternion is the rotation of the frame in the global frame coordinates with the convention 0.
-
-        .. warning::
-
-            The global frame coordinates are saved and not the parent.
+        The quaternion is given in WXYZ format (scalar first).
 
         Parameters
         ----------
@@ -1316,19 +1758,26 @@ class Frame:
         """
         if not isinstance(data, dict):
             raise TypeError("The data must be a dictionary.")
-        if not 'origin' in data:
-            raise ValueError("The data must contain the 'origin' key.")
-        if not 'quaternion' in data:
-            raise ValueError("The data must contain the 'quaternion' key.")
-        origin = numpy.array(data['origin']).reshape((3,1))
-        quaternion = numpy.array(data['quaternion']).reshape((4,))
-        norm = numpy.linalg.norm(quaternion)
-        if norm == 0:
-            raise ValueError("The quaternion must be non-zero.")
-        quaternion = quaternion / norm
-        rotation = Rotation.from_quat(quaternion)
-        frame = cls(translation=origin, rotation=rotation, parent=None, convention=0)
+        if not "translation" in data:
+            raise ValueError("The dictionary must contain the 'translation' key.")
+        if not "quaternion" in data:
+            raise ValueError("The dictionary must contain the 'quaternion' key.")
+        if not "convention" in data:
+            raise ValueError("The dictionary must contain the 'convention' key.")
+        if not "parent" in data:
+            raise ValueError("The dictionary must contain the 'parent' key.")
+        translation = numpy.array(data["translation"]).reshape((3,1)).astype(float)
+        quaternion = numpy.array(data["quaternion"]).reshape((4,)).astype(float)
+        convention = data["convention"]
+        parent = data["parent"]
+        if parent is None:
+            parent_frame = None
+        else:
+            parent_frame = cls.load_from_dict(parent)
+        frame = cls(translation=translation, quaternion=quaternion, parent=parent_frame, convention=convention)
         return frame
+
+
 
     def save_to_json(self, filename: str) -> None:
         """
