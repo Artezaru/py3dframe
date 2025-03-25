@@ -253,6 +253,62 @@ class Transform:
     # ====================================================================================================================================
 
     @property
+    def input_frame(self) -> Frame:
+        """
+        Getter and setter for the input_frame attribute.
+
+        The input_frame attribute is a Frame object.
+
+        .. warning::
+
+            dynamic attribute must be set to True to take into account the changes in the input frame.
+
+        Returns
+        -------
+        Frame
+            The input frame of the transformation.
+        """
+        return self._input_frame
+    
+    @input_frame.setter
+    def input_frame(self, input_frame: Optional[Frame]) -> None:
+        if input_frame is None:
+            input_frame = Frame()
+        if not isinstance(input_frame, Frame):
+            raise TypeError("The input_frame must be a Frame object.")
+        self._input_frame = input_frame
+
+
+
+    @property
+    def output_frame(self) -> Frame:
+        """
+        Getter and setter for the output_frame attribute.
+
+        The output_frame attribute is a Frame object.
+
+        .. warning::
+
+            dynamic attribute must be set to True to take into account the changes in the output frame.
+
+        Returns
+        -------
+        Frame
+            The output frame of the transformation.
+        """
+        return self._output_frame
+    
+    @output_frame.setter
+    def output_frame(self, output_frame: Optional[Frame]) -> None:
+        if output_frame is None:
+            output_frame = Frame()
+        if not isinstance(output_frame, Frame):
+            raise TypeError("The output_frame must be a Frame object.")
+        self._output_frame = output_frame
+
+
+
+    @property
     def dynamic(self) -> bool:
         """
         Getter and setter for the dynamic attribute.
