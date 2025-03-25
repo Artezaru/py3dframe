@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>py3dframe.transform &#8212; py3dframe 0.1.5 documentation</title>
+    <title>py3dframe.transform &#8212; py3dframe 0.1.6 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=59fadc99"></script>
+    <script src="../../_static/documentation_options.js?v=6e0256f3"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/py3dframe/transform';</script>
@@ -107,7 +107,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 0.1.5 documentation</p>
+    <p class="title logo__title">py3dframe 0.1.6 documentation</p>
   
 </a></div>
     
@@ -567,6 +567,62 @@
     <span class="c1"># ====================================================================================================================================</span>
 
     <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">input_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Getter and setter for the input_frame attribute.</span>
+
+<span class="sd">        The input_frame attribute is a Frame object.</span>
+
+<span class="sd">        .. warning::</span>
+
+<span class="sd">            dynamic attribute must be set to True to take into account the changes in the input frame.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Frame</span>
+<span class="sd">            The input frame of the transformation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_frame</span>
+    
+    <span class="nd">@input_frame</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">input_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_frame</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">input_frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">input_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">Frame</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The input_frame must be a Frame object.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input_frame</span> <span class="o">=</span> <span class="n">input_frame</span>
+
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">output_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Getter and setter for the output_frame attribute.</span>
+
+<span class="sd">        The output_frame attribute is a Frame object.</span>
+
+<span class="sd">        .. warning::</span>
+
+<span class="sd">            dynamic attribute must be set to True to take into account the changes in the output frame.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Frame</span>
+<span class="sd">            The output frame of the transformation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_frame</span>
+    
+    <span class="nd">@output_frame</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">output_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_frame</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">output_frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">output_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output_frame</span><span class="p">,</span> <span class="n">Frame</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The output_frame must be a Frame object.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output_frame</span> <span class="o">=</span> <span class="n">output_frame</span>
+
+
+
+    <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">dynamic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Getter and setter for the dynamic attribute.</span>
@@ -617,7 +673,7 @@
 
     
 <div class="viewcode-block" id="Transform.get_rotation">
-<a class="viewcode-back" href="../../api_doc/transform.html#py3dframe.Transform.get_rotation">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Transform_generated/py3dframe.Transform.get_rotation.html#py3dframe.Transform.get_rotation">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">Rotation</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the rotation between the input frame and the output frame in the given convention.</span>
@@ -661,7 +717,7 @@
 
 
 <div class="viewcode-block" id="Transform.get_translation">
-<a class="viewcode-back" href="../../api_doc/transform.html#py3dframe.Transform.get_translation">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Transform_generated/py3dframe.Transform.get_translation.html#py3dframe.Transform.get_translation">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_translation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the translation vector between the input frame and the output frame in the given convention.</span>
@@ -705,7 +761,7 @@
 
 
 <div class="viewcode-block" id="Transform.get_rotation_matrix">
-<a class="viewcode-back" href="../../api_doc/transform.html#py3dframe.Transform.get_rotation_matrix">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Transform_generated/py3dframe.Transform.get_rotation_matrix.html#py3dframe.Transform.get_rotation_matrix">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the rotation matrix between the input frame and the output frame in the given convention.</span>
@@ -742,7 +798,7 @@
 
 
 <div class="viewcode-block" id="Transform.get_quaternion">
-<a class="viewcode-back" href="../../api_doc/transform.html#py3dframe.Transform.get_quaternion">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Transform_generated/py3dframe.Transform.get_quaternion.html#py3dframe.Transform.get_quaternion">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_quaternion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">scalar_first</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the quaternion between the input frame and the output frame in the given convention.</span>
@@ -785,7 +841,7 @@
 
 
 <div class="viewcode-block" id="Transform.get_euler_angles">
-<a class="viewcode-back" href="../../api_doc/transform.html#py3dframe.Transform.get_euler_angles">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Transform_generated/py3dframe.Transform.get_euler_angles.html#py3dframe.Transform.get_euler_angles">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_euler_angles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">seq</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;xyz&#39;</span><span class="p">,</span> <span class="n">degrees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the Euler angles between the input frame and the output frame in the given convention.</span>
@@ -837,7 +893,7 @@
 
 
 <div class="viewcode-block" id="Transform.get_rotation_vector">
-<a class="viewcode-back" href="../../api_doc/transform.html#py3dframe.Transform.get_rotation_vector">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Transform_generated/py3dframe.Transform.get_rotation_vector.html#py3dframe.Transform.get_rotation_vector">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_rotation_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">degrees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the rotation vector between the input frame and the output frame in the given convention.</span>
@@ -880,7 +936,7 @@
     
 
 <div class="viewcode-block" id="Transform.transform">
-<a class="viewcode-back" href="../../api_doc/transform.html#py3dframe.Transform.transform">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Transform_generated/py3dframe.Transform.transform.html#py3dframe.Transform.transform">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">vector</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform a point or a vector from the input frame to the output frame.</span>
@@ -942,7 +998,7 @@
 
 
 <div class="viewcode-block" id="Transform.inverse_transform">
-<a class="viewcode-back" href="../../api_doc/transform.html#py3dframe.Transform.inverse_transform">[docs]</a>
+<a class="viewcode-back" href="../../api_doc/Transform_generated/py3dframe.Transform.inverse_transform.html#py3dframe.Transform.inverse_transform">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">inverse_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">vector</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transform a point or a vector from the output frame to the input frame.</span>
