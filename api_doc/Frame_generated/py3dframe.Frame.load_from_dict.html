@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>py3dframe.Frame.load_from_dict &#8212; py3dframe 0.1.6 documentation</title>
+    <title>py3dframe.Frame.load_from_dict &#8212; py3dframe 0.1.8 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=6e0256f3"></script>
+    <script src="../../_static/documentation_options.js?v=22607128"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api_doc/Frame_generated/py3dframe.Frame.load_from_dict';</script>
@@ -110,7 +110,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 0.1.6 documentation</p>
+    <p class="title logo__title">py3dframe 0.1.8 documentation</p>
   
 </a></div>
     
@@ -421,12 +421,38 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s2">&quot;translation&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
     <span class="s2">&quot;quaternion&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="s2">&quot;rotation_vector&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="s2">&quot;rotation_matrix&quot;</span><span class="p">:</span> <span class="p">[[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+    <span class="s2">&quot;euler_angles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
     <span class="s2">&quot;convention&quot;</span><span class="p">:</span> <span class="nb">int</span>
     <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="kc">None</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>The quaternion is given in WXYZ format (scalar first).</p>
+<ul class="simple">
+<li><p>The quaternion is given in WXYZ format (scalar first).</p></li>
+<li><p>The rotation vector is given in radians.</p></li>
+<li><p>The Euler angles are given in radians and the axes are “xyz”.</p></li>
+<li><p>The rotation is given in the convention of the frame.</p></li>
+<li><p>The translation vector is given in the convention of the frame.</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p>method <a class="reference internal" href="py3dframe.Frame.save_to_dict.html#py3dframe.Frame.save_to_dict" title="py3dframe.Frame.save_to_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">py3dframe.Frame.save_to_dict()</span></code></a> to save the Frame object to a dictionary.</p></li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only one of the rotation keys is needed to reconstruct the frame.
+The reader chooses the key to use in the following order of preference:</p>
+<ul class="simple">
+<li><p>quaternion</p></li>
+<li><p>rotation_vector</p></li>
+<li><p>euler_angles</p></li>
+<li><p>rotation_matrix</p></li>
+</ul>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>data</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – The dictionary containing the Frame object.</p>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Usage &#8212; py3dframe 0.1.6 documentation</title>
+    <title>Usage &#8212; py3dframe 0.1.8 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=6e0256f3"></script>
+    <script src="_static/documentation_options.js?v=22607128"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -110,7 +110,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 0.1.6 documentation</p>
+    <p class="title logo__title">py3dframe 0.1.8 documentation</p>
   
 </a></div>
     
@@ -372,6 +372,7 @@
 </tbody>
 </table>
 </div>
+<p>Where <span class="math notranslate nohighlight">\(\mathbf{X}_E\)</span> is the point expressed in the parent (or global) frame <span class="math notranslate nohighlight">\(E\)</span>, <span class="math notranslate nohighlight">\(\mathbf{X}_F\)</span> is the point expressed in the child (or local) frame <span class="math notranslate nohighlight">\(F\)</span>, <span class="math notranslate nohighlight">\(\mathbf{R}\)</span> is the rotation matrix and <span class="math notranslate nohighlight">\(\mathbf{T}\)</span> is the translation vector.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">py3dframe</span><span class="w"> </span><span class="kn">import</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">Rotation</span>
 
 <span class="n">rotation</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_euler</span><span class="p">(</span><span class="s1">&#39;xyz&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
