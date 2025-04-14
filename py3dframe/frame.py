@@ -112,7 +112,7 @@ class Frame:
 
     rotation_vector : array_like, optional
         The rotation vector in the convention used to define the frame. Default is the zero vector.
-        The rotation vector is a 3-element vector.
+        The rotation vector is a 3-element vector with the angle in radians.
 
     parent : Optional[Frame], optional
         The parent frame of the frame. Default is None - the global frame.
@@ -211,6 +211,7 @@ class Frame:
             rotation_matrix: Optional[numpy.ndarray] = None,
             quaternion: Optional[numpy.ndarray] = None,
             euler_angles: Optional[numpy.ndarray] = None,
+            rotation_vector: Optional[numpy.ndarray] = None,
             parent: Optional[Frame] = None,
             setup_only: bool = False,
             convention: Optional[int] = 0
@@ -235,7 +236,7 @@ class Frame:
 
         # Get the method to define the frame.
         define_by_origin_and_axes = origin is not None or x_axis is not None or y_axis is not None or z_axis is not None or axes is not None
-        define_by_translation_and_rotation = translation is not None or rotation is not None or rotation_matrix is not None or quaternion is not None or euler_angles is not None
+        define_by_translation_and_rotation = translation is not None or rotation is not None or rotation_matrix is not None or quaternion is not None or euler_angles is not None or rotation_vector is not None
         
         # Check if the parameters are consistent
         if define_by_origin_and_axes and define_by_translation_and_rotation:
@@ -248,7 +249,7 @@ class Frame:
             
         if define_by_translation_and_rotation:
             # Only one of the rotation parameters must be provided.
-            if sum([rotation is not None, rotation_matrix is not None, quaternion is not None, euler_angles is not None]) > 1:
+            if sum([rotation is not None, rotation_matrix is not None, quaternion is not None, euler_angles is not None, rotation_vector is not None]) > 1:
                 raise ValueError("Only one of the rotation parameters must be provided.")
 
         # Default values if no orientation is provided.
@@ -316,6 +317,10 @@ class Frame:
             if euler_angles is not None:
                 euler_angles = numpy.array(euler_angles).reshape((3,)).astype(float)
                 rotation = Rotation.from_euler("XYZ", euler_angles, degrees=False)
+
+            if rotation_vector is not None:
+                rotation_vector = numpy.array(rotation_vector).reshape((3,)).astype(float)
+                rotation = Rotation.from_rotvec(rotation_vector, degrees=False)
 
             if rotation is None:
                 rotation = Rotation.from_matrix(numpy.eye(3))
@@ -1706,11 +1711,24 @@ class Frame:
             {
                 "translation": [float, float, float],
                 "quaternion": [float, float, float, float],
+                "rotation_vector": [float, float, float],
+                "rotation_matrix": [[float, float, float], [float, float, float], [float, float, float]],
+                "euler_angles": [float, float, float],
                 "convention": int
                 "parent": None
             }
 
-        The quaternion is given in WXYZ format (scalar first).
+        - The quaternion is given in WXYZ format (scalar first).
+        - The rotation vector is given in radians.
+        - The Euler angles are given in radians and the axes are "xyz".
+        - The rotation is given in the convention of the frame.
+        - The translation vector is given in the convention of the frame.
+
+        .. seealso::
+
+            - method :meth:`py3dframe.Frame.load_from_dict` to load the Frame object from a dictionary.
+
+            For the reader, only one of the rotation keys is needed to reconstruct the frame. The other keys are provided for convenience and user experience.
 
         Returns
         -------
@@ -1719,14 +1737,20 @@ class Frame:
         """
         data = {
             "translation": self.translation.flatten().tolist(),
-            "quaternion": self.quaternion.flatten().tolist(),
+            "quaternion": self.get_quaternion(convention=None, scalar_first=True).tolist(),
+            "rotation_vector": self.get_rotation_vector(convention=None, degrees=False).tolist(),
+            "rotation_matrix": self.get_rotation_matrix(convention=None).tolist(),
+            "euler_angles": self.get_euler_angles(convention=None, degrees=False, seq="xyz").tolist(),
             "convention": self._convention,
         }
+
         if self._parent is None:
             data["parent"] = None
         else:
             data["parent"] = self._parent.save_to_dict()
         return data
+
+
 
     @classmethod
     def load_from_dict(cls, data: Dict[str, Any]) -> Frame:
@@ -1740,11 +1764,33 @@ class Frame:
             {
                 "translation": [float, float, float],
                 "quaternion": [float, float, float, float],
+                "rotation_vector": [float, float, float],
+                "rotation_matrix": [[float, float, float], [float, float, float], [float, float, float]],
+                "euler_angles": [float, float, float],
                 "convention": int
                 "parent": None
             }
 
-        The quaternion is given in WXYZ format (scalar first).
+        - The quaternion is given in WXYZ format (scalar first).
+        - The rotation vector is given in radians.
+        - The Euler angles are given in radians and the axes are "xyz".
+        - The rotation is given in the convention of the frame.
+        - The translation vector is given in the convention of the frame.
+
+        .. seealso::
+
+            - method :meth:`py3dframe.Frame.save_to_dict` to save the Frame object to a dictionary.
+
+        .. note::
+
+            Only one of the rotation keys is needed to reconstruct the frame. 
+            The reader chooses the key to use in the following order of preference:
+
+            - quaternion
+            - rotation_vector
+            - euler_angles
+            - rotation_matrix
+
 
         Parameters
         ----------
@@ -1756,25 +1802,42 @@ class Frame:
         Frame
             The Frame object.
         """
+        # Check if the data is a dictionary and contains the required keys
         if not isinstance(data, dict):
             raise TypeError("The data must be a dictionary.")
         if not "translation" in data:
             raise ValueError("The dictionary must contain the 'translation' key.")
-        if not "quaternion" in data:
-            raise ValueError("The dictionary must contain the 'quaternion' key.")
+        if not "quaternion" in data and not "rotation_vector" in data and not "rotation_matrix" in data and not "euler_angles" in data:
+            raise ValueError("The dictionary must contain at least one of the 'quaternion', 'rotation_vector', 'rotation_matrix' or 'euler_angles' keys.")
         if not "convention" in data:
             raise ValueError("The dictionary must contain the 'convention' key.")
         if not "parent" in data:
             raise ValueError("The dictionary must contain the 'parent' key.")
+        # Convert the data to the correct types
         translation = numpy.array(data["translation"]).reshape((3,1)).astype(float)
-        quaternion = numpy.array(data["quaternion"]).reshape((4,)).astype(float)
         convention = data["convention"]
         parent = data["parent"]
         if parent is None:
             parent_frame = None
         else:
             parent_frame = cls.load_from_dict(parent)
-        frame = cls(translation=translation, quaternion=quaternion, parent=parent_frame, convention=convention)
+        # According to the order of preference, create the rotation object
+        if "quaternion" in data:
+            quaternion = numpy.array(data["quaternion"]).reshape((4,)).astype(float)
+            rotation = Rotation.from_quat(quaternion, scalar_first=True)
+        elif "rotation_vector" in data:
+            rotation_vector = numpy.array(data["rotation_vector"]).reshape((3,)).astype(float)
+            rotation = Rotation.from_rotvec(rotation_vector, degrees=False)
+        elif "rotation_matrix" in data:
+            rotation_matrix = numpy.array(data["rotation_matrix"]).reshape((3,3)).astype(float)
+            rotation = Rotation.from_matrix(rotation_matrix)
+        elif "euler_angles" in data:
+            euler_angles = numpy.array(data["euler_angles"]).reshape((3,)).astype(float)
+            rotation = Rotation.from_euler("xyz", euler_angles, degrees=False)
+        else:
+            raise ValueError("The dictionary must contain at least one of the 'quaternion', 'rotation_vector', 'rotation_matrix' or 'euler_angles' keys.")
+        # Create the Frame object
+        frame = cls(translation=translation, rotation=rotation, parent=parent_frame, convention=convention)
         return frame
 
 
@@ -1796,6 +1859,8 @@ class Frame:
         with open(filename, 'w') as f:
             json.dump(data, f, indent=4)
     
+
+
     @classmethod
     def load_from_json(cls, filename: str) -> Frame:
         """

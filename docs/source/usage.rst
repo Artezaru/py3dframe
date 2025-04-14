@@ -43,6 +43,8 @@ You can also construct a frame from a rotation and a translation using one the 8
 | 7                   | :math:`\mathbf{X}_F = \mathbf{R} (\mathbf{X}_E - \mathbf{T})`  |
 +---------------------+----------------------------------------------------------------+
 
+Where :math:`\mathbf{X}_E` is the point expressed in the parent (or global) frame :math:`E`, :math:`\mathbf{X}_F` is the point expressed in the child (or local) frame :math:`F`, :math:`\mathbf{R}` is the rotation matrix and :math:`\mathbf{T}` is the translation vector.
+
 .. code-block:: python
 
     from py3dframe import Frame, Rotation
