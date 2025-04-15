@@ -73,7 +73,7 @@ def is_O3(matrix: numpy.ndarray, tolerance: float = 1e-6) -> bool:
     False
 
     """
-    matrix = numpy.array(matrix).astype(float)
+    matrix = numpy.array(matrix).astype(numpy.float64)
 
     if matrix.shape != (3, 3):
         raise ValueError("The matrix must be 3x3.")

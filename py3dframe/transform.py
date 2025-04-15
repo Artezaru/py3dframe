@@ -242,7 +242,7 @@ class Transform:
     
     @_T_dev.setter
     def _T_dev(self, T: numpy.ndarray) -> None:
-        T = numpy.array(T).reshape((3,1)).astype(float)
+        T = numpy.array(T).reshape((3,1)).astype(numpy.float64)
         self.__T_dev = T
         self.__T_dev.flags.writeable = False
 
@@ -649,7 +649,7 @@ class Transform:
             return None
         
         input_data = point if point is not None else vector
-        input_data = numpy.array(input_data).reshape((3, -1)).astype(float)
+        input_data = numpy.array(input_data).reshape((3, -1)).astype(numpy.float64)
 
         # Convert the point to vector
         if point is not None:
@@ -708,7 +708,7 @@ class Transform:
             return None
         
         output_data = point if point is not None else vector
-        output_data = numpy.array(output_data).reshape((3, -1)).astype(float)
+        output_data = numpy.array(output_data).reshape((3, -1)).astype(numpy.float64)
 
         # Convert the output data to vector input
         input_data = self._R_dev.apply(output_data.T).T

@@ -52,7 +52,7 @@ def O3_project(matrix: numpy.ndarray) -> numpy.ndarray:
      [ 0.70710678  0.70710678  0.        ]
      [ 0.          0.          1.        ]]
     """
-    matrix = numpy.array(matrix).astype(float)
+    matrix = numpy.array(matrix).astype(numpy.float64)
 
     if matrix.shape != (3, 3):
         raise ValueError("The matrix must be 3x3.")

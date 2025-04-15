@@ -136,7 +136,7 @@ def switch_RT_convention(
         raise ValueError("The output_convention must be between 0 and 7.")
 
     # Get the translation vector
-    translation = numpy.array(translation).reshape((3, 1)).astype(float)
+    translation = numpy.array(translation).reshape((3, 1)).astype(numpy.float64)
 
     # Case 0. input_convention = output_convention
     if input_convention == output_convention:

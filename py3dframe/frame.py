@@ -266,21 +266,21 @@ class Frame:
             # Define the translation vector.
             if origin is None:
                 origin = [0, 0, 0]
-            translation = numpy.array(origin).reshape((3,)).astype(float)
+            translation = numpy.array(origin).reshape((3,)).astype(numpy.float64)
 
             # Define the rotation matrix.
             if axes is None:
                 if x_axis is None:
                     x_axis = [1, 0, 0]
-                x_axis = numpy.array(x_axis).reshape((3,1)).astype(float)
+                x_axis = numpy.array(x_axis).reshape((3,1)).astype(numpy.float64)
                 if y_axis is None:
                     y_axis = [0, 1, 0]
-                y_axis = numpy.array(y_axis).reshape((3,1)).astype(float)
+                y_axis = numpy.array(y_axis).reshape((3,1)).astype(numpy.float64)
                 if z_axis is None:
                     z_axis = [0, 0, 1]
-                z_axis = numpy.array(z_axis).reshape((3,1)).astype(float)
-                axes = numpy.column_stack((x_axis, y_axis, z_axis)).astype(float)
-            rotation_matrix = numpy.array(axes).reshape((3,3)).astype(float)  
+                z_axis = numpy.array(z_axis).reshape((3,1)).astype(numpy.float64)
+                axes = numpy.column_stack((x_axis, y_axis, z_axis)).astype(numpy.float64)
+            rotation_matrix = numpy.array(axes).reshape((3,3)).astype(numpy.float64)  
             rotation_matrix = rotation_matrix / numpy.linalg.norm(rotation_matrix, axis=0) # Normalize the columns to get an orthonormal matrix
             if not is_SO3(rotation_matrix):
                 raise ValueError("The axes must be a special orthogonal matrix.")
@@ -294,10 +294,10 @@ class Frame:
         if define_by_translation_and_rotation:
             if translation is None:
                 translation = [0, 0, 0]
-            translation = numpy.array(translation).reshape((3,1)).astype(float)
+            translation = numpy.array(translation).reshape((3,1)).astype(numpy.float64)
 
             if rotation_matrix is not None:
-                rotation_matrix = numpy.array(rotation_matrix).reshape((3,3)).astype(float)
+                rotation_matrix = numpy.array(rotation_matrix).reshape((3,3)).astype(numpy.float64)
                 norm = numpy.linalg.norm(rotation_matrix, axis=0)
                 if numpy.any(norm == 0):
                     raise ValueError("The basis vectors can't be 0.")
@@ -307,7 +307,7 @@ class Frame:
                 rotation = Rotation.from_matrix(rotation_matrix)
             
             if quaternion is not None:
-                quaternion = numpy.array(quaternion).reshape((4,)).astype(float)
+                quaternion = numpy.array(quaternion).reshape((4,)).astype(numpy.float64)
                 norm = numpy.linalg.norm(quaternion)
                 if norm == 0:
                     raise ValueError("The quaternion can't be 0.")
@@ -315,11 +315,11 @@ class Frame:
                 rotation = Rotation.from_quat(quaternion, scalar_first=True)
             
             if euler_angles is not None:
-                euler_angles = numpy.array(euler_angles).reshape((3,)).astype(float)
+                euler_angles = numpy.array(euler_angles).reshape((3,)).astype(numpy.float64)
                 rotation = Rotation.from_euler("XYZ", euler_angles, degrees=False)
 
             if rotation_vector is not None:
-                rotation_vector = numpy.array(rotation_vector).reshape((3,)).astype(float)
+                rotation_vector = numpy.array(rotation_vector).reshape((3,)).astype(numpy.float64)
                 rotation = Rotation.from_rotvec(rotation_vector, degrees=False)
 
             if rotation is None:
@@ -432,7 +432,7 @@ class Frame:
     
     @_T_dev.setter
     def _T_dev(self, T: numpy.ndarray) -> None:
-        T = numpy.array(T).reshape((3,1)).astype(float)
+        T = numpy.array(T).reshape((3,1)).astype(numpy.float64)
         self.__T_dev = T
         self.__T_dev.flags.writeable = False
 
@@ -516,7 +516,7 @@ class Frame:
     
     @axes.setter
     def axes(self, axes: numpy.ndarray) -> None:
-        axes = numpy.array(axes).reshape((3,3)).astype(float)
+        axes = numpy.array(axes).reshape((3,3)).astype(numpy.float64)
         norm = numpy.linalg.norm(axes, axis=0)
         if numpy.any(norm == 0):
             raise ValueError("The basis vectors must be linearly independent.")
@@ -691,7 +691,7 @@ class Frame:
             raise TypeError("The convention must be an integer.")
         if not convention in range(8):
             raise ValueError("The convention must be an integer between 0 and 7.")
-        translation = numpy.array(translation).reshape((3,1)).astype(float)
+        translation = numpy.array(translation).reshape((3,1)).astype(numpy.float64)
         current_R, _ = switch_RT_convention(self._R_dev, self._T_dev, 0, convention)
         self._R_dev, self._T_dev = switch_RT_convention(current_R, translation, convention, 0)
 
@@ -751,7 +751,7 @@ class Frame:
             raise TypeError("The convention must be an integer.")
         if not convention in range(8):
             raise ValueError("The convention must be an integer between 0 and 7.")
-        rotation_matrix = numpy.array(rotation_matrix).reshape((3,3)).astype(float)
+        rotation_matrix = numpy.array(rotation_matrix).reshape((3,3)).astype(numpy.float64)
         if not is_SO3(rotation_matrix):
             raise ValueError("The rotation matrix must be a special orthogonal matrix.")
         R = Rotation.from_matrix(rotation_matrix)
@@ -821,7 +821,7 @@ class Frame:
             raise ValueError("The convention must be an integer between 0 and 7.")
         if not isinstance(scalar_first, bool):
             raise TypeError("The scalar_first parameter must be a boolean.")
-        quaternion = numpy.array(quaternion).reshape((4,)).astype(float)
+        quaternion = numpy.array(quaternion).reshape((4,)).astype(numpy.float64)
         norm = numpy.linalg.norm(quaternion)
         if norm == 0:
             raise ValueError("The quaternion can't be 0.")
@@ -914,7 +914,7 @@ class Frame:
             raise ValueError("The seq parameter must have 3 characters.")
         if not all([s in 'XYZxyz' for s in seq]):
             raise ValueError("The seq must contain only the characters 'X', 'Y', 'Z', 'x', 'y', 'z'.") 
-        euler_angles = numpy.array(euler_angles).reshape((3,)).astype(float)
+        euler_angles = numpy.array(euler_angles).reshape((3,)).astype(numpy.float64)
         R = Rotation.from_euler(seq, euler_angles, degrees=degrees)
         self.set_rotation(R, convention=convention)
 
@@ -979,7 +979,7 @@ class Frame:
         """
         if not isinstance(degrees, bool):
             raise TypeError("The degrees parameter must be a boolean.")
-        rotation_vector = numpy.array(rotation_vector).reshape((3,)).astype(float)
+        rotation_vector = numpy.array(rotation_vector).reshape((3,)).astype(numpy.float64)
         R = Rotation.from_rotvec(rotation_vector, degrees=degrees)
         self.set_rotation(R, convention=convention)
     
@@ -1274,7 +1274,7 @@ class Frame:
             raise TypeError("The convention must be an integer.")
         if not convention in range(8):
             raise ValueError("The convention must be an integer between 0 and 7.")
-        rotation_matrix = numpy.array(rotation_matrix).reshape((3,3)).astype(float)
+        rotation_matrix = numpy.array(rotation_matrix).reshape((3,3)).astype(numpy.float64)
         if not is_SO3(rotation_matrix):
             raise ValueError("The rotation matrix must be a special orthogonal matrix.")
         R = Rotation.from_matrix(rotation_matrix)
@@ -1506,7 +1506,7 @@ class Frame:
 
     @global_axes.setter
     def global_axes(self, axes: numpy.ndarray) -> None:
-        axes = numpy.array(axes).reshape((3,3)).astype(float)
+        axes = numpy.array(axes).reshape((3,3)).astype(numpy.float64)
         norm = numpy.linalg.norm(axes, axis=0)
         if numpy.any(norm == 0):
             raise ValueError("The axes must be non-zero.")
@@ -1861,7 +1861,7 @@ class Frame:
         if not "parent" in data:
             raise ValueError("The dictionary must contain the 'parent' key.")
         # Convert the data to the correct types
-        translation = numpy.array(data["translation"]).reshape((3,1)).astype(float)
+        translation = numpy.array(data["translation"]).reshape((3,1)).astype(numpy.float64)
         convention = data["convention"]
         parent = data["parent"]
         if parent is None:
@@ -1870,16 +1870,16 @@ class Frame:
             parent_frame = cls.load_from_dict(parent)
         # According to the order of preference, create the rotation object
         if "quaternion" in data:
-            quaternion = numpy.array(data["quaternion"]).reshape((4,)).astype(float)
+            quaternion = numpy.array(data["quaternion"]).reshape((4,)).astype(numpy.float64)
             rotation = Rotation.from_quat(quaternion, scalar_first=True)
         elif "rotation_vector" in data:
-            rotation_vector = numpy.array(data["rotation_vector"]).reshape((3,)).astype(float)
+            rotation_vector = numpy.array(data["rotation_vector"]).reshape((3,)).astype(numpy.float64)
             rotation = Rotation.from_rotvec(rotation_vector, degrees=False)
         elif "rotation_matrix" in data:
-            rotation_matrix = numpy.array(data["rotation_matrix"]).reshape((3,3)).astype(float)
+            rotation_matrix = numpy.array(data["rotation_matrix"]).reshape((3,3)).astype(numpy.float64)
             rotation = Rotation.from_matrix(rotation_matrix)
         elif "euler_angles" in data:
-            euler_angles = numpy.array(data["euler_angles"]).reshape((3,)).astype(float)
+            euler_angles = numpy.array(data["euler_angles"]).reshape((3,)).astype(numpy.float64)
             rotation = Rotation.from_euler("xyz", euler_angles, degrees=False)
         else:
             raise ValueError("The dictionary must contain at least one of the 'quaternion', 'rotation_vector', 'rotation_matrix' or 'euler_angles' keys.")
