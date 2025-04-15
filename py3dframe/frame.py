@@ -3,7 +3,7 @@ import numpy
 import scipy
 import matplotlib.pyplot
 import matplotlib.axes
-from typing import Optional, Tuple, Dict, Any
+from typing import Optional, Tuple, Dict, Any, Union, Sequence
 import json
 
 from .switch_RT_convention import switch_RT_convention
@@ -1700,7 +1700,7 @@ class Frame:
     # ====================================================================================================================================
     # Load and Save method
     # ====================================================================================================================================
-    def save_to_dict(self) -> Dict[str, Any]:
+    def save_to_dict(self, method: Union[str, Sequence[str]] = ["quaternion", "rotation_vector", "rotation_matrix"]) -> Dict[str, Any]:
         r"""
         Save the Frame object to a dictionary.
 
@@ -1729,25 +1729,65 @@ class Frame:
             - method :meth:`py3dframe.Frame.load_from_dict` to load the Frame object from a dictionary.
 
             For the reader, only one of the rotation keys is needed to reconstruct the frame. The other keys are provided for convenience and user experience.
+            The reader chooses the key to use in the following order of preference if several are given:
+
+            - quaternion
+            - rotation_vector
+            - rotation_matrix
+            - euler_angles
+
+        .. warning::
+
+            ``euler_angles`` can raise a this warning : 
+            
+            - UserWarning: Gimbal lock detected. Setting third angle to zero since it is not possible to uniquely determine all angles.
+
+            I recommand to not use it.
+
+        .. note::
+
+            For retrocompatibility, the default method "quaternion" must be used.
+
+        Parameters
+        ----------
+        method : Union[str, Sequence[str]], optional
+            The method to use to save the rotation. It can be one of the following : "quaternion", "rotation_vector", "rotation_matrix" or "euler_angles".
+            Several methods can be used at the same time. Default is ["quaternion", "rotation_vector", "rotation_matrix"].
 
         Returns
         -------
         Dict[str, Any]
             The dictionary containing the Frame object.
         """
+        # Check if the method is a string or a list of strings
+        if isinstance(method, str):
+            method = [method]
+        if not isinstance(method, Sequence):
+            raise TypeError("The method must be a string or a list of strings.")
+        if not all(isinstance(m, str) and m in ["quaternion", "rotation_vector", "rotation_matrix", "euler_angles"] for m in method):
+            raise ValueError("The method must be one of the following : 'quaternion', 'rotation_vector', 'rotation_matrix' or 'euler_angles'.")
+
         data = {
             "translation": self.translation.flatten().tolist(),
-            "quaternion": self.get_quaternion(convention=None, scalar_first=True).tolist(),
-            "rotation_vector": self.get_rotation_vector(convention=None, degrees=False).tolist(),
-            "rotation_matrix": self.get_rotation_matrix(convention=None).tolist(),
-            "euler_angles": self.get_euler_angles(convention=None, degrees=False, seq="xyz").tolist(),
             "convention": self._convention,
         }
 
+        # Add the rotation method to the dictionary
+        for m in method:
+            if m == "quaternion":
+                data["quaternion"] = self.get_quaternion(convention=None, scalar_first=True).tolist()
+            elif m == "rotation_vector":
+                data["rotation_vector"] = self.get_rotation_vector(convention=None, degrees=False).tolist()
+            elif m == "rotation_matrix":
+                data["rotation_matrix"] = self.get_rotation_matrix(convention=None).tolist()
+            elif m == "euler_angles":
+                data["euler_angles"] = self.get_euler_angles(convention=None, degrees=False, seq="xyz").tolist()
+
+        # Add the parent frame to the dictionary
         if self._parent is None:
             data["parent"] = None
         else:
-            data["parent"] = self._parent.save_to_dict()
+            data["parent"] = self._parent.save_to_dict(method=method)
         return data
 
 
@@ -1784,19 +1824,26 @@ class Frame:
         .. note::
 
             Only one of the rotation keys is needed to reconstruct the frame. 
-            The reader chooses the key to use in the following order of preference:
+            The reader chooses the key to use in the following order of preference if several are given:
 
             - quaternion
             - rotation_vector
-            - euler_angles
             - rotation_matrix
+            - euler_angles
 
+        .. warning::
+
+            ``euler_angles`` can raise a this warning : 
+            
+            - UserWarning: Gimbal lock detected. Setting third angle to zero since it is not possible to uniquely determine all angles.
+
+            I recommand to not use it.
 
         Parameters
         ----------
         data : Dict[str, Any]
             The dictionary containing the Frame object.
-        
+
         Returns
         -------
         Frame
