@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>py3dframe.frame &#8212; py3dframe 0.1.8 documentation</title>
+    <title>py3dframe.frame &#8212; py3dframe 0.1.9 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=22607128"></script>
+    <script src="../../_static/documentation_options.js?v=8618f531"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/py3dframe/frame';</script>
@@ -107,7 +107,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 0.1.8 documentation</p>
+    <p class="title logo__title">py3dframe 0.1.9 documentation</p>
   
 </a></div>
     
@@ -315,7 +315,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.axes</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Sequence</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.switch_RT_convention</span><span class="w"> </span><span class="kn">import</span> <span class="n">switch_RT_convention</span>
@@ -2097,7 +2097,7 @@
     <span class="c1"># ====================================================================================================================================</span>
 <div class="viewcode-block" id="Frame.save_to_dict">
 <a class="viewcode-back" href="../../api_doc/Frame_generated/py3dframe.Frame.save_to_dict.html#py3dframe.Frame.save_to_dict">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">save_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;quaternion&quot;</span><span class="p">,</span> <span class="s2">&quot;rotation_vector&quot;</span><span class="p">,</span> <span class="s2">&quot;rotation_matrix&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save the Frame object to a dictionary.</span>
 
@@ -2126,25 +2126,65 @@
 <span class="sd">            - method :meth:`py3dframe.Frame.load_from_dict` to load the Frame object from a dictionary.</span>
 
 <span class="sd">            For the reader, only one of the rotation keys is needed to reconstruct the frame. The other keys are provided for convenience and user experience.</span>
+<span class="sd">            The reader chooses the key to use in the following order of preference if several are given:</span>
+
+<span class="sd">            - quaternion</span>
+<span class="sd">            - rotation_vector</span>
+<span class="sd">            - rotation_matrix</span>
+<span class="sd">            - euler_angles</span>
+
+<span class="sd">        .. warning::</span>
+
+<span class="sd">            ``euler_angles`` can raise a this warning : </span>
+<span class="sd">            </span>
+<span class="sd">            - UserWarning: Gimbal lock detected. Setting third angle to zero since it is not possible to uniquely determine all angles.</span>
+
+<span class="sd">            I recommand to not use it.</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">            For retrocompatibility, the default method &quot;quaternion&quot; must be used.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        method : Union[str, Sequence[str]], optional</span>
+<span class="sd">            The method to use to save the rotation. It can be one of the following : &quot;quaternion&quot;, &quot;rotation_vector&quot;, &quot;rotation_matrix&quot; or &quot;euler_angles&quot;.</span>
+<span class="sd">            Several methods can be used at the same time. Default is [&quot;quaternion&quot;, &quot;rotation_vector&quot;, &quot;rotation_matrix&quot;].</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        Dict[str, Any]</span>
 <span class="sd">            The dictionary containing the Frame object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if the method is a string or a list of strings</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">method</span> <span class="o">=</span> <span class="p">[</span><span class="n">method</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The method must be a string or a list of strings.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;quaternion&quot;</span><span class="p">,</span> <span class="s2">&quot;rotation_vector&quot;</span><span class="p">,</span> <span class="s2">&quot;rotation_matrix&quot;</span><span class="p">,</span> <span class="s2">&quot;euler_angles&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">method</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The method must be one of the following : &#39;quaternion&#39;, &#39;rotation_vector&#39;, &#39;rotation_matrix&#39; or &#39;euler_angles&#39;.&quot;</span><span class="p">)</span>
+
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;translation&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">translation</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-            <span class="s2">&quot;quaternion&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scalar_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-            <span class="s2">&quot;rotation_vector&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_rotation_vector</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-            <span class="s2">&quot;rotation_matrix&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_rotation_matrix</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-            <span class="s2">&quot;euler_angles&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_euler_angles</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">seq</span><span class="o">=</span><span class="s2">&quot;xyz&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
             <span class="s2">&quot;convention&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convention</span><span class="p">,</span>
         <span class="p">}</span>
 
+        <span class="c1"># Add the rotation method to the dictionary</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">method</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">m</span> <span class="o">==</span> <span class="s2">&quot;quaternion&quot;</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="s2">&quot;quaternion&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scalar_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">m</span> <span class="o">==</span> <span class="s2">&quot;rotation_vector&quot;</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="s2">&quot;rotation_vector&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_rotation_vector</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">m</span> <span class="o">==</span> <span class="s2">&quot;rotation_matrix&quot;</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="s2">&quot;rotation_matrix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_rotation_matrix</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">m</span> <span class="o">==</span> <span class="s2">&quot;euler_angles&quot;</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="s2">&quot;euler_angles&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_euler_angles</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">seq</span><span class="o">=</span><span class="s2">&quot;xyz&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="c1"># Add the parent frame to the dictionary</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">save_to_dict</span><span class="p">()</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">save_to_dict</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">data</span></div>
 
 
@@ -2184,19 +2224,26 @@
 <span class="sd">        .. note::</span>
 
 <span class="sd">            Only one of the rotation keys is needed to reconstruct the frame. </span>
-<span class="sd">            The reader chooses the key to use in the following order of preference:</span>
+<span class="sd">            The reader chooses the key to use in the following order of preference if several are given:</span>
 
 <span class="sd">            - quaternion</span>
 <span class="sd">            - rotation_vector</span>
-<span class="sd">            - euler_angles</span>
 <span class="sd">            - rotation_matrix</span>
+<span class="sd">            - euler_angles</span>
 
+<span class="sd">        .. warning::</span>
+
+<span class="sd">            ``euler_angles`` can raise a this warning : </span>
+<span class="sd">            </span>
+<span class="sd">            - UserWarning: Gimbal lock detected. Setting third angle to zero since it is not possible to uniquely determine all angles.</span>
+
+<span class="sd">            I recommand to not use it.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        data : Dict[str, Any]</span>
 <span class="sd">            The dictionary containing the Frame object.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        Frame</span>
