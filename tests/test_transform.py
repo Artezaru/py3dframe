@@ -38,7 +38,7 @@ def test_transform_point():
     frame_F = Frame(origin=[1, 2, 3], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1])
     transform = Transform(input_frame=frame_E, output_frame=frame_F, dynamic=True, convention=0)
 
-    point_E = np.array([4, 5, 6])
+    point_E = np.array([4, 5, 6]).reshape((3, 1))
     point_F = transform.transform(point=point_E)
 
     expected_point_F = np.array([[3], [3], [3]])
@@ -49,7 +49,7 @@ def test_inverse_transform_point():
     frame_F = Frame(origin=[1, 2, 3], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1])
     transform = Transform(input_frame=frame_E, output_frame=frame_F, dynamic=True, convention=0)
 
-    point_F = np.array([1, 2, 3])
+    point_F = np.array([1, 2, 3]).reshape((3, 1))
     point_E = transform.inverse_transform(point=point_F)
 
     expected_point_E = np.array([[2], [4], [6]])
@@ -60,7 +60,7 @@ def test_transform_vector():
     frame_F = Frame(origin=[1, 2, 3], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1])
     transform = Transform(input_frame=frame_E, output_frame=frame_F, dynamic=True, convention=0)
 
-    vector_E = np.array([1, 0, 0])
+    vector_E = np.array([1, 0, 0]).reshape((3, 1))
     vector_F = transform.transform(vector=vector_E)
 
     expected_vector_F = np.array([[1], [0], [0]])
@@ -78,7 +78,7 @@ def test_transform_point_dynamique():
     frame_G = Frame(origin=[0, 0, 0], x_axis=[1, -1, 0], y_axis=[1, 1, 0], z_axis=[0, 0, 1], parent=frame_F)
     transform = Transform(input_frame=frame_E, output_frame=frame_G, dynamic=True, convention=0)
 
-    point_E = np.array([4, 5, 6])
+    point_E = np.array([4, 5, 6]).reshape((3, 1))
     point_G = transform.transform(point=point_E)
 
     expected_point_G = np.array([[0], [3 * np.sqrt(2)], [6]])

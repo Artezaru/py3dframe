@@ -628,15 +628,15 @@ class Transform:
         Parameters
         ----------
         point : Optional[array_like], optional
-            The coordinates of the point in the input frame with shape (3, 1). Default is None.
+            The coordinates of the point in the input frame with shape (3, N). Default is None.
         
         vector : Optional[array_like], optional
-            The coordinates of the vector in the input frame with shape (3, 1). Default is None.
+            The coordinates of the vector in the input frame with shape (3, N). Default is None.
 
         Returns
         -------
         numpy.ndarray
-            The coordinates of the point or the vector in the output frame with shape (3, 1).
+            The coordinates of the point or the vector in the output frame with shape (3, N).
 
         Raises
         ------
@@ -649,7 +649,10 @@ class Transform:
             return None
         
         input_data = point if point is not None else vector
-        input_data = numpy.array(input_data).reshape((3, -1)).astype(numpy.float64)
+        input_data = numpy.array(input_data).astype(numpy.float64)
+
+        if not input_data.ndim == 2 or input_data.shape[0] != 3:
+            raise ValueError("The points or vectors must be a 2D numpy array with shape (3, N).")
 
         # Convert the point to vector
         if point is not None:
@@ -687,15 +690,15 @@ class Transform:
         Parameters
         ----------
         point : Optional[array_like], optional
-            The coordinates of the point in the output frame with shape (3, 1). Default is None.
+            The coordinates of the point in the output frame with shape (3, N). Default is None.
         
         vector : Optional[array_like], optional
-            The coordinates of the vector in the output frame with shape (3, 1). Default is None.
+            The coordinates of the vector in the output frame with shape (3, N). Default is None.
 
         Returns
         -------
         numpy.ndarray
-            The coordinates of the point or the vector in the input frame with shape (3, 1).
+            The coordinates of the point or the vector in the input frame with shape (3, N).
 
         Raises
         ------
@@ -708,7 +711,10 @@ class Transform:
             return None
         
         output_data = point if point is not None else vector
-        output_data = numpy.array(output_data).reshape((3, -1)).astype(numpy.float64)
+        output_data = numpy.array(output_data).astype(numpy.float64)
+
+        if not output_data.ndim == 2 or output_data.shape[0] != 3:
+            raise ValueError("The points or vectors must be a 2D numpy array with shape (3, N).")
 
         # Convert the output data to vector input
         input_data = self._R_dev.apply(output_data.T).T

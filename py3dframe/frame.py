@@ -280,7 +280,9 @@ class Frame:
                     z_axis = [0, 0, 1]
                 z_axis = numpy.array(z_axis).reshape((3,1)).astype(numpy.float64)
                 axes = numpy.column_stack((x_axis, y_axis, z_axis)).astype(numpy.float64)
-            rotation_matrix = numpy.array(axes).reshape((3,3)).astype(numpy.float64)  
+            rotation_matrix = numpy.array(axes).astype(numpy.float64)
+            if not rotation_matrix.shape == (3, 3):
+                raise ValueError("The axes must be a 3x3 matrix.")  
             rotation_matrix = rotation_matrix / numpy.linalg.norm(rotation_matrix, axis=0) # Normalize the columns to get an orthonormal matrix
             if not is_SO3(rotation_matrix):
                 raise ValueError("The axes must be a special orthogonal matrix.")
@@ -297,7 +299,9 @@ class Frame:
             translation = numpy.array(translation).reshape((3,1)).astype(numpy.float64)
 
             if rotation_matrix is not None:
-                rotation_matrix = numpy.array(rotation_matrix).reshape((3,3)).astype(numpy.float64)
+                rotation_matrix = numpy.array(rotation_matrix).astype(numpy.float64)
+                if not rotation_matrix.shape == (3, 3):
+                    raise ValueError("The rotation matrix must be a 3x3 matrix.")
                 norm = numpy.linalg.norm(rotation_matrix, axis=0)
                 if numpy.any(norm == 0):
                     raise ValueError("The basis vectors can't be 0.")
@@ -516,7 +520,9 @@ class Frame:
     
     @axes.setter
     def axes(self, axes: numpy.ndarray) -> None:
-        axes = numpy.array(axes).reshape((3,3)).astype(numpy.float64)
+        axes = numpy.array(axes).astype(numpy.float64)
+        if not axes.shape == (3, 3):
+            raise ValueError("The axes must be a 3x3 matrix.")
         norm = numpy.linalg.norm(axes, axis=0)
         if numpy.any(norm == 0):
             raise ValueError("The basis vectors must be linearly independent.")
@@ -751,7 +757,9 @@ class Frame:
             raise TypeError("The convention must be an integer.")
         if not convention in range(8):
             raise ValueError("The convention must be an integer between 0 and 7.")
-        rotation_matrix = numpy.array(rotation_matrix).reshape((3,3)).astype(numpy.float64)
+        rotation_matrix = numpy.array(rotation_matrix).astype(numpy.float64)
+        if not rotation_matrix.shape == (3, 3):
+            raise ValueError("The rotation matrix must be a 3x3 matrix.")
         if not is_SO3(rotation_matrix):
             raise ValueError("The rotation matrix must be a special orthogonal matrix.")
         R = Rotation.from_matrix(rotation_matrix)
@@ -1274,7 +1282,9 @@ class Frame:
             raise TypeError("The convention must be an integer.")
         if not convention in range(8):
             raise ValueError("The convention must be an integer between 0 and 7.")
-        rotation_matrix = numpy.array(rotation_matrix).reshape((3,3)).astype(numpy.float64)
+        rotation_matrix = numpy.array(rotation_matrix).astype(numpy.float64)
+        if not rotation_matrix.shape == (3, 3):
+            raise ValueError("The rotation matrix must be a 3x3 matrix.")
         if not is_SO3(rotation_matrix):
             raise ValueError("The rotation matrix must be a special orthogonal matrix.")
         R = Rotation.from_matrix(rotation_matrix)
@@ -1506,7 +1516,9 @@ class Frame:
 
     @global_axes.setter
     def global_axes(self, axes: numpy.ndarray) -> None:
-        axes = numpy.array(axes).reshape((3,3)).astype(numpy.float64)
+        axes = numpy.array(axes).astype(numpy.float64)
+        if not axes.shape == (3, 3):
+            raise ValueError("The axes must be a 3x3 matrix.")
         norm = numpy.linalg.norm(axes, axis=0)
         if numpy.any(norm == 0):
             raise ValueError("The axes must be non-zero.")
@@ -1569,7 +1581,6 @@ class Frame:
         """
         z_axis = self.get_global_rotation(convention=0).as_matrix()[:,2].reshape((3,1))
         return z_axis
-
 
 
     @property
@@ -1876,7 +1887,7 @@ class Frame:
             rotation_vector = numpy.array(data["rotation_vector"]).reshape((3,)).astype(numpy.float64)
             rotation = Rotation.from_rotvec(rotation_vector, degrees=False)
         elif "rotation_matrix" in data:
-            rotation_matrix = numpy.array(data["rotation_matrix"]).reshape((3,3)).astype(numpy.float64)
+            rotation_matrix = numpy.array(data["rotation_matrix"]).astype(numpy.float64)
             rotation = Rotation.from_matrix(rotation_matrix)
         elif "euler_angles" in data:
             euler_angles = numpy.array(data["euler_angles"]).reshape((3,)).astype(numpy.float64)
