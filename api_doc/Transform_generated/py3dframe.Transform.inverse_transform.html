@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>py3dframe.Transform.inverse_transform &#8212; py3dframe 0.1.10 documentation</title>
+    <title>py3dframe.Transform.inverse_transform &#8212; py3dframe 0.1.12 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=bafade30"></script>
+    <script src="../../_static/documentation_options.js?v=297ad043"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -111,7 +111,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 0.1.10 documentation</p>
+    <p class="title logo__title">py3dframe 0.1.12 documentation</p>
   
 </a></div>
     
@@ -431,12 +431,12 @@ If neither the point nor the vector is provided, the method will return None.</p
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>point</strong> (<em>Optional</em><em>[</em><em>array_like</em><em>]</em><em>, </em><em>optional</em>) – The coordinates of the point in the output frame with shape (3, 1). Default is None.</p></li>
-<li><p><strong>vector</strong> (<em>Optional</em><em>[</em><em>array_like</em><em>]</em><em>, </em><em>optional</em>) – The coordinates of the vector in the output frame with shape (3, 1). Default is None.</p></li>
+<li><p><strong>point</strong> (<em>Optional</em><em>[</em><em>array_like</em><em>]</em><em>, </em><em>optional</em>) – The coordinates of the point in the output frame with shape (3, N). Default is None.</p></li>
+<li><p><strong>vector</strong> (<em>Optional</em><em>[</em><em>array_like</em><em>]</em><em>, </em><em>optional</em>) – The coordinates of the vector in the output frame with shape (3, N). Default is None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The coordinates of the point or the vector in the input frame with shape (3, 1).</p>
+<dd class="field-even"><p>The coordinates of the point or the vector in the input frame with shape (3, N).</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
