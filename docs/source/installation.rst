@@ -5,9 +5,18 @@ To install ``py3dframe``, you can use the following command:
 
 .. code-block:: bash
 
+    pip install py3dframe
+
+Or install it directly from the GitHub repository using:
+
+.. code-block:: bash
+
     pip install git+https://github.com/Artezaru/py3dframe.git
 
-Or clone the repository and install it manually:
+Development Installation
+------------------------------
+
+To install the package for development, first clone the repository using:
 
 .. code-block:: bash
 

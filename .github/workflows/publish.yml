@@ -1,0 +1,60 @@
+name: Publish Python Package to PyPI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine toml jq requests
+
+      - name: Get previous version
+        id: prev_version
+        run: |
+          git fetch --depth=2 origin master
+          PREV_VERSION=$(git show HEAD~1:py3dframe/__version__.py | grep "__version__" | sed -E "s/.*['\"]([^'\"]+)['\"].*/\1/")
+          echo "Previous version: $PREV_VERSION"
+          echo "prev_version=$PREV_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Get current version
+        id: curr_version
+        run: |
+          CURR_VERSION=$(grep "__version__" py3dframe/__version__.py | sed -E "s/.*['\"]([^'\"]+)['\"].*/\1/")
+          echo "Current version: $CURR_VERSION"
+          echo "curr_version=$CURR_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Decide if publish
+        id: version_check
+        run: |
+          if [ "${{ steps.prev_version.outputs.prev_version }}" == "${{ steps.curr_version.outputs.curr_version }}" ]; then
+            echo "Version unchanged, skipping publish."
+            echo "should_publish=false" >> $GITHUB_OUTPUT
+          else
+            echo "New version detected!"
+            echo "should_publish=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build package
+        if: steps.version_check.outputs.should_publish == 'true'
+        run: python -m build
+
+      - name: Publish to PyPI
+        if: steps.version_check.outputs.should_publish == 'true'
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_PROJECT_TOKEN }}
+        run: python -m twine upload dist/*

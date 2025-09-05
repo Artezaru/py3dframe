@@ -4,7 +4,7 @@ Welcome to py3dframe's documentation!
 Description of the package
 --------------------------
 
-3D Frame of Reference managing tools
+3D Frame of Reference managing tools. Only orthogonal and right-handed frames are supported.
 
 Contents
 --------

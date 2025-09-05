@@ -2,33 +2,7 @@
 
 ## Description
 
-3D Frame of Reference managing tools.
-
-## Authors
-
-- Artezaru <artezaru.github@proton.me>
-
-- **Git Plateform**: https://github.com/Artezaru/py3dframe.git
-- **Online Documentation**: https://Artezaru.github.io/py3dframe
-
-## Installation
-
-Install with pip
-
-```
-pip install git+https://github.com/Artezaru/py3dframe.git
-```
-
-Clone with git
-
-```
-git clone https://github.com/Artezaru/py3dframe.git
-```
-
-## License
-
-See LICENSE
-
+3D Frame of Reference managing tools. Only orthogonal and right-handed frames are supported.
 
 # Usage
 
@@ -148,3 +122,44 @@ vector_E = transform.inverse_transform(vector=vector_F)
 ```
 
 When the frame E moves, the `transform` object will automatically update the transformation between the two frames.
+
+## Authors
+
+- Artezaru <artezaru.github@proton.me>
+
+- **Git Plateform**: https://github.com/Artezaru/py3dframe.git
+- **Online Documentation**: https://Artezaru.github.io/py3dframe
+
+## Installation
+
+Install with pip
+
+```
+pip install py3dframe
+```
+
+```
+pip install git+https://github.com/Artezaru/py3dframe.git
+```
+
+Clone with git
+
+```
+git clone https://github.com/Artezaru/py3dframe.git
+```
+
+## License
+
+Copyright 2025 Artezaru
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

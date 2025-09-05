@@ -7,16 +7,29 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "py3dframe"
-requires-python = ">= 3.8"
-dynamic = ["dependencies", "version"]
-description = "3D Frame of Reference managing tools"
+requires-python = ">= 3.10"
+dynamic = ["version"]
+description = "3D Frame of Reference managing tools. Only orthogonal and right-handed frames are supported."
 license = {file = "LICENSE"}
 authors = [
 {name = "Artezaru", email = "artezaru.github@proton.me"}
 ]
 classifiers = [
-  "Programming Language :: Python"
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
 ]
+dependencies = [
+    "numpy>=1.24.0",
+    "scipy>=1.10.0",
+    "matplotlib>=3.7.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Artezaru/py3dframe"
+Documentation = "https://Artezaru.github.io/py3dframe"
+Source = "https://github.com/Artezaru/py3dframe"
+Tracker = "https://github.com/Artezaru/py3dframe/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
@@ -24,16 +37,9 @@ include = ["py3dframe", "py3dframe*"]
 exclude = ["laboratory", "laboratory.*", "tests", "tests*", "examples", "examples*"]
 
 [tool.setuptools.package-data]
-"py3dframe.ressources" = ["*"]
-
-[project.scripts]
-py3dframe = "py3dframe.__main__:__main__"
-
-[project.gui-scripts]
-py3dframe-gui = "py3dframe.__main__:__main_gui__"
+"py3dframe.resources" = ["*"]
 
 [tool.setuptools.dynamic]
-dependencies = {file = ["requirements.txt"]}
 version = {attr = "py3dframe.__version__.__version__"}
 
 [project.optional-dependencies]
@@ -42,8 +48,10 @@ dev = [
     "pydata-sphinx-theme",
     "numpydoc",
     "pytest",
-    "pyinstaller",
     "pytest-cov",
     "bumpver",
-    "pyinstaller"
 ]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
