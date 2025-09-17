@@ -9,7 +9,7 @@ def test_frame_creation():
     x_axis = np.array([1, 0, 0]).reshape((3, 1))
     y_axis = np.array([0, 1, 0]).reshape((3, 1))
     z_axis = np.array([0, 0, 1]).reshape((3, 1))
-    frame = Frame(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
+    frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
     assert np.allclose(frame.origin, origin)
     assert np.allclose(frame.x_axis, x_axis)
     assert np.allclose(frame.y_axis, y_axis)
@@ -21,7 +21,7 @@ def test_change_convention_frame():
     x_axis = np.array([1, -1, 0]).reshape((3, 1))
     y_axis = np.array([1, 1, 0]).reshape((3, 1))
     z_axis = np.array([0, 0, 1]).reshape((3, 1))
-    frame = Frame(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
+    frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
 
     # Change the convention
     R1 = frame.get_rotation(convention=1)
@@ -42,14 +42,14 @@ def test_frame_parent():
     x_axis = np.array([1, -1, 0]).reshape((3, 1))
     y_axis = np.array([1, 1, 0]).reshape((3, 1))
     z_axis = np.array([0, 0, 1]).reshape((3, 1))
-    parent = Frame(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
+    parent = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
 
     # Create a child frame relative to the parent
     x_axis = np.array([1, 1, 0]).reshape((3, 1)) / np.sqrt(2)
     y_axis = np.array([-1, 1, 0]).reshape((3, 1)) / np.sqrt(2)
     z_axis = np.array([0, 0, 1]).reshape((3, 1))
     origin = - x_axis - 2 * y_axis - 3 * z_axis
-    frame = Frame(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, parent=parent)
+    frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, parent=parent)
 
     # Get the global frame
     global_frame = frame.get_global_frame()
@@ -64,7 +64,7 @@ def test_set_and_get_rotation():
     x_axis = np.array([1, -1, 0]).reshape((3, 1))
     y_axis = np.array([1, 1, 0]).reshape((3, 1))
     z_axis = np.array([0, 0, 1]).reshape((3, 1))
-    frame = Frame(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
+    frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
 
     frame.set_rotation(Rotation.from_euler('xyz', [0, 0, np.pi / 2]), convention=0)
     R = frame.get_rotation(convention=0)
@@ -77,14 +77,14 @@ def test_set_and_get_translation_global():
     x_axis = np.array([1, -1, 0]).reshape((3, 1))
     y_axis = np.array([1, 1, 0]).reshape((3, 1))
     z_axis = np.array([0, 0, 1]).reshape((3, 1))
-    parent = Frame(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
+    parent = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
 
     # Create a child frame relative to the parent
     x_axis = np.array([1, 1, 0]).reshape((3, 1)) / np.sqrt(2)
     y_axis = np.array([-1, 1, 0]).reshape((3, 1)) / np.sqrt(2)
     z_axis = np.array([0, 0, 1]).reshape((3, 1))
     origin = - x_axis - 2 * y_axis - 3 * z_axis
-    frame = Frame(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, parent=parent)
+    frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, parent=parent)
 
     frame.set_global_rotation(Rotation.from_euler('xyz', [np.pi / 3, 0, np.pi / 2]), convention=0)
     R = frame.get_global_rotation(convention=0)
@@ -97,7 +97,7 @@ def test_load_save():
     x_axis = np.array([1, -1, 0]).reshape((3, 1)) / np.sqrt(2)
     y_axis = np.array([1, 1, 0]).reshape((3, 1)) / np.sqrt(2)
     z_axis = np.array([0, 0, 1]).reshape((3, 1))
-    frame = Frame(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
+    frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
 
     # Save the frame
     data = frame.save_to_dict()

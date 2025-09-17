@@ -18,7 +18,7 @@ First to create a frame, you can give the origin and the axes of the frame as fo
     y_axis = np.array([0, 1, 0])
     z_axis = np.array([0, 0, 1])
 
-    frame = Frame(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
+    frame = Frame.FrameTransform(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
 
 
 You can also construct a frame from a rotation and a translation using one the 8 possible conventions:
@@ -52,7 +52,7 @@ Where :math:`\mathbf{X}_E` is the point expressed in the parent (or global) fram
     rotation = Rotation.from_euler('xyz', [0, 0, 0], degrees=True)
     translation = np.array([1, 2, 3]).reshape(3, 1)
 
-    frame = Frame(rotation=rotation, translation=translation, convention=0)
+    frame = Frame.from_rotation(translation=translation, rotation=rotation, convention=0)
 
 You can check the coordinates of the frame by plotting it into a 3D plot:
 
@@ -79,40 +79,40 @@ It is possible to represent the position of the person in the train by defining 
 
 .. code-block:: python
 
-    from py3dframe import Frame, Transform
+    from py3dframe import Frame, FrameTransform
 
     rotation = Rotation.from_euler('xyz', [0, 0, 0], degrees=True)
     translation = np.array([1, 2, 3]).reshape(3, 1)
 
-    frame_E = Frame(rotation=rotation, translation=translation, convention=0)
+    frame_E = Frame.from_rotation(translation=translation, rotation=rotation, convention=0)
 
     rotation = Rotation.from_euler('xyz', [0, 0, 0], degrees=True)
     translation = np.array([0, 0, 0]).reshape(3, 1)
 
-    frame_F = Frame(rotation=rotation, translation=translation, convention=0, parent=frame_E)
+    frame_F = Frame.from_rotation(translation=translation, rotation=rotation, convention=0, parent=frame_E)
 
 In this case, when the frame :math:`E` moves, the frame :math:`F` moves with it.
 
 Transformation between frames
 ------------------------------
 
-The transformation between two frames can be computed using the Transform class:
+The transformation between two frames can be computed using the :class:`FrameTransform` class:
 
 .. code-block:: python
 
-    from py3dframe import Frame, Transform
+    from py3dframe import Frame, FrameTransform
 
     rotation = Rotation.from_euler('xyz', [0, 0, 0], degrees=True)
     translation = np.array([1, 2, 3]).reshape(3, 1)
 
-    frame_E = Frame(rotation=rotation, translation=translation, convention=0)
+    frame_E = Frame.from_rotation(translation=translation, rotation=rotation, convention=0)
 
     rotation = Rotation.from_euler('xyz', [0, 0, 0], degrees=True)
     translation = np.array([0, 0, 0]).reshape(3, 1)
 
-    frame_F = Frame(rotation=rotation, translation=translation, convention=0, parent=frame_E)
+    frame_F = Frame.from_rotation(translation=translation, rotation=rotation, convention=0, parent=frame_E)
 
-    transform = Transform(input_frame=frame_E, output_frame=frame_F)
+    transform = FrameTransform(input_frame=frame_E, output_frame=frame_F)
 
     print(transform.translation)
     print(transform.rotation.as_euler('xyz', degrees=True))

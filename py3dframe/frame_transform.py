@@ -22,10 +22,10 @@ from .switch_RT_convention import switch_RT_convention
 from .rotation import Rotation
 from .matrix.is_SO3 import is_SO3
 
-class Transform:
+class FrameTransform:
     r"""
     Lets consider two orthonormal reference frames :math:`E` and :math:`F` of :math:`\mathbb{R}^3` (see :class:`py3dframe.Frame`).
-    The transformation from the frame E (input frame) to the frame F (output frame) can be stored in a Transform object.
+    The transformation from the frame E (input frame) to the frame F (output frame) can be stored in a FrameTransform object.
 
     Lets consider a point :math:`X` whose coordinates in the frame E are :math:`\mathbf{X}_i` and in the frame F are :math:`\mathbf{X}_o`.
     There exist 8 principal conventions to express the transformation between the frame E and the frame F.
@@ -90,19 +90,19 @@ class Transform:
     Examples
     --------
 
-    To create a Transform object, the user must provide two Frame objects.
+    To create a FrameTransform object, the user must provide two Frame objects.
 
     .. code-block:: python
 
-        from py3dframe import Frame, Transform
+        from py3dframe import Frame, FrameTransform
 
-        frame_E = Frame() # Global frame
-        frame_F = Frame(origin=[1, 2, 3], x=[1, 0, 0], y=[0, 1, 0], z=[0, 0, 1]) # Local frame
-        transform = Transform(input_frame=frame_E, output_frame=frame_F, dynamic=True, convention=0)
+        frame_E = Frame.canonical() # Global frame
+        frame_F = Frame.from_axes(origin=[1, 2, 3], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1]) # Local frame
+        transform = FrameTransform(input_frame=frame_E, output_frame=frame_F, dynamic=True, convention=0)
 
-    - If the ``dynamic`` parameter is set to ``True``, the Transform object will be affected by the changes in the input frame or the output frame.
-    - If the ``dynamic`` parameter is set to ``False``, the Transform object will correspond to the transformation between the input frame and the output frame at the time of the creation of the Transform object.
-    - If the ``dynamic`` parameter is set to ``True`` and then changed to ``False``, the Transform object will correspond to the transformation between the input frame and the output frame at the time of the change of the ``dynamic`` parameter.
+    - If the ``dynamic`` parameter is set to ``True``, the FrameTransform object will be affected by the changes in the input frame or the output frame.
+    - If the ``dynamic`` parameter is set to ``False``, the FrameTransform object will correspond to the transformation between the input frame and the output frame at the time of the creation of the FrameTransform object.
+    - If the ``dynamic`` parameter is set to ``True`` and then changed to ``False``, the FrameTransform object will correspond to the transformation between the input frame and the output frame at the time of the change of the ``dynamic`` parameter.
     
     The user can access the rotation matrix and the translation vector of the transformation as follows:
 
@@ -118,7 +118,7 @@ class Transform:
         frame_E = transform.input_frame
         frame_F = transform.output_frame
 
-    The Transform object can be used to transform points or vectors from the input frame to the output frame and vice versa.
+    The FrameTransform object can be used to transform points or vectors from the input frame to the output frame and vice versa.
 
     .. code-block:: python
 
@@ -144,10 +144,10 @@ class Transform:
             convention: int = 0,
         ):
         if input_frame is None:
-            input_frame = Frame()
+            input_frame = Frame.canonical()
         if output_frame is None:
-            output_frame = Frame()
-            
+            output_frame = Frame.canonical()
+
         self.input_frame = input_frame
         self.output_frame = output_frame
         self.convention = convention
@@ -288,7 +288,7 @@ class Transform:
     @input_frame.setter
     def input_frame(self, input_frame: Optional[Frame]) -> None:
         if input_frame is None:
-            input_frame = Frame()
+            input_frame = Frame.canonical()
         if not isinstance(input_frame, Frame):
             raise TypeError("The input_frame must be a Frame object.")
         self._input_frame = input_frame
@@ -316,7 +316,7 @@ class Transform:
     @output_frame.setter
     def output_frame(self, output_frame: Optional[Frame]) -> None:
         if output_frame is None:
-            output_frame = Frame()
+            output_frame = Frame.canonical()
         if not isinstance(output_frame, Frame):
             raise TypeError("The output_frame must be a Frame object.")
         self._output_frame = output_frame
