@@ -52,6 +52,9 @@ dev = [
     "bumpver",
     "twine",
     "wheel",
+    "build",
+    "setuptools",
+    "setuptools-scm",
 ]
 
 [project.readme]
