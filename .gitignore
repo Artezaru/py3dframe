@@ -16,6 +16,10 @@ laboratory/
 # Sphinx documentation
 build/
 
+# Distribution / packaging
+dist/
+*.egg
+
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
