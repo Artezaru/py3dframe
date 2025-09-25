@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>py3dframe.frame &#8212; py3dframe 0.2.5 documentation</title>
+    <title>py3dframe.frame &#8212; py3dframe 1.0.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=cb850272"></script>
+    <script src="../../_static/documentation_options.js?v=8d563738"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/py3dframe/frame';</script>
@@ -107,7 +107,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 0.2.5 documentation</p>
+    <p class="title logo__title">py3dframe 1.0.0 documentation</p>
   
 </a></div>
     
@@ -327,12 +327,10 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Sequence</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span> 
 <span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.axes</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.switch_RT_convention</span><span class="w"> </span><span class="kn">import</span> <span class="n">switch_RT_convention</span>
@@ -418,43 +416,12 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    origin : array_like, optional</span>
-<span class="sd">        The coordinates of the origin of the frame in the parent frame coordinates. Default is the zero vector.</span>
-<span class="sd">    </span>
-<span class="sd">    axes : array_like, optional</span>
-<span class="sd">        The basis vectors of the frame in the parent frame coordinates. Default is the identity matrix.</span>
-
-<span class="sd">    x_axis : array_like, optional</span>
-<span class="sd">        The x-axis of the frame in the parent frame coordinates. Default is the x-axis of the parent frame.</span>
-<span class="sd">    </span>
-<span class="sd">    y_axis : array_like, optional</span>
-<span class="sd">        The y-axis of the frame in the parent frame coordinates. Default is the y-axis of the parent frame.</span>
-<span class="sd">    </span>
-<span class="sd">    z_axis : array_like, optional</span>
-<span class="sd">        The z-axis of the frame in the parent frame coordinates. Default is the z-axis of the parent frame.</span>
-
 <span class="sd">    translation : array_like, optional</span>
 <span class="sd">        The translation vector in the convention used to define the frame. Default is the zero vector.</span>
 <span class="sd">        The translation vector is a 3-element vector.</span>
 
 <span class="sd">    rotation: Rotation, optional</span>
 <span class="sd">        The rotation in the convention used to define the frame. Default is the identity rotation.</span>
-
-<span class="sd">    rotation_matrix : array_like, optional</span>
-<span class="sd">        The rotation matrix in the convention used to define the frame. Default is the identity matrix.</span>
-<span class="sd">        The rotation matrix is a 3x3 matrix.</span>
-
-<span class="sd">    quaternion : array_like, optional</span>
-<span class="sd">        The quaternion in the convention used to define the frame. Default is the identity quaternion.</span>
-<span class="sd">        The quaternion is a 4-element vector [w, x, y, z] (scalar first convention).</span>
-
-<span class="sd">    euler_angles : array_like, optional</span>
-<span class="sd">        The euler angles in the convention used to define the frame. Default is the zero vector.</span>
-<span class="sd">        The euler angles are a 3-element vector with xyz convention in radians.</span>
-
-<span class="sd">    rotation_vector : array_like, optional</span>
-<span class="sd">        The rotation vector in the convention used to define the frame. Default is the zero vector.</span>
-<span class="sd">        The rotation vector is a 3-element vector with the angle in radians.</span>
 
 <span class="sd">    parent : Optional[Frame], optional</span>
 <span class="sd">        The parent frame of the frame. Default is None - the global frame.</span>
@@ -536,6 +503,7 @@
 
 <span class="sd">        translation = [1, 2, 3]</span>
 <span class="sd">        rotation_matrix = np.array([[1, 1, 0], [1, -1, 0], [0, 0, 1]]).T # Equivalent to the column_stack((x_axis, y_axis, z_axis))</span>
+<span class="sd">        rotation_matrix = rotation_matrix / np.linalg.norm(rotation_matrix, axis=0) # Normalize the columns to get an orthonormal matrix</span>
 <span class="sd">        frame_E = Frame.from_rotation_matrix(translation=translation, rotation_matrix=rotation_matrix, parent=None, convention=0)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -548,198 +516,27 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="o">*</span><span class="p">,</span>
-            <span class="n">origin</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">axes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">x_axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">y_axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">z_axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">translation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">rotation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">Rotation</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">rotation_matrix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">quaternion</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">euler_angles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">rotation_vector</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="o">*</span><span class="p">,</span>
             <span class="n">parent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">setup_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
             <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-            <span class="n">_warnings</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Direct use of __init__ is deprecated. Use the class methods to create a Frame object.&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+        <span class="c1"># Initialize a Canonical Frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_R_dev</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_T_dev</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">convention</span> <span class="o">=</span> <span class="n">convention</span>
 
-        <span class="c1"># ==============================================================================================================</span>
-        <span class="c1"># First we check the parameters and the consistency of the user input.</span>
-        <span class="c1"># The user must use only one way to define the frame.</span>
-        <span class="c1"># ==============================================================================================================</span>
+        <span class="c1"># Update the frame with the given parameters</span>
+        <span class="n">translation</span> <span class="o">=</span> <span class="n">translation</span> <span class="k">if</span> <span class="n">translation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">rotation</span> <span class="o">=</span> <span class="n">rotation</span> <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_translation</span><span class="p">(</span><span class="n">translation</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_rotation</span><span class="p">(</span><span class="n">rotation</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span>
 
-        <span class="c1"># Check the parameters</span>
-        <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rotation</span><span class="p">,</span> <span class="n">Rotation</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The rotation must be a Rotation object.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">Frame</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The parent must be a Frame object.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">setup_only</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The setup_only parameter must be a boolean.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">convention</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The convention parameter must be an integer.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">convention</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The convention must be an integer between 0 and 7.&quot;</span><span class="p">)</span>
-
-        <span class="c1"># Get the method to define the frame.</span>
-        <span class="n">define_by_origin_and_axes</span> <span class="o">=</span> <span class="n">origin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">x_axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">y_axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">z_axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">axes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-        <span class="n">define_by_translation_and_rotation</span> <span class="o">=</span> <span class="n">translation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">rotation_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">quaternion</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">euler_angles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">rotation_vector</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-        
-        <span class="c1"># Check if the parameters are consistent</span>
-        <span class="k">if</span> <span class="n">define_by_origin_and_axes</span> <span class="ow">and</span> <span class="n">define_by_translation_and_rotation</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;If the origin or axes is provided, the other parameters mustn&#39;t be provided. The frame must be defined by [the origin and the axes] or by [the translation vector and the rotation].&quot;</span><span class="p">)</span>
-        
-        <span class="k">if</span> <span class="n">define_by_origin_and_axes</span><span class="p">:</span>
-            <span class="c1"># If axes is provided, x-axis, y-axis, and z-axis mustn&#39;t be provided.</span>
-            <span class="k">if</span> <span class="n">axes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">x_axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">y_axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">z_axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;If the axes is provided, the x_axis, y_axis, and z_axis mustn&#39;t be provided.&quot;</span><span class="p">)</span>
-            
-        <span class="k">if</span> <span class="n">define_by_translation_and_rotation</span><span class="p">:</span>
-            <span class="c1"># Only one of the rotation parameters must be provided.</span>
-            <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="n">rotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rotation_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="n">quaternion</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="n">euler_angles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rotation_vector</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only one of the rotation parameters must be provided.&quot;</span><span class="p">)</span>
-
-        <span class="c1"># Default values if no orientation is provided.</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">define_by_origin_and_axes</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">define_by_translation_and_rotation</span><span class="p">:</span>
-            <span class="n">define_by_origin_and_axes</span> <span class="o">=</span> <span class="kc">True</span>
-
-        <span class="c1"># ==============================================================================================================</span>
-        <span class="c1"># The frame will only conserve the transformation between the parent frame and the frame in the convention 0.</span>
-        <span class="c1"># First we define the translation and the rotation according to the user input.</span>
-        <span class="c1"># ==============================================================================================================</span>
-
-        <span class="c1"># Prepare the translation and rotation parameters if define_by_translation_and_rotation is True.</span>
-        <span class="k">if</span> <span class="n">define_by_origin_and_axes</span><span class="p">:</span>
-            <span class="c1"># Define the translation vector.</span>
-            <span class="k">if</span> <span class="n">origin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">origin</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-            <span class="n">translation</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-
-            <span class="c1"># Define the rotation matrix.</span>
-            <span class="k">if</span> <span class="n">axes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">x_axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">x_axis</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-                <span class="n">x_axis</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_axis</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">y_axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">y_axis</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-                <span class="n">y_axis</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y_axis</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">z_axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">z_axis</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-                <span class="n">z_axis</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">z_axis</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-                <span class="n">axes</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">x_axis</span><span class="p">,</span> <span class="n">y_axis</span><span class="p">,</span> <span class="n">z_axis</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-            <span class="n">rotation_matrix</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">rotation_matrix</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The axes must be a 3x3 matrix.&quot;</span><span class="p">)</span>  
-            <span class="n">rotation_matrix</span> <span class="o">=</span> <span class="n">rotation_matrix</span> <span class="o">/</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rotation_matrix</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># Normalize the columns to get an orthonormal matrix</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_SO3</span><span class="p">(</span><span class="n">rotation_matrix</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The axes must be a special orthogonal matrix.&quot;</span><span class="p">)</span>
-
-            <span class="c1"># Create the rotation object.</span>
-            <span class="n">rotation</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span><span class="n">rotation_matrix</span><span class="p">)</span>
-            <span class="n">convention</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># The convention is 0 because the rotation matrix is the basis vectors of the frame.</span>
-        
-
-        <span class="c1"># Prepare the translation and rotation parameters if define_by_translation_and_rotation is True.          </span>
-        <span class="k">if</span> <span class="n">define_by_translation_and_rotation</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">translation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">translation</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-            <span class="n">translation</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">translation</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="n">rotation_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">rotation_matrix</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rotation_matrix</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">rotation_matrix</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The rotation matrix must be a 3x3 matrix.&quot;</span><span class="p">)</span>
-                <span class="n">norm</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rotation_matrix</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">numpy</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">norm</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The basis vectors can&#39;t be 0.&quot;</span><span class="p">)</span>
-                <span class="n">rotation_matrix</span> <span class="o">=</span> <span class="n">rotation_matrix</span> <span class="o">/</span> <span class="n">norm</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">is_SO3</span><span class="p">(</span><span class="n">rotation_matrix</span><span class="p">):</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The rotation matrix must be a special orthogonal matrix.&quot;</span><span class="p">)</span>
-                <span class="n">rotation</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span><span class="n">rotation_matrix</span><span class="p">)</span>
-            
-            <span class="k">if</span> <span class="n">quaternion</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">quaternion</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">quaternion</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">4</span><span class="p">,))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-                <span class="n">norm</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">quaternion</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">numpy</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">norm</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The quaternion can&#39;t be 0.&quot;</span><span class="p">)</span>
-                <span class="n">quaternion</span> <span class="o">=</span> <span class="n">quaternion</span> <span class="o">/</span> <span class="n">norm</span>
-                <span class="n">rotation</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_quat</span><span class="p">(</span><span class="n">quaternion</span><span class="p">,</span> <span class="n">scalar_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            
-            <span class="k">if</span> <span class="n">euler_angles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">euler_angles</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">euler_angles</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-                <span class="n">rotation</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_euler</span><span class="p">(</span><span class="s2">&quot;XYZ&quot;</span><span class="p">,</span> <span class="n">euler_angles</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="n">rotation_vector</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">rotation_vector</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rotation_vector</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-                <span class="n">rotation</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_rotvec</span><span class="p">(</span><span class="n">rotation_vector</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">rotation</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
-
-        <span class="c1"># ====================================================================================================================================</span>
-        <span class="c1"># At this point, the translation vector and the rotation object are defined and convention parameters are seted.</span>
-        <span class="c1"># Lets convert the translation and the rotation to the convention 0 (default convention for the developer).</span>
-        <span class="c1"># ====================================================================================================================================</span>
-        <span class="n">rotation</span><span class="p">,</span> <span class="n">translation</span> <span class="o">=</span> <span class="n">switch_RT_convention</span><span class="p">(</span><span class="n">rotation</span><span class="p">,</span> <span class="n">translation</span><span class="p">,</span> <span class="n">convention</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-
-        <span class="c1"># ====================================================================================================================================</span>
-        <span class="c1"># In the user give a parent and the setup_only parameter is True, </span>
-        <span class="c1"># we must construct the composite transformation between the global frame and the parent frame.</span>
-        <span class="c1"># ====================================================================================================================================</span>
-        <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">setup_only</span><span class="p">:</span>
-            <span class="c1"># Construct the composite transformation between the global frame and the parent frame.</span>
-            <span class="n">R_parent</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">get_global_rotation</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-            <span class="n">T_parent</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">get_global_translation</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-            <span class="c1"># ====================================================================================================================================</span>
-            <span class="c1"># Lets note : </span>
-            <span class="c1"># Xg : the coordinates of a point in the global frame</span>
-            <span class="c1"># Xp : the coordinates of the same point in the parent frame</span>
-            <span class="c1"># Xf : the coordinates of the same point in the frame</span>
-            <span class="c1"># Rg : the rotation matrix between the global frame and the parent frame</span>
-            <span class="c1"># Rp : the rotation matrix between the parent frame and the frame</span>
-            <span class="c1"># Tg : the translation vector between the global frame and the parent frame</span>
-            <span class="c1"># Tp : the translation vector between the parent frame and the frame</span>
-            <span class="c1"># R : the rotation matrix between the global frame and the frame</span>
-            <span class="c1"># T : the translation vector between the global frame and the frame</span>
-            <span class="c1"># </span>
-            <span class="c1"># We have :</span>
-            <span class="c1"># Xg = Rg * Xp + Tg</span>
-            <span class="c1"># Xp = Rp * Xf + Tp</span>
-            <span class="c1"># Xg = R * Xf + T</span>
-            <span class="c1">#</span>
-            <span class="c1"># We search R and T:</span>
-            <span class="c1"># Xg = Rg * (Rp * Xf + Tp) + Tg</span>
-            <span class="c1"># Xg = Rg * Rp * Xf + Rg * Tp + Tg</span>
-            <span class="c1">#</span>
-            <span class="c1"># So the composite transformation is R = Rg * Rp and T = Rg * Tp + Tg</span>
-            <span class="c1">#</span>
-            <span class="c1"># However, the rotation is right-handed or left-handed depending on the determinant of the rotation matrix.</span>
-            <span class="c1"># We have R = r * k where k is the matrix [[1, 0, 0], [0, 1, 0], [0, 0, det(R)]] </span>
-            <span class="c1"># and r is the equivalent direct rotation (corresponding to the equivalent direct frame with the Z-axis inverted).</span>
-            <span class="c1">#</span>
-            <span class="c1"># So T = rg * (kg * Tp) + Tg</span>
-            <span class="c1">#</span>
-            <span class="c1"># And R = rg * kp * rp * kp</span>
-            <span class="c1"># Can we have R = r * k ?</span>
-            <span class="c1"># Not directly if det(Rg) = - 1 -&gt; So we need to use the rotation matrix of the Rotation object. :( Thats sad ...</span>
-            <span class="c1"># For now , lets remove the right-handed parameter from the class.</span>
-            <span class="c1"># ====================================================================================================================================</span>
-            <span class="n">rotation</span> <span class="o">=</span> <span class="n">R_parent</span> <span class="o">*</span> <span class="n">rotation</span>
-            <span class="n">translation</span> <span class="o">=</span> <span class="n">R_parent</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">translation</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">T_parent</span>
-            <span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span>
-
-        <span class="c1"># ====================================================================================================================================</span>
-        <span class="c1"># At this point we can store the useful parameters of the frame.</span>
-        <span class="c1"># ====================================================================================================================================</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_R_dev</span> <span class="o">=</span> <span class="n">rotation</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_T_dev</span> <span class="o">=</span> <span class="n">translation</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="o">=</span> <span class="n">parent</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_convention</span> <span class="o">=</span> <span class="n">convention</span>
-
+        <span class="k">if</span> <span class="n">setup_only</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_remove_parent_dev</span><span class="p">()</span>
 
     <span class="c1"># ====================================================================================================================================</span>
     <span class="c1"># Developer methods</span>
@@ -791,7 +588,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__T_dev</span> <span class="o">=</span> <span class="n">T</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__T_dev</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">writeable</span> <span class="o">=</span> <span class="kc">False</span>
 
-
     <span class="k">def</span><span class="w"> </span><span class="nf">_remove_parent_dev</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove the parent frame of the frame by setting the parent attribute to None.</span>
@@ -808,7 +604,6 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_R_dev</span> <span class="o">=</span> <span class="n">R_global</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_T_dev</span> <span class="o">=</span> <span class="n">T_global</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="o">=</span> <span class="kc">None</span>
-
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_format_axes_dev</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
@@ -985,6 +780,8 @@
     <span class="c1"># ====================================================================================================================================</span>
     <span class="c1"># Class methods to create a Frame object</span>
     <span class="c1"># ====================================================================================================================================</span>
+<div class="viewcode-block" id="Frame.canonical">
+<a class="viewcode-back" href="../../api_doc/Frame_generated/py3dframe.Frame.canonical.html#py3dframe.Frame.canonical">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">canonical</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
@@ -1020,14 +817,11 @@
 <span class="sd">            canonical_frame = Frame.canonical()</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">_R_dev</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">_T_dev</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">convention</span> <span class="o">=</span> <span class="n">convention</span>
-        <span class="k">return</span> <span class="n">instance</span>
-    
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span></div>
 
+    
+<div class="viewcode-block" id="Frame.from_rotation">
+<a class="viewcode-back" href="../../api_doc/Frame_generated/py3dframe.Frame.from_rotation.html#py3dframe.Frame.from_rotation">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_rotation</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
@@ -1039,7 +833,7 @@
         <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a Frame object from a rotation and translation.</span>
+<span class="sd">        Create a Frame object from a rotation and a translation.</span>
 
 <span class="sd">        .. code-block:: python</span>
 
@@ -1061,8 +855,6 @@
 <span class="sd">        rotation : Rotation, optional</span>
 <span class="sd">            The rotation of the transformation. It must be a Rotation. Default is None - the identity rotation.</span>
 
-<span class="sd">        *,</span>
-
 <span class="sd">        parent : Optional[Frame], optional</span>
 <span class="sd">            The parent frame of the frame. Default is None - the global frame.</span>
 
@@ -1076,19 +868,14 @@
 <span class="sd">        -------</span>
 <span class="sd">        Frame</span>
 <span class="sd">            The Frame object created from the given rotation and translation.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Set default values</span>
-        <span class="n">rotation</span> <span class="o">=</span> <span class="n">rotation</span> <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
-        <span class="n">translation</span> <span class="o">=</span> <span class="n">translation</span> <span class="k">if</span> <span class="n">translation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-        <span class="c1"># Construct the frame</span>
-        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">canonical</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">translation</span> <span class="o">=</span> <span class="n">translation</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">rotation</span> <span class="o">=</span> <span class="n">rotation</span>
-        <span class="k">if</span> <span class="n">setup_only</span><span class="p">:</span>
-            <span class="n">instance</span><span class="o">.</span><span class="n">_remove_parent_dev</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">instance</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">translation</span><span class="p">,</span> <span class="n">rotation</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">setup_only</span><span class="o">=</span><span class="n">setup_only</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span></div>
 
 
+
+<div class="viewcode-block" id="Frame.from_axes">
+<a class="viewcode-back" href="../../api_doc/Frame_generated/py3dframe.Frame.from_axes.html#py3dframe.Frame.from_axes">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_axes</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
@@ -1131,8 +918,6 @@
 <span class="sd">        z_axis : array_like, optional</span>
 <span class="sd">            The z-axis of the frame in the parent frame coordinates. Default is None - the [0, 0, 1] vector.</span>
 
-<span class="sd">        *,</span>
-
 <span class="sd">        parent : Optional[Frame], optional</span>
 <span class="sd">            The parent frame of the frame. Default is None - the global frame.</span>
 
@@ -1146,6 +931,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        Frame</span>
 <span class="sd">            The Frame object created from the given axes.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Set default values</span>
         <span class="n">origin</span> <span class="o">=</span> <span class="n">origin</span> <span class="k">if</span> <span class="n">origin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
@@ -1159,9 +945,12 @@
         <span class="n">instance</span><span class="o">.</span><span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span>
         <span class="k">if</span> <span class="n">setup_only</span><span class="p">:</span>
             <span class="n">instance</span><span class="o">.</span><span class="n">_remove_parent_dev</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">instance</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
 
 
+
+<div class="viewcode-block" id="Frame.from_rotation_matrix">
+<a class="viewcode-back" href="../../api_doc/Frame_generated/py3dframe.Frame.from_rotation_matrix.html#py3dframe.Frame.from_rotation_matrix">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_rotation_matrix</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
@@ -1195,8 +984,6 @@
 <span class="sd">        rotation_matrix : numpy.ndarray, optional</span>
 <span class="sd">            The rotation matrix of the transformation. It must be a 3x3 matrix. Default is None - the identity matrix.</span>
 
-<span class="sd">        *,</span>
-
 <span class="sd">        parent : Optional[Frame], optional</span>
 <span class="sd">            The parent frame of the frame. Default is None - the global frame.</span>
 
@@ -1210,19 +997,23 @@
 <span class="sd">        -------</span>
 <span class="sd">        Frame</span>
 <span class="sd">            The Frame object created from the given rotation matrix and translation.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Set default values</span>
         <span class="n">rotation_matrix</span> <span class="o">=</span> <span class="n">rotation_matrix</span> <span class="k">if</span> <span class="n">rotation_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">numpy</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
         <span class="n">translation</span> <span class="o">=</span> <span class="n">translation</span> <span class="k">if</span> <span class="n">translation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
         <span class="c1"># Construct the frame</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">canonical</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">translation</span> <span class="o">=</span> <span class="n">translation</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">rotation_matrix</span> <span class="o">=</span> <span class="n">rotation_matrix</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">set_translation</span><span class="p">(</span><span class="n">translation</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">set_rotation_matrix</span><span class="p">(</span><span class="n">rotation_matrix</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">setup_only</span><span class="p">:</span>
             <span class="n">instance</span><span class="o">.</span><span class="n">_remove_parent_dev</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">instance</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
     
 
+<div class="viewcode-block" id="Frame.from_quaternion">
+<a class="viewcode-back" href="../../api_doc/Frame_generated/py3dframe.Frame.from_quaternion.html#py3dframe.Frame.from_quaternion">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_quaternion</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
@@ -1231,7 +1022,8 @@
         <span class="o">*</span><span class="p">,</span>
         <span class="n">parent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">setup_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">scalar_first</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a Frame object from a quaternion and translation.</span>
@@ -1255,8 +1047,6 @@
 <span class="sd">        quaternion : numpy.ndarray, optional</span>
 <span class="sd">            The quaternion of the transformation. It must be a 4 elements vector [w, x, y, z] (scalar first convention). Default is None - the identity quaternion.</span>
 
-<span class="sd">        *,</span>
-
 <span class="sd">        parent : Optional[Frame], optional</span>
 <span class="sd">            The parent frame of the frame. Default is None - the global frame.</span>
 
@@ -1266,23 +1056,30 @@
 <span class="sd">        convention : int, optional</span>
 <span class="sd">            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is 0.</span>
 
+<span class="sd">        scalar_first : bool, optional</span>
+<span class="sd">            If True, the quaternion is in the [w, x, y, z] format. If False, the quaternion is in the [x, y, z, w] format. Default is True.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        Frame</span>
 <span class="sd">            The Frame object created from the given quaternion and translation.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Set default values</span>
         <span class="n">quaternion</span> <span class="o">=</span> <span class="n">quaternion</span> <span class="k">if</span> <span class="n">quaternion</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="c1"># Identity quaternion [w, x, y, z]</span>
         <span class="n">translation</span> <span class="o">=</span> <span class="n">translation</span> <span class="k">if</span> <span class="n">translation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
         <span class="c1"># Construct the frame</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">canonical</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">translation</span> <span class="o">=</span> <span class="n">translation</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">quaternion</span> <span class="o">=</span> <span class="n">quaternion</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">set_translation</span><span class="p">(</span><span class="n">translation</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">set_quaternion</span><span class="p">(</span><span class="n">quaternion</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">,</span> <span class="n">scalar_first</span><span class="o">=</span><span class="n">scalar_first</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">setup_only</span><span class="p">:</span>
             <span class="n">instance</span><span class="o">.</span><span class="n">_remove_parent_dev</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">instance</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
     
 
+<div class="viewcode-block" id="Frame.from_euler_angles">
+<a class="viewcode-back" href="../../api_doc/Frame_generated/py3dframe.Frame.from_euler_angles.html#py3dframe.Frame.from_euler_angles">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_euler_angles</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
@@ -1291,7 +1088,9 @@
         <span class="o">*</span><span class="p">,</span>
         <span class="n">parent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">setup_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">degrees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">seq</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;xyz&quot;</span>
         <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a Frame object from euler angles and translation.</span>
@@ -1315,8 +1114,6 @@
 <span class="sd">        euler_angles : numpy.ndarray, optional</span>
 <span class="sd">            The euler angles of the transformation. It must be a 3 elements vector [alpha, beta, gamma] in radians with xyz convention. Default is None - the zero vector.</span>
 
-<span class="sd">        *,</span>
-
 <span class="sd">        parent : Optional[Frame], optional</span>
 <span class="sd">            The parent frame of the frame. Default is None - the global frame.</span>
 
@@ -1326,24 +1123,34 @@
 <span class="sd">        convention : int, optional</span>
 <span class="sd">            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is 0.</span>
 
+<span class="sd">        degrees : bool, optional</span>
+<span class="sd">            If True, the euler angles are in degrees. If False, the euler angles are in radians. Default is False.</span>
+
+<span class="sd">        seq : str, optional</span>
+<span class="sd">            The sequence of the euler angles. It must be a string of 3 characters chosen between &#39;x&#39;, &#39;y&#39;, and &#39;z&#39;. Default is &quot;xyz&quot;.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        Frame</span>
 <span class="sd">            The Frame object created from the given euler angles and translation.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Set default values</span>
         <span class="n">euler_angles</span> <span class="o">=</span> <span class="n">euler_angles</span> <span class="k">if</span> <span class="n">euler_angles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="c1"># Zero euler angles</span>
         <span class="n">translation</span> <span class="o">=</span> <span class="n">translation</span> <span class="k">if</span> <span class="n">translation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
         <span class="c1"># Construct the frame</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">canonical</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">translation</span> <span class="o">=</span> <span class="n">translation</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">euler_angles</span> <span class="o">=</span> <span class="n">euler_angles</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">set_translation</span><span class="p">(</span><span class="n">translation</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">set_euler_angles</span><span class="p">(</span><span class="n">euler_angles</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="n">degrees</span><span class="p">,</span> <span class="n">seq</span><span class="o">=</span><span class="n">seq</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">setup_only</span><span class="p">:</span>
             <span class="n">instance</span><span class="o">.</span><span class="n">_remove_parent_dev</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">instance</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
     
     
 
+<div class="viewcode-block" id="Frame.from_rotation_vector">
+<a class="viewcode-back" href="../../api_doc/Frame_generated/py3dframe.Frame.from_rotation_vector.html#py3dframe.Frame.from_rotation_vector">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_rotation_vector</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
@@ -1352,7 +1159,8 @@
         <span class="o">*</span><span class="p">,</span>
         <span class="n">parent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">setup_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">degrees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a Frame object from a rotation vector and translation.</span>
@@ -1376,8 +1184,6 @@
 <span class="sd">        rotation_vector : numpy.ndarray, optional</span>
 <span class="sd">            The rotation vector of the transformation. It must be a 3 elements vector in radians. Default is None - the zero vector.</span>
 
-<span class="sd">        *,</span>
-
 <span class="sd">        parent : Optional[Frame], optional</span>
 <span class="sd">            The parent frame of the frame. Default is None - the global frame.</span>
 
@@ -1387,21 +1193,26 @@
 <span class="sd">        convention : int, optional</span>
 <span class="sd">            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is 0.</span>
 
+<span class="sd">        degrees : bool, optional</span>
+<span class="sd">            If True, the rotation vector is in degrees. If False, the rotation vector is in radians. Default is False.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        Frame</span>
 <span class="sd">            The Frame object created from the given rotation vector and translation.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Set default values</span>
         <span class="n">rotation_vector</span> <span class="o">=</span> <span class="n">rotation_vector</span> <span class="k">if</span> <span class="n">rotation_vector</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="c1"># Zero rotation vector</span>
         <span class="n">translation</span> <span class="o">=</span> <span class="n">translation</span> <span class="k">if</span> <span class="n">translation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
         <span class="c1"># Construct the frame</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">canonical</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">translation</span> <span class="o">=</span> <span class="n">translation</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">rotation_vector</span> <span class="o">=</span> <span class="n">rotation_vector</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">set_translation</span><span class="p">(</span><span class="n">translation</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">set_rotation_vector</span><span class="p">(</span><span class="n">rotation_vector</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="n">degrees</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">setup_only</span><span class="p">:</span>
             <span class="n">instance</span><span class="o">.</span><span class="n">_remove_parent_dev</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">instance</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
 
 
     
@@ -2591,8 +2402,6 @@
     
 
 
-<div class="viewcode-block" id="Frame.__eq__">
-<a class="viewcode-back" href="../../api_doc/Frame_generated/py3dframe.Frame.__eq__.html#py3dframe.Frame.__eq__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Frame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the equality of the Frame object.</span>
@@ -2613,8 +2422,7 @@
             <span class="k">return</span> <span class="kc">False</span>
         <span class="n">global_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_global_frame</span><span class="p">()</span>
         <span class="n">other_global_frame</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">get_global_frame</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">global_frame</span><span class="o">.</span><span class="n">translation</span><span class="p">,</span> <span class="n">other_global_frame</span><span class="o">.</span><span class="n">translation</span><span class="p">)</span> <span class="ow">and</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">global_frame</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">as_quat</span><span class="p">(),</span> <span class="n">other_global_frame</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">as_quat</span><span class="p">())</span></div>
-
+        <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">global_frame</span><span class="o">.</span><span class="n">_T_dev</span><span class="p">,</span> <span class="n">other_global_frame</span><span class="o">.</span><span class="n">_T_dev</span><span class="p">)</span> <span class="ow">and</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">global_frame</span><span class="o">.</span><span class="n">_R_dev</span><span class="o">.</span><span class="n">as_quat</span><span class="p">(),</span> <span class="n">other_global_frame</span><span class="o">.</span><span class="n">_R_dev</span><span class="o">.</span><span class="n">as_quat</span><span class="p">())</span>
     
 
 
@@ -2635,58 +2443,6 @@
 <span class="sd">            True if the Frame objects are not equal, False otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-    
-
-
-    <span class="c1"># ====================================================================================================================================</span>
-    <span class="c1"># draw methods</span>
-    <span class="c1"># ====================================================================================================================================</span>
-<div class="viewcode-block" id="Frame.draw">
-<a class="viewcode-back" href="../../api_doc/Frame_generated/py3dframe.Frame.draw.html#py3dframe.Frame.draw">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">,</span> <span class="n">xcolor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">ycolor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">zcolor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">lines</span><span class="o">.</span><span class="n">Line2D</span><span class="p">,</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">lines</span><span class="o">.</span><span class="n">Line2D</span><span class="p">,</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">lines</span><span class="o">.</span><span class="n">Line2D</span><span class="p">]:</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Draw the frame in the matplotlib axes (projection 3D).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        ax : matplotlib.axes.Axes</span>
-<span class="sd">            The matplotlib axes to draw the frame.</span>
-<span class="sd">        </span>
-<span class="sd">        xcolor : str, optional</span>
-<span class="sd">            The color of the x-axis. Default is &#39;r&#39;.</span>
-<span class="sd">        </span>
-<span class="sd">        ycolor : str, optional</span>
-<span class="sd">            The color of the y-axis. Default is &#39;g&#39;.</span>
-<span class="sd">        </span>
-<span class="sd">        zcolor : str, optional</span>
-<span class="sd">            The color of the z-axis. Default is &#39;b&#39;.</span>
-<span class="sd">        </span>
-<span class="sd">        scale : float, optional</span>
-<span class="sd">            The scale of the frame. Default is 1.</span>
-<span class="sd">        </span>
-<span class="sd">        **kwargs</span>
-<span class="sd">            Additional arguments to pass to the matplotlib.lines.Line2D constructor.</span>
-<span class="sd">        </span>
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Tuple[matplotlib.lines.Line2D, matplotlib.lines.Line2D, matplotlib.lines.Line2D]</span>
-<span class="sd">            The x-axis, y-axis and z-axis of the frame.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">global_origin</span>
-        <span class="n">x_axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">global_x_axis</span>
-        <span class="n">y_axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">global_y_axis</span>
-        <span class="n">z_axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">global_z_axis</span>
-
-        <span class="n">x</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">origin</span><span class="p">,</span> <span class="n">origin</span> <span class="o">+</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">x_axis</span><span class="p">))</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">origin</span><span class="p">,</span> <span class="n">origin</span> <span class="o">+</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">y_axis</span><span class="p">))</span>
-        <span class="n">z</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">origin</span><span class="p">,</span> <span class="n">origin</span> <span class="o">+</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">z_axis</span><span class="p">))</span>
-
-        <span class="n">x_line</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">,:],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">,:],</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">,:],</span> <span class="n">color</span><span class="o">=</span><span class="n">xcolor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">y_line</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">,:],</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">,:],</span> <span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">,:],</span> <span class="n">color</span><span class="o">=</span><span class="n">ycolor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">z_line</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">,:],</span> <span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">,:],</span> <span class="n">z</span><span class="p">[</span><span class="mi">2</span><span class="p">,:],</span> <span class="n">color</span><span class="o">=</span><span class="n">zcolor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">x_line</span><span class="p">,</span> <span class="n">y_line</span><span class="p">,</span> <span class="n">z_line</span></div>
-
-
 
 
     <span class="c1"># ====================================================================================================================================</span>

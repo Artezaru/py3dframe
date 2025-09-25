@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>py3dframe.Frame &#8212; py3dframe 0.2.5 documentation</title>
+    <title>py3dframe.Frame &#8212; py3dframe 1.0.0 documentation</title>
   
   
   
@@ -38,15 +38,15 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=cb850272"></script>
+    <script src="../_static/documentation_options.js?v=8d563738"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api_doc/frame';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="py3dframe.Frame.origin" href="Frame_generated/py3dframe.Frame.origin.html" />
-    <link rel="prev" title="py3dframe.switch_RT_convention" href="switch_RT_convention.html" />
+    <link rel="next" title="py3dframe.Frame.canonical" href="Frame_generated/py3dframe.Frame.canonical.html" />
+    <link rel="prev" title="py3dframe.Rotation" href="rotation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -111,7 +111,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 0.2.5 documentation</p>
+    <p class="title logo__title">py3dframe 1.0.0 documentation</p>
   
 </a></div>
     
@@ -265,19 +265,24 @@
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
-  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">API:</span></p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Main classes:</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="rotation.html">py3dframe.Rotation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="matrix.html">py3dframe.matrix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="switch_RT_convention.html">py3dframe.switch_RT_convention</a></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">py3dframe.Frame</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.canonical.html">py3dframe.Frame.canonical</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_rotation.html">py3dframe.Frame.from_rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_axes.html">py3dframe.Frame.from_axes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_rotation_matrix.html">py3dframe.Frame.from_rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_quaternion.html">py3dframe.Frame.from_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_euler_angles.html">py3dframe.Frame.from_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_rotation_vector.html">py3dframe.Frame.from_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.parent.html">py3dframe.Frame.parent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.convention.html">py3dframe.Frame.convention</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.origin.html">py3dframe.Frame.origin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.axes.html">py3dframe.Frame.axes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.x_axis.html">py3dframe.Frame.x_axis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.y_axis.html">py3dframe.Frame.y_axis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.z_axis.html">py3dframe.Frame.z_axis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.convention.html">py3dframe.Frame.convention</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.parent.html">py3dframe.Frame.parent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.translation.html">py3dframe.Frame.translation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_translation.html">py3dframe.Frame.get_translation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_translation.html">py3dframe.Frame.set_translation</a></li>
@@ -320,8 +325,6 @@
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_rotation_vector.html">py3dframe.Frame.global_rotation_vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_rotation_vector.html">py3dframe.Frame.get_global_rotation_vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_rotation_vector.html">py3dframe.Frame.set_global_rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.draw.html">py3dframe.Frame.draw</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.__eq__.html">py3dframe.Frame.__eq__</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.save_to_dict.html">py3dframe.Frame.save_to_dict</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.load_from_dict.html">py3dframe.Frame.load_from_dict</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.save_to_json.html">py3dframe.Frame.save_to_json</a></li>
@@ -349,6 +352,17 @@
 <li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.inverse_transform.html">py3dframe.FrameTransform.inverse_transform</a></li>
 </ul>
 </details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">matrix submodule:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="is_O3.html">py3dframe.matrix.is_O3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="is_SO3.html">py3dframe.matrix.is_SO3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="O3_project.html">py3dframe.matrix.O3_project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SO3_project.html">py3dframe.matrix.SO3_project</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Conversion functions:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="switch_RT_convention.html">py3dframe.switch_RT_convention</a></li>
 </ul>
 </div>
 </nav></div>
@@ -413,7 +427,7 @@
 <h1>py3dframe.Frame<a class="headerlink" href="#py3dframe-frame" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="py3dframe.Frame">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py3dframe.</span></span><span class="sig-name descname"><span class="pre">Frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Rotation</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quaternion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">euler_angles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setup_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convention</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_warnings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py3dframe.</span></span><span class="sig-name descname"><span class="pre">Frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">translation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Rotation</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setup_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convention</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame" title="Link to this definition">#</a></dt>
 <dd><p>A Frame object represents a frame of reference of <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span> (only orthogonal and right-handed frames are supported).</p>
 <p>A frame of reference is defined by its origin and its basis vectors in the global frame coordinates.
 The origin is a 3-element vector.
@@ -489,45 +503,15 @@ If you want use the parent frame only to define the frame and not to link the fr
 <h2>Frame instantiation<a class="headerlink" href="#frame-instantiation" title="Link to this heading">#</a></h2>
 <p>To create a Frame object, the user must can use one of the following approaches:</p>
 <ol class="arabic simple">
-<li><p>Define the frame by its origin and its basis vectors with <code class="xref py py-meth docutils literal notranslate"><span class="pre">from_axes()</span></code> class method.</p></li>
-<li><p>Define the frame by its translation vector and its rotation with <code class="xref py py-meth docutils literal notranslate"><span class="pre">from_rotation()</span></code> class method.</p></li>
-<li><p>Define the frame by its translation vector and its rotation matrix with <code class="xref py py-meth docutils literal notranslate"><span class="pre">from_rotation_matrix()</span></code> class method.</p></li>
-<li><p>Define the frame by its translation vector and its quaternion with <code class="xref py py-meth docutils literal notranslate"><span class="pre">from_quaternion()</span></code> class method.</p></li>
-<li><p>Define the frame by its translation vector and its euler angles with <code class="xref py py-meth docutils literal notranslate"><span class="pre">from_euler_angles()</span></code> class method.</p></li>
-<li><p>Define the frame by its translation vector and its rotation vector with <code class="xref py py-meth docutils literal notranslate"><span class="pre">from_rotation_vector()</span></code> class method.</p></li>
-<li><p>Create the canonical frame with <code class="xref py py-meth docutils literal notranslate"><span class="pre">canonical()</span></code> class method.</p></li>
+<li><p>Define the frame by its origin and its basis vectors with <a class="reference internal" href="Frame_generated/py3dframe.Frame.from_axes.html#py3dframe.Frame.from_axes" title="py3dframe.Frame.from_axes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_axes()</span></code></a> class method.</p></li>
+<li><p>Define the frame by its translation vector and its rotation with <a class="reference internal" href="Frame_generated/py3dframe.Frame.from_rotation.html#py3dframe.Frame.from_rotation" title="py3dframe.Frame.from_rotation"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_rotation()</span></code></a> class method.</p></li>
+<li><p>Define the frame by its translation vector and its rotation matrix with <a class="reference internal" href="Frame_generated/py3dframe.Frame.from_rotation_matrix.html#py3dframe.Frame.from_rotation_matrix" title="py3dframe.Frame.from_rotation_matrix"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_rotation_matrix()</span></code></a> class method.</p></li>
+<li><p>Define the frame by its translation vector and its quaternion with <a class="reference internal" href="Frame_generated/py3dframe.Frame.from_quaternion.html#py3dframe.Frame.from_quaternion" title="py3dframe.Frame.from_quaternion"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_quaternion()</span></code></a> class method.</p></li>
+<li><p>Define the frame by its translation vector and its euler angles with <a class="reference internal" href="Frame_generated/py3dframe.Frame.from_euler_angles.html#py3dframe.Frame.from_euler_angles" title="py3dframe.Frame.from_euler_angles"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_euler_angles()</span></code></a> class method.</p></li>
+<li><p>Define the frame by its translation vector and its rotation vector with <a class="reference internal" href="Frame_generated/py3dframe.Frame.from_rotation_vector.html#py3dframe.Frame.from_rotation_vector" title="py3dframe.Frame.from_rotation_vector"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_rotation_vector()</span></code></a> class method.</p></li>
+<li><p>Create the canonical frame with <a class="reference internal" href="Frame_generated/py3dframe.Frame.canonical.html#py3dframe.Frame.canonical" title="py3dframe.Frame.canonical"><code class="xref py py-meth docutils literal notranslate"><span class="pre">canonical()</span></code></a> class method.</p></li>
 </ol>
 <dl class="field-list simple">
-<dt class="field-odd">param origin<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The coordinates of the origin of the frame in the parent frame coordinates. Default is the zero vector.</p>
-</dd>
-<dt class="field-even">type origin<span class="colon">:</span></dt>
-<dd class="field-even"><p>array_like, optional</p>
-</dd>
-<dt class="field-odd">param axes<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The basis vectors of the frame in the parent frame coordinates. Default is the identity matrix.</p>
-</dd>
-<dt class="field-even">type axes<span class="colon">:</span></dt>
-<dd class="field-even"><p>array_like, optional</p>
-</dd>
-<dt class="field-odd">param x_axis<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The x-axis of the frame in the parent frame coordinates. Default is the x-axis of the parent frame.</p>
-</dd>
-<dt class="field-even">type x_axis<span class="colon">:</span></dt>
-<dd class="field-even"><p>array_like, optional</p>
-</dd>
-<dt class="field-odd">param y_axis<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The y-axis of the frame in the parent frame coordinates. Default is the y-axis of the parent frame.</p>
-</dd>
-<dt class="field-even">type y_axis<span class="colon">:</span></dt>
-<dd class="field-even"><p>array_like, optional</p>
-</dd>
-<dt class="field-odd">param z_axis<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The z-axis of the frame in the parent frame coordinates. Default is the z-axis of the parent frame.</p>
-</dd>
-<dt class="field-even">type z_axis<span class="colon">:</span></dt>
-<dd class="field-even"><p>array_like, optional</p>
-</dd>
 <dt class="field-odd">param translation<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The translation vector in the convention used to define the frame. Default is the zero vector.
 The translation vector is a 3-element vector.</p>
@@ -540,34 +524,6 @@ The translation vector is a 3-element vector.</p>
 </dd>
 <dt class="field-even">type rotation<span class="colon">:</span></dt>
 <dd class="field-even"><p>Rotation, optional</p>
-</dd>
-<dt class="field-odd">param rotation_matrix<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The rotation matrix in the convention used to define the frame. Default is the identity matrix.
-The rotation matrix is a 3x3 matrix.</p>
-</dd>
-<dt class="field-even">type rotation_matrix<span class="colon">:</span></dt>
-<dd class="field-even"><p>array_like, optional</p>
-</dd>
-<dt class="field-odd">param quaternion<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The quaternion in the convention used to define the frame. Default is the identity quaternion.
-The quaternion is a 4-element vector [w, x, y, z] (scalar first convention).</p>
-</dd>
-<dt class="field-even">type quaternion<span class="colon">:</span></dt>
-<dd class="field-even"><p>array_like, optional</p>
-</dd>
-<dt class="field-odd">param euler_angles<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The euler angles in the convention used to define the frame. Default is the zero vector.
-The euler angles are a 3-element vector with xyz convention in radians.</p>
-</dd>
-<dt class="field-even">type euler_angles<span class="colon">:</span></dt>
-<dd class="field-even"><p>array_like, optional</p>
-</dd>
-<dt class="field-odd">param rotation_vector<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The rotation vector in the convention used to define the frame. Default is the zero vector.
-The rotation vector is a 3-element vector with the angle in radians.</p>
-</dd>
-<dt class="field-even">type rotation_vector<span class="colon">:</span></dt>
-<dd class="field-even"><p>array_like, optional</p>
 </dd>
 <dt class="field-odd">param parent<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The parent frame of the frame. Default is None - the global frame.</p>
@@ -645,182 +601,231 @@ Using the convention 0, the rotation matrix and the translation vector will exac
 
 <span class="n">translation</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
 <span class="n">rotation_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">T</span> <span class="c1"># Equivalent to the column_stack((x_axis, y_axis, z_axis))</span>
+<span class="n">rotation_matrix</span> <span class="o">=</span> <span class="n">rotation_matrix</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rotation_matrix</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># Normalize the columns to get an orthonormal matrix</span>
 <span class="n">frame_E</span> <span class="o">=</span> <span class="n">Frame</span><span class="o">.</span><span class="n">from_rotation_matrix</span><span class="p">(</span><span class="n">translation</span><span class="o">=</span><span class="n">translation</span><span class="p">,</span> <span class="n">rotation_matrix</span><span class="o">=</span><span class="n">rotation_matrix</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 </dd></dl>
 
+<section id="instanciation-of-a-frame">
+<h2>Instanciation of a Frame<a class="headerlink" href="#instanciation-of-a-frame" title="Link to this heading">#</a></h2>
+<p>To create a Frame, you can use the following constructors:</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.origin.html#py3dframe.Frame.origin" title="py3dframe.Frame.origin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.origin</span></code></a></p></td>
-<td><p>Getter and setter for the origin of the frame in the parent frame coordinates.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.canonical.html#py3dframe.Frame.canonical" title="py3dframe.Frame.canonical"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.canonical</span></code></a>(*[, parent, convention])</p></td>
+<td><p>Create the canonical frame of reference of <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span> without parent frame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.axes.html#py3dframe.Frame.axes" title="py3dframe.Frame.axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.axes</span></code></a></p></td>
-<td><p>Getter and setter for the basis vectors of the frame in the parent frame coordinates.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_rotation.html#py3dframe.Frame.from_rotation" title="py3dframe.Frame.from_rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.from_rotation</span></code></a>([translation, rotation, ...])</p></td>
+<td><p>Create a Frame object from a rotation and a translation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.x_axis.html#py3dframe.Frame.x_axis" title="py3dframe.Frame.x_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.x_axis</span></code></a></p></td>
-<td><p>Getter for the x-axis of the frame in the parent frame coordinates.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_axes.html#py3dframe.Frame.from_axes" title="py3dframe.Frame.from_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.from_axes</span></code></a>([origin, x_axis, y_axis, ...])</p></td>
+<td><p>Create a Frame object from the given axes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.y_axis.html#py3dframe.Frame.y_axis" title="py3dframe.Frame.y_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.y_axis</span></code></a></p></td>
-<td><p>Getter for the y-axis of the frame in the parent frame coordinates.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_rotation_matrix.html#py3dframe.Frame.from_rotation_matrix" title="py3dframe.Frame.from_rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.from_rotation_matrix</span></code></a>([translation, ...])</p></td>
+<td><p>Create a Frame object from a rotation matrix and translation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.z_axis.html#py3dframe.Frame.z_axis" title="py3dframe.Frame.z_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.z_axis</span></code></a></p></td>
-<td><p>Getter for the z-axis of the frame in the parent frame coordinates.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_quaternion.html#py3dframe.Frame.from_quaternion" title="py3dframe.Frame.from_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.from_quaternion</span></code></a>([translation, ...])</p></td>
+<td><p>Create a Frame object from a quaternion and translation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.convention.html#py3dframe.Frame.convention" title="py3dframe.Frame.convention"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.convention</span></code></a></p></td>
-<td><p>Getter and setter for the convention parameter.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_euler_angles.html#py3dframe.Frame.from_euler_angles" title="py3dframe.Frame.from_euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.from_euler_angles</span></code></a>([translation, ...])</p></td>
+<td><p>Create a Frame object from euler angles and translation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.parent.html#py3dframe.Frame.parent" title="py3dframe.Frame.parent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.parent</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_rotation_vector.html#py3dframe.Frame.from_rotation_vector" title="py3dframe.Frame.from_rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.from_rotation_vector</span></code></a>([translation, ...])</p></td>
+<td><p>Create a Frame object from a rotation vector and translation.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="access-set-and-get-frame-properties">
+<h2>Access, Set and Get Frame Properties<a class="headerlink" href="#access-set-and-get-frame-properties" title="Link to this heading">#</a></h2>
+<p>The transformation properties are relative to a convention and a parent frame.
+To set up this parameters, you can use the following methods and properties:</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.parent.html#py3dframe.Frame.parent" title="py3dframe.Frame.parent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.parent</span></code></a></p></td>
 <td><p>Getter and setter for the parent frame of the frame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.translation.html#py3dframe.Frame.translation" title="py3dframe.Frame.translation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.translation</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.convention.html#py3dframe.Frame.convention" title="py3dframe.Frame.convention"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.convention</span></code></a></p></td>
+<td><p>Getter and setter for the convention parameter.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The transformation properties can be accessed, set and get using the methods and properties below.
+This includes local transformation properties (relative to the parent frame)</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.origin.html#py3dframe.Frame.origin" title="py3dframe.Frame.origin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.origin</span></code></a></p></td>
+<td><p>Getter and setter for the origin of the frame in the parent frame coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.axes.html#py3dframe.Frame.axes" title="py3dframe.Frame.axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.axes</span></code></a></p></td>
+<td><p>Getter and setter for the basis vectors of the frame in the parent frame coordinates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.x_axis.html#py3dframe.Frame.x_axis" title="py3dframe.Frame.x_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.x_axis</span></code></a></p></td>
+<td><p>Getter for the x-axis of the frame in the parent frame coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.y_axis.html#py3dframe.Frame.y_axis" title="py3dframe.Frame.y_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.y_axis</span></code></a></p></td>
+<td><p>Getter for the y-axis of the frame in the parent frame coordinates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.z_axis.html#py3dframe.Frame.z_axis" title="py3dframe.Frame.z_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.z_axis</span></code></a></p></td>
+<td><p>Getter for the z-axis of the frame in the parent frame coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.translation.html#py3dframe.Frame.translation" title="py3dframe.Frame.translation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.translation</span></code></a></p></td>
 <td><p>Getter and setter for the translation vector between the parent frame and the frame in the convention of the frame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_translation.html#py3dframe.Frame.get_translation" title="py3dframe.Frame.get_translation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.get_translation</span></code></a>(*[, convention])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_translation.html#py3dframe.Frame.get_translation" title="py3dframe.Frame.get_translation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.get_translation</span></code></a>(*[, convention])</p></td>
 <td><p>Get the translation vector between the parent frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_translation.html#py3dframe.Frame.set_translation" title="py3dframe.Frame.set_translation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.set_translation</span></code></a>(translation, *)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_translation.html#py3dframe.Frame.set_translation" title="py3dframe.Frame.set_translation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.set_translation</span></code></a>(translation, *[, ...])</p></td>
 <td><p>Set the translation vector between the parent frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.rotation.html#py3dframe.Frame.rotation" title="py3dframe.Frame.rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.rotation</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.rotation.html#py3dframe.Frame.rotation" title="py3dframe.Frame.rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.rotation</span></code></a></p></td>
 <td><p>Getter and setter for the rotation between the parent frame and the frame in the convention of the frame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_rotation.html#py3dframe.Frame.get_rotation" title="py3dframe.Frame.get_rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.get_rotation</span></code></a>(*[, convention])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_rotation.html#py3dframe.Frame.get_rotation" title="py3dframe.Frame.get_rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.get_rotation</span></code></a>(*[, convention])</p></td>
 <td><p>Get the rotation between the parent frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_rotation.html#py3dframe.Frame.set_rotation" title="py3dframe.Frame.set_rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.set_rotation</span></code></a>(rotation, *[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_rotation.html#py3dframe.Frame.set_rotation" title="py3dframe.Frame.set_rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.set_rotation</span></code></a>(rotation, *[, convention])</p></td>
 <td><p>Set the rotation between the parent frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.rotation_matrix.html#py3dframe.Frame.rotation_matrix" title="py3dframe.Frame.rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.rotation_matrix</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.rotation_matrix.html#py3dframe.Frame.rotation_matrix" title="py3dframe.Frame.rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.rotation_matrix</span></code></a></p></td>
 <td><p>Getter and setter for the rotation matrix between the parent frame and the frame in the convention of the frame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_rotation_matrix.html#py3dframe.Frame.get_rotation_matrix" title="py3dframe.Frame.get_rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.get_rotation_matrix</span></code></a>(*[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_rotation_matrix.html#py3dframe.Frame.get_rotation_matrix" title="py3dframe.Frame.get_rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.get_rotation_matrix</span></code></a>(*[, convention])</p></td>
 <td><p>Get the rotation matrix between the parent frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_rotation_matrix.html#py3dframe.Frame.set_rotation_matrix" title="py3dframe.Frame.set_rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.set_rotation_matrix</span></code></a>(...[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_rotation_matrix.html#py3dframe.Frame.set_rotation_matrix" title="py3dframe.Frame.set_rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.set_rotation_matrix</span></code></a>(rotation_matrix, *)</p></td>
 <td><p>Set the rotation matrix between the parent frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.quaternion.html#py3dframe.Frame.quaternion" title="py3dframe.Frame.quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.quaternion</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.quaternion.html#py3dframe.Frame.quaternion" title="py3dframe.Frame.quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.quaternion</span></code></a></p></td>
 <td><p>Getter and setter for the quaternion between the parent frame and the frame in the convention of the frame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_quaternion.html#py3dframe.Frame.get_quaternion" title="py3dframe.Frame.get_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.get_quaternion</span></code></a>(*[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_quaternion.html#py3dframe.Frame.get_quaternion" title="py3dframe.Frame.get_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.get_quaternion</span></code></a>(*[, convention, ...])</p></td>
 <td><p>Get the quaternion between the parent frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_quaternion.html#py3dframe.Frame.set_quaternion" title="py3dframe.Frame.set_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.set_quaternion</span></code></a>(quaternion, *)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_quaternion.html#py3dframe.Frame.set_quaternion" title="py3dframe.Frame.set_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.set_quaternion</span></code></a>(quaternion, *[, ...])</p></td>
 <td><p>Set the quaternion between the parent frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.euler_angles.html#py3dframe.Frame.euler_angles" title="py3dframe.Frame.euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.euler_angles</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.euler_angles.html#py3dframe.Frame.euler_angles" title="py3dframe.Frame.euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.euler_angles</span></code></a></p></td>
 <td><p>Getter and setter for the Euler angles between the parent frame and the frame in the convention of the frame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_euler_angles.html#py3dframe.Frame.get_euler_angles" title="py3dframe.Frame.get_euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.get_euler_angles</span></code></a>(*[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_euler_angles.html#py3dframe.Frame.get_euler_angles" title="py3dframe.Frame.get_euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.get_euler_angles</span></code></a>(*[, convention, ...])</p></td>
 <td><p>Get the Euler angles between the parent frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_euler_angles.html#py3dframe.Frame.set_euler_angles" title="py3dframe.Frame.set_euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.set_euler_angles</span></code></a>(euler_angles, *)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_euler_angles.html#py3dframe.Frame.set_euler_angles" title="py3dframe.Frame.set_euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.set_euler_angles</span></code></a>(euler_angles, *[, ...])</p></td>
 <td><p>Set the Euler angles between the parent frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.rotation_vector.html#py3dframe.Frame.rotation_vector" title="py3dframe.Frame.rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.rotation_vector</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.rotation_vector.html#py3dframe.Frame.rotation_vector" title="py3dframe.Frame.rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.rotation_vector</span></code></a></p></td>
 <td><p>Getter and setter for the rotation vector between the parent frame and the frame in the convention of the frame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_rotation_vector.html#py3dframe.Frame.get_rotation_vector" title="py3dframe.Frame.get_rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.get_rotation_vector</span></code></a>(*[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_rotation_vector.html#py3dframe.Frame.get_rotation_vector" title="py3dframe.Frame.get_rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.get_rotation_vector</span></code></a>(*[, convention, ...])</p></td>
 <td><p>Get the rotation vector between the parent frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_rotation_vector.html#py3dframe.Frame.set_rotation_vector" title="py3dframe.Frame.set_rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.set_rotation_vector</span></code></a>(...[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_rotation_vector.html#py3dframe.Frame.set_rotation_vector" title="py3dframe.Frame.set_rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.set_rotation_vector</span></code></a>(rotation_vector, *)</p></td>
 <td><p>Set the rotation vector between the parent frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_frame.html#py3dframe.Frame.get_global_frame" title="py3dframe.Frame.get_global_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.get_global_frame</span></code></a>()</p></td>
+</tbody>
+</table>
+</div>
+<p>The global transformation properties (relative to the canonical frame) can be accessed, set and get using the methods and properties below.</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_frame.html#py3dframe.Frame.get_global_frame" title="py3dframe.Frame.get_global_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.get_global_frame</span></code></a>()</p></td>
 <td><p>Get the Frame object between the global frame and the frame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_origin.html#py3dframe.Frame.global_origin" title="py3dframe.Frame.global_origin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.global_origin</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_origin.html#py3dframe.Frame.global_origin" title="py3dframe.Frame.global_origin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.global_origin</span></code></a></p></td>
 <td><p>Getter and setter for the origin of the frame in the global frame coordinates.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_axes.html#py3dframe.Frame.global_axes" title="py3dframe.Frame.global_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.global_axes</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_axes.html#py3dframe.Frame.global_axes" title="py3dframe.Frame.global_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.global_axes</span></code></a></p></td>
 <td><p>Getter and setter for the basis vectors of the frame in the global frame coordinates.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_x_axis.html#py3dframe.Frame.global_x_axis" title="py3dframe.Frame.global_x_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.global_x_axis</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_x_axis.html#py3dframe.Frame.global_x_axis" title="py3dframe.Frame.global_x_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.global_x_axis</span></code></a></p></td>
 <td><p>Getter for the x-axis of the frame in the global frame coordinates.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_y_axis.html#py3dframe.Frame.global_y_axis" title="py3dframe.Frame.global_y_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.global_y_axis</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_y_axis.html#py3dframe.Frame.global_y_axis" title="py3dframe.Frame.global_y_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.global_y_axis</span></code></a></p></td>
 <td><p>Getter for the y-axis of the frame in the global frame coordinates.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_z_axis.html#py3dframe.Frame.global_z_axis" title="py3dframe.Frame.global_z_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.global_z_axis</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_z_axis.html#py3dframe.Frame.global_z_axis" title="py3dframe.Frame.global_z_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.global_z_axis</span></code></a></p></td>
 <td><p>Getter for the z-axis of the frame in the global frame coordinates.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_translation.html#py3dframe.Frame.global_translation" title="py3dframe.Frame.global_translation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.global_translation</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_translation.html#py3dframe.Frame.global_translation" title="py3dframe.Frame.global_translation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.global_translation</span></code></a></p></td>
 <td><p>Getter and setter for the translation vector between the global frame and the frame in the convention of the frame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_translation.html#py3dframe.Frame.get_global_translation" title="py3dframe.Frame.get_global_translation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.get_global_translation</span></code></a>(*[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_translation.html#py3dframe.Frame.get_global_translation" title="py3dframe.Frame.get_global_translation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.get_global_translation</span></code></a>(*[, convention])</p></td>
 <td><p>Get the translation vector between the global frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_translation.html#py3dframe.Frame.set_global_translation" title="py3dframe.Frame.set_global_translation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.set_global_translation</span></code></a>(...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_translation.html#py3dframe.Frame.set_global_translation" title="py3dframe.Frame.set_global_translation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.set_global_translation</span></code></a>(translation, *)</p></td>
 <td><p>Set the translation vector between the global frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_rotation.html#py3dframe.Frame.global_rotation" title="py3dframe.Frame.global_rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.global_rotation</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_rotation.html#py3dframe.Frame.global_rotation" title="py3dframe.Frame.global_rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.global_rotation</span></code></a></p></td>
 <td><p>Getter and setter for the rotation between the global frame and the frame in the convention of the frame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_rotation.html#py3dframe.Frame.get_global_rotation" title="py3dframe.Frame.get_global_rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.get_global_rotation</span></code></a>(*[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_rotation.html#py3dframe.Frame.get_global_rotation" title="py3dframe.Frame.get_global_rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.get_global_rotation</span></code></a>(*[, convention])</p></td>
 <td><p>Get the rotation between the global frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_rotation.html#py3dframe.Frame.set_global_rotation" title="py3dframe.Frame.set_global_rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.set_global_rotation</span></code></a>(rotation, *)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_rotation.html#py3dframe.Frame.set_global_rotation" title="py3dframe.Frame.set_global_rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.set_global_rotation</span></code></a>(rotation, *[, ...])</p></td>
 <td><p>Set the rotation between the global frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_rotation_matrix.html#py3dframe.Frame.global_rotation_matrix" title="py3dframe.Frame.global_rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.global_rotation_matrix</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_rotation_matrix.html#py3dframe.Frame.global_rotation_matrix" title="py3dframe.Frame.global_rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.global_rotation_matrix</span></code></a></p></td>
 <td><p>Getter and setter for the rotation matrix between the global frame and the frame in the convention of the frame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_rotation_matrix.html#py3dframe.Frame.get_global_rotation_matrix" title="py3dframe.Frame.get_global_rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.get_global_rotation_matrix</span></code></a>(*)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_rotation_matrix.html#py3dframe.Frame.get_global_rotation_matrix" title="py3dframe.Frame.get_global_rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.get_global_rotation_matrix</span></code></a>(*[, convention])</p></td>
 <td><p>Get the rotation matrix between the global frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_rotation_matrix.html#py3dframe.Frame.set_global_rotation_matrix" title="py3dframe.Frame.set_global_rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.set_global_rotation_matrix</span></code></a>(...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_rotation_matrix.html#py3dframe.Frame.set_global_rotation_matrix" title="py3dframe.Frame.set_global_rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.set_global_rotation_matrix</span></code></a>(...[, ...])</p></td>
 <td><p>Set the rotation matrix between the global frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_quaternion.html#py3dframe.Frame.global_quaternion" title="py3dframe.Frame.global_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.global_quaternion</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_quaternion.html#py3dframe.Frame.global_quaternion" title="py3dframe.Frame.global_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.global_quaternion</span></code></a></p></td>
 <td><p>Getter and setter for the quaternion between the global frame and the frame in the convention of the frame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_quaternion.html#py3dframe.Frame.get_global_quaternion" title="py3dframe.Frame.get_global_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.get_global_quaternion</span></code></a>(*[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_quaternion.html#py3dframe.Frame.get_global_quaternion" title="py3dframe.Frame.get_global_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.get_global_quaternion</span></code></a>(*[, convention, ...])</p></td>
 <td><p>Get the quaternion between the global frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_quaternion.html#py3dframe.Frame.set_global_quaternion" title="py3dframe.Frame.set_global_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.set_global_quaternion</span></code></a>(...[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_quaternion.html#py3dframe.Frame.set_global_quaternion" title="py3dframe.Frame.set_global_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.set_global_quaternion</span></code></a>(quaternion, *[, ...])</p></td>
 <td><p>Set the quaternion between the global frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_euler_angles.html#py3dframe.Frame.global_euler_angles" title="py3dframe.Frame.global_euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.global_euler_angles</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_euler_angles.html#py3dframe.Frame.global_euler_angles" title="py3dframe.Frame.global_euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.global_euler_angles</span></code></a></p></td>
 <td><p>Getter and setter for the Euler angles between the global frame and the frame in the convention of the frame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_euler_angles.html#py3dframe.Frame.get_global_euler_angles" title="py3dframe.Frame.get_global_euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.get_global_euler_angles</span></code></a>(*[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_euler_angles.html#py3dframe.Frame.get_global_euler_angles" title="py3dframe.Frame.get_global_euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.get_global_euler_angles</span></code></a>(*[, ...])</p></td>
 <td><p>Get the Euler angles between the global frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_euler_angles.html#py3dframe.Frame.set_global_euler_angles" title="py3dframe.Frame.set_global_euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.set_global_euler_angles</span></code></a>(...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_euler_angles.html#py3dframe.Frame.set_global_euler_angles" title="py3dframe.Frame.set_global_euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.set_global_euler_angles</span></code></a>(euler_angles, *)</p></td>
 <td><p>Set the Euler angles between the global frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_rotation_vector.html#py3dframe.Frame.global_rotation_vector" title="py3dframe.Frame.global_rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.global_rotation_vector</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_rotation_vector.html#py3dframe.Frame.global_rotation_vector" title="py3dframe.Frame.global_rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.global_rotation_vector</span></code></a></p></td>
 <td><p>Getter and setter for the rotation vector between the global frame and the frame in the convention of the frame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_rotation_vector.html#py3dframe.Frame.get_global_rotation_vector" title="py3dframe.Frame.get_global_rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.get_global_rotation_vector</span></code></a>(*)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_rotation_vector.html#py3dframe.Frame.get_global_rotation_vector" title="py3dframe.Frame.get_global_rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.get_global_rotation_vector</span></code></a>(*[, ...])</p></td>
 <td><p>Get the rotation vector between the global frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_rotation_vector.html#py3dframe.Frame.set_global_rotation_vector" title="py3dframe.Frame.set_global_rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.set_global_rotation_vector</span></code></a>(...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_rotation_vector.html#py3dframe.Frame.set_global_rotation_vector" title="py3dframe.Frame.set_global_rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.set_global_rotation_vector</span></code></a>(...[, ...])</p></td>
 <td><p>Set the rotation vector between the global frame and the frame in the given convention.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.draw.html#py3dframe.Frame.draw" title="py3dframe.Frame.draw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.draw</span></code></a>(ax[, xcolor, ycolor, ...])</p></td>
-<td><p>Draw the frame in the matplotlib axes (projection 3D).</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.__eq__.html#py3dframe.Frame.__eq__" title="py3dframe.Frame.__eq__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.__eq__</span></code></a>(other)</p></td>
-<td><p>Return the equality of the Frame object.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.save_to_dict.html#py3dframe.Frame.save_to_dict" title="py3dframe.Frame.save_to_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.save_to_dict</span></code></a>([method])</p></td>
+</tbody>
+</table>
+</div>
+<p>Some additional methods are provided to manipulate frames:</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.save_to_dict.html#py3dframe.Frame.save_to_dict" title="py3dframe.Frame.save_to_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.save_to_dict</span></code></a>([method])</p></td>
 <td><p>Save the Frame object to a dictionary.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.load_from_dict.html#py3dframe.Frame.load_from_dict" title="py3dframe.Frame.load_from_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.load_from_dict</span></code></a>(data)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.load_from_dict.html#py3dframe.Frame.load_from_dict" title="py3dframe.Frame.load_from_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.load_from_dict</span></code></a>(data)</p></td>
 <td><p>Load the Frame object from a dictionary.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.save_to_json.html#py3dframe.Frame.save_to_json" title="py3dframe.Frame.save_to_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.save_to_json</span></code></a>(filename)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.save_to_json.html#py3dframe.Frame.save_to_json" title="py3dframe.Frame.save_to_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.save_to_json</span></code></a>(filename)</p></td>
 <td><p>Save the Frame object to a JSON file.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.load_from_json.html#py3dframe.Frame.load_from_json" title="py3dframe.Frame.load_from_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">py3dframe.Frame.load_from_json</span></code></a>(filename)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="Frame_generated/py3dframe.Frame.load_from_json.html#py3dframe.Frame.load_from_json" title="py3dframe.Frame.load_from_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame.load_from_json</span></code></a>(filename)</p></td>
 <td><p>Load the Frame object from a JSON file.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
+</section>
 </section>
 
 
@@ -834,20 +839,20 @@ Using the convention 0, the rotation matrix and the translation vector will exac
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="switch_RT_convention.html"
+       href="rotation.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">py3dframe.switch_RT_convention</p>
+        <p class="prev-next-title">py3dframe.Rotation</p>
       </div>
     </a>
     <a class="right-next"
-       href="Frame_generated/py3dframe.Frame.origin.html"
+       href="Frame_generated/py3dframe.Frame.canonical.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">py3dframe.Frame.origin</p>
+        <p class="prev-next-title">py3dframe.Frame.canonical</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -871,6 +876,10 @@ Using the convention 0, the rotation matrix and the translation vector will exac
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame"><code class="docutils literal notranslate"><span class="pre">Frame</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instanciation-of-a-frame">Instanciation of a Frame</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#access-set-and-get-frame-properties">Access, Set and Get Frame Properties</a><ul class="nav section-nav flex-column">
+</ul>
+</li>
 </ul>
   </nav></div>
 

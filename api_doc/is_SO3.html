@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>py3dframe.matrix &#8212; py3dframe 0.2.5 documentation</title>
+    <title>py3dframe.matrix.is_SO3 &#8212; py3dframe 1.0.0 documentation</title>
   
   
   
@@ -38,15 +38,15 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=cb850272"></script>
+    <script src="../_static/documentation_options.js?v=8d563738"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api_doc/matrix';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api_doc/is_SO3';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="py3dframe.switch_RT_convention" href="switch_RT_convention.html" />
-    <link rel="prev" title="py3dframe.Rotation" href="rotation.html" />
+    <link rel="next" title="py3dframe.matrix.O3_project" href="O3_project.html" />
+    <link rel="prev" title="py3dframe.matrix.is_O3" href="is_O3.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -111,7 +111,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 0.2.5 documentation</p>
+    <p class="title logo__title">py3dframe 1.0.0 documentation</p>
   
 </a></div>
     
@@ -265,19 +265,24 @@
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
-  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">API:</span></p>
-<ul class="current nav bd-sidenav">
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Main classes:</span></p>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="rotation.html">py3dframe.Rotation</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">py3dframe.matrix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="switch_RT_convention.html">py3dframe.switch_RT_convention</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="frame.html">py3dframe.Frame</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.canonical.html">py3dframe.Frame.canonical</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_rotation.html">py3dframe.Frame.from_rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_axes.html">py3dframe.Frame.from_axes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_rotation_matrix.html">py3dframe.Frame.from_rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_quaternion.html">py3dframe.Frame.from_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_euler_angles.html">py3dframe.Frame.from_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_rotation_vector.html">py3dframe.Frame.from_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.parent.html">py3dframe.Frame.parent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.convention.html">py3dframe.Frame.convention</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.origin.html">py3dframe.Frame.origin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.axes.html">py3dframe.Frame.axes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.x_axis.html">py3dframe.Frame.x_axis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.y_axis.html">py3dframe.Frame.y_axis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.z_axis.html">py3dframe.Frame.z_axis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.convention.html">py3dframe.Frame.convention</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.parent.html">py3dframe.Frame.parent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.translation.html">py3dframe.Frame.translation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_translation.html">py3dframe.Frame.get_translation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_translation.html">py3dframe.Frame.set_translation</a></li>
@@ -320,8 +325,6 @@
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_rotation_vector.html">py3dframe.Frame.global_rotation_vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_rotation_vector.html">py3dframe.Frame.get_global_rotation_vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_rotation_vector.html">py3dframe.Frame.set_global_rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.draw.html">py3dframe.Frame.draw</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.__eq__.html">py3dframe.Frame.__eq__</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.save_to_dict.html">py3dframe.Frame.save_to_dict</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.load_from_dict.html">py3dframe.Frame.load_from_dict</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.save_to_json.html">py3dframe.Frame.save_to_json</a></li>
@@ -349,6 +352,17 @@
 <li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.inverse_transform.html">py3dframe.FrameTransform.inverse_transform</a></li>
 </ul>
 </details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">matrix submodule:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="is_O3.html">py3dframe.matrix.is_O3</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">py3dframe.matrix.is_SO3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="O3_project.html">py3dframe.matrix.O3_project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SO3_project.html">py3dframe.matrix.SO3_project</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Conversion functions:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="switch_RT_convention.html">py3dframe.switch_RT_convention</a></li>
 </ul>
 </div>
 </nav></div>
@@ -392,7 +406,7 @@
     
     <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API Reference</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">py3dframe.matrix</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">py3dframe.matrix.is_SO3</span></li>
   </ul>
 </nav>
 </div>
@@ -409,181 +423,11 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="py3dframe-matrix">
-<h1>py3dframe.matrix<a class="headerlink" href="#py3dframe-matrix" title="Link to this heading">#</a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">py3dframe.matrix</span></code> module is used to manage 3D matrices.</p>
+  <section id="py3dframe-matrix-is-so3">
+<h1>py3dframe.matrix.is_SO3<a class="headerlink" href="#py3dframe-matrix-is-so3" title="Link to this heading">#</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">py3dframe.matrix.</span></span><span class="sig-name descname"><span class="pre">O3_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/py3dframe/matrix/O3_project.html#O3_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Project a matrix to the orthogonal group <span class="math notranslate nohighlight">\(O(3)\)</span> using SVD and minimisation of the frobenius norm.</p>
-<p>The orthogonal group <cite>O(3)</cite> is the set of 3x3 orthonormal matrices with determinant equal to 1 or -1.</p>
-<p>To project a matrix to <cite>O(3)</cite>, the SVD is computed and the orthogonal matrix is obtained by:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{O} = \mathbf{U} \mathbf{V}^T\]</div>
-<p>where <span class="math notranslate nohighlight">\(\mathbf{U}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{V}\)</span> are the left and right singular vectors of the matrix such as:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{M} = \mathbf{U} \mathbf{\Sigma} \mathbf{V}^T\]</div>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<ul class="simple">
-<li><p>function <code class="xref py py-func docutils literal notranslate"><span class="pre">py3dframe.matrix.is_O3()</span></code> for the check of orthonormality.</p></li>
-<li><p>function <code class="xref py py-func docutils literal notranslate"><span class="pre">py3dframe.matrix.SO3_project()</span></code> for the projection of a matrix to the special orthogonal group <span class="math notranslate nohighlight">\(SO(3)\)</span>.</p></li>
-</ul>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>matrix</strong> (<em>array_like</em>) – A 3x3 matrix to be projected.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The <cite>O(3)</cite> projection of the matrix.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>numpy.ndarray</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the matrix is not 3x3.</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">py3dframe</span><span class="w"> </span><span class="kn">import</span> <span class="n">O3_project</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e3</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">matrix</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">e3</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">O3_project</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span>
-<span class="go">[[ 0.70710678  -0.70710678  0.        ]</span>
-<span class="go"> [ 0.70710678  0.70710678  0.        ]</span>
-<span class="go"> [ 0.          0.          1.        ]]</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">py3dframe.matrix.</span></span><span class="sig-name descname"><span class="pre">SO3_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/py3dframe/matrix/SO3_project.html#SO3_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Project a matrix to the special orthogonal group <span class="math notranslate nohighlight">\(SO(3)\)</span> using SVD and minimisation of the frobenius norm.</p>
-<p>The orthogonal group <cite>SO(3)</cite> is the set of 3x3 orthonormal matrices with determinant equal to 1.</p>
-<p>To project a matrix to <cite>SO(3)</cite>, the SVD is computed and the orthogonal matrix is obtained by:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{O} = \mathbf{U} \mathbf{V}^T\]</div>
-<p>If the determinant of the orthogonal matrix is -1, the last column of the component <span class="math notranslate nohighlight">\(\mathbf{U}\)</span> is multiplied by -1.</p>
-<p>where <span class="math notranslate nohighlight">\(\mathbf{U}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{V}\)</span> are the left and right singular vectors of the matrix such as:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{M} = \mathbf{U} \mathbf{\Sigma} \mathbf{V}^T\]</div>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<ul class="simple">
-<li><p>function <code class="xref py py-func docutils literal notranslate"><span class="pre">py3dframe.matrix.is_SO3()</span></code> for the check of special orthogonality.</p></li>
-<li><p>function <code class="xref py py-func docutils literal notranslate"><span class="pre">py3dframe.matrix.O3_project()</span></code> for the projection of a matrix to the orthogonal group <span class="math notranslate nohighlight">\(O(3)\)</span>.</p></li>
-</ul>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>matrix</strong> (<em>array_like</em>) – A 3x3 matrix to be projected.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The <cite>SO(3)</cite> projection of the matrix.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>numpy.ndarray</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the matrix is not 3x3.</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">py3dframe</span><span class="w"> </span><span class="kn">import</span> <span class="n">SO3_project</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e3</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">matrix</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">e3</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">SO3_project</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span>
-<span class="go">[[ 0.70710678  -0.70710678  0.        ]</span>
-<span class="go"> [ 0.70710678  0.70710678  0.        ]</span>
-<span class="go"> [ 0.          0.          1.        ]]</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">py3dframe.matrix.</span></span><span class="sig-name descname"><span class="pre">is_O3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/py3dframe/matrix/is_O3.html#is_O3"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Check if the given matrix is orthonormal (include on the orthogonal group <span class="math notranslate nohighlight">\(O(3)\)</span>).</p>
-<p>A matrix is orthonormal if its transpose is equal to its inverse.</p>
-<div class="math notranslate nohighlight">
-\[M^T = M^{-1}\]</div>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<ul class="simple">
-<li><p>function <code class="xref py py-func docutils literal notranslate"><span class="pre">py3dframe.matrix.is_SO3()</span></code> for the check of special orthogonality.</p></li>
-<li><p>function <code class="xref py py-func docutils literal notranslate"><span class="pre">py3dframe.matrix.O3_project()</span></code> for the projection of a matrix to the orthogonal group <span class="math notranslate nohighlight">\(O(3)\)</span>.</p></li>
-</ul>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>matrix</strong> (<em>array_like</em>) – The matrix with shape (3, 3).</p></li>
-<li><p><strong>tolerance</strong> (<em>float</em><em>, </em><em>optional</em>) – The tolerance for the comparison of the matrix with the identity matrix. Default is 1e-6.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>True if the matrix is in the orthogonal group, False otherwise.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bool</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the matrix is not 3x3.</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">py3dframe.matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_O3</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e3</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">matrix</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">e3</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">is_O3</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span>
-<span class="go">False</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">py3dframe.matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_O3</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e3</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">matrix</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">e3</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">is_O3</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span>
-<span class="go">True</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">py3dframe.matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_O3</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e3</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">matrix</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">e3</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">is_O3</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span>
-<span class="go">True</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">py3dframe.matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_O3</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">e3</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">matrix</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">e3</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">is_O3</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span>
-<span class="go">False</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">py3dframe.matrix.</span></span><span class="sig-name descname"><span class="pre">is_SO3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/py3dframe/matrix/is_SO3.html#is_SO3"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="py3dframe.matrix.is_SO3">
+<span class="sig-prename descclassname"><span class="pre">py3dframe.matrix.</span></span><span class="sig-name descname"><span class="pre">is_SO3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/py3dframe/matrix/is_SO3.html#is_SO3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.matrix.is_SO3" title="Link to this definition">#</a></dt>
 <dd><p>Check if the given matrix is orthonormal with determinant equal to 1 (include on the special orthogonal group <span class="math notranslate nohighlight">\(SO(3)\)</span>).</p>
 <p>A matrix is orthonormal if its transpose is equal to its inverse.</p>
 <div class="math notranslate nohighlight">
@@ -591,8 +435,8 @@
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <ul class="simple">
-<li><p>function <code class="xref py py-func docutils literal notranslate"><span class="pre">py3dframe.matrix.is_O3()</span></code> for the check of orthogonality.</p></li>
-<li><p>function <code class="xref py py-func docutils literal notranslate"><span class="pre">py3dframe.matrix.SO3_project()</span></code> for the projection of a matrix to the special orthogonal group <span class="math notranslate nohighlight">\(SO(3)\)</span>.</p></li>
+<li><p>function <a class="reference internal" href="is_O3.html#py3dframe.matrix.is_O3" title="py3dframe.matrix.is_O3"><code class="xref py py-func docutils literal notranslate"><span class="pre">py3dframe.matrix.is_O3()</span></code></a> for the check of orthogonality.</p></li>
+<li><p>function <a class="reference internal" href="SO3_project.html#py3dframe.matrix.SO3_project" title="py3dframe.matrix.SO3_project"><code class="xref py py-func docutils literal notranslate"><span class="pre">py3dframe.matrix.SO3_project()</span></code></a> for the projection of a matrix to the special orthogonal group <span class="math notranslate nohighlight">\(SO(3)\)</span>.</p></li>
 </ul>
 </div>
 <dl class="field-list simple">
@@ -668,20 +512,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="rotation.html"
+       href="is_O3.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">py3dframe.Rotation</p>
+        <p class="prev-next-title">py3dframe.matrix.is_O3</p>
       </div>
     </a>
     <a class="right-next"
-       href="switch_RT_convention.html"
+       href="O3_project.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">py3dframe.switch_RT_convention</p>
+        <p class="prev-next-title">py3dframe.matrix.O3_project</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -697,10 +541,22 @@
 
 
   <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.matrix.is_SO3"><code class="docutils literal notranslate"><span class="pre">is_SO3()</span></code></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/api_doc/matrix.rst.txt"
+      <li><a href="../_sources/api_doc/is_SO3.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>

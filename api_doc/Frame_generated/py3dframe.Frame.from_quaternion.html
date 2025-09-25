@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>py3dframe.Frame.draw &#8212; py3dframe 0.2.5 documentation</title>
+    <title>py3dframe.Frame.from_quaternion &#8212; py3dframe 1.0.0 documentation</title>
   
   
   
@@ -38,14 +38,14 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=cb850272"></script>
+    <script src="../../_static/documentation_options.js?v=8d563738"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api_doc/Frame_generated/py3dframe.Frame.draw';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api_doc/Frame_generated/py3dframe.Frame.from_quaternion';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="py3dframe.Frame.__eq__" href="py3dframe.Frame.__eq__.html" />
-    <link rel="prev" title="py3dframe.Frame.set_global_rotation_vector" href="py3dframe.Frame.set_global_rotation_vector.html" />
+    <link rel="next" title="py3dframe.Frame.from_euler_angles" href="py3dframe.Frame.from_euler_angles.html" />
+    <link rel="prev" title="py3dframe.Frame.from_rotation_matrix" href="py3dframe.Frame.from_rotation_matrix.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -110,7 +110,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 0.2.5 documentation</p>
+    <p class="title logo__title">py3dframe 1.0.0 documentation</p>
   
 </a></div>
     
@@ -264,19 +264,24 @@
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
-  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">API:</span></p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Main classes:</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../rotation.html">py3dframe.Rotation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../matrix.html">py3dframe.matrix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../switch_RT_convention.html">py3dframe.switch_RT_convention</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../frame.html">py3dframe.Frame</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.canonical.html">py3dframe.Frame.canonical</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.from_rotation.html">py3dframe.Frame.from_rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.from_axes.html">py3dframe.Frame.from_axes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.from_rotation_matrix.html">py3dframe.Frame.from_rotation_matrix</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">py3dframe.Frame.from_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.from_euler_angles.html">py3dframe.Frame.from_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.from_rotation_vector.html">py3dframe.Frame.from_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.parent.html">py3dframe.Frame.parent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.convention.html">py3dframe.Frame.convention</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.origin.html">py3dframe.Frame.origin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.axes.html">py3dframe.Frame.axes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.x_axis.html">py3dframe.Frame.x_axis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.y_axis.html">py3dframe.Frame.y_axis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.z_axis.html">py3dframe.Frame.z_axis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.convention.html">py3dframe.Frame.convention</a></li>
-<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.parent.html">py3dframe.Frame.parent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.translation.html">py3dframe.Frame.translation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.get_translation.html">py3dframe.Frame.get_translation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.set_translation.html">py3dframe.Frame.set_translation</a></li>
@@ -319,8 +324,6 @@
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.global_rotation_vector.html">py3dframe.Frame.global_rotation_vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.get_global_rotation_vector.html">py3dframe.Frame.get_global_rotation_vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.set_global_rotation_vector.html">py3dframe.Frame.set_global_rotation_vector</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">py3dframe.Frame.draw</a></li>
-<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.__eq__.html">py3dframe.Frame.__eq__</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.save_to_dict.html">py3dframe.Frame.save_to_dict</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.load_from_dict.html">py3dframe.Frame.load_from_dict</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.save_to_json.html">py3dframe.Frame.save_to_json</a></li>
@@ -348,6 +351,17 @@
 <li class="toctree-l2"><a class="reference internal" href="../Transform_generated/py3dframe.FrameTransform.inverse_transform.html">py3dframe.FrameTransform.inverse_transform</a></li>
 </ul>
 </details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">matrix submodule:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../is_O3.html">py3dframe.matrix.is_O3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../is_SO3.html">py3dframe.matrix.is_SO3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../O3_project.html">py3dframe.matrix.O3_project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SO3_project.html">py3dframe.matrix.SO3_project</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Conversion functions:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../switch_RT_convention.html">py3dframe.switch_RT_convention</a></li>
 </ul>
 </div>
 </nav></div>
@@ -394,7 +408,7 @@
     
     <li class="breadcrumb-item"><a href="../frame.html" class="nav-link">py3dframe.Frame</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">py3dframe.Frame.draw</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">py3dframe.Frame.from_quaternion</span></li>
   </ul>
 </nav>
 </div>
@@ -411,28 +425,38 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="py3dframe-frame-draw">
-<h1>py3dframe.Frame.draw<a class="headerlink" href="#py3dframe-frame-draw" title="Link to this heading">#</a></h1>
+  <section id="py3dframe-frame-from-quaternion">
+<h1>py3dframe.Frame.from_quaternion<a class="headerlink" href="#py3dframe-frame-from-quaternion" title="Link to this heading">#</a></h1>
 <dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.draw">
-<span class="sig-prename descclassname"><span class="pre">Frame.</span></span><span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xcolor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'r'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ycolor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'g'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zcolor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'b'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Line2D</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Line2D</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Line2D</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/py3dframe/frame.html#Frame.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.draw" title="Link to this definition">#</a></dt>
-<dd><p>Draw the frame in the matplotlib axes (projection 3D).</p>
+<dt class="sig sig-object py" id="py3dframe.Frame.from_quaternion">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Frame.</span></span><span class="sig-name descname"><span class="pre">from_quaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">translation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quaternion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../frame.html#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setup_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convention</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scalar_first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../frame.html#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a></span></span><a class="reference internal" href="../../_modules/py3dframe/frame.html#Frame.from_quaternion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.from_quaternion" title="Link to this definition">#</a></dt>
+<dd><p>Create a Frame object from a quaternion and translation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">py3dframe</span><span class="w"> </span><span class="kn">import</span> <span class="n">Frame</span>
+
+<span class="n">q</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.7071</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.7071</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="c1"># [w, x, y, z]</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+
+<span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="o">.</span><span class="n">from_quaternion</span><span class="p">(</span><span class="n">translation</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">quaternion</span><span class="o">=</span><span class="n">q</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – The matplotlib axes to draw the frame.</p></li>
-<li><p><strong>xcolor</strong> (<em>str</em><em>, </em><em>optional</em>) – The color of the x-axis. Default is ‘r’.</p></li>
-<li><p><strong>ycolor</strong> (<em>str</em><em>, </em><em>optional</em>) – The color of the y-axis. Default is ‘g’.</p></li>
-<li><p><strong>zcolor</strong> (<em>str</em><em>, </em><em>optional</em>) – The color of the z-axis. Default is ‘b’.</p></li>
-<li><p><strong>scale</strong> (<em>float</em><em>, </em><em>optional</em>) – The scale of the frame. Default is 1.</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments to pass to the matplotlib.lines.Line2D constructor.</p></li>
+<li><p><strong>translation</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – The translation vector of the transformation. It must be a 3 elements vector with shape (3, 1). Default is None - the zero vector.</p></li>
+<li><p><strong>quaternion</strong> (<em>numpy.ndarray</em><em>, </em><em>optional</em>) – The quaternion of the transformation. It must be a 4 elements vector [w, x, y, z] (scalar first convention). Default is None - the identity quaternion.</p></li>
+<li><p><strong>parent</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="../frame.html#py3dframe.Frame" title="py3dframe.Frame"><em>Frame</em></a><em>]</em><em>, </em><em>optional</em>) – The parent frame of the frame. Default is None - the global frame.</p></li>
+<li><p><strong>setup_only</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the parent frame will be used only to define the frame and not to link the frames. Default is False.</p></li>
+<li><p><strong>convention</strong> (<em>int</em><em>, </em><em>optional</em>) – The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is 0.</p></li>
+<li><p><strong>scalar_first</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the quaternion is in the [w, x, y, z] format. If False, the quaternion is in the [x, y, z, w] format. Default is True.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The x-axis, y-axis and z-axis of the frame.</p>
+<dd class="field-even"><p>The Frame object created from the given quaternion and translation.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[matplotlib.lines.Line2D, matplotlib.lines.Line2D, matplotlib.lines.Line2D]</p>
+<dd class="field-odd"><p><a class="reference internal" href="../frame.html#py3dframe.Frame" title="py3dframe.Frame">Frame</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -450,20 +474,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="py3dframe.Frame.set_global_rotation_vector.html"
+       href="py3dframe.Frame.from_rotation_matrix.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">py3dframe.Frame.set_global_rotation_vector</p>
+        <p class="prev-next-title">py3dframe.Frame.from_rotation_matrix</p>
       </div>
     </a>
     <a class="right-next"
-       href="py3dframe.Frame.__eq__.html"
+       href="py3dframe.Frame.from_euler_angles.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">py3dframe.Frame.__eq__</p>
+        <p class="prev-next-title">py3dframe.Frame.from_euler_angles</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -486,7 +510,7 @@
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.draw"><code class="docutils literal notranslate"><span class="pre">Frame.draw()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.from_quaternion"><code class="docutils literal notranslate"><span class="pre">Frame.from_quaternion()</span></code></a></li>
 </ul>
   </nav></div>
 
@@ -494,7 +518,7 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../../_sources/api_doc/Frame_generated/py3dframe.Frame.draw.rst.txt"
+      <li><a href="../../_sources/api_doc/Frame_generated/py3dframe.Frame.from_quaternion.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>
