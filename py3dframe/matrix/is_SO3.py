@@ -53,39 +53,39 @@ def is_SO3(matrix: numpy.ndarray, tolerance: float = 1e-6) -> bool:
     --------
 
     >>> import numpy
-    >>> from py3dframe.matrix import is_O3
+    >>> from py3dframe.matrix import is_SO3
     >>> e1 = numpy.array([1, 1, 0])
     >>> e2 = numpy.array([-1, 1, 0])
     >>> e3 = numpy.array([0, 0, 1])
     >>> matrix = numpy.column_stack((e1, e2, e3))
-    >>> print(is_O3(matrix))
+    >>> print(is_SO3(matrix))
     False
 
     >>> import numpy
-    >>> from py3dframe.matrix import is_O3
+    >>> from py3dframe.matrix import is_SO3
     >>> e1 = numpy.array([1, 1, 0]) / numpy.sqrt(2)
     >>> e2 = numpy.array([-1, 1, 0]) / numpy.sqrt(2)
     >>> e3 = numpy.array([0, 0, 1])
     >>> matrix = numpy.column_stack((e1, e2, e3))
-    >>> print(is_O3(matrix))
+    >>> print(is_SO3(matrix))
     True
 
     >>> import numpy
-    >>> from py3dframe.matrix import is_O3
+    >>> from py3dframe.matrix import is_SO3
     >>> e1 = numpy.array([-1, 1, 0]) / numpy.sqrt(2)
     >>> e2 = numpy.array([1, 1, 0]) / numpy.sqrt(2)
     >>> e3 = numpy.array([0, 0, 1])
     >>> matrix = numpy.column_stack((e1, e2, e3))
-    >>> print(is_O3(matrix))
-    True
+    >>> print(is_SO3(matrix))
+    False
 
     >>> import numpy
-    >>> from py3dframe.matrix import is_O3
+    >>> from py3dframe.matrix import is_SO3
     >>> e1 = numpy.array([1, 1, 1]) / numpy.sqrt(3)
     >>> e2 = numpy.array([-1, 1, 0]) / numpy.sqrt(2)
     >>> e3 = numpy.array([0, 0, 1])
     >>> matrix = numpy.column_stack((e1, e2, e3))
-    >>> print(is_O3(matrix))
+    >>> print(is_SO3(matrix))
     False
 
     """
