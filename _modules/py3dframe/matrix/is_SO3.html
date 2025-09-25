@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>py3dframe.matrix.is_SO3 &#8212; py3dframe 1.0.0 documentation</title>
+    <title>py3dframe.matrix.is_SO3 &#8212; py3dframe 1.0.1 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=8d563738"></script>
+    <script src="../../../_static/documentation_options.js?v=292eb321"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/py3dframe/matrix/is_SO3';</script>
@@ -107,7 +107,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.0.0 documentation</p>
+    <p class="title logo__title">py3dframe 1.0.1 documentation</p>
   
 </a></div>
     
@@ -367,39 +367,39 @@
 <span class="sd">    --------</span>
 
 <span class="sd">    &gt;&gt;&gt; import numpy</span>
-<span class="sd">    &gt;&gt;&gt; from py3dframe.matrix import is_O3</span>
+<span class="sd">    &gt;&gt;&gt; from py3dframe.matrix import is_SO3</span>
 <span class="sd">    &gt;&gt;&gt; e1 = numpy.array([1, 1, 0])</span>
 <span class="sd">    &gt;&gt;&gt; e2 = numpy.array([-1, 1, 0])</span>
 <span class="sd">    &gt;&gt;&gt; e3 = numpy.array([0, 0, 1])</span>
 <span class="sd">    &gt;&gt;&gt; matrix = numpy.column_stack((e1, e2, e3))</span>
-<span class="sd">    &gt;&gt;&gt; print(is_O3(matrix))</span>
+<span class="sd">    &gt;&gt;&gt; print(is_SO3(matrix))</span>
 <span class="sd">    False</span>
 
 <span class="sd">    &gt;&gt;&gt; import numpy</span>
-<span class="sd">    &gt;&gt;&gt; from py3dframe.matrix import is_O3</span>
+<span class="sd">    &gt;&gt;&gt; from py3dframe.matrix import is_SO3</span>
 <span class="sd">    &gt;&gt;&gt; e1 = numpy.array([1, 1, 0]) / numpy.sqrt(2)</span>
 <span class="sd">    &gt;&gt;&gt; e2 = numpy.array([-1, 1, 0]) / numpy.sqrt(2)</span>
 <span class="sd">    &gt;&gt;&gt; e3 = numpy.array([0, 0, 1])</span>
 <span class="sd">    &gt;&gt;&gt; matrix = numpy.column_stack((e1, e2, e3))</span>
-<span class="sd">    &gt;&gt;&gt; print(is_O3(matrix))</span>
+<span class="sd">    &gt;&gt;&gt; print(is_SO3(matrix))</span>
 <span class="sd">    True</span>
 
 <span class="sd">    &gt;&gt;&gt; import numpy</span>
-<span class="sd">    &gt;&gt;&gt; from py3dframe.matrix import is_O3</span>
+<span class="sd">    &gt;&gt;&gt; from py3dframe.matrix import is_SO3</span>
 <span class="sd">    &gt;&gt;&gt; e1 = numpy.array([-1, 1, 0]) / numpy.sqrt(2)</span>
 <span class="sd">    &gt;&gt;&gt; e2 = numpy.array([1, 1, 0]) / numpy.sqrt(2)</span>
 <span class="sd">    &gt;&gt;&gt; e3 = numpy.array([0, 0, 1])</span>
 <span class="sd">    &gt;&gt;&gt; matrix = numpy.column_stack((e1, e2, e3))</span>
-<span class="sd">    &gt;&gt;&gt; print(is_O3(matrix))</span>
-<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; print(is_SO3(matrix))</span>
+<span class="sd">    False</span>
 
 <span class="sd">    &gt;&gt;&gt; import numpy</span>
-<span class="sd">    &gt;&gt;&gt; from py3dframe.matrix import is_O3</span>
+<span class="sd">    &gt;&gt;&gt; from py3dframe.matrix import is_SO3</span>
 <span class="sd">    &gt;&gt;&gt; e1 = numpy.array([1, 1, 1]) / numpy.sqrt(3)</span>
 <span class="sd">    &gt;&gt;&gt; e2 = numpy.array([-1, 1, 0]) / numpy.sqrt(2)</span>
 <span class="sd">    &gt;&gt;&gt; e3 = numpy.array([0, 0, 1])</span>
 <span class="sd">    &gt;&gt;&gt; matrix = numpy.column_stack((e1, e2, e3))</span>
-<span class="sd">    &gt;&gt;&gt; print(is_O3(matrix))</span>
+<span class="sd">    &gt;&gt;&gt; print(is_SO3(matrix))</span>
 <span class="sd">    False</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
