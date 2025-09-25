@@ -15,12 +15,10 @@
 
 from __future__ import annotations
 
-from typing import Optional, Tuple, Dict, Any, Union, Sequence
+from typing import Optional, Dict, Any, Union, Sequence
 
-import warnings
 import numpy 
 import scipy
-import matplotlib.axes
 import json
 
 from .switch_RT_convention import switch_RT_convention
@@ -104,43 +102,12 @@ class Frame:
 
     Parameters
     ----------
-    origin : array_like, optional
-        The coordinates of the origin of the frame in the parent frame coordinates. Default is the zero vector.
-    
-    axes : array_like, optional
-        The basis vectors of the frame in the parent frame coordinates. Default is the identity matrix.
-
-    x_axis : array_like, optional
-        The x-axis of the frame in the parent frame coordinates. Default is the x-axis of the parent frame.
-    
-    y_axis : array_like, optional
-        The y-axis of the frame in the parent frame coordinates. Default is the y-axis of the parent frame.
-    
-    z_axis : array_like, optional
-        The z-axis of the frame in the parent frame coordinates. Default is the z-axis of the parent frame.
-
     translation : array_like, optional
         The translation vector in the convention used to define the frame. Default is the zero vector.
         The translation vector is a 3-element vector.
 
     rotation: Rotation, optional
         The rotation in the convention used to define the frame. Default is the identity rotation.
-
-    rotation_matrix : array_like, optional
-        The rotation matrix in the convention used to define the frame. Default is the identity matrix.
-        The rotation matrix is a 3x3 matrix.
-
-    quaternion : array_like, optional
-        The quaternion in the convention used to define the frame. Default is the identity quaternion.
-        The quaternion is a 4-element vector [w, x, y, z] (scalar first convention).
-
-    euler_angles : array_like, optional
-        The euler angles in the convention used to define the frame. Default is the zero vector.
-        The euler angles are a 3-element vector with xyz convention in radians.
-
-    rotation_vector : array_like, optional
-        The rotation vector in the convention used to define the frame. Default is the zero vector.
-        The rotation vector is a 3-element vector with the angle in radians.
 
     parent : Optional[Frame], optional
         The parent frame of the frame. Default is None - the global frame.
@@ -222,6 +189,7 @@ class Frame:
 
         translation = [1, 2, 3]
         rotation_matrix = np.array([[1, 1, 0], [1, -1, 0], [0, 0, 1]]).T # Equivalent to the column_stack((x_axis, y_axis, z_axis))
+        rotation_matrix = rotation_matrix / np.linalg.norm(rotation_matrix, axis=0) # Normalize the columns to get an orthonormal matrix
         frame_E = Frame.from_rotation_matrix(translation=translation, rotation_matrix=rotation_matrix, parent=None, convention=0)
 
     """
@@ -234,198 +202,27 @@ class Frame:
 
     def __init__(
             self,
-            *,
-            origin: Optional[numpy.ndarray] = None,
-            axes: Optional[numpy.ndarray] = None,
-            x_axis: Optional[numpy.ndarray] = None,
-            y_axis: Optional[numpy.ndarray] = None,
-            z_axis: Optional[numpy.ndarray] = None,
             translation: Optional[numpy.ndarray] = None,
             rotation: Optional[scipy.spatial.transform.Rotation] = None,
-            rotation_matrix: Optional[numpy.ndarray] = None,
-            quaternion: Optional[numpy.ndarray] = None,
-            euler_angles: Optional[numpy.ndarray] = None,
-            rotation_vector: Optional[numpy.ndarray] = None,
+            *,
             parent: Optional[Frame] = None,
             setup_only: bool = False,
             convention: Optional[int] = 0,
-            _warnings: bool = True
         ) -> None:
-        warnings.warn("Direct use of __init__ is deprecated. Use the class methods to create a Frame object.", DeprecationWarning)
+        # Initialize a Canonical Frame
+        self._R_dev = Rotation.from_matrix(numpy.eye(3))
+        self._T_dev = numpy.zeros((3, 1), dtype=numpy.float64)
+        self.parent = parent
+        self.convention = convention
 
-        # ==============================================================================================================
-        # First we check the parameters and the consistency of the user input.
-        # The user must use only one way to define the frame.
-        # ==============================================================================================================
+        # Update the frame with the given parameters
+        translation = translation if translation is not None else numpy.zeros((3,1), dtype=numpy.float64)
+        rotation = rotation if rotation is not None else Rotation.identity()
+        self.set_translation(translation, convention=convention)
+        self.set_rotation(rotation, convention=convention)
 
-        # Check the parameters
-        if rotation is not None and not isinstance(rotation, Rotation):
-            raise TypeError("The rotation must be a Rotation object.")
-        if parent is not None and not isinstance(parent, Frame):
-            raise TypeError("The parent must be a Frame object.")
-        if not isinstance(setup_only, bool):
-            raise TypeError("The setup_only parameter must be a boolean.")
-        if not isinstance(convention, int):
-            raise TypeError("The convention parameter must be an integer.")
-        if not convention in range(8):
-            raise ValueError("The convention must be an integer between 0 and 7.")
-
-        # Get the method to define the frame.
-        define_by_origin_and_axes = origin is not None or x_axis is not None or y_axis is not None or z_axis is not None or axes is not None
-        define_by_translation_and_rotation = translation is not None or rotation is not None or rotation_matrix is not None or quaternion is not None or euler_angles is not None or rotation_vector is not None
-        
-        # Check if the parameters are consistent
-        if define_by_origin_and_axes and define_by_translation_and_rotation:
-            raise ValueError("If the origin or axes is provided, the other parameters mustn't be provided. The frame must be defined by [the origin and the axes] or by [the translation vector and the rotation].")
-        
-        if define_by_origin_and_axes:
-            # If axes is provided, x-axis, y-axis, and z-axis mustn't be provided.
-            if axes is not None and (x_axis is not None or y_axis is not None or z_axis is not None):
-                raise ValueError("If the axes is provided, the x_axis, y_axis, and z_axis mustn't be provided.")
-            
-        if define_by_translation_and_rotation:
-            # Only one of the rotation parameters must be provided.
-            if sum([rotation is not None, rotation_matrix is not None, quaternion is not None, euler_angles is not None, rotation_vector is not None]) > 1:
-                raise ValueError("Only one of the rotation parameters must be provided.")
-
-        # Default values if no orientation is provided.
-        if not define_by_origin_and_axes and not define_by_translation_and_rotation:
-            define_by_origin_and_axes = True
-
-        # ==============================================================================================================
-        # The frame will only conserve the transformation between the parent frame and the frame in the convention 0.
-        # First we define the translation and the rotation according to the user input.
-        # ==============================================================================================================
-
-        # Prepare the translation and rotation parameters if define_by_translation_and_rotation is True.
-        if define_by_origin_and_axes:
-            # Define the translation vector.
-            if origin is None:
-                origin = [0, 0, 0]
-            translation = numpy.array(origin).reshape((3,)).astype(numpy.float64)
-
-            # Define the rotation matrix.
-            if axes is None:
-                if x_axis is None:
-                    x_axis = [1, 0, 0]
-                x_axis = numpy.array(x_axis).reshape((3,1)).astype(numpy.float64)
-                if y_axis is None:
-                    y_axis = [0, 1, 0]
-                y_axis = numpy.array(y_axis).reshape((3,1)).astype(numpy.float64)
-                if z_axis is None:
-                    z_axis = [0, 0, 1]
-                z_axis = numpy.array(z_axis).reshape((3,1)).astype(numpy.float64)
-                axes = numpy.column_stack((x_axis, y_axis, z_axis)).astype(numpy.float64)
-            rotation_matrix = numpy.array(axes).astype(numpy.float64)
-            if not rotation_matrix.shape == (3, 3):
-                raise ValueError("The axes must be a 3x3 matrix.")  
-            rotation_matrix = rotation_matrix / numpy.linalg.norm(rotation_matrix, axis=0) # Normalize the columns to get an orthonormal matrix
-            if not is_SO3(rotation_matrix):
-                raise ValueError("The axes must be a special orthogonal matrix.")
-
-            # Create the rotation object.
-            rotation = Rotation.from_matrix(rotation_matrix)
-            convention = 0 # The convention is 0 because the rotation matrix is the basis vectors of the frame.
-        
-
-        # Prepare the translation and rotation parameters if define_by_translation_and_rotation is True.          
-        if define_by_translation_and_rotation:
-            if translation is None:
-                translation = [0, 0, 0]
-            translation = numpy.array(translation).reshape((3,1)).astype(numpy.float64)
-
-            if rotation_matrix is not None:
-                rotation_matrix = numpy.array(rotation_matrix).astype(numpy.float64)
-                if not rotation_matrix.shape == (3, 3):
-                    raise ValueError("The rotation matrix must be a 3x3 matrix.")
-                norm = numpy.linalg.norm(rotation_matrix, axis=0)
-                if numpy.any(numpy.isclose(norm, 0)):
-                    raise ValueError("The basis vectors can't be 0.")
-                rotation_matrix = rotation_matrix / norm
-                if not is_SO3(rotation_matrix):
-                    raise ValueError("The rotation matrix must be a special orthogonal matrix.")
-                rotation = Rotation.from_matrix(rotation_matrix)
-            
-            if quaternion is not None:
-                quaternion = numpy.array(quaternion).reshape((4,)).astype(numpy.float64)
-                norm = numpy.linalg.norm(quaternion)
-                if numpy.isclose(norm, 0):
-                    raise ValueError("The quaternion can't be 0.")
-                quaternion = quaternion / norm
-                rotation = Rotation.from_quat(quaternion, scalar_first=True)
-            
-            if euler_angles is not None:
-                euler_angles = numpy.array(euler_angles).reshape((3,)).astype(numpy.float64)
-                rotation = Rotation.from_euler("XYZ", euler_angles, degrees=False)
-
-            if rotation_vector is not None:
-                rotation_vector = numpy.array(rotation_vector).reshape((3,)).astype(numpy.float64)
-                rotation = Rotation.from_rotvec(rotation_vector, degrees=False)
-
-            if rotation is None:
-                rotation = Rotation.from_matrix(numpy.eye(3))
-
-        # ====================================================================================================================================
-        # At this point, the translation vector and the rotation object are defined and convention parameters are seted.
-        # Lets convert the translation and the rotation to the convention 0 (default convention for the developer).
-        # ====================================================================================================================================
-        rotation, translation = switch_RT_convention(rotation, translation, convention, 0)
-
-        # ====================================================================================================================================
-        # In the user give a parent and the setup_only parameter is True, 
-        # we must construct the composite transformation between the global frame and the parent frame.
-        # ====================================================================================================================================
-        if parent is not None and setup_only:
-            # Construct the composite transformation between the global frame and the parent frame.
-            R_parent = parent.get_global_rotation(convention=0)
-            T_parent = parent.get_global_translation(convention=0)
-
-            # ====================================================================================================================================
-            # Lets note : 
-            # Xg : the coordinates of a point in the global frame
-            # Xp : the coordinates of the same point in the parent frame
-            # Xf : the coordinates of the same point in the frame
-            # Rg : the rotation matrix between the global frame and the parent frame
-            # Rp : the rotation matrix between the parent frame and the frame
-            # Tg : the translation vector between the global frame and the parent frame
-            # Tp : the translation vector between the parent frame and the frame
-            # R : the rotation matrix between the global frame and the frame
-            # T : the translation vector between the global frame and the frame
-            # 
-            # We have :
-            # Xg = Rg * Xp + Tg
-            # Xp = Rp * Xf + Tp
-            # Xg = R * Xf + T
-            #
-            # We search R and T:
-            # Xg = Rg * (Rp * Xf + Tp) + Tg
-            # Xg = Rg * Rp * Xf + Rg * Tp + Tg
-            #
-            # So the composite transformation is R = Rg * Rp and T = Rg * Tp + Tg
-            #
-            # However, the rotation is right-handed or left-handed depending on the determinant of the rotation matrix.
-            # We have R = r * k where k is the matrix [[1, 0, 0], [0, 1, 0], [0, 0, det(R)]] 
-            # and r is the equivalent direct rotation (corresponding to the equivalent direct frame with the Z-axis inverted).
-            #
-            # So T = rg * (kg * Tp) + Tg
-            #
-            # And R = rg * kp * rp * kp
-            # Can we have R = r * k ?
-            # Not directly if det(Rg) = - 1 -> So we need to use the rotation matrix of the Rotation object. :( Thats sad ...
-            # For now , lets remove the right-handed parameter from the class.
-            # ====================================================================================================================================
-            rotation = R_parent * rotation
-            translation = R_parent.apply(translation.T).T + T_parent
-            parent = None
-
-        # ====================================================================================================================================
-        # At this point we can store the useful parameters of the frame.
-        # ====================================================================================================================================
-        self._R_dev = rotation
-        self._T_dev = translation
-        self._parent = parent
-        self._convention = convention
-
+        if setup_only:
+            self._remove_parent_dev()
 
     # ====================================================================================================================================
     # Developer methods
@@ -477,7 +274,6 @@ class Frame:
         self.__T_dev = T
         self.__T_dev.flags.writeable = False
 
-
     def _remove_parent_dev(self) -> None:
         r"""
         Remove the parent frame of the frame by setting the parent attribute to None.
@@ -494,7 +290,6 @@ class Frame:
             self._R_dev = R_global
             self._T_dev = T_global
             self._parent = None
-
 
     def _format_axes_dev(self, axes: Any) -> numpy.ndarray:
         r"""
@@ -706,14 +501,8 @@ class Frame:
             canonical_frame = Frame.canonical()
 
         """
-        instance = cls.__new__(cls)
-        instance._R_dev = Rotation.from_matrix(numpy.eye(3))
-        instance._T_dev = numpy.zeros((3, 1), dtype=numpy.float64)
-        instance.parent = parent
-        instance.convention = convention
-        return instance
+        return cls(parent=parent, convention=convention)
     
-
     @classmethod
     def from_rotation(
         cls,
@@ -725,7 +514,7 @@ class Frame:
         convention: Optional[int] = 0
         ) -> Frame:
         r"""
-        Create a Frame object from a rotation and translation.
+        Create a Frame object from a rotation and a translation.
 
         .. code-block:: python
 
@@ -747,8 +536,6 @@ class Frame:
         rotation : Rotation, optional
             The rotation of the transformation. It must be a Rotation. Default is None - the identity rotation.
 
-        *,
-
         parent : Optional[Frame], optional
             The parent frame of the frame. Default is None - the global frame.
 
@@ -762,17 +549,9 @@ class Frame:
         -------
         Frame
             The Frame object created from the given rotation and translation.
+
         """
-        # Set default values
-        rotation = rotation if rotation is not None else Rotation.identity()
-        translation = translation if translation is not None else numpy.zeros((3,1), dtype=numpy.float64)
-        # Construct the frame
-        instance = cls.canonical(parent=parent, convention=convention)
-        instance.translation = translation
-        instance.rotation = rotation
-        if setup_only:
-            instance._remove_parent_dev()
-        return instance
+        return cls(translation, rotation, parent=parent, setup_only=setup_only, convention=convention)
 
 
     @classmethod
@@ -817,8 +596,6 @@ class Frame:
         z_axis : array_like, optional
             The z-axis of the frame in the parent frame coordinates. Default is None - the [0, 0, 1] vector.
 
-        *,
-
         parent : Optional[Frame], optional
             The parent frame of the frame. Default is None - the global frame.
 
@@ -832,6 +609,7 @@ class Frame:
         -------
         Frame
             The Frame object created from the given axes.
+
         """
         # Set default values
         origin = origin if origin is not None else [0, 0, 0]
@@ -881,8 +659,6 @@ class Frame:
         rotation_matrix : numpy.ndarray, optional
             The rotation matrix of the transformation. It must be a 3x3 matrix. Default is None - the identity matrix.
 
-        *,
-
         parent : Optional[Frame], optional
             The parent frame of the frame. Default is None - the global frame.
 
@@ -896,14 +672,15 @@ class Frame:
         -------
         Frame
             The Frame object created from the given rotation matrix and translation.
+
         """
         # Set default values
         rotation_matrix = rotation_matrix if rotation_matrix is not None else numpy.eye(3)
         translation = translation if translation is not None else numpy.zeros((3,1), dtype=numpy.float64)
         # Construct the frame
         instance = cls.canonical(parent=parent, convention=convention)
-        instance.translation = translation
-        instance.rotation_matrix = rotation_matrix
+        instance.set_translation(translation, convention=convention)
+        instance.set_rotation_matrix(rotation_matrix, convention=convention)
         if setup_only:
             instance._remove_parent_dev()
         return instance
@@ -917,7 +694,8 @@ class Frame:
         *,
         parent: Optional[Frame] = None,
         setup_only: bool = False,
-        convention: Optional[int] = 0
+        convention: Optional[int] = 0,
+        scalar_first: bool = True
         ) -> Frame:
         r"""
         Create a Frame object from a quaternion and translation.
@@ -941,8 +719,6 @@ class Frame:
         quaternion : numpy.ndarray, optional
             The quaternion of the transformation. It must be a 4 elements vector [w, x, y, z] (scalar first convention). Default is None - the identity quaternion.
 
-        *,
-
         parent : Optional[Frame], optional
             The parent frame of the frame. Default is None - the global frame.
 
@@ -952,18 +728,22 @@ class Frame:
         convention : int, optional
             The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is 0.
 
+        scalar_first : bool, optional
+            If True, the quaternion is in the [w, x, y, z] format. If False, the quaternion is in the [x, y, z, w] format. Default is True.
+
         Returns
         -------
         Frame
             The Frame object created from the given quaternion and translation.
+
         """
         # Set default values
         quaternion = quaternion if quaternion is not None else numpy.array([1, 0, 0, 0]) # Identity quaternion [w, x, y, z]
         translation = translation if translation is not None else numpy.zeros((3,1), dtype=numpy.float64)
         # Construct the frame
         instance = cls.canonical(parent=parent, convention=convention)
-        instance.translation = translation
-        instance.quaternion = quaternion
+        instance.set_translation(translation, convention=convention)
+        instance.set_quaternion(quaternion, convention=convention, scalar_first=scalar_first)
         if setup_only:
             instance._remove_parent_dev()
         return instance
@@ -977,7 +757,9 @@ class Frame:
         *,
         parent: Optional[Frame] = None,
         setup_only: bool = False,
-        convention: Optional[int] = 0
+        convention: Optional[int] = 0,
+        degrees: bool = False,
+        seq: str = "xyz"
         ) -> Frame:
         r"""
         Create a Frame object from euler angles and translation.
@@ -1001,8 +783,6 @@ class Frame:
         euler_angles : numpy.ndarray, optional
             The euler angles of the transformation. It must be a 3 elements vector [alpha, beta, gamma] in radians with xyz convention. Default is None - the zero vector.
 
-        *,
-
         parent : Optional[Frame], optional
             The parent frame of the frame. Default is None - the global frame.
 
@@ -1012,18 +792,25 @@ class Frame:
         convention : int, optional
             The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is 0.
 
+        degrees : bool, optional
+            If True, the euler angles are in degrees. If False, the euler angles are in radians. Default is False.
+
+        seq : str, optional
+            The sequence of the euler angles. It must be a string of 3 characters chosen between 'x', 'y', and 'z'. Default is "xyz".
+
         Returns
         -------
         Frame
             The Frame object created from the given euler angles and translation.
+
         """
         # Set default values
         euler_angles = euler_angles if euler_angles is not None else numpy.array([0, 0, 0]) # Zero euler angles
         translation = translation if translation is not None else numpy.zeros((3,1), dtype=numpy.float64)
         # Construct the frame
         instance = cls.canonical(parent=parent, convention=convention)
-        instance.translation = translation
-        instance.euler_angles = euler_angles
+        instance.set_translation(translation, convention=convention)
+        instance.set_euler_angles(euler_angles, convention=convention, degrees=degrees, seq=seq)
         if setup_only:
             instance._remove_parent_dev()
         return instance
@@ -1038,7 +825,8 @@ class Frame:
         *,
         parent: Optional[Frame] = None,
         setup_only: bool = False,
-        convention: Optional[int] = 0
+        convention: Optional[int] = 0,
+        degrees: bool = False
         ) -> Frame:
         r"""
         Create a Frame object from a rotation vector and translation.
@@ -1062,8 +850,6 @@ class Frame:
         rotation_vector : numpy.ndarray, optional
             The rotation vector of the transformation. It must be a 3 elements vector in radians. Default is None - the zero vector.
 
-        *,
-
         parent : Optional[Frame], optional
             The parent frame of the frame. Default is None - the global frame.
 
@@ -1073,18 +859,22 @@ class Frame:
         convention : int, optional
             The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is 0.
 
+        degrees : bool, optional
+            If True, the rotation vector is in degrees. If False, the rotation vector is in radians. Default is False.
+
         Returns
         -------
         Frame
             The Frame object created from the given rotation vector and translation.
+
         """
         # Set default values
         rotation_vector = rotation_vector if rotation_vector is not None else numpy.array([0, 0, 0]) # Zero rotation vector
         translation = translation if translation is not None else numpy.zeros((3,1), dtype=numpy.float64)
         # Construct the frame
         instance = cls.canonical(parent=parent, convention=convention)
-        instance.translation = translation
-        instance.rotation_vector = rotation_vector
+        instance.set_translation(translation, convention=convention)
+        instance.set_rotation_vector(rotation_vector, convention=convention, degrees=degrees)
         if setup_only:
             instance._remove_parent_dev()
         return instance
@@ -2222,7 +2012,7 @@ class Frame:
             return False
         global_frame = self.get_global_frame()
         other_global_frame = other.get_global_frame()
-        return numpy.allclose(global_frame.translation, other_global_frame.translation) and numpy.allclose(global_frame.rotation.as_quat(), other_global_frame.rotation.as_quat())
+        return numpy.allclose(global_frame._T_dev, other_global_frame._T_dev) and numpy.allclose(global_frame._R_dev.as_quat(), other_global_frame._R_dev.as_quat())
     
 
 
@@ -2243,55 +2033,6 @@ class Frame:
             True if the Frame objects are not equal, False otherwise.
         """
         return not self.__eq__(other)
-    
-
-
-    # ====================================================================================================================================
-    # draw methods
-    # ====================================================================================================================================
-    def draw(self, ax: matplotlib.axes.Axes, xcolor: str = 'r', ycolor: str = 'g', zcolor: str = 'b', scale: float = 1, **kwargs) -> Tuple[matplotlib.lines.Line2D, matplotlib.lines.Line2D, matplotlib.lines.Line2D]:
-        r"""
-        Draw the frame in the matplotlib axes (projection 3D).
-
-        Parameters
-        ----------
-        ax : matplotlib.axes.Axes
-            The matplotlib axes to draw the frame.
-        
-        xcolor : str, optional
-            The color of the x-axis. Default is 'r'.
-        
-        ycolor : str, optional
-            The color of the y-axis. Default is 'g'.
-        
-        zcolor : str, optional
-            The color of the z-axis. Default is 'b'.
-        
-        scale : float, optional
-            The scale of the frame. Default is 1.
-        
-        **kwargs
-            Additional arguments to pass to the matplotlib.lines.Line2D constructor.
-        
-        Returns
-        -------
-        Tuple[matplotlib.lines.Line2D, matplotlib.lines.Line2D, matplotlib.lines.Line2D]
-            The x-axis, y-axis and z-axis of the frame.
-        """
-        origin = self.global_origin
-        x_axis = self.global_x_axis
-        y_axis = self.global_y_axis
-        z_axis = self.global_z_axis
-
-        x = numpy.hstack((origin, origin + scale * x_axis))
-        y = numpy.hstack((origin, origin + scale * y_axis))
-        z = numpy.hstack((origin, origin + scale * z_axis))
-
-        x_line = ax.plot(x[0,:], x[1,:], x[2,:], color=xcolor, **kwargs)[0]
-        y_line = ax.plot(y[0,:], y[1,:], y[2,:], color=ycolor, **kwargs)[0]
-        z_line = ax.plot(z[0,:], z[1,:], z[2,:], color=zcolor, **kwargs)[0]
-        return x_line, y_line, z_line
-
 
 
     # ====================================================================================================================================

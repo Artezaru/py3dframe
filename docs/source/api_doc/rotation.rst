@@ -5,5 +5,6 @@ py3dframe.Rotation
 This class is an alias of the ``scipy.spatial.transform.Rotation`` class.
 For more information, refer to the `scipy documentation <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.transform.Rotation.html>`_.
 
+
     
 

@@ -6,14 +6,95 @@ from py3dframe import Frame, switch_RT_convention
 def test_frame_creation():
     # Create a frame with the default values
     origin = np.array([1, 2, 3]).reshape((3, 1))
-    x_axis = np.array([1, 0, 0]).reshape((3, 1))
-    y_axis = np.array([0, 1, 0]).reshape((3, 1))
+    x_axis = np.array([1, 1, 0]).reshape((3, 1))
+    y_axis = np.array([-1, 1, 0]).reshape((3, 1))
     z_axis = np.array([0, 0, 1]).reshape((3, 1))
     frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
     assert np.allclose(frame.origin, origin)
-    assert np.allclose(frame.x_axis, x_axis)
-    assert np.allclose(frame.y_axis, y_axis)
-    assert np.allclose(frame.z_axis, z_axis)
+    assert np.allclose(frame.x_axis, x_axis/np.linalg.norm(x_axis))
+    assert np.allclose(frame.y_axis, y_axis/np.linalg.norm(y_axis))
+    assert np.allclose(frame.z_axis, z_axis/np.linalg.norm(z_axis))
+    # Recreate the frame from rotation and translation
+    frame_new = Frame.from_rotation(translation=frame.get_translation(convention=0), rotation=frame.get_rotation(convention=0), convention=0)
+    assert frame_new == frame
+    # Recreate the frame from rotation matrix and translation
+    frame_new = Frame.from_rotation_matrix(translation=frame.get_translation(convention=0), rotation_matrix=frame.get_rotation_matrix(convention=0), convention=0)
+    assert frame_new == frame
+    # Recreate the frame from quaternion and translation
+    frame_new = Frame.from_quaternion(translation=frame.get_translation(convention=0), quaternion=frame.get_quaternion(convention=0), convention=0)
+    assert frame_new == frame
+    # Recreate the frame from euler angles and translation
+    frame_new = Frame.from_euler_angles(translation=frame.get_translation(convention=0), euler_angles=frame.get_euler_angles(convention=0), convention=0)
+    assert frame_new == frame
+    # Recreate the frame from rotation vector and translation
+    frame_new = Frame.from_rotation_vector(translation=frame.get_translation(convention=0), rotation_vector=frame.get_rotation_vector(convention=0), convention=0)
+    assert frame_new == frame
+
+def test_invalid_frame_creation():
+    # Create a frame with invalid axes (not orthogonal)
+    origin = np.array([1, 2, 3]).reshape((3, 1))
+    x_axis = np.array([1, 0, 0]).reshape((3, 1))
+    y_axis = np.array([1, 1, 0]).reshape((3, 1))
+    z_axis = np.array([0, 0, 1]).reshape((3, 1))
+    with pytest.raises(ValueError):
+        Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
+
+    # Create a frame with invalid axes (not right-handed)
+    origin = np.array([1, 2, 3]).reshape((3, 1))
+    x_axis = np.array([1, 0, 0]).reshape((3, 1))
+    y_axis = np.array([0, 1, 0]).reshape((3, 1))
+    z_axis = np.array([0, 0, -1]).reshape((3, 1))
+    with pytest.raises(ValueError):
+        Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
+
+def test_frame_creation_with_other_conventions():
+    # Create a frame with the default values
+    origin = np.array([1, 2, 3]).reshape((3, 1))
+    x_axis = np.array([1, -1, 0]).reshape((3, 1))
+    y_axis = np.array([1, 1, 0]).reshape((3, 1))
+    z_axis = np.array([0, 0, 1]).reshape((3, 1))
+    frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
+
+    # Get the rotation and translation in different conventions
+    for convention in range(8):
+        R = frame.get_rotation(convention=convention)
+        T = frame.get_translation(convention=convention)
+        frame_new = Frame.from_rotation(translation=T, rotation=R, convention=convention)
+        assert np.allclose(frame_new.origin, frame.origin), f"Failed for convention {convention}"
+        assert np.allclose(frame_new.x_axis, frame.x_axis), f"Failed for convention {convention}"
+        assert np.allclose(frame_new.y_axis, frame.y_axis), f"Failed for convention {convention}"
+        assert np.allclose(frame_new.z_axis, frame.z_axis), f"Failed for convention {convention}"
+        assert frame_new == frame, f"Failed for convention {convention}"
+
+def test_frame_creation_with_parent():
+    # Create a parent frame
+    origin = np.array([1, 2, 3]).reshape((3, 1))
+    x_axis = np.array([1, -1, 0]).reshape((3, 1))
+    y_axis = np.array([1, 1, 0]).reshape((3, 1))
+    z_axis = np.array([0, 0, 1]).reshape((3, 1))
+    parent = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
+
+    # Create a child frame relative to the parent
+    origin = np.array([5, -2, 3]).reshape((3, 1))
+    x_axis = np.array([1, 0, 1]).reshape((3, 1))
+    y_axis = np.array([-1, 0, 1]).reshape((3, 1))
+    z_axis = np.array([0, -1, 0]).reshape((3, 1))
+    frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, parent=parent)
+
+    # Get the global frame
+    global_frame = frame.get_global_frame()
+
+    # Check if the global frame is consistent
+    R_parent = parent.get_rotation_matrix(convention=0)
+    T_parent = parent.get_translation(convention=0)
+    R_child = frame.get_rotation_matrix(convention=0)
+    T_child = frame.get_translation(convention=0)
+    R_global = global_frame.get_rotation_matrix(convention=0)
+    T_global = global_frame.get_translation(convention=0)
+
+    # Check if the global frame is consistent
+    assert np.allclose(R_global, R_parent @ R_child)
+    assert np.allclose(T_global, T_parent + R_parent @ T_child)
 
 def test_change_convention_frame():
     # Create a frame with the default values
@@ -53,6 +134,9 @@ def test_frame_parent():
 
     # Get the global frame
     global_frame = frame.get_global_frame()
+    print(frame.origin)
+    print(global_frame.origin)
+    print(parent.origin)
 
     # Check if the global frame is consistent
     assert np.allclose(global_frame.global_origin, np.array([0, 0, 0]).reshape((3, 1)))
