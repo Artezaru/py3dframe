@@ -48,22 +48,6 @@ translation = np.array([1, 2, 3]).reshape(3, 1)
 frame = Frame.from_rotation(translation=translation, rotation=rotation, convention=0)
 ```
 
-You can check the coordinates of the frame by plotting it into a 3D plot:
-
-```python
-import matplotlib.pyplot as plt
-
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-
-frame.plot(ax)
-ax.set_xlabel('X')
-ax.set_ylabel('Y')
-ax.set_zlabel('Z')
-
-plt.show()
-```
-
 ## Construct a system of frames
 
 Let’s consider a person walking in a train.

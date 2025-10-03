@@ -54,22 +54,6 @@ Where :math:`\mathbf{X}_E` is the point expressed in the parent (or global) fram
 
     frame = Frame.from_rotation(translation=translation, rotation=rotation, convention=0)
 
-You can check the coordinates of the frame by plotting it into a 3D plot:
-
-.. code-block:: python
-
-    import matplotlib.pyplot as plt
-
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-
-    frame.plot(ax)
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_zlabel('Z')
-
-    plt.show()
-
 Construct a system of frames
 ----------------------------
 

@@ -41,6 +41,9 @@ extensions = [
     "sphinx.ext.autosummary", # Generate summaries of the modules
 ]
 
+autosummary_generate = False  # Turn off autosummary generation
+autodoc_typehints = "description"
+
 napoleon_google_docstring = False
 napoleon_numpy_docstring = True
 

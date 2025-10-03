@@ -25,6 +25,8 @@ def switch_RT_convention(
         output_convention: Union[int, str] = 0,
     ) -> Tuple[Rotation, numpy.ndarray]:  
     r"""
+    Switch between the 8 principal conventions to define a rigid transformation in 3D.
+
     Lets consider two frames of reference :math:`E` and :math:`F`.
     Lets consider a point :math:`X` whose coordinates in the frame :math:`E` are :math:`X_E` and in the frame :math:`F` are :math:`X_F`.
     The transformation from the frame :math:`E` to the frame :math:`F` is defined by a rotation matrix :math:`R` and a translation vector :math:`T`.
@@ -82,7 +84,6 @@ def switch_RT_convention(
             X_E = R.apply(X_F.T).T + T # Use the transpose to get the shape (1, 3) numpy-array convention.
 
 
-    
     Parameters
     ----------
     rotation :Rotation

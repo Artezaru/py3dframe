@@ -47,6 +47,96 @@ def test_invalid_frame_creation():
     with pytest.raises(ValueError):
         Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
 
+def test_copy_with_parent():
+    # Create a frame with the default values
+    origin = np.array([1, 2, 3]).reshape((3, 1))
+    x_axis = np.array([1, -1, 0]).reshape((3, 1))
+    y_axis = np.array([1, 1, 0]).reshape((3, 1))
+    z_axis = np.array([0, 0, 1]).reshape((3, 1))
+    parent = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
+    frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, parent=parent)
+
+    # Copy the frame
+    frame_copy = frame.copy()
+
+    # Check if the copy is consistent
+    assert np.allclose(frame_copy.origin, frame.origin)
+    assert np.allclose(frame_copy.x_axis, frame.x_axis)
+    assert np.allclose(frame_copy.y_axis, frame.y_axis)
+    assert np.allclose(frame_copy.z_axis, frame.z_axis)
+    assert np.allclose(frame_copy.global_origin, frame.global_origin)
+    assert np.allclose(frame_copy.global_axes, frame.global_axes)
+    assert frame_copy.parent == frame.parent
+    assert frame_copy == frame
+    assert frame_copy is not frame
+    assert frame_copy.parent is frame.parent
+
+def test_copy_without_parent():
+    # Create a frame with the default values
+    origin = np.array([1, 2, 3]).reshape((3, 1))
+    x_axis = np.array([1, -1, 0]).reshape((3, 1))
+    y_axis = np.array([1, 1, 0]).reshape((3, 1))
+    z_axis = np.array([0, 0, 1]).reshape((3, 1))
+    frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
+
+    # Copy the frame
+    frame_copy = frame.copy()
+
+    # Check if the copy is consistent
+    assert np.allclose(frame_copy.origin, frame.origin)
+    assert np.allclose(frame_copy.x_axis, frame.x_axis)
+    assert np.allclose(frame_copy.y_axis, frame.y_axis)
+    assert np.allclose(frame_copy.z_axis, frame.z_axis)
+    assert np.allclose(frame_copy.global_origin, frame.global_origin)
+    assert np.allclose(frame_copy.global_axes, frame.global_axes)
+    assert frame_copy == frame
+
+def test_deepcopy_with_parent():
+    # Create a frame with the default values
+    origin = np.array([1, 2, 3]).reshape((3, 1))
+    x_axis = np.array([1, -1, 0]).reshape((3, 1))
+    y_axis = np.array([1, 1, 0]).reshape((3, 1))
+    z_axis = np.array([0, 0, 1]).reshape((3, 1))
+    parent = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
+    frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, parent=parent)
+
+    # Deep copy the frame
+    frame_deep_copy = frame.deepcopy()
+
+    # Check if the deep copy is consistent
+    assert np.allclose(frame_deep_copy.origin, frame.origin)
+    assert np.allclose(frame_deep_copy.x_axis, frame.x_axis)
+    assert np.allclose(frame_deep_copy.y_axis, frame.y_axis)
+    assert np.allclose(frame_deep_copy.z_axis, frame.z_axis)
+    assert np.allclose(frame_deep_copy.global_origin, frame.global_origin)
+    assert np.allclose(frame_deep_copy.global_axes, frame.global_axes)
+    assert frame_deep_copy.parent == frame.parent
+    assert frame_deep_copy == frame
+    assert frame_deep_copy is not frame
+    assert frame_deep_copy.parent is not frame.parent
+
+def test_deepcopy_without_parent():
+    # Create a frame with the default values
+    origin = np.array([1, 2, 3]).reshape((3, 1))
+    x_axis = np.array([1, -1, 0]).reshape((3, 1))
+    y_axis = np.array([1, 1, 0]).reshape((3, 1))
+    z_axis = np.array([0, 0, 1]).reshape((3, 1))
+    frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
+
+    # Deep copy the frame
+    frame_deep_copy = frame.deepcopy()
+
+    # Check if the deep copy is consistent
+    assert np.allclose(frame_deep_copy.origin, frame.origin)
+    assert np.allclose(frame_deep_copy.x_axis, frame.x_axis)
+    assert np.allclose(frame_deep_copy.y_axis, frame.y_axis)
+    assert np.allclose(frame_deep_copy.z_axis, frame.z_axis)
+    assert np.allclose(frame_deep_copy.global_origin, frame.global_origin)
+    assert np.allclose(frame_deep_copy.global_axes, frame.global_axes)
+    assert frame_deep_copy == frame
+    assert frame_deep_copy is not frame
+
+
 def test_frame_creation_with_other_conventions():
     # Create a frame with the default values
     origin = np.array([1, 2, 3]).reshape((3, 1))
@@ -64,6 +154,9 @@ def test_frame_creation_with_other_conventions():
         assert np.allclose(frame_new.x_axis, frame.x_axis), f"Failed for convention {convention}"
         assert np.allclose(frame_new.y_axis, frame.y_axis), f"Failed for convention {convention}"
         assert np.allclose(frame_new.z_axis, frame.z_axis), f"Failed for convention {convention}"
+        print(convention)
+        print(frame)
+        print(frame_new)
         assert frame_new == frame, f"Failed for convention {convention}"
 
 def test_frame_creation_with_parent():

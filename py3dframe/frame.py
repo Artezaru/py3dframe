@@ -20,6 +20,7 @@ from typing import Optional, Dict, Any, Union, Sequence
 import numpy 
 import scipy
 import json
+import copy
 
 from .switch_RT_convention import switch_RT_convention
 from .matrix import is_SO3
@@ -27,11 +28,18 @@ from .rotation import Rotation
 
 class Frame:
     r"""
-    A Frame object represents a frame of reference of :math:`\mathbb{R}^3` (only orthogonal and right-handed frames are supported).
+    A Frame object represents a frame of reference of :math:`\mathbb{R}^3`.
+    
+    .. warning::
 
-    A frame of reference is defined by its origin and its basis vectors in the global frame coordinates.
-    The origin is a 3-element vector. 
-    The basis vectors can be given in 3 different 3-element vectors or in a 3x3 matrix with the basis vectors as columns.
+        Only right-handed orthogonal frames are supported (orthonormal basis vectors with a positive determinant).
+
+    A frame of reference is defined by 
+    
+    - An origin :math:`O_F` as a 3-element vector.
+    - Three basis vectors :math:`\mathbf{e}_1`, :math:`\mathbf{e}_2` and :math:`\mathbf{e}_3` as 3-element vectors.
+
+    For example:
 
     .. code-block:: python
 
@@ -43,13 +51,8 @@ class Frame:
         origin = [1, 2, 3]
         frame = Frame.from_axes(origin=origin, x_axis=e1, y_axis=e2, z_axis=e3)
 
-    Sometimes the user wants to define a frame relatively to another frame.
-    For example, if we consider a person in a train, the person is defined in the train frame and the train frame is defined in the global frame.
-    When the parent frame changes, the child frame changes too but the transformation between the frames remains the same.
-    In this case, the user must provide the parent frame (``parent`` parameter) and the origin and the basis vectors of the frame in the parent frame coordinates.
-
-    An other way to define a frame is to use the transformation between the parent frame and the frame.
-    Lets note :math:`E` the parent frame (or the global frame) and :math:`F` the frame to define.
+    The frame can also be defined by its transformation relative to its parent frame (by default the global canonical frame of :math:`\mathbb{R}^3`).
+    Lets note :math:`E` the parent frame (or the global frame of :math:`\mathbb{R}^3`) and :math:`F` the frame to define.
     The transformation between the frame :math:`E` and the frame :math:`F` is defined by a rotation matrix :math:`R` and a translation vector :math:`T`.
     Several conventions can be used to define the transformation between the frames.
 
@@ -75,122 +78,35 @@ class Frame:
 
     .. note::
 
-        If a parent is given to the frame, the frame will be defined relative to the parent frame.
-        A change in the parent frame will affect the frame but the transformation between the frames will remain the same.
-        If you want use the parent frame only to define the frame and not to link the frames, set the parameter ``setup_only`` to True (the parent attribute will be seted to None after the frame is created).
-
-    .. note::
-
         If the axes are provided, the class will normalize the basis vectors to get an orthonormal matrix.    
 
     .. seealso::
 
         - class :class:`py3dframe.FrameTransform` to represent a transformation between two frames of reference and convert points between the frames.
 
-    Frame instantiation
-    -------------------
-
-    To create a Frame object, the user must can use one of the following approaches:
-
-    1. Define the frame by its origin and its basis vectors with :meth:`from_axes` class method.
-    2. Define the frame by its translation vector and its rotation with :meth:`from_rotation` class method.
-    3. Define the frame by its translation vector and its rotation matrix with :meth:`from_rotation_matrix` class method.
-    4. Define the frame by its translation vector and its quaternion with :meth:`from_quaternion` class method.
-    5. Define the frame by its translation vector and its euler angles with :meth:`from_euler_angles` class method.
-    6. Define the frame by its translation vector and its rotation vector with :meth:`from_rotation_vector` class method.
-    7. Create the canonical frame with :meth:`canonical` class method.
-
     Parameters
     ----------
     translation : array_like, optional
-        The translation vector in the convention used to define the frame. Default is the zero vector.
-        The translation vector is a 3-element vector.
+        The translation vector between the parent frame and the frame to create in the selected convention.
+        The translation vector is a 3-element vector and the default value is the zero vector.
 
     rotation: Rotation, optional
-        The rotation in the convention used to define the frame. Default is the identity rotation.
+        The rotation between the parent frame and the frame to create in the selected convention.
+        The rotation is a scipy.spatial.transform.Rotation object and the default value is the identity rotation.
 
     parent : Optional[Frame], optional
-        The parent frame of the frame. Default is None - the global frame.
+        If given, the frame will be defined relatively to this parent frame. Default is None - the global frame of :math:`\mathbb{R}^3`.
 
     setup_only : bool, optional
-        If True, the parent frame will be used only to define the frame and not to link the frames. Default is False.
+        If True, the parent frame will be used only to define the frame. Once the frame is created, its global position and orientation will be computed and the parent frame will be unlinked (set to None).
 
     convention : int, optional
-        The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is 0.
-        This parameter is used only if the axes are not defined by the ``axes`` parameter.
+        Integer in ``[0, 7]`` selecting the convention to express the transformation. Default is 0.
     
     Raises
     ------
     TypeError
         If any of the parameters is wrong type.
-    ValueError
-        If the origin is not a 3-element vector.
-        If the axes is not a 3x3 matrix.
-        If the parent is not a Frame object.
-        If axes is not an orthogonal matrix.
-        If several parameters are provided to define the frame.
-    
-    Examples
-    --------
-
-    Lets :math:`E = (O_E, \mathbf{e}_1, \mathbf{e}_2, \mathbf{e}_3)` be a frame of reference of :math:`\mathbb{R}^3`.
-    To create the frame :math:`E`, the user must provide the origin and the basis vectors of the frame.
-
-    .. code-block:: python
-
-        from py3dframe import Frame
-
-        origin = [1, 2, 3]
-        x_axis = [1, 1, 0]
-        y_axis = [1, -1, 0]
-        z_axis = [0, 0, 1]
-        frame_E = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, parent=None)
-
-    A frame can also be defined in another frame of reference (named the parent frame).
-
-    Lets consider a frame :math:`F = (O_F, \mathbf{f}_1, \mathbf{f}_2, \mathbf{f}_3)` defined in the frame :math:`E`.
-    The user must provide the origin and the basis vectors of the frame :math:`F` in the frame :math:`E`.
-
-    .. code-block:: python
-
-        from py3dframe import Frame
-
-        origin = [1, -2, 3]
-        x_axis = [1, 0, 1]
-        y_axis = [0, 1, 0]
-        z_axis = [-1, 0, 1]
-        frame_F = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, parent=frame_E)
-    
-    In this case the frame :math:`F` is defined relative to the frame :math:`E`.
-    A change in the frame :math:`E` will affect the frame :math:`F` but the transformation between the frames will remain the same.
-
-    The user can access the origin and the basis vectors of the frame as follows:
-
-    .. code-block:: python
-
-        # In the global frame
-        frame_F.global_origin 
-        frame_F.global_x_axis
-        frame_F.global_y_axis
-        frame_F.gloabl_z_axis
-    
-        # In the parent frame coordinates and relative to the parent frame
-        frame_F.origin
-        frame_F.x_axis
-        frame_F.y_axis
-        frame_F.z_axis
-
-    To finish, the user can define a frame using the transformation between the parent frame and the frame.
-    Using the convention 0, the rotation matrix and the translation vector will exactly be the basis vectors and the origin of the frame.
-
-    .. code-block:: python
-
-        from py3dframe import Frame
-
-        translation = [1, 2, 3]
-        rotation_matrix = np.array([[1, 1, 0], [1, -1, 0], [0, 0, 1]]).T # Equivalent to the column_stack((x_axis, y_axis, z_axis))
-        rotation_matrix = rotation_matrix / np.linalg.norm(rotation_matrix, axis=0) # Normalize the columns to get an orthonormal matrix
-        frame_E = Frame.from_rotation_matrix(translation=translation, rotation_matrix=rotation_matrix, parent=None, convention=0)
 
     """
     __slots__ = [
@@ -230,14 +146,14 @@ class Frame:
     @property
     def _R_dev(self) -> scipy.spatial.transform.Rotation:
         r"""
-        Getter and setter for the rotation object between the parent frame and the frame in the convention 0.
+        Getter and setter for the rotation object between the parent frame and this frame in the convention 0.
 
         The rotation is a scipy.spatial.transform.Rotation object. 
 
         Returns
         -------
         scipy.spatial.transform.Rotation
-            The rotation between the parent frame and the frame in the convention 0.
+            The rotation between the parent frame and this frame in the convention 0.
         """
         return self.__R_dev
     
@@ -251,7 +167,7 @@ class Frame:
     @property
     def _T_dev(self) -> numpy.ndarray:
         r"""
-        Getter and setter for the translation vector between the parent frame and the frame in the convention 0.
+        Getter and setter for the translation vector between the parent frame and this frame in the convention 0.
 
         The translation vector is a 3-element vector.
 
@@ -262,7 +178,7 @@ class Frame:
         Returns
         -------
         numpy.ndarray
-            The translation vector between the parent frame and the frame in the convention 0 with shape (3, 1).
+            The translation vector between the parent frame and this frame in the convention 0 with shape (3, 1).
         """
         T_dev = self.__T_dev.copy()
         T_dev.flags.writeable = True
@@ -437,7 +353,7 @@ class Frame:
             raise ValueError("The rotation vector must be finite.")
         return rotation_vector
 
-    def _format_convention_dev(self, convention: Any, allow_None: bool = True) -> int:
+    def _format_convention_dev(self, convention: Any, allow_None: bool = False) -> int:
         r"""
         Format the convention to be an integer between 0 and 7.
 
@@ -474,17 +390,17 @@ class Frame:
         convention: Optional[int] = 0
         ) -> Frame:
         r"""
-        Create the canonical frame of reference of :math:`\mathbb{R}^3` without parent frame.
+        Create the canonical frame of reference of :math:`\mathbb{R}^3`.
 
         The canonical frame is defined by its origin at the zero vector and its basis vectors as the standard basis vectors.
-
+        
         Parameters
         ----------
         parent : Optional[Frame], optional
             The parent frame of the frame. Default is None - the global frame.
 
         convention : int, optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is 0.
+            Integer in ``[0, 7]`` selecting the convention to express the transformation. Default is 0.
 
         Returns
         -------
@@ -493,12 +409,27 @@ class Frame:
         
         Examples
         --------
+        Lets create the canonical frame.
 
         .. code-block:: python
 
             from py3dframe import Frame
 
             canonical_frame = Frame.canonical()
+
+        The canonical frame is defined by its origin at the zero vector and its basis vectors as the standard basis vectors.
+
+        .. code-block:: python
+
+            print("Origin of the canonical frame:", canonical_frame.origin)
+            print("X-axis of the canonical frame:", canonical_frame.x_axis)
+            print("Y-axis of the canonical frame:", canonical_frame.y_axis)
+            print("Z-axis of the canonical frame:", canonical_frame.z_axis)
+            # Output:
+            # Origin of the canonical frame: [[0.] [0.] [0.]]
+            # X-axis of the canonical frame: [[1.] [0.] [0.]]
+            # Y-axis of the canonical frame: [[0.] [1.] [0.]]
+            # Z-axis of the canonical frame: [[0.] [0.] [1.]]
 
         """
         return cls(parent=parent, convention=convention)
@@ -514,19 +445,16 @@ class Frame:
         convention: Optional[int] = 0
         ) -> Frame:
         r"""
-        Create a Frame object from a rotation and a translation.
+        Create a Frame object from a rotation (:class:`Rotation`) and a translation.
 
-        .. code-block:: python
+        .. seealso::
 
-            import numpy
-
-            from py3dframe import Frame, Rotation
-
-            R = numpy.array([[1, 1, 0], [-1, 1, 0], [0, 0, 1]])
-            R = Rotation.from_matrix(R / numpy.linalg.norm(R, axis=0)) # Normalize the columns to get an orthonormal matrix
-            t = numpy.array([1, 2, 3])
-
-            frame = Frame.from_rotation(translation=t, rotation=R, parent=None)
+            - :class:`Rotation` class to create and manipulate rotations.
+            - :meth:`from_rotation_matrix` method to create a Frame from a rotation matrix instead of a scipy Rotation object.
+            - :meth:`from_quaternion` method to create a Frame from a quaternion instead of a scipy Rotation object.
+            - :meth:`from_euler_angles` method to create a Frame from euler angles instead of a scipy Rotation object.
+            - :meth:`from_rotation_vector` method to create a Frame from a rotation vector instead of a scipy Rotation object.
+            - :meth:`from_axes` method to create a Frame from its axes (origin and basis vectors) instead of a rotation and a translation.
 
         Parameters
         ----------
@@ -543,12 +471,69 @@ class Frame:
             If True, the parent frame will be used only to define the frame and not to link the frames. Default is False.
 
         convention : int, optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is 0.
+            Integer in ``[0, 7]`` selecting the convention to express the transformation. Default is 0.
 
         Returns
         -------
         Frame
             The Frame object created from the given rotation and translation.
+
+        Examples
+        --------
+        Lets create a frame from a rotation and a translation.
+
+        We want to create the frame defined by the following origin and basis vectors in the parent frame coordinates:
+
+        - Origin: :math:`O_F = [-1, -2, -3]`
+        - X-axis: :math:`\mathbf{e}_1 = [1, 1, 0] / \sqrt{2}`
+        - Y-axis: :math:`\mathbf{e}_2 = [-1, 1, 0] / \sqrt{2}`
+        - Z-axis: :math:`\mathbf{e}_3 = [0, 0, 1]`
+
+        With convention 0, the frame is defined by the following formula:
+
+        .. math::
+
+            \mathbf{X}_E = \mathbf{R} \mathbf{X}_F + \mathbf{T}
+
+        For :math:`\mathbf{X}_F = 0` we have :math:`\mathbf{X}_E = O_F = \mathbf{T}` so the translation vector is directly the origin of the frame in the parent frame coordinates.
+        For :math:`\mathbf{X}_F = [1, 0, 0]` we have :math:`\mathbf{X}_E = \mathbf{e}_1` so the first column of the rotation matrix is the x-axis of the frame in the parent frame coordinates.
+        For :math:`\mathbf{X}_F = [0, 1, 0]` we have :math:`\mathbf{X}_E = \mathbf{e}_2` so the second column of the rotation matrix is the y-axis of the frame in the parent frame coordinates.
+        For :math:`\mathbf{X}_F = [0, 0, 1]` we have :math:`\mathbf{X}_E = \mathbf{e}_3` so the third column of the rotation matrix is the z-axis of the frame in the parent frame coordinates.
+
+        The frame can be created as follows:
+
+        .. code-block:: python
+
+            import numpy
+            from py3dframe import Frame, Rotation
+
+            origin = numpy.array([-1, -2, -3])
+            x_axis = numpy.array([1, 1, 0]) / numpy.sqrt(2)
+            y_axis = numpy.array([-1, 1, 0]) / numpy.sqrt(2)
+            z_axis = numpy.array([0, 0, 1])
+
+            axes = numpy.column_stack((x_axis, y_axis, z_axis))
+            R = Rotation.from_matrix(axes)
+            t = origin
+
+            parent = ... # Define the parent frame if needed, otherwise parent=None to use the canonical frame.
+
+            frame = Frame.from_rotation(translation=t, rotation=R, convention=0, parent=parent)
+
+            print("Origin of the frame:", frame.origin)
+            print("X-axis of the frame:", frame.x_axis)
+            print("Y-axis of the frame:", frame.y_axis)
+            print("Z-axis of the frame:", frame.z_axis)
+            # Output:
+            # Origin of the frame: [[-1.] [-2.] [-3.]]
+            # X-axis of the frame: [[ 0.70710678] [ 0.70710678] [ 0.        ]]
+            # Y-axis of the frame: [[-0.70710678] [ 0.70710678] [ 0.        ]]
+            # Z-axis of the frame: [[0.] [0.] [1.]]
+
+        If you like to work with a given convention you can specify it with the ``convention`` parameter.
+        The translation and the rotation must be given in this convention to create the frame.
+
+        You can also create the frame with convention 0 and then change the convention of the frame with the :attr`convention` attribute according to your preferences.
 
         """
         return cls(translation, rotation, parent=parent, setup_only=setup_only, convention=convention)
@@ -567,20 +552,15 @@ class Frame:
         convention: Optional[int] = 0
         ) -> Frame:
         r"""
-        Create a Frame object from the given axes.
+        Create a Frame object from the given axes (origin and basis vectors).
 
-        .. code-block:: python
+        .. seealso::
 
-            import numpy
-
-            from py3dframe import Frame
-
-            origin = [1, 2, 3]
-            x_axis = [1, 1, 0]
-            y_axis = [1, -1, 0]
-            z_axis = [0, 0, 1]
-
-            frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, parent=None)
+            - :meth:`from_rotation` method to create a Frame from a rotation and a translation instead of its axes.
+            - :meth:`from_rotation_matrix` method to create a Frame from a rotation matrix and a translation instead of its axes.
+            - :meth:`from_quaternion` method to create a Frame from a quaternion and a translation instead of its axes.
+            - :meth:`from_euler_angles` method to create a Frame from euler angles and a translation instead of its axes.
+            - :meth:`from_rotation_vector` method to create a Frame from a rotation vector and a translation instead of its axes.
 
         Parameters
         ----------
@@ -603,12 +583,51 @@ class Frame:
             If True, the parent frame will be used only to define the frame and not to link the frames. Default is False.
 
         convention : int, optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is 0.
+            Integer in ``[0, 7]`` selecting the convention to express the transformation. Default is 0.
         
         Returns
         -------
         Frame
             The Frame object created from the given axes.
+
+        Examples
+        --------
+        Lets create a frame from a given origin and basis vectors.
+
+        We want to create the frame defined by the following origin and basis vectors in the parent frame coordinates:
+
+        - Origin: :math:`O_F = [-1, -2, -3]`
+        - X-axis: :math:`\mathbf{e}_1 = [1, 1, 0] / \sqrt{2}`
+        - Y-axis: :math:`\mathbf{e}_2 = [-1, 1, 0] / \sqrt{2}`
+        - Z-axis: :math:`\mathbf{e}_3 = [0, 0, 1]`
+
+        The frame can be created as follows:
+
+        .. code-block:: python
+
+            import numpy
+            from py3dframe import Frame
+
+            origin = numpy.array([-1, -2, -3])
+            x_axis = numpy.array([1, 1, 0]) / numpy.sqrt(2)
+            y_axis = numpy.array([-1, 1, 0]) / numpy.sqrt(2)
+            z_axis = numpy.array([0, 0, 1])
+
+            parent = ... # Define the parent frame if needed, otherwise parent=None to use the canonical frame.
+
+            frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, parent=parent)
+
+            print("Origin of the frame:", frame.origin)
+            print("X-axis of the frame:", frame.x_axis)
+            print("Y-axis of the frame:", frame.y_axis)
+            print("Z-axis of the frame:", frame.z_axis)
+            # Output:
+            # Origin of the frame: [[-1.] [-2.] [-3.]]
+            # X-axis of the frame: [[ 0.70710678] [ 0.70710678] [ 0.        ]]
+            # Y-axis of the frame: [[-0.70710678] [ 0.70710678] [ 0.        ]]
+            # Z-axis of the frame: [[0.] [0.] [1.]]
+
+        If you like to work with a given convention, you can specify it with the ``convention`` parameter in order to access the translation and rotation in this convention.
 
         """
         # Set default values
@@ -639,17 +658,13 @@ class Frame:
         r"""
         Create a Frame object from a rotation matrix and translation.
 
-        .. code-block:: python
+        .. seealso::
 
-            import numpy
-
-            from py3dframe import Frame
-
-            R = numpy.array([[1, 1, 0], [-1, 1, 0], [0, 0, 1]])
-            R = R / numpy.linalg.norm(R, axis=0) # Normalize the columns to get an orthonormal matrix
-            t = numpy.array([1, 2, 3])
-
-            frame = Frame.from_rotation_matrix(translation=t, rotation_matrix=R, parent=None)
+            - :meth:`from_rotation` method to create a Frame from a Rotation object instead of a rotation matrix.
+            - :meth:`from_quaternion` method to create a Frame from a quaternion instead of a rotation matrix.
+            - :meth:`from_euler_angles` method to create a Frame from euler angles instead of a rotation matrix.
+            - :meth:`from_rotation_vector` method to create a Frame from a rotation vector instead of a rotation matrix.
+            - :meth:`from_axes` method to create a Frame from its axes (origin and basis vectors) instead of a rotation matrix and a translation.
 
         Parameters
         ----------
@@ -666,12 +681,69 @@ class Frame:
             If True, the parent frame will be used only to define the frame and not to link the frames. Default is False.
 
         convention : int, optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is 0.
+            Integer in ``[0, 7]`` selecting the convention to express the transformation. Default is 0.
 
         Returns
         -------
         Frame
             The Frame object created from the given rotation matrix and translation.
+
+        Examples
+        --------
+        Lets create a frame from a rotation matrix and a translation.
+
+        We want to create the frame defined by the following origin and basis vectors in the parent frame coordinates:
+
+        - Origin: :math:`O_F = [-1, -2, -3]`
+        - X-axis: :math:`\mathbf{e}_1 = [1, 1, 0] / \sqrt{2}`
+        - Y-axis: :math:`\mathbf{e}_2 = [-1, 1, 0] / \sqrt{2}`
+        - Z-axis: :math:`\mathbf{e}_3 = [0, 0, 1]`
+
+        With convention 0, the frame is defined by the following formula:
+
+        .. math::
+
+            \mathbf{X}_E = \mathbf{R} \mathbf{X}_F + \mathbf{T}
+
+        For :math:`\mathbf{X}_F = 0` we have :math:`\mathbf{X}_E = O_F = \mathbf{T}` so the translation vector is directly the origin of the frame in the parent frame coordinates.
+        For :math:`\mathbf{X}_F = [1, 0, 0]` we have :math:`\mathbf{X}_E = \mathbf{e}_1` so the first column of the rotation matrix is the x-axis of the frame in the parent frame coordinates.
+        For :math:`\mathbf{X}_F = [0, 1, 0]` we have :math:`\mathbf{X}_E = \mathbf{e}_2` so the second column of the rotation matrix is the y-axis of the frame in the parent frame coordinates.
+        For :math:`\mathbf{X}_F = [0, 0, 1]` we have :math:`\mathbf{X}_E = \mathbf{e}_3` so the third column of the rotation matrix is the z-axis of the frame in the parent frame coordinates.
+
+        The frame can be created as follows:
+
+        .. code-block:: python
+
+            import numpy
+            from py3dframe import Frame
+
+            origin = numpy.array([-1, -2, -3])
+            x_axis = numpy.array([1, 1, 0]) / numpy.sqrt(2)
+            y_axis = numpy.array([-1, 1, 0]) / numpy.sqrt(2)
+            z_axis = numpy.array([0, 0, 1])
+
+            axes = numpy.column_stack((x_axis, y_axis, z_axis))
+            R = axes
+            t = origin
+
+            parent = ... # Define the parent frame if needed, otherwise parent=None to use the canonical frame.
+
+            frame = Frame.from_rotation_matrix(translation=t, rotation_matrix=R, convention=0, parent=parent)
+
+            print("Origin of the frame:", frame.origin)
+            print("X-axis of the frame:", frame.x_axis)
+            print("Y-axis of the frame:", frame.y_axis)
+            print("Z-axis of the frame:", frame.z_axis)
+            # Output:
+            # Origin of the frame: [[-1.] [-2.] [-3.]]
+            # X-axis of the frame: [[ 0.70710678] [ 0.70710678] [ 0.        ]]
+            # Y-axis of the frame: [[-0.70710678] [ 0.70710678] [ 0.        ]]
+            # Z-axis of the frame: [[0.] [0.] [1.]]
+
+        If you like to work with a given convention you can specify it with the ``convention`` parameter.
+        The translation and the rotation matrix must be given in this convention to create the frame.
+
+        You can also create the frame with convention 0 and then change the convention of the frame with the :attr`convention` attribute according to your preferences.
 
         """
         # Set default values
@@ -700,16 +772,15 @@ class Frame:
         r"""
         Create a Frame object from a quaternion and translation.
 
-        .. code-block:: python
+        The quaternion must be in the [w, x, y, z] format if ``scalar_first`` is True and in the [x, y, z, w] format if ``scalar_first`` is False.
 
-            import numpy
+        .. seealso::
 
-            from py3dframe import Frame
-
-            q = numpy.array([0.7071, 0, 0.7071, 0]) # [w, x, y, z]
-            t = numpy.array([1, 2, 3])
-
-            frame = Frame.from_quaternion(translation=t, quaternion=q, parent=None)
+            - :meth:`from_rotation` method to create a Frame from a Rotation object instead of a quaternion.
+            - :meth:`from_rotation_matrix` method to create a Frame from a rotation matrix instead of a quaternion.
+            - :meth:`from_euler_angles` method to create a Frame from euler angles instead of a quaternion.
+            - :meth:`from_rotation_vector` method to create a Frame from a rotation vector instead of a quaternion.
+            - :meth:`from_axes` method to create a Frame from its axes (origin and basis vectors) instead of a quaternion and a translation
 
         Parameters
         ----------
@@ -726,7 +797,7 @@ class Frame:
             If True, the parent frame will be used only to define the frame and not to link the frames. Default is False.
 
         convention : int, optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is 0.
+            Integer in ``[0, 7]`` selecting the convention to express the transformation. Default is 0.
 
         scalar_first : bool, optional
             If True, the quaternion is in the [w, x, y, z] format. If False, the quaternion is in the [x, y, z, w] format. Default is True.
@@ -735,6 +806,56 @@ class Frame:
         -------
         Frame
             The Frame object created from the given quaternion and translation.
+
+        Examples
+        --------
+        Lets create a frame from a quaternion and a translation.
+
+        We want to create the frame defined by the following origin and basis vectors in the parent frame coordinates:
+
+        - Origin: :math:`O_F = [-1, -2, -3]`
+        - X-axis: :math:`\mathbf{e}_1 = [1, 1, 0] / \sqrt{2}`
+        - Y-axis: :math:`\mathbf{e}_2 = [-1, 1, 0] / \sqrt{2}`
+        - Z-axis: :math:`\mathbf{e}_3 = [0, 0, 1]`
+
+        With convention 0, the frame is defined by the following formula:
+
+        .. math::
+
+            \mathbf{X}_E = \mathbf{R} \mathbf{X}_F + \mathbf{T}
+
+        For :math:`\mathbf{X}_F = 0` we have :math:`\mathbf{X}_E = O_F = \mathbf{T}` so the translation vector is directly the origin of the frame in the parent frame coordinates.
+        The rotation matrix corresponding to the basis vectors in the convention 0 can be described with quaternion :math:`q = [w, x, y, z] = [0.5 \sqrt{2 + \sqrt{2}}, 0, 0, \sqrt{2}/(4 w)]`.
+
+        .. code-block:: python
+
+            import numpy
+            from py3dframe import Frame
+
+            w = 0.5 * numpy.sqrt(2 + numpy.sqrt(2))
+            z = numpy.sqrt(2) / (4 * w)
+            quaternion = numpy.array([w, 0, 0, z]) # [w, x, y, z]
+            origin = numpy.array([-1, -2, -3])
+            t = origin
+
+            parent = ... # Define the parent frame if needed, otherwise parent=None to use the canonical frame.
+
+            frame = Frame.from_quaternion(translation=t, quaternion=quaternion, convention=0, parent=parent)
+
+            print("Origin of the frame:", frame.origin)
+            print("X-axis of the frame:", frame.x_axis)
+            print("Y-axis of the frame:", frame.y_axis)
+            print("Z-axis of the frame:", frame.z_axis)
+            # Output:
+            # Origin of the frame: [[-1.] [-2.] [-3.]]
+            # X-axis of the frame: [[ 0.70710678] [ 0.70710678] [ 0.        ]]
+            # Y-axis of the frame: [[-0.70710678] [ 0.70710678] [ 0.        ]]
+            # Z-axis of the frame: [[0.] [0.] [1.]]
+
+        If you like to work with a given convention you can specify it with the ``convention`` parameter.
+        The translation and the quaternion must be given in this convention to create the frame.
+
+        You can also create the frame with convention 0 and then change the convention of the frame with the :attr`convention` attribute according to your preferences.        
 
         """
         # Set default values
@@ -764,16 +885,16 @@ class Frame:
         r"""
         Create a Frame object from euler angles and translation.
 
-        .. code-block:: python
+        The euler angles allows to represent any rotation by a sequence of three elemental rotations around the axes of a coordinate system.
+        The sequence of the rotations must be specified with the ``seq`` parameter.
 
-            import numpy
+        .. seealso::
 
-            from py3dframe import Frame
-
-            euler_angles = numpy.array([0, 0, 1.5708]) # [alpha, beta, gamma] in radians
-            t = numpy.array([1, 2, 3])
-
-            frame = Frame.from_euler_angles(translation=t, euler_angles=euler_angles, parent=None)
+            - :meth:`from_rotation` method to create a Frame from a Rotation object instead of euler angles.
+            - :meth:`from_rotation_matrix` method to create a Frame from a rotation matrix instead of euler angles.
+            - :meth:`from_quaternion` method to create a Frame from a quaternion instead of euler angles.
+            - :meth:`from_rotation_vector` method to create a Frame from a rotation vector instead of euler angles.
+            - :meth:`from_axes` method to create a Frame from its axes (origin and basis vectors) instead of euler angles and a translation.
 
         Parameters
         ----------
@@ -790,7 +911,7 @@ class Frame:
             If True, the parent frame will be used only to define the frame and not to link the frames. Default is False.
 
         convention : int, optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is 0.
+            Integer in ``[0, 7]`` selecting the convention to express the transformation. Default is 0.
 
         degrees : bool, optional
             If True, the euler angles are in degrees. If False, the euler angles are in radians. Default is False.
@@ -802,6 +923,54 @@ class Frame:
         -------
         Frame
             The Frame object created from the given euler angles and translation.
+
+        Examples
+        --------
+        Lets create a frame from euler angles and a translation.
+
+        We want to create the frame defined by the following origin and basis vectors in the parent frame coordinates:
+
+        - Origin: :math:`O_F = [-1, -2, -3]`
+        - X-axis: :math:`\mathbf{e}_1 = [1, 1, 0] / \sqrt{2}`
+        - Y-axis: :math:`\mathbf{e}_2 = [-1, 1, 0] / \sqrt{2}`
+        - Z-axis: :math:`\mathbf{e}_3 = [0, 0, 1]`
+
+        With convention 0, the frame is defined by the following formula:
+
+        .. math::
+
+            \mathbf{X}_E = \mathbf{R} \mathbf{X}_F + \mathbf{T}
+
+        For :math:`\mathbf{X}_F = 0` we have :math:`\mathbf{X}_E = O_F = \mathbf{T}` so the translation vector is directly the origin of the frame in the parent frame coordinates.
+        The rotation matrix corresponding to the basis vectors in the convention 0 can be described with euler angles :math:`[\alpha, \beta, \gamma] = [0, 0, \pi/4]` in the 'xyz' sequence.
+
+        .. code-block:: python
+
+            import numpy
+            from py3dframe import Frame
+
+            euler_angles = numpy.array([0, 0, numpy.pi/4]) # in radians
+            origin = numpy.array([-1, -2, -3])
+            t = origin
+
+            parent = ... # Define the parent frame if needed, otherwise parent=None to use the canonical frame.
+
+            frame = Frame.from_euler_angles(translation=t, euler_angles=euler_angles, convention=0, parent=parent)
+
+            print("Origin of the frame:", frame.origin)
+            print("X-axis of the frame:", frame.x_axis)
+            print("Y-axis of the frame:", frame.y_axis)
+            print("Z-axis of the frame:", frame.z_axis)
+            # Output:
+            # Origin of the frame: [[-1.] [-2.] [-3.]]
+            # X-axis of the frame: [[ 0.70710678] [ 0.70710678] [ 0.        ]]
+            # Y-axis of the frame: [[-0.70710678] [ 0.70710678] [ 0.        ]]
+            # Z-axis of the frame: [[0.] [0.] [1.]]
+
+        If you like to work with a given convention you can specify it with the ``convention`` parameter.
+        The translation and the euler angles must be given in this convention to create the frame.
+
+        You can also create the frame with convention 0 and then change the convention of the frame with the :attr`convention` attribute according to your preferences.
 
         """
         # Set default values
@@ -831,16 +1000,15 @@ class Frame:
         r"""
         Create a Frame object from a rotation vector and translation.
 
-        .. code-block:: python
+        A rotation vector is a 3D vector that represents a rotation in 3D space. The direction of the vector indicates the axis of rotation, and the magnitude (length) of the vector indicates the angle of rotation in radians.
 
-            import numpy
+        .. seealso::
 
-            from py3dframe import Frame
-
-            rotation_vector = numpy.array([0, 0, 1.5708]) # in radians
-            t = numpy.array([1, 2, 3])
-
-            frame = Frame.from_rotation_vector(translation=t, rotation_vector=rotation_vector, parent=None)
+            - :meth:`from_rotation` method to create a Frame from a Rotation object instead of a rotation vector.
+            - :meth:`from_rotation_matrix` method to create a Frame from a rotation matrix instead of a rotation vector.
+            - :meth:`from_quaternion` method to create a Frame from a quaternion instead of a rotation vector.
+            - :meth:`from_euler_angles` method to create a Frame from euler angles instead of a rotation vector.
+            - :meth:`from_axes` method to create a Frame from its axes (origin and basis vectors) instead of a rotation vector and a translation.
 
         Parameters
         ----------
@@ -857,7 +1025,7 @@ class Frame:
             If True, the parent frame will be used only to define the frame and not to link the frames. Default is False.
 
         convention : int, optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is 0.
+            Integer in ``[0, 7]`` selecting the convention to express the transformation. Default is 0.
 
         degrees : bool, optional
             If True, the rotation vector is in degrees. If False, the rotation vector is in radians. Default is False.
@@ -866,6 +1034,54 @@ class Frame:
         -------
         Frame
             The Frame object created from the given rotation vector and translation.
+        
+        Examples
+        --------
+        Lets create a frame from a rotation vector and a translation.
+
+        We want to create the frame defined by the following origin and basis vectors in the parent frame coordinates:
+
+        - Origin: :math:`O_F = [-1, -2, -3]`
+        - X-axis: :math:`\mathbf{e}_1 = [1, 1, 0] / \sqrt{2}`
+        - Y-axis: :math:`\mathbf{e}_2 = [-1, 1, 0] / \sqrt{2}`
+        - Z-axis: :math:`\mathbf{e}_3 = [0, 0, 1]`
+
+        With convention 0, the frame is defined by the following formula:
+
+        .. math::
+
+            \mathbf{X}_E = \mathbf{R} \mathbf{X}_F + \mathbf{T}
+
+        For :math:`\mathbf{X}_F = 0` we have :math:`\mathbf{X}_E = O_F = \mathbf{T}` so the translation vector is directly the origin of the frame in the parent frame coordinates.
+        The rotation matrix corresponding to the basis vectors in the convention 0 can be described with rotation vector :math:`\mathbf{r} = [0, 0, \pi/4]`.
+
+        .. code-block:: python
+
+            import numpy
+            from py3dframe import Frame
+
+            rotation_vector = numpy.array([0, 0, numpy.pi/4]) # in radians
+            origin = numpy.array([-1, -2, -3])
+            t = origin
+
+            parent = ... # Define the parent frame if needed, otherwise parent=None to use the canonical frame.
+
+            frame = Frame.from_rotation_vector(translation=t, rotation_vector=rotation_vector, convention=0, parent=parent)
+
+            print("Origin of the frame:", frame.origin)
+            print("X-axis of the frame:", frame.x_axis)
+            print("Y-axis of the frame:", frame.y_axis)
+            print("Z-axis of the frame:", frame.z_axis)
+            # Output:
+            # Origin of the frame: [[-1.] [-2.] [-3.]]
+            # X-axis of the frame: [[ 0.70710678] [ 0.70710678] [ 0.        ]]
+            # Y-axis of the frame: [[-0.70710678] [ 0.70710678] [ 0.        ]]
+            # Z-axis of the frame: [[0.] [0.] [1.]]
+
+        If you like to work with a given convention you can specify it with the ``convention`` parameter.
+        The translation and the rotation vector must be given in this convention to create the frame.
+
+        You can also create the frame with convention 0 and then change the convention of the frame with the :attr`convention` attribute according to your preferences.
 
         """
         # Set default values
@@ -887,12 +1103,55 @@ class Frame:
     @property
     def parent(self) -> Optional[Frame]:
         r"""
-        Getter and setter for the parent frame of the frame.
+        The parent frame of this frame (by default the canonical frame if None).
+
+        .. note::
+
+            This property is settable.
+
+        The parent frame is used to define this frame relatively this parent frame.
+
+        .. warning::
+
+            If you change the parent frame of a frame, the current transformation (translation and rotation) of the frame will be kept unchanged but the global transformation (global translation and global rotation) of the frame will change according to the new parent frame.
+
+        Parameters
+        ----------
+        parent : Optional[Frame]
+            The parent frame in which the frame will be defined. If None, the frame will be defined in the global frame (the canonical frame).
 
         Returns
         -------
         Optional[Frame]
-            The parent frame of the frame.
+            The parent frame of the frame. If None, the frame is defined in the global frame (the canonical frame).
+
+        Examples
+        --------
+        Lets consider a train and a person standing into the train.
+
+        First we can define the train frame relative to the global frame (the canonical frame) and then we can define the person frame relative to the train frame.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            train = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=None)
+            person = Frame.from_axes(origin=[0, 1, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=train)
+
+        If the train moves and the person stays immobile in the train, the person axis will be unchanged relative to the train frame but will move relative to the global frame.
+
+        .. code-block:: python
+
+            train.origin = [10, 0, 0] # The train moves 10 units along the x-axis of the global frame.
+
+            print("Person origin in the parent frame:", person.origin)
+            # Output: Person origin in the parent frame: [[ 0.] [ 1.] [ 0.]]
+
+            print("Person origin in the global frame:", person.global_origin)
+            # Output: Person origin in the global frame: [[10.] [ 1.] [ 0.]]
+
+        The parent frame allows to define a hierarchy of frames.
+
         """
         return self._parent
     
@@ -907,12 +1166,83 @@ class Frame:
     @property
     def convention(self) -> int:
         r"""
-        Getter and setter for the convention parameter.
+        The convention to express the transformation between the parent frame and this frame.
+
+        .. note::
+
+            This property is settable.
+
+        The convention can be an integer between 0 and 7 corresponding to the conventions described in the table below:
+
+        +---------------------+----------------------------------------------------------------+
+        | Index               | Formula                                                        |
+        +=====================+================================================================+
+        | 0                   | :math:`\mathbf{X}_E = \mathbf{R} \mathbf{X}_F + \mathbf{T}`    |
+        +---------------------+----------------------------------------------------------------+
+        | 1                   | :math:`\mathbf{X}_E = \mathbf{R} \mathbf{X}_F - \mathbf{T}`    |
+        +---------------------+----------------------------------------------------------------+
+        | 2                   | :math:`\mathbf{X}_E = \mathbf{R} (\mathbf{X}_F + \mathbf{T})`  |
+        +---------------------+----------------------------------------------------------------+
+        | 3                   | :math:`\mathbf{X}_E = \mathbf{R} (\mathbf{X}_F - \mathbf{T})`  |
+        +---------------------+----------------------------------------------------------------+
+        | 4                   | :math:`\mathbf{X}_F = \mathbf{R} \mathbf{X}_E + \mathbf{T}`    |
+        +---------------------+----------------------------------------------------------------+
+        | 5                   | :math:`\mathbf{X}_F = \mathbf{R} \mathbf{X}_E - \mathbf{T}`    |
+        +---------------------+----------------------------------------------------------------+
+        | 6                   | :math:`\mathbf{X}_F = \mathbf{R} (\mathbf{X}_E + \mathbf{T})`  |
+        +---------------------+----------------------------------------------------------------+
+        | 7                   | :math:`\mathbf{X}_F = \mathbf{R} (\mathbf{X}_E - \mathbf{T})`  |
+        +---------------------+----------------------------------------------------------------+
+
+        Where:
+
+        - :math:`\mathbf{X}_E` is a point expressed in the parent frame coordinates.
+        - :math:`\mathbf{X}_F` is the same point expressed in the frame coordinates.
+        - :math:`\mathbf{R}` is the rotation matrix between the parent frame and this frame.
+        - :math:`\mathbf{T}` is the translation vector between the parent frame and this frame.
+
+        .. note::
+
+            The default convention is 0.
+
+        This can be useful when working with different libraries or applications that use different conventions for representing 3D transformations (as OPENCV, OPENGL, ROS, ...).
+
+        Parameters
+        ----------
+        convention : int
+            Integer in ``[0, 7]`` selecting the convention to express the transformation between the parent frame and this frame.
 
         Returns
         -------
         int
             The convention parameter.
+
+        Examples
+        --------
+        Lets create a frame with given axes and origin with the default convention 0.
+
+        .. code-block:: python
+
+            import numpy
+            from py3dframe import Frame
+
+            origin = numpy.array([-1, -2, -3])
+            x_axis = numpy.array([1, 1, 0]) / numpy.sqrt(2)
+            y_axis = numpy.array([-1, 1, 0]) / numpy.sqrt(2)
+            z_axis = numpy.array([0, 0, 1])
+
+            frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, convention=0)
+
+        If an application uses another convention, you can access the translation and rotation in this convention by changing the convention of the frame.
+
+        .. code-block:: python
+
+            frame.convention = 4 # Change the convention of the frame to convention 4.
+
+            print("Rotation matrix in convention 4:", frame.rotation_matrix)
+
+        The rotation returned is the rotation between the parent frame and this frame in convention 4.
+
         """
         return self._convention
     
@@ -924,12 +1254,29 @@ class Frame:
     @property
     def origin(self) -> numpy.ndarray:
         r"""
-        Getter and setter for the origin of the frame in the parent frame coordinates.
+        The origin of the frame relative to the parent frame.
+
+        The origin is a 3 elements vector with shape (3, 1) representing the coordinates of the origin of the frame in the parent frame coordinates.
+
+        .. note::
+
+            This property is settable.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :meth:`global_origin` to access the origin of the frame in the global frame coordinates.
+
+        Parameters
+        ----------
+        origin : numpy.ndarray
+            The origin of the frame in the parent frame coordinates as an array-like with 3 elements.
 
         Returns
         -------
         numpy.ndarray
             The origin of the frame in the parent frame coordinates with shape (3, 1).
+
         """
         return self.get_translation(convention=0)
     
@@ -941,7 +1288,27 @@ class Frame:
     @property
     def axes(self) -> numpy.ndarray:
         r"""
-        Getter and setter for the basis vectors of the frame in the parent frame coordinates.
+        The basis vectors of the frame relative to the parent frame.
+
+        The axes is a 3x3 matrix with shape (3, 3) representing the basis vectors of the frame in the parent frame coordinates.
+        The first column is the x-axis, the second column is the y-axis and the third column is the z-axis.
+
+        .. note::
+
+            This property is settable.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`x_axis` to access the x-axis of the frame.
+            - attribute :attr:`y_axis` to access the y-axis of the frame.
+            - attribute :attr:`z_axis` to access the z-axis of the frame.
+            - attribute :attr:`global_axes` to access the basis vectors of the frame in the global frame coordinates.
+
+        Parameters
+        ----------
+        axes : numpy.ndarray
+            The basis vectors of the frame in the parent frame coordinates as an array-like with shape (3, 3).
 
         Returns
         -------
@@ -959,11 +1326,20 @@ class Frame:
     @property
     def x_axis(self) -> numpy.ndarray:
         r"""
-        Getter for the x-axis of the frame in the parent frame coordinates.
+        The x-axis of the frame relative to the parent frame.
 
-        .. warning::
+        The x-axis is a 3 elements vector with shape (3, 1) representing the coordinates of the x-axis of the frame in the parent frame coordinates.
 
-            The x_axis attributes can't be changed. To change the x-axis, use the axes attribute.
+        .. note::
+
+            This property is not settable. To change the x-axis, use the :attr:`axes` attribute.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`y_axis` to access the y-axis of the frame.
+            - attribute :attr:`z_axis` to access the z-axis of the frame.
+            - attribute :attr:`global_x_axis` to access the x-axis of the frame in the global frame coordinates.
 
         Returns
         -------
@@ -977,11 +1353,20 @@ class Frame:
     @property
     def y_axis(self) -> numpy.ndarray:
         r"""
-        Getter for the y-axis of the frame in the parent frame coordinates.
+        The y-axis of the frame relative to the parent frame.
 
-        .. warning::
+        The y-axis is a 3 elements vector with shape (3, 1) representing the coordinates of the y-axis of the frame in the parent frame coordinates.
 
-            The y_axis attributes can't be changed. To change the y-axis, use the axes attribute.
+        .. note::
+
+            This property is not settable. To change the y-axis, use the :attr:`axes` attribute.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`x_axis` to access the x-axis of the frame.
+            - attribute :attr:`z_axis` to access the z-axis of the frame.
+            - attribute :attr:`global_y_axis` to access the y-axis of the frame in the global frame coordinates.
 
         Returns
         -------
@@ -995,11 +1380,20 @@ class Frame:
     @property
     def z_axis(self) -> numpy.ndarray:
         r"""
-        Getter for the z-axis of the frame in the parent frame coordinates.
+        The z-axis of the frame relative to the parent frame.
 
-        .. warning::
+        The z-axis is a 3 elements vector with shape (3, 1) representing the coordinates of the z-axis of the frame in the parent frame coordinates.
 
-            The z_axis attributes can't be changed. To change the z-axis, use the axes attribute.
+        .. note::
+
+            This property is not settable. To change the z-axis, use the :attr:`axes` attribute.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`x_axis` to access the x-axis of the frame.
+            - attribute :attr:`y_axis` to access the y-axis of the frame.
+            - attribute :attr:`global_z_axis` to access the z-axis of the frame in the global frame coordinates.
 
         Returns
         -------
@@ -1012,17 +1406,52 @@ class Frame:
 
     def get_rotation(self, *, convention: Optional[int] = None) -> scipy.spatial.transform.Rotation:
         r"""
-        Get the rotation between the parent frame and the frame in the given convention.
+        Access the rotation between the parent frame and this frame in a specific convention.
+
+        The rotation is returned as a :class:`Rotation` object.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`rotation` to get or set the rotation in the convention of the frame.
+            - method :meth:`set_rotation` to set the rotation in a specific convention.
+            - method :meth:`get_global_rotation` to get the rotation between the global frame and this frame.
 
         Parameters
         ----------
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
 
         Returns
         -------
         Rotation
-            The rotation between the parent frame and the frame in the given convention.
+            The rotation between the parent frame and this frame in the given convention.
+
+        Examples
+        --------
+        Lets create a frame from its axes and origin with the default convention 0.
+
+        .. code-block:: python
+
+            import numpy
+            from py3dframe import Frame
+
+            origin = numpy.array([-1, -2, -3])
+            x_axis = numpy.array([1, 1, 0]) / numpy.sqrt(2)
+            y_axis = numpy.array([-1, 1, 0]) / numpy.sqrt(2)
+            z_axis = numpy.array([0, 0, 1])
+
+            parent = ... # Define the parent frame if needed, otherwise parent=None to use the canonical frame.
+
+            frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, convention=0, parent=parent)
+
+        If an application using an other convention required the rotation in the convention 4, you can access the rotation in this convention with the :meth:`get_rotation` method.
+
+        .. code-block:: python
+
+            rotation_convention_4 = frame.get_rotation(convention=4)
+
         """
         convention = self._format_convention_dev(convention, allow_None=True)
         R, _ = switch_RT_convention(self._R_dev, self._T_dev, 0, convention)
@@ -1030,15 +1459,50 @@ class Frame:
     
     def set_rotation(self, rotation: Rotation, *, convention: Optional[int] = None) -> None:
         r"""
-        Set the rotation between the parent frame and the frame in the given convention.
+        Set the rotation between the parent frame and this frame in a specific convention.
+
+        The rotation must be given as a :class:`Rotation` object.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`rotation` to get or set the rotation in the convention of the frame.
+            - method :meth:`get_rotation` to get the rotation in a specific convention.
+            - method :meth:`set_global_rotation` to set the rotation between the global frame and this frame.
 
         Parameters
         ----------
         rotation : Rotation
-            The rotation between the parent frame and the frame in the given convention.
+            The rotation between the parent frame and this frame in the given convention.
         
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
+
+        Examples
+        --------
+        Lets create a default frame with convention 0.
+
+        .. code-block:: python  
+
+            from py3dframe import Frame
+        
+            parent = ... # Define the parent frame if needed, otherwise parent=None to use the canonical frame.
+
+            frame = Frame.canonical(convention=0, parent=parent)
+
+        Lets assume, an application uses convention 4 to represent the transformation between two frames.
+        The frame of reference of the application rotates and the new rotation between the parent frame and this frame in convention 4 can be extracted from the application.
+
+        .. code-block:: python
+
+            import numpy
+            from py3dframe import Rotation
+
+            rotation = Rotation.from_matrix(...) # Extract the rotation matrix from the application.
+
+            frame.set_rotation(rotation, convention=4) # Set the rotation in convention 4.
+
         """
         convention = self._format_convention_dev(convention, allow_None=True)
         rotation = self._format_rotation_dev(rotation)
@@ -1046,18 +1510,30 @@ class Frame:
         self._R_dev, self._T_dev = switch_RT_convention(rotation, current_T, convention, 0)
 
     @property
-    def rotation(self) -> scipy.spatial.transform.Rotation:
+    def rotation(self) -> Rotation:
         r"""
-        Getter and setter for the rotation between the parent frame and the frame in the convention of the frame.
+        The rotation between the parent frame and this frame in the convention of the frame.
+
+        .. note::
+
+            This property is settable.
 
         .. seealso::
 
-            - method :meth:`py3dframe.Frame.get_rotation` to get the rotation in a specific convention.
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - method :attr:`get_rotation` to get the rotation in a specific convention.
+            - method :meth:`set_rotation` to set the rotation in a specific convention.
+
+        Parameters
+        ----------
+        rotation : Rotation
+            The rotation between the parent frame and this frame in the convention of the frame.
 
         Returns
         -------
         Rotation
-            The rotation between the parent frame and the frame in the convention of the frame.
+            The rotation between the parent frame and this frame in the convention of the frame.
         """
         return self.get_rotation(convention=self._convention)
     
@@ -1068,17 +1544,52 @@ class Frame:
 
     def get_translation(self, *, convention: Optional[int] = None) -> numpy.ndarray:
         r"""
-        Get the translation vector between the parent frame and the frame in the given convention.
+        Access the translation vector between the parent frame and this frame in a specific convention.
+
+        The translation vector is returned as a numpy array with shape (3, 1).
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`translation` to get or set the translation in the convention of the frame.
+            - method :meth:`set_translation` to set the translation in a specific convention.
+            - method :meth:`get_global_translation` to get the translation between the global frame and this frame.
 
         Parameters
         ----------
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
 
         Returns
         -------
         numpy.ndarray
-            The translation vector between the parent frame and the frame in the given convention with shape (3, 1).
+            The translation vector between the parent frame and this frame in the given convention with shape (3, 1).
+
+        Examples
+        --------
+        Lets create a frame from its axes and origin with the default convention 0.
+
+        .. code-block:: python
+
+            import numpy
+            from py3dframe import Frame
+
+            origin = numpy.array([-1, -2, -3])
+            x_axis = numpy.array([1, 1, 0]) / numpy.sqrt(2)
+            y_axis = numpy.array([-1, 1, 0]) / numpy.sqrt(2)
+            z_axis = numpy.array([0, 0, 1])
+
+            parent = ... # Define the parent frame if needed, otherwise parent=None to use the canonical frame.
+
+            frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, convention=0, parent=parent)
+
+        If an application using an other convention required the translation in the convention 4, you can access the translation in this convention with the :meth:`get_translation` method.
+
+        .. code-block:: python
+
+            translation_convention_4 = frame.get_translation(convention=4)
+
         """
         convention = self._format_convention_dev(convention, allow_None=True)
         _, T = switch_RT_convention(self._R_dev, self._T_dev, 0, convention)
@@ -1086,15 +1597,49 @@ class Frame:
     
     def set_translation(self, translation: numpy.ndarray, *, convention: Optional[int] = None) -> None:
         r"""
-        Set the translation vector between the parent frame and the frame in the given convention.
+        Set the translation vector between the parent frame and this frame in a specific convention.
+
+        The translation vector must be given as a array-like with 3 elements.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`translation` to get or set the translation in the convention of the frame.
+            - method :meth:`get_translation` to get the translation in a specific convention.
+            - method :meth:`set_global_translation` to set the translation between the global frame and this frame.
 
         Parameters
         ----------
         translation : numpy.ndarray
-            The translation vector between the parent frame and the frame in the given convention with shape (3, 1).
-        
+            The translation vector between the parent frame and this frame in the given convention as an array-like with 3 elements.
+
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
+
+        Examples
+        --------
+        Lets create a default frame with convention 0.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            parent = ... # Define the parent frame if needed, otherwise parent=None to use the canonical frame.
+
+            frame = Frame.canonical(convention=0, parent=parent)
+
+        Lets assume, an application uses convention 4 to represent the transformation between two frames.
+        The frame of reference of the application moves and the new translation vector between the parent frame and this frame in convention 4 can be extracted from the application.
+
+        .. code-block:: python
+
+            import numpy
+
+            translation = numpy.array(...) # Extract the translation vector from the application.
+
+            frame.set_translation(translation, convention=4) # Set the translation in convention 4.
+
         """
         convention = self._format_convention_dev(convention, allow_None=True)
         translation = self._format_translation_dev(translation)
@@ -1104,16 +1649,29 @@ class Frame:
     @property
     def translation(self) -> numpy.ndarray:
         r"""
-        Getter and setter for the translation vector between the parent frame and the frame in the convention of the frame.
+        The translation vector between the parent frame and this frame in the convention of the frame.
+
+        .. note::
+
+            This property is settable.
 
         .. seealso::
 
-            - method :meth:`py3dframe.Frame.get_translation` to get the translation vector in a specific convention.
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - method :meth:`get_translation` to get the translation in a specific convention.
+            - method :meth:`set_translation` to set the translation in a specific convention.
+
+        Parameters
+        ----------
+        translation : numpy.ndarray
+            The translation vector between the parent frame and this frame in the convention of the frame as an array-like with 3 elements.
 
         Returns
         -------
         numpy.ndarray
-            The translation vector between the parent frame and the frame in the convention of the frame with shape (3, 1).
+            The translation vector between the parent frame and this frame in the convention of the frame with shape (3, 1).
+
         """
         return self.get_translation(convention=self._convention)
     
@@ -1124,31 +1682,100 @@ class Frame:
 
     def get_rotation_matrix(self, *, convention: Optional[int] = None) -> numpy.ndarray:
         r"""
-        Get the rotation matrix between the parent frame and the frame in the given convention.
+        Access the rotation matrix between the parent frame and this frame in a specific convention.
+
+        The rotation matrix is returned as a numpy array with shape (3, 3).
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`rotation_matrix` to get or set the rotation matrix in the convention of the frame.
+            - method :meth:`set_rotation_matrix` to set the rotation matrix in a specific convention.
+            - method :meth:`get_global_rotation_matrix` to get the rotation matrix between the global frame and this frame.
 
         Parameters
         ----------
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
 
         Returns
         -------
         numpy.ndarray
-            The rotation matrix between the parent frame and the frame in the given convention with shape (3, 3).
+            The rotation matrix between the parent frame and this frame in the given convention with shape (3, 3).
+
+        Examples
+        --------
+        Lets create a frame from its axes and origin with the default convention 0.
+
+        .. code-block:: python
+
+            import numpy
+            from py3dframe import Frame
+
+            origin = numpy.array([-1, -2, -3])
+            x_axis = numpy.array([1, 1, 0]) / numpy.sqrt(2)
+            y_axis = numpy.array([-1, 1, 0]) / numpy.sqrt(2)
+            z_axis = numpy.array([0, 0, 1])
+
+            parent = ... # Define the parent frame if needed, otherwise parent=None to use the canonical frame.
+
+            frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, convention=0, parent=parent)
+
+        If an application using an other convention required the rotation matrix in the convention 4, you can access the rotation matrix in this convention with the :meth:`get_rotation_matrix` method.
+
+        .. code-block:: python
+
+            rotation_matrix_convention_4 = frame.get_rotation_matrix(convention=4)
+
         """
         return self.get_rotation(convention=convention).as_matrix()
     
     def set_rotation_matrix(self, rotation_matrix: numpy.ndarray, *, convention: Optional[int] = None) -> None:
         r"""
-        Set the rotation matrix between the parent frame and the frame in the given convention.
+        Set the rotation matrix between the parent frame and this frame in a specific convention.
+
+        The rotation matrix must be given as a array-like with shape (3, 3).
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`rotation_matrix` to get or set the rotation matrix in the convention of the frame.
+            - method :meth:`get_rotation_matrix` to get the rotation matrix in a specific convention.
+            - method :meth:`set_global_rotation_matrix` to set the rotation matrix between the global frame and this frame.
 
         Parameters
         ----------
         rotation_matrix : numpy.ndarray
-            The rotation matrix between the parent frame and the frame in the given convention with shape (3, 3).
-        
+            The rotation matrix between the parent frame and this frame in the given convention as an array-like with shape (3, 3).
+
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
+
+        Examples
+        --------
+        Lets create a default frame with convention 0.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            parent = ... # Define the parent frame if needed, otherwise parent=None to use the canonical frame.
+
+            frame = Frame.canonical(convention=0, parent=parent)
+
+        Lets assume, an application uses convention 4 to represent the transformation between two frames.
+        The frame of reference of the application rotates and the new rotation matrix between the parent frame and this frame in convention 4 can be extracted from the application.
+
+        .. code-block:: python
+
+            import numpy
+
+            rotation_matrix = numpy.array(...) # Extract the rotation matrix from the application.
+
+            frame.set_rotation_matrix(rotation_matrix, convention=4) # Set the rotation matrix in convention 4.
+
         """
         rotation_matrix = self._format_rotation_matrix_dev(rotation_matrix)
         R = Rotation.from_matrix(rotation_matrix)
@@ -1157,16 +1784,29 @@ class Frame:
     @property
     def rotation_matrix(self) -> numpy.ndarray:
         r"""
-        Getter and setter for the rotation matrix between the parent frame and the frame in the convention of the frame.
+        The rotation matrix between the parent frame and this frame in the convention of the frame.
+
+        .. note::
+
+            This property is settable.
 
         .. seealso::
 
-            - method :meth:`py3dframe.Frame.get_rotation_matrix` to get the rotation matrix in a specific convention.
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - method :meth:`get_rotation_matrix` to get the rotation matrix in a specific convention.
+            - method :meth:`set_rotation_matrix` to set the rotation matrix in a specific convention.
+
+        Parameters
+        ----------
+        rotation_matrix : numpy.ndarray
+            The rotation matrix between the parent frame and this frame in the convention of the frame as an array-like with shape (3, 3).
 
         Returns
         -------
         numpy.ndarray
-            The rotation matrix between the parent frame and the frame in the convention of the frame with shape (3, 3).
+            The rotation matrix between the parent frame and this frame in the convention of the frame with shape (3, 3).
+
         """
         return self.get_rotation_matrix(convention=self._convention)
 
@@ -1178,20 +1818,55 @@ class Frame:
 
     def get_quaternion(self, *, convention: Optional[int] = None, scalar_first: bool = True) -> numpy.ndarray:
         r"""
-        Get the quaternion between the parent frame and the frame in the given convention.
+        Access the quaternion representation of the rotation between the parent frame and this frame in a specific convention.
+
+        The quaternion is returned as a numpy array with shape (4,) in the scalar first [w, x, y, z] or scalar last [x, y, z, w] convention.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`quaternion` to get or set the quaternion in the convention of the frame.
+            - method :meth:`set_quaternion` to set the quaternion in a specific convention.
+            - method :meth:`get_global_quaternion` to get the quaternion between the global frame and this frame.
 
         Parameters
         ----------
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
 
         scalar_first : bool, optional
-            If True, the quaternion is returned in the scalar first convention. Default is True.
-        
+            If True, the quaternion is in the scalar first convention. Default is True. If False, the quaternion is in the scalar last convention.
+
         Returns
         -------
         numpy.ndarray
-            The quaternion between the parent frame and the frame in the given convention with shape (4,).
+            The quaternion between the parent frame and this frame in the given convention with shape (4,).
+
+        Examples
+        --------
+        Lets create a frame from its axes and origin with the default convention 0.
+
+        .. code-block:: python
+
+            import numpy
+            from py3dframe import Frame
+
+            origin = numpy.array([-1, -2, -3])
+            x_axis = numpy.array([1, 1, 0]) / numpy.sqrt(2)
+            y_axis = numpy.array([-1, 1, 0]) / numpy.sqrt(2)
+            z_axis = numpy.array([0, 0, 1])
+
+            parent = ... # Define the parent frame if needed, otherwise parent=None to use the canonical frame.
+
+            frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, convention=0, parent=parent)
+
+        If an application using an other convention required the quaternion in the convention 4 with scalar first convention, you can access the quaternion in this convention with the :meth:`get_quaternion` method.
+
+        .. code-block:: python
+
+            quaternion_convention_4 = frame.get_quaternion(convention=4, scalar_first=True)
+
         """
         if not isinstance(scalar_first, bool):
             raise TypeError("The scalar_first parameter must be a boolean.")
@@ -1199,18 +1874,52 @@ class Frame:
     
     def set_quaternion(self, quaternion: numpy.ndarray, *, convention: Optional[int] = None, scalar_first: bool = True) -> None:
         r"""
-        Set the quaternion between the parent frame and the frame in the given convention.
+        Set the quaternion representation of the rotation between the parent frame and this frame in a specific convention.
+
+        The quaternion must be given as a array-like with 4 elements in the scalar first [w, x, y, z] or scalar last [x, y, z, w] convention.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`quaternion` to get or set the quaternion in the convention of the frame.
+            - method :meth:`get_quaternion` to get the quaternion in a specific convention.
+            - method :meth:`set_global_quaternion` to set the quaternion between the global frame and this frame.
 
         Parameters
         ----------
         quaternion : numpy.ndarray
-            The quaternion between the parent frame and the frame in the given convention with shape (4,).
-        
+            The quaternion between the parent frame and this frame in the given convention as an array-like with 4 elements.
+
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
-        
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
+
         scalar_first : bool, optional
-            If True, the quaternion is in the scalar first convention. Default is True.
+            If True, the quaternion is in the scalar first convention. Default is True. If False, the quaternion is in the scalar last convention.
+
+        Examples
+        --------
+        Lets create a default frame with convention 0.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            parent = ... # Define the parent frame if needed, otherwise parent=None to use the canonical frame.
+
+            frame = Frame.canonical(convention=0, parent=parent)
+
+        Lets assume, an application uses convention 4 to represent the transformation between two frames.
+        The frame of reference of the application rotates and the new quaternion between the parent frame and this frame in convention 4 with scalar first convention can be extracted from the application.
+
+        .. code-block:: python
+
+            import numpy
+
+            quaternion = numpy.array(...) # Extract the quaternion from the application.
+
+            frame.set_quaternion(quaternion, convention=4, scalar_first=True) # Set the quaternion in convention 4 with scalar first convention.
+
         """
         if not isinstance(scalar_first, bool):
             raise TypeError("The scalar_first parameter must be a boolean.")
@@ -1221,17 +1930,31 @@ class Frame:
     @property
     def quaternion(self) -> numpy.ndarray:
         r"""
-        Getter and setter for the quaternion between the parent frame and the frame in the convention of the frame.
-        The quaternion is in the scalar first convention.
+        The quaternion representation of the rotation between the parent frame and this frame in the convention of the frame.
+
+        The quaternion is in the scalar first convention [w, x, y, z].
+
+        .. note::
+
+            This property is settable.
 
         .. seealso::
 
-            - method :meth:`py3dframe.Frame.get_quaternion` to get the quaternion in a specific convention.
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - method :meth:`get_quaternion` to get the quaternion in a specific convention and order.
+            - method :meth:`set_quaternion` to set the quaternion in a specific convention and order.
+
+        Parameters
+        ----------
+        quaternion : numpy.ndarray
+            The quaternion between the parent frame and this frame in the convention of the frame as an array-like with 4 elements. The quaternion is in the scalar first convention [w, x, y, z].
 
         Returns
         -------
         numpy.ndarray
-            The quaternion between the parent frame and the frame in the convention of the frame with shape (4,).
+            The quaternion between the parent frame and this frame in the convention of the frame with shape (4,). The quaternion is in the scalar first convention [w, x, y, z].
+       
         """
         return self.get_quaternion(convention=self._convention, scalar_first=True)
     
@@ -1240,26 +1963,60 @@ class Frame:
         self.set_quaternion(quaternion, convention=self._convention, scalar_first=True)
 
     
-
     def get_euler_angles(self, *, convention: Optional[int] = None, degrees: bool = False, seq: str = "xyz") -> numpy.ndarray:
         r"""
-        Get the Euler angles between the parent frame and the frame in the given convention.
+        Access the Euler angles representation of the rotation between the parent frame and this frame in a specific convention.
+
+        The Euler angles describe the rotation using three elementary rotations about specified axes. 
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`euler_angles` to get or set the Euler angles in the convention of the frame.
+            - method :meth:`set_euler_angles` to set the Euler angles in a specific convention.
+            - method :meth:`get_global_euler_angles` to get the Euler angles between the global frame and this frame.
 
         Parameters
         ----------
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
 
         degrees : bool, optional
-            If True, the Euler angles are returned in degrees. Default is False.
+            If True, the Euler angles are returned in degrees. Default is False (radians).
 
         seq : str, optional
-            The axes of the Euler angles. Default is "xyz".
+            The axes of the Euler angles. Default is "xyz". It must be a string of 3 characters chosen among 'X', 'Y', 'Z', 'x', 'y', 'z'.
 
         Returns
         -------
         numpy.ndarray
-            The Euler angles between the parent frame and the frame in the given convention with shape (3,).
+            The Euler angles between the parent frame and this frame in the given convention with shape (3,).
+
+        Examples
+        --------
+        Lets create a frame from its axes and origin with the default convention 0.
+
+        .. code-block:: python
+
+            import numpy
+            from py3dframe import Frame
+
+            origin = numpy.array([-1, -2, -3])
+            x_axis = numpy.array([1, 1, 0]) / numpy.sqrt(2)
+            y_axis = numpy.array([-1, 1, 0]) / numpy.sqrt(2)
+            z_axis = numpy.array([0, 0, 1])
+
+            parent = ... # Define the parent frame if needed, otherwise parent=None to use the canonical frame.
+
+            frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, convention=0, parent=parent)
+
+        If an application using an other convention required the Euler angles in the convention 4 with 'ZYX' sequence in degrees, you can access the Euler angles in this convention with the :meth:`get_euler_angles` method.
+
+        .. code-block:: python
+
+            euler_angles_convention_4 = frame.get_euler_angles(convention=4, degrees=True, seq='ZYX')
+
         """
         if not isinstance(degrees, bool):
             raise TypeError("The degrees parameter must be a boolean.")
@@ -1273,21 +2030,55 @@ class Frame:
     
     def set_euler_angles(self, euler_angles: numpy.ndarray, *, convention: Optional[int] = None, degrees: bool = False, seq: str = "xyz") -> None:
         r"""
-        Set the Euler angles between the parent frame and the frame in the given convention.
+        Set the Euler angles representation of the rotation between the parent frame and this frame in a specific convention.
+
+        The Euler angles describe the rotation using three elementary rotations about specified axes.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`euler_angles` to get or set the Euler angles in the convention of the frame.
+            - method :meth:`get_euler_angles` to get the Euler angles in a specific convention.
+            - method :meth:`set_global_euler_angles` to set the Euler angles between the global frame and this frame.
 
         Parameters
         ----------
         euler_angles : numpy.ndarray
-            The Euler angles between the parent frame and the frame in the given convention with shape (3,).
-        
+            The Euler angles between the parent frame and this frame in the given convention as an array-like with 3 elements.
+
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
 
         degrees : bool, optional
-            If True, the Euler angles are in degrees. Default is False.
+            If True, the Euler angles are in degrees. Default is False (radians).
 
         seq : str, optional
-            The axes of the Euler angles. Default is "xyz".
+            The axes of the Euler angles. Default is "xyz". It must be a string of 3 characters chosen among 'X', 'Y', 'Z', 'x', 'y', 'z'.
+
+        Examples
+        --------
+        Lets create a default frame with convention 0.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            parent = ... # Define the parent frame if needed, otherwise parent=None to use the canonical frame.
+
+            frame = Frame.canonical(convention=0, parent=parent)
+        
+        Lets assume, an application uses convention 4 to represent the transformation between two frames.
+        The frame of reference of the application rotates and the new Euler angles between the parent frame and this frame in convention 4 with 'ZYX' sequence in degrees can be extracted from the application.
+
+        .. code-block:: python
+
+            import numpy
+
+            euler_angles = numpy.array(...) # Extract the Euler angles from the application.
+
+            frame.set_euler_angles(euler_angles, convention=4, degrees=True, seq='ZYX') # Set the Euler angles in convention 4 with 'ZYX' sequence in degrees.
+        
         """
         if not isinstance(degrees, bool):
             raise TypeError("The degrees parameter must be a boolean.")
@@ -1304,17 +2095,31 @@ class Frame:
     @property
     def euler_angles(self) -> numpy.ndarray:
         r"""
-        Getter and setter for the Euler angles between the parent frame and the frame in the convention of the frame.
-        The Euler angles are in radians and the axes are "xyz".
+        The Euler angles representation of the rotation between the parent frame and this frame in the convention of the frame.
+
+        The Euler angles are in radians and the sequence is 'xyz'.
+
+        .. note::
+
+            This property is settable.
 
         .. seealso::
 
-            - method :meth:`py3dframe.Frame.get_euler_angles` to get the Euler angles in a specific convention.
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - method :meth:`get_euler_angles` to get the Euler angles in a specific convention, sequence and unit.
+            - method :meth:`set_euler_angles` to set the Euler angles in a specific convention, sequence and unit.
+
+        Parameters
+        ----------
+        euler_angles : numpy.ndarray
+            The Euler angles between the parent frame and this frame in the convention of the frame with shape (3,). The angles are in radians and the sequence is 'xyz'.
 
         Returns
         -------
         numpy.ndarray
-            The Euler angles between the parent frame and the frame in the convention of the frame with shape (3,).
+            The Euler angles between the parent frame and this frame in the convention of the frame with shape (3,). The angles are in radians and the sequence is 'xyz'.
+
         """
         return self.get_euler_angles(convention=self._convention, degrees=False, seq="xyz")
 
@@ -1326,20 +2131,55 @@ class Frame:
 
     def get_rotation_vector(self, *, convention: Optional[int] = None, degrees: bool = False) -> numpy.ndarray:
         r"""
-        Get the rotation vector between the parent frame and the frame in the given convention.
+        Access the rotation vector representation of the rotation between the parent frame and this frame in a specific convention.
+
+        The rotation vector describes the rotation by a single rotation about a fixed axis. The direction of the axis is given by the direction of the vector, and the magnitude of the vector is given by the angle of rotation.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`rotation_vector` to get or set the rotation vector in the convention of the frame.
+            - method :meth:`set_rotation_vector` to set the rotation vector in a specific convention.
+            - method :meth:`get_global_rotation_vector` to get the rotation vector between the global frame and this frame.
 
         Parameters
         ----------
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
 
         degrees : bool, optional
-            If True, the rotation vector is returned in degrees. Default is False.
+            If True, the rotation vector is returned in degrees. Default is False (radians).
 
         Returns
         -------
         numpy.ndarray
-            The rotation vector between the parent frame and the frame in the given convention with shape (3,).
+            The rotation vector between the parent frame and this frame in the given convention with shape (3,).
+
+        Examples
+        --------
+        Lets create a frame from its axes and origin with the default convention 0.
+
+        .. code-block:: python
+
+            import numpy
+            from py3dframe import Frame
+
+            origin = numpy.array([-1, -2, -3])
+            x_axis = numpy.array([1, 1, 0]) / numpy.sqrt(2)
+            y_axis = numpy.array([-1, 1, 0]) / numpy.sqrt(2)
+            z_axis = numpy.array([0, 0, 1])
+
+            parent = ... # Define the parent frame if needed, otherwise parent=None to use the canonical frame.
+
+            frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis, convention=0, parent=parent)
+
+        If an application using an other convention required the rotation vector in the convention 4 in degrees, you can access the rotation vector in this convention with the :meth:`get_rotation_vector` method.
+        
+        .. code-block:: python
+
+            rotation_vector_convention_4 = frame.get_rotation_vector(convention=4, degrees=True)
+
         """
         if not isinstance(degrees, bool):
             raise TypeError("The degrees parameter must be a boolean.")
@@ -1347,18 +2187,52 @@ class Frame:
 
     def set_rotation_vector(self, rotation_vector: numpy.ndarray, *, convention: Optional[int] = None, degrees: bool = False) -> None:
         r"""
-        Set the rotation vector between the parent frame and the frame in the given convention.
+        Set the rotation vector representation of the rotation between the parent frame and this frame in a specific convention.
+
+        The rotation vector describes the rotation by a single rotation about a fixed axis. The direction of the axis is given by the direction of the vector, and the magnitude of the vector is given by the angle of rotation.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`rotation_vector` to get or set the rotation vector in the convention of the frame.
+            - method :meth:`get_rotation_vector` to get the rotation vector in a specific convention.
+            - method :meth:`set_global_rotation_vector` to set the rotation vector between the global frame and this frame.
 
         Parameters
         ----------
         rotation_vector : numpy.ndarray
-            The rotation vector between the parent frame and the frame in the given convention with shape (3,).
-        
+            The rotation vector between the parent frame and this frame in the given convention as an array-like with 3 elements.
+
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
 
         degrees : bool, optional
-            If True, the rotation vector is in degrees. Default is False.
+            If True, the rotation vector is in degrees. Default is False (radians).
+
+        Examples
+        --------
+        Lets create a default frame with convention 0.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            parent = ... # Define the parent frame if needed, otherwise parent=None to use the canonical frame.
+
+            frame = Frame.canonical(convention=0, parent=parent)
+
+        Lets assume, an application uses convention 4 to represent the transformation between two frames.
+        The frame of reference of the application rotates and the new rotation vector between the parent frame and this frame in convention 4 in degrees can be extracted from the application.
+
+        .. code-block:: python
+
+            import numpy
+
+            rotation_vector = numpy.array(...) # Extract the rotation vector from the application.
+
+            frame.set_rotation_vector(rotation_vector, convention=4, degrees=True) # Set the rotation vector in convention 4 in degrees.
+
         """
         if not isinstance(degrees, bool):
             raise TypeError("The degrees parameter must be a boolean.")
@@ -1369,17 +2243,31 @@ class Frame:
     @property
     def rotation_vector(self) -> numpy.ndarray:
         r"""
-        Getter and setter for the rotation vector between the parent frame and the frame in the convention of the frame.
+        The rotation vector representation of the rotation between the parent frame and this frame in the convention of the frame.
+
         The rotation vector is in radians.
+
+        .. note::
+
+            This property is settable.
 
         .. seealso::
 
-            - method :meth:`py3dframe.Frame.get_rotation_vector` to get the rotation vector in a specific convention.
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - method :meth:`get_rotation_vector` to get the rotation vector in a specific convention and unit.
+            - method :meth:`set_rotation_vector` to set the rotation vector in a specific convention and unit.
+
+        Parameters
+        ----------
+        rotation_vector : numpy.ndarray
+            The rotation vector between the parent frame and this frame in the convention of the frame with shape (3,). The rotation vector is in radians.
 
         Returns
         -------
         numpy.ndarray
-            The rotation vector between the parent frame and the frame in the convention of the frame with shape (3,).
+            The rotation vector between the parent frame and this frame in the convention of the frame with shape (3,). The rotation vector is in radians.
+
         """
         return self.get_rotation_vector(convention=self._convention, degrees=False)
     
@@ -1394,13 +2282,16 @@ class Frame:
     # ====================================================================================================================================
     def get_global_frame(self) -> Frame:
         r"""
-        Get the Frame object between the global frame and the frame.
+        Get the global frame of the frame. The representation of the frame with respect to the global canonical frame.
+
+        If the frame has no parent, the global frame is the frame itself.
+
+        Otherwise, the global frame is computed by composing the transformation between the global frame and the parent frame with the transformation between the parent frame and this frame.
 
         .. note::
 
             The parent attribute of the global frame is None.
-            The convention of the returned frame is set equal to the convention of the frame.
-        
+
         .. warning::
 
             The Frame object is a new object. Any change in the returned object will not affect the original object.
@@ -1411,71 +2302,202 @@ class Frame:
         -------
         Frame
             The global frame of the frame.
+
+        Examples
+        --------
+        Lets consider a train and a person standing into the train.
+
+        First we can define the train frame relative to the global frame (the canonical frame) and then we can define the person frame relative to the train frame.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            train = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=None)
+            person = Frame.from_axes(origin=[0, 1, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=train)
+
+        Lets assume the train moves and the person moves inside the train.
+
+        .. code-block:: python
+
+            train.set_translation([10, 0, 0], convention=0) # The train moves of 10 units along the x axis of the global frame.
+
+            person.set_translation([0, 2, 0], convention=0) # The person moves by 1 unit along the y axis of the train frame.
+            person.set_euler_angles([0, 0, 45], convention=0, degrees=True) # The person rotates of 45 degrees around the z axis of the train frame.
+
+        We can determine the orientation and position of the person relative to the global frame at any time using the :meth:`get_global_frame` method:
+
+        .. code-block:: python
+
+            global_person = person.get_global_frame() # Get the global frame of the person.
+
+            print("Person origin in the global frame:", global_person.origin)
+            print("Person x axis in the global frame:", global_person.x_axis)
+            print("Person y axis in the global frame:", global_person.y_axis)
+            print("Person z axis in the global frame:", global_person.z_axis)
+            # Output:
+            # Person origin in the global frame: [[10] [2] [0]]
+            # Person x axis in the global frame: [[ 0.70710678] [ 0.70710678] [ 0.        ]]
+            # Person y axis in the global frame: [[-0.70710678] [ 0.70710678] [0.        ]]
+            # Person z axis in the global frame: [[0.] [0.] [1.]]
+
         """
         if self._parent is None:
-            return self
+            global_frame = self
         
-        # Construct the composite transformation between the global frame and the frame.
-        R_parent = self._parent.get_global_rotation(convention=0)
-        T_parent = self._parent.get_global_translation(convention=0)
+        else:
+            # Construct the composite transformation between the global frame and this frame.
+            R_parent = self._parent.get_global_rotation(convention=0)
+            T_parent = self._parent.get_global_translation(convention=0)
 
-        # ====================================================================================================================================
-        # Lets note : 
-        # Xg : the coordinates of a point in the global frame
-        # Xp : the coordinates of the same point in the parent frame
-        # Xf : the coordinates of the same point in the frame
-        # Rg : the rotation matrix between the global frame and the parent frame
-        # Rp : the rotation matrix between the parent frame and the frame
-        # Tg : the translation vector between the global frame and the parent frame
-        # Tp : the translation vector between the parent frame and the frame
-        # R : the rotation matrix between the global frame and the frame
-        # T : the translation vector between the global frame and the frame
-        # 
-        # We have :
-        # Xg = Rg * Xp + Tg
-        # Xp = Rp * Xf + Tp
-        # Xg = R * Xf + T
-        #
-        # We search R and T:
-        # Xg = Rg * (Rp * Xf + Tp) + Tg
-        # Xg = Rg * Rp * Xf + Rg * Tp + Tg
-        #
-        # So the composite transformation is R = Rg * Rp and T = Rg * Tp + Tg
-        # ====================================================================================================================================
-        rotation = R_parent * self._R_dev
-        translation = R_parent.apply(self._T_dev.T).T + T_parent
-        global_frame = Frame.from_rotation(translation=translation, rotation=rotation, parent=None, convention=0)
-        global_frame.convention = self._convention
-        return global_frame
+            # ====================================================================================================================================
+            # Lets note : 
+            # Xg : the coordinates of a point in the global frame
+            # Xp : the coordinates of the same point in the parent frame
+            # Xf : the coordinates of the same point in the frame
+            # Rg : the rotation matrix between the global frame and the parent frame
+            # Rp : the rotation matrix between the parent frame and this frame
+            # Tg : the translation vector between the global frame and the parent frame
+            # Tp : the translation vector between the parent frame and this frame
+            # R : the rotation matrix between the global frame and this frame
+            # T : the translation vector between the global frame and this frame
+            # 
+            # We have :
+            # Xg = Rg * Xp + Tg
+            # Xp = Rp * Xf + Tp
+            # Xg = R * Xf + T
+            #
+            # We search R and T:
+            # Xg = Rg * (Rp * Xf + Tp) + Tg
+            # Xg = Rg * Rp * Xf + Rg * Tp + Tg
+            #
+            # So the composite transformation is R = Rg * Rp and T = Rg * Tp + Tg
+            # ====================================================================================================================================
+            rotation = R_parent * self._R_dev
+            translation = R_parent.apply(self._T_dev.T).T + T_parent
+            global_frame = Frame.from_rotation(translation=translation, rotation=rotation, parent=None, convention=0)
+            global_frame.convention = self._convention
+
+        return global_frame.copy()
     
+
     def get_global_rotation(self, *, convention: Optional[int] = None) -> scipy.spatial.transform.Rotation:
         r"""
-        Get the rotation between the global frame and the frame in the given convention.
+        Access the rotation between the global frame and this frame in the given convention.
+
+        The rotation is returned as a :class:`Rotation` object.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`global_rotation` to get or set the rotation between the global frame and this frame in the convention of the frame.
+            - method :meth:`set_global_rotation` to set the rotation between the global frame and this frame in a specific convention.
+            - method :meth:`get_rotation` to get the rotation between the parent frame and this frame in a specific convention.
 
         Parameters
         ----------
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
 
         Returns
         -------
-        scipy.spatial.transform.Rotation
-            The rotation between the global frame and the frame in the given convention.
+        Rotation
+            The rotation between the global frame and this frame in the given convention.
+
+        Examples
+        --------
+        Lets consider a train and a person standing into the train.
+
+        First we can define the train frame relative to the global frame (the canonical frame) and then we can define the person frame relative to the train frame.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            train = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=None)
+            person = Frame.from_axes(origin=[0, 1, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=train)
+
+        Lets assume the train moves and the person moves inside the train.
+
+        .. code-block:: python
+
+            train.set_translation([10, 0, 0], convention=0) # The train moves of 10 units along the x axis of the global frame.
+
+            person.set_translation([0, 2, 0], convention=0) # The person moves by 1 unit along the y axis of the train frame.
+            person.set_euler_angles([0, 0, 45], convention=0, degrees=True) # The person rotates of 45 degrees around the z axis of the train frame.
+
+        If an application using an other convention required the rotation between the global frame and the person frame in the convention 4, you can access this rotation with the :meth:`get_global_rotation` method:
+
+        .. code-block:: python
+
+            global_rotation_person = person.get_global_rotation(convention=4) # Get the rotation between the global frame and the person frame in convention 4.
+
         """
         global_frame = self.get_global_frame()
         return global_frame.get_rotation(convention=convention)
 
+
     def set_global_rotation(self, rotation: scipy.spatial.transform.Rotation, *, convention: Optional[int] = None) -> None:
         r"""
-        Set the rotation between the global frame and the frame in the given convention.
+        Set the rotation between the global frame and this frame in the given convention.
+
+        The rotation must be given as a :class:`Rotation` object.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`global_rotation` to get or set the rotation between the global frame and this frame in the convention of the frame.
+            - method :meth:`get_global_rotation` to get the rotation between the global frame and this frame in a specific convention.
+            - method :meth:`set_rotation` to set the rotation between the parent frame and this frame in a specific convention.
 
         Parameters
         ----------
-        rotation : scipy.spatial.transform.Rotation
-            The rotation between the global frame and the frame in the given convention.
-        
+        rotation : Rotation
+            The rotation between the global frame and this frame in the given convention.
+
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
+
+        Examples
+        --------
+        Lets consider a train and a person standing into the train.
+
+        First we can define the train frame relative to the global frame (the canonical frame) and then we can define the person frame relative to the train frame.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            train = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=None)
+            person = Frame.from_axes(origin=[0, 1, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=train)
+        
+        Lets assume the train moves.
+
+        .. code-block:: python
+
+            train.set_translation([10, 0, 0], convention=0) # The train moves of 10 units along the x axis of the global frame.
+
+        If an application using an other convention gives the new rotation between the global frame and the person frame in the convention 4, you can set this rotation with the :meth:`set_global_rotation` method:
+
+        .. code-block:: python
+
+            import numpy
+
+            rotation = ... # Get the new rotation between the global frame and the person frame in convention 4 from the application.
+
+            person.set_global_rotation(rotation, convention=4) # Set the rotation between the global frame and the person frame in convention 4.
+
+        The person frame is updated accordingly to keep the correct transformation between the global frame and the person frame.
+
+        Then we can determine the new orientation and position of the person relative to the train frame:
+
+        .. code-block:: python
+
+            print("Person origin in the train frame:", person.origin)
+            print("Person axes in the train frame:", person.axes)
+
         """
         if self._parent is None:
             self.set_rotation(rotation, convention=convention)
@@ -1487,11 +2509,11 @@ class Frame:
         # Xp : the coordinates of the same point in the parent frame
         # Xf : the coordinates of the same point in the frame
         # Rg : the rotation matrix between the global frame and the parent frame
-        # Rp : the rotation matrix between the parent frame and the frame
+        # Rp : the rotation matrix between the parent frame and this frame
         # Tg : the translation vector between the global frame and the parent frame
-        # Tp : the translation vector between the parent frame and the frame
-        # R : the rotation matrix between the global frame and the frame
-        # T : the translation vector between the global frame and the frame
+        # Tp : the translation vector between the parent frame and this frame
+        # R : the rotation matrix between the global frame and this frame
+        # T : the translation vector between the global frame and this frame
         # 
         # We have :
         # Xg = Rg * Xp + Tg
@@ -1517,16 +2539,29 @@ class Frame:
     @property
     def global_rotation(self) -> scipy.spatial.transform.Rotation:
         r"""
-        Getter and setter for the rotation between the global frame and the frame in the convention of the frame.
+        The rotation between the global frame and this frame in the convention of the frame.
 
-        .. seealso::
+        .. note::
 
-            - method :meth:`py3dframe.Frame.get_global_rotation` to get the rotation in a specific convention.
+            This property is settable.
+
+        .. seealso::  
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - method :meth:`get_global_rotation` to get the rotation in a specific convention.
+            - method :meth:`set_global_rotation` to set the rotation in a specific convention.
+
+        Parameters
+        ----------
+        rotation : Rotation
+            The rotation between the global frame and this frame in the convention of the frame.
 
         Returns
         -------
-        scipy.spatial.transform.Rotation
-            The rotation between the global frame and the frame in the convention of the frame.
+        Rotation
+            The rotation between the global frame and this frame in the convention of the frame.
+
         """
         return self.get_global_rotation(convention=self._convention)
 
@@ -1538,32 +2573,120 @@ class Frame:
 
     def get_global_translation(self, *, convention: Optional[int] = None) -> numpy.ndarray:
         r"""
-        Get the translation vector between the global frame and the frame in the given convention.
+        Access the translation vector between the global frame and this frame in the given convention.
+
+        The translation vector has shape (3, 1).
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`global_translation` to get or set the translation vector between the global frame and this frame in the convention of the frame.
+            - method :meth:`set_global_translation` to set the translation vector between the global frame and this frame in a specific convention.
+            - method :meth:`get_translation` to get the translation vector between the parent frame and this frame in a specific convention.
 
         Parameters
         ----------
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
 
         Returns
         -------
         numpy.ndarray
-            The translation vector between the global frame and the frame in the given convention with shape (3, 1).
+            The translation vector between the global frame and this frame in the given convention with shape (3, 1).
+
+        Examples
+        --------
+        Lets consider a train and a person standing into the train.
+
+        First we can define the train frame relative to the global frame (the canonical frame) and then we can define the person frame relative to the train frame.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            train = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=None)
+            person = Frame.from_axes(origin=[0, 1, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=train)
+        
+        Lets assume the train moves and the person moves inside the train.
+
+        .. code-block:: python
+
+            train.set_translation([10, 0, 0], convention=0) # The train moves of 10 units along the x axis of the global frame.
+
+            person.set_translation([0, 2, 0], convention=0) # The person moves by 1 unit along the y axis of the train frame.
+            person.set_euler_angles([0, 0, 45], convention=0, degrees=True) # The person rotates of 45 degrees around the z axis of the train frame.
+
+        If an application using an other convention required the translation between the global frame and the person frame in the convention 4, you can access this translation with the :meth:`get_global_translation` method:
+
+        .. code-block:: python
+
+            global_translation_person = person.get_global_translation(convention=4) # Get the translation between the global frame and the person frame in convention 4.
+
         """
         global_frame = self.get_global_frame()
         return global_frame.get_translation(convention=convention)
     
     def set_global_translation(self, translation: numpy.ndarray, *, convention: Optional[int] = None) -> None:
         r"""
-        Set the translation vector between the global frame and the frame in the given convention.
+        Set the translation vector between the global frame and this frame in the given convention.
+
+        The translation vector must be a array-like with 3 elements.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`global_translation` to get or set the translation vector between the global frame and this frame in the convention of the frame.
+            - method :meth:`get_global_translation` to get the translation vector between the global frame and this frame in a specific convention.
+            - method :meth:`set_translation` to set the translation vector between the parent frame and this frame in a specific convention.
 
         Parameters
         ----------
         translation : numpy.ndarray
-            The translation vector between the global frame and the frame in the given convention with shape (3, 1).
-        
+            The translation vector between the global frame and this frame in the given convention as an array-like with 3 elements.
+
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
+
+        Examples
+        --------
+        Lets consider a train and a person standing into the train.
+
+        First we can define the train frame relative to the global frame (the canonical frame) and then we can define the person frame relative to the train frame.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            train = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=None)
+            person = Frame.from_axes(origin=[0, 1, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=train)
+        
+        Lets assume the train moves.
+
+        .. code-block:: python
+
+            train.set_translation([10, 0, 0], convention=0) # The train moves of 10 units along the x axis of the global frame.
+
+        If an application using an other convention gives the new translation between the global frame and the person frame in the convention 4, you can set this translation with the :meth:`set_global_translation` method:
+
+        .. code-block:: python
+
+            import numpy
+
+            translation = ... # Get the new translation between the global frame and the person frame in convention 4 from the application.
+
+            person.set_global_translation(translation, convention=4) # Set the translation between the global frame and the person frame in convention 4.
+
+        The person frame is updated accordingly to keep the correct transformation between the global frame and the person frame.
+
+        Then we can determine the new orientation and position of the person relative to the train frame:
+
+        .. code-block:: python
+
+            print("Person origin in the train frame:", person.origin)
+            print("Person axes in the train frame:", person.axes)
+
         """
         if self._parent is None:
             self.set_translation(translation, convention=convention)
@@ -1575,11 +2698,11 @@ class Frame:
         # Xp : the coordinates of the same point in the parent frame
         # Xf : the coordinates of the same point in the frame
         # Rg : the rotation matrix between the global frame and the parent frame
-        # Rp : the rotation matrix between the parent frame and the frame
+        # Rp : the rotation matrix between the parent frame and this frame
         # Tg : the translation vector between the global frame and the parent frame
-        # Tp : the translation vector between the parent frame and the frame
-        # R : the rotation matrix between the global frame and the frame
-        # T : the translation vector between the global frame and the frame
+        # Tp : the translation vector between the parent frame and this frame
+        # R : the rotation matrix between the global frame and this frame
+        # T : the translation vector between the global frame and this frame
         # 
         # We have :
         # Xg = Rg * Xp + Tg
@@ -1606,16 +2729,29 @@ class Frame:
     @property
     def global_translation(self) -> numpy.ndarray:
         r"""
-        Getter and setter for the translation vector between the global frame and the frame in the convention of the frame.
+        The translation vector between the global frame and this frame in the convention of the frame.
+
+        .. note::
+
+            This property is settable.
 
         .. seealso::
 
-            - method :meth:`py3dframe.Frame.get_global_translation` to get the translation vector in a specific convention.
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - method :meth:`get_global_translation` to get the translation vector in a specific convention.
+            - method :meth:`set_global_translation` to set the translation vector in a specific convention.
+
+        Parameters
+        ----------
+        translation : numpy.ndarray
+            The translation vector between the global frame and this frame in the convention of the frame as an array-like with 3 elements.
 
         Returns
         -------
         numpy.ndarray
-            The translation vector between the global frame and the frame in the convention of the frame with shape (3, 1).
+            The translation vector between the global frame and this frame in the convention of the frame with shape (3, 1).
+
         """
         return self.get_global_translation(convention=self._convention)
 
@@ -1624,35 +2760,102 @@ class Frame:
         self.set_global_translation(translation, convention=self._convention)
     
 
-
     def get_global_rotation_matrix(self, *, convention: Optional[int] = None) -> numpy.ndarray:
         r"""
-        Get the rotation matrix between the global frame and the frame in the given convention.
+        Access the rotation matrix representation of the rotation between the global frame and this frame in the given convention.
 
         Parameters
         ----------
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
 
         Returns
         -------
         numpy.ndarray
-            The rotation matrix between the global frame and the frame in the given convention with shape (3, 3).
+            The rotation matrix between the global frame and this frame in the given convention with shape (3, 3).
+
+        Examples
+        --------
+        Lets consider a train and a person standing into the train.
+
+        First we can define the train frame relative to the global frame (the canonical frame) and then we can define the person frame relative to the train frame.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            train = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=None)
+            person = Frame.from_axes(origin=[0, 1, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=train)
+        
+        Lets assume the train moves and the person moves inside the train.
+
+        .. code-block:: python
+
+            train.set_translation([10, 0, 0], convention=0) # The train moves of 10 units along the x axis of the global frame.
+
+            person.set_translation([0, 2, 0], convention=0) # The person moves by 1 unit along the y axis of the train frame.
+            person.set_euler_angles([0, 0, 45], convention=0, degrees=True) # The person rotates of 45 degrees around the z axis of the train frame.
+
+        If an application using an other convention required the rotation matrix between the global frame and the person frame in the convention 4, you can access this rotation matrix with the :meth:`get_global_rotation_matrix` method:
+
+        .. code-block:: python
+
+            global_rotation_person = person.get_global_rotation_matrix(convention=4) # Get the rotation matrix between the global frame and the person frame in convention 4.
+
         """
         global_frame = self.get_global_frame()
         return global_frame.get_rotation_matrix(convention=convention)
 
     def set_global_rotation_matrix(self, rotation_matrix: numpy.ndarray, *, convention: Optional[int] = None) -> None:
         r"""
-        Set the rotation matrix between the global frame and the frame in the given convention.
+        Set the rotation matrix representation of the rotation between the global frame and this frame in the given convention.
 
         Parameters
         ----------
         rotation_matrix : numpy.ndarray
-            The rotation matrix between the global frame and the frame in the given convention with shape (3, 3).
-        
+            The rotation matrix between the global frame and this frame in the given convention with shape (3, 3).
+
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
+
+        Examples
+        --------
+        Lets consider a train and a person standing into the train.
+
+        First we can define the train frame relative to the global frame (the canonical frame) and then we can define the person frame relative to the train frame.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            train = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=None)
+            person = Frame.from_axes(origin=[0, 1, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=train)
+        
+        Lets assume the train moves.
+
+        .. code-block:: python
+
+            train.set_translation([10, 0, 0], convention=0) # The train moves of 10 units along the x axis of the global frame.
+
+        If an application using an other convention gives the new rotation matrix between the global frame and the person frame in the convention 4, you can set this rotation with the :meth:`set_global_rotation_matrix` method:
+
+        .. code-block:: python
+
+            import numpy
+
+            rotation_matrix = ... # Get the new rotation matrix between the global frame and the person frame in convention 4 from the application.
+
+            person.set_global_rotation_matrix(rotation_matrix, convention=4) # Set the rotation matrix between the global frame and the person frame in convention 4.
+
+        The person frame is updated accordingly to keep the correct transformation between the global frame and the person frame.
+
+        Then we can determine the new orientation and position of the person relative to the train frame:
+
+        .. code-block:: python
+
+            print("Person origin in the train frame:", person.origin)
+            print("Person axes in the train frame:", person.axes)
+
         """
         rotation_matrix = self._format_rotation_matrix_dev(rotation_matrix)
         R = Rotation.from_matrix(rotation_matrix)
@@ -1661,16 +2864,29 @@ class Frame:
     @property
     def global_rotation_matrix(self) -> numpy.ndarray:
         r"""
-        Getter and setter for the rotation matrix between the global frame and the frame in the convention of the frame.
+        The rotation matrix representation of the rotation between the global frame and this frame in the convention of the frame.
+
+        .. note::
+
+            This property is settable.
 
         .. seealso::
 
-            - method :meth:`py3dframe.Frame.get_global_rotation_matrix` to get the rotation matrix in a specific convention.
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - method :meth:`get_global_rotation_matrix` to get the rotation matrix in a specific convention.
+            - method :meth:`set_global_rotation_matrix` to set the rotation matrix in a specific convention.
+
+        Parameters
+        ----------
+        rotation_matrix : numpy.ndarray
+            The rotation matrix between the global frame and this frame in the convention of the frame with shape (3, 3).
 
         Returns
         -------
         numpy.ndarray
-            The rotation matrix between the global frame and the frame in the convention of the frame with shape (3, 3).
+            The rotation matrix between the global frame and this frame in the convention of the frame with shape (3, 3).
+
         """
         return self.get_global_rotation_matrix(convention=self._convention)
 
@@ -1682,38 +2898,126 @@ class Frame:
     
     def get_global_quaternion(self, *, convention: Optional[int] = None, scalar_first: bool = True) -> numpy.ndarray:
         r"""
-        Get the quaternion between the global frame and the frame in the given convention.
+        Access the quaternion representation of the rotation between the global frame and this frame in the given convention.
+
+        The quaternion is returned as a numpy array with shape (4,) in the scalar first [w, x, y, z] or scalar last [x, y, z, w] convention.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`global_quaternion` to get or set the quaternion between the global frame and this frame in the convention of the frame.
+            - method :meth:`set_global_quaternion` to set the quaternion between the global frame and this frame in a specific convention.
+            - method :meth:`get_quaternion` to get the quaternion between the parent frame and this frame in a specific convention.
 
         Parameters
         ----------
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
 
         scalar_first : bool, optional
-            If True, the quaternion is returned in the scalar first convention. Default is True.
+            If True, the quaternion is in the scalar first convention. Default is True.
 
         Returns
         -------
         numpy.ndarray
-            The quaternion between the global frame and the frame in the given convention with shape (4,).
+            The quaternion between the global frame and this frame in the given convention with shape (4,).
+
+        Examples
+        --------
+        Lets consider a train and a person standing into the train.
+
+        First we can define the train frame relative to the global frame (the canonical frame) and then we can define the person frame relative to the train frame.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            train = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=None)
+            person = Frame.from_axes(origin=[0, 1, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=train)
+
+        Lets assume the train moves and the person moves inside the train.
+
+        .. code-block:: python
+
+            train.set_translation([10, 0, 0], convention=0) # The train moves of 10 units along the x axis of the global frame.
+
+            person.set_translation([0, 2, 0], convention=0) # The person moves by 1 unit along the y axis of the train frame.
+            person.set_euler_angles([0, 0, 45], convention=0, degrees=True) # The person rotates of 45 degrees around the z axis of the train frame.
+
+        If an application using an other convention required the quaternion between the global frame and the person frame in the convention 4 and scalar first convention, you can access this quaternion with the :meth:`get_global_quaternion` method:
+
+        .. code-block:: python
+
+            global_quaternion_person = person.get_global_quaternion(convention=4, scalar_first=True) # Get the quaternion between the global frame and the person frame in convention 4 in the scalar first convention.
+
         """
         global_frame = self.get_global_frame()
         return global_frame.get_quaternion(convention=convention, scalar_first=scalar_first)
 
     def set_global_quaternion(self, quaternion: numpy.ndarray, *, convention: Optional[int] = None, scalar_first: bool = True) -> None:
         r"""
-        Set the quaternion between the global frame and the frame in the given convention.
+        Set the quaternion representation of the rotation between the global frame and this frame in the given convention.
+
+        The quaternion must be a array-like with 4 elements in the scalar first [w, x, y, z] or scalar last [x, y, z, w] convention.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`global_quaternion` to get or set the quaternion between the global frame and this frame in the convention of the frame.
+            - method :meth:`get_global_quaternion` to get the quaternion between the global frame and this frame in a specific convention.
+            - method :meth:`set_quaternion` to set the quaternion between the parent frame and this frame in a specific convention.
 
         Parameters
         ----------
         quaternion : numpy.ndarray
-            The quaternion between the global frame and the frame in the given convention with shape (4,).
-        
+            The quaternion between the global frame and this frame in the given convention as an array-like with 4 elements.
+
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
-        
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
+
         scalar_first : bool, optional
             If True, the quaternion is in the scalar first convention. Default is True.
+
+        Examples
+        --------
+        Lets consider a train and a person standing into the train.
+
+        First we can define the train frame relative to the global frame (the canonical frame) and then we can define the person frame relative to the train frame.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            train = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=None)
+            person = Frame.from_axes(origin=[0, 1, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=train)
+
+        Lets assume the train moves.
+
+        .. code-block:: python
+
+            train.set_translation([10, 0, 0], convention=0) # The train moves of 10 units along the x axis of the global frame.
+
+        If an application using an other convention gives the new quaternion between the global frame and the person frame in the convention 4 and scalar first convention, you can set this quaternion with the :meth:`set_global_quaternion` method:
+
+        .. code-block:: python
+
+            import numpy
+
+            quaternion = ... # Get the new quaternion between the global frame and the person frame in convention 4 in the scalar first convention from the application.
+
+            person.set_global_quaternion(quaternion, convention=4, scalar_first=True) # Set the quaternion between the global frame and the person frame in convention 4 in the scalar first convention.
+
+        The person frame is updated accordingly to keep the correct transformation between the global frame and the person frame.
+
+        Then we can determine the new orientation and position of the person relative to the train frame:
+
+        .. code-block:: python
+
+            print("Person origin in the train frame:", person.origin)
+            print("Person axes in the train frame:", person.axes)
+        
         """
         quaternion = self._format_quaternion_dev(quaternion)
         R = Rotation.from_quat(quaternion, scalar_first=scalar_first)
@@ -1722,17 +3026,31 @@ class Frame:
     @property
     def global_quaternion(self) -> numpy.ndarray:
         r"""
-        Getter and setter for the quaternion between the global frame and the frame in the convention of the frame.
-        The quaternion is in the scalar first convention.
+        The quaternion representation of the rotation between the global frame and this frame in the convention of the frame.
+
+        The quaternion is in the scalar first convention [w, x, y, z].
+
+        .. note::
+
+            This property is settable.
 
         .. seealso::
 
-            - method :meth:`py3dframe.Frame.get_global_quaternion` to get the quaternion in a specific convention.
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - method :meth:`get_global_quaternion` to get the quaternion in a specific convention.
+            - method :meth:`set_global_quaternion` to set the quaternion in a specific convention.
+
+        Parameters
+        ----------
+        quaternion : numpy.ndarray
+            The quaternion between the global frame and this frame in the convention of the frame as an array-like with 4 elements. The quaternion is in the scalar first convention [w, x, y, z].
 
         Returns
         -------
         numpy.ndarray
-            The quaternion between the global frame and the frame in the convention of the frame with shape (4,).
+            The quaternion between the global frame and this frame in the convention of the frame with shape (4,). The quaternion is in the scalar first convention [w, x, y, z].
+
         """
         return self.get_global_quaternion(convention=self._convention, scalar_first=True)
 
@@ -1744,44 +3062,131 @@ class Frame:
 
     def get_global_euler_angles(self, *, convention: Optional[int] = None, degrees: bool = False, seq: str = "xyz") -> numpy.ndarray:
         r"""
-        Get the Euler angles between the global frame and the frame in the given convention.
+        Access the Euler angles representation of the rotation between the global frame and this frame in the given convention.
+
+        The Euler angles describe the rotation using three elementary rotations about specified axes.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`global_euler_angles` to get or set the Euler angles between the global frame and this frame in the convention of the frame.
+            - method :meth:`set_global_euler_angles` to set the Euler angles between the global frame and this frame in a specific convention.
+            - method :meth:`get_euler_angles` to get the Euler angles between the parent frame and this frame in a specific convention.
 
         Parameters
         ----------
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
 
         degrees : bool, optional
-            If True, the Euler angles are returned in degrees. Default is False.
+            If True, the Euler angles are returned in degrees. Default is False (radians).
 
         seq : str, optional
-            The axes of the Euler angles. Default is "xyz".
+            The axes of the Euler angles. It must be a string of 3 characters chosen among 'X', 'Y', 'Z', 'x', 'y', 'z'. Default is "xyz".
 
         Returns
         -------
         numpy.ndarray
-            The Euler angles between the global frame and the frame in the given convention with shape (3,).
+            The Euler angles between the global frame and this frame in the given convention with shape (3,).
+
+        Examples
+        --------
+        Lets consider a train and a person standing into the train.
+
+        First we can define the train frame relative to the global frame (the canonical frame) and then we can define the person frame relative to the train frame.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            train = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=None)
+            person = Frame.from_axes(origin=[0, 1, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=train)
+
+        Lets assume the train moves and the person moves inside the train.
+
+        .. code-block:: python
+
+            train.set_translation([10, 0, 0], convention=0) # The train moves of 10 units along the x axis of the global frame.
+            person.set_translation([0, 2, 0], convention=0) # The person moves by 1 unit along the y axis of the train frame.
+            person.set_euler_angles([0, 0, 45], convention=0, degrees=True) # The person rotates of 45 degrees around the z axis of the train frame.
+
+        If an application using an other convention required the Euler angles between the global frame and the person frame in the convention 4, with the axes "zyx" and in degrees, you can access these Euler angles with the :meth:`get_global_euler_angles` method:
+
+        .. code-block:: python
+
+            global_euler_angles_person = person.get_global_euler_angles(convention=4, seq="zyx", degrees=True) # Get the Euler angles between the global frame and the person frame in convention 4 with the axes "zyx" and in degrees.
+
         """
         global_frame = self.get_global_frame()
         return global_frame.get_euler_angles(convention=convention, degrees=degrees, seq=seq)
 
     def set_global_euler_angles(self, euler_angles: numpy.ndarray, *, convention: Optional[int] = None, degrees: bool = False, seq: str = "xyz") -> None:
         r"""
-        Set the Euler angles between the global frame and the frame in the given convention.
+        Set the Euler angles representation of the rotation between the global frame and this frame in the given convention.
+
+        The Euler angles must be a array-like with 3 elements representing the angles of rotation about the specified axes.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`global_euler_angles` to get or set the Euler angles between the global frame and this frame in the convention of the frame.
+            - method :meth:`get_global_euler_angles` to get the Euler angles between the global frame and this frame in a specific convention.
+            - method :meth:`set_euler_angles` to set the Euler angles between the parent frame and this frame in a specific convention.
 
         Parameters
         ----------
         euler_angles : numpy.ndarray
-            The Euler angles between the global frame and the frame in the given convention with shape (3,).
-        
+            The Euler angles between the global frame and this frame in the given convention as an array-like with 3 elements.
+
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
 
         degrees : bool, optional
-            If True, the Euler angles are in degrees. Default is False.
+            If True, the Euler angles are in degrees. Default is False (radians).
 
         seq : str, optional
-            The axes of the Euler angles. Default is "xyz".
+            The axes of the Euler angles. It must be a string of 3 characters chosen among 'X', 'Y', 'Z', 'x', 'y', 'z'. Default is "xyz".
+
+        Examples
+        --------
+        Lets consider a train and a person standing into the train.
+
+        First we can define the train frame relative to the global frame (the canonical frame) and then we can define the person frame relative to the train frame.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            train = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=None)
+            person = Frame.from_axes(origin=[0, 1, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=train)
+
+        Lets assume the train moves.
+
+        .. code-block:: python
+
+            train.set_translation([10, 0, 0], convention=0) # The train moves of 10 units along the x axis of the global frame.
+
+        If an application using an other convention gives the new Euler angles between the global frame and the person frame in the convention 4, with the axes "zyx" and in degrees, you can set these Euler angles with the :meth:`set_global_euler_angles` method:
+
+        .. code-block:: python
+
+            import numpy
+
+            euler_angles = ... # Get the new Euler angles between the global frame and the person frame in convention 4 with the axes "zyx" and in degrees from the application.
+
+            person.set_global_euler_angles(euler_angles, convention=4, seq="zyx", degrees=True) # Set the Euler angles between the global frame and the person frame in convention 4 with the axes "zyx" and in degrees.
+
+        The person frame is updated accordingly to keep the correct transformation between the global frame and the person frame.
+
+        Then we can determine the new orientation and position of the person relative to the train frame:
+
+        .. code-block:: python
+
+            print("Person origin in the train frame:", person.origin)
+            print("Person axes in the train frame:", person.axes)
+
         """
         if not isinstance(degrees, bool):
             raise TypeError("The degrees parameter must be a boolean.")
@@ -1798,17 +3203,31 @@ class Frame:
     @property
     def global_euler_angles(self) -> numpy.ndarray:
         r"""
-        Getter and setter for the Euler angles between the global frame and the frame in the convention of the frame.
-        The Euler angles are in radians and the axes are "xyz".
+        The Euler angles representation of the rotation between the global frame and this frame in the convention of the frame.
+
+        The Euler angles describe the rotation using three elementary rotations about specified axes in the "xyz" order and are in radians.
+
+        .. note::
+
+            This property is settable.
 
         .. seealso::
 
-            - method :meth:`py3dframe.Frame.get_global_euler_angles` to get the Euler angles in a specific convention.
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - method :meth:`get_global_euler_angles` to get the Euler angles in a specific convention.
+            - method :meth:`set_global_euler_angles` to set the Euler angles in a specific convention.
+
+        Parameters
+        ----------
+        euler_angles : numpy.ndarray
+            The Euler angles between the global frame and this frame in the convention of the frame as an array-like with 3 elements. The Euler angles are in the "xyz" order and in radians.
 
         Returns
         -------
         numpy.ndarray
-            The Euler angles between the global frame and the frame in the convention of the frame with shape (3,).
+            The Euler angles between the global frame and this frame in the convention of the frame with shape (3,). The Euler angles are in the "xyz" order and in radians.
+
         """
         return self.get_global_euler_angles(convention=self._convention, degrees=False, seq="xyz")
 
@@ -1820,38 +3239,126 @@ class Frame:
 
     def get_global_rotation_vector(self, *, convention: Optional[int] = None, degrees: bool = False) -> numpy.ndarray:
         r"""
-        Get the rotation vector between the global frame and the frame in the given convention.
+        Access the rotation vector representation of the rotation between the global frame and this frame in the given convention.
+
+        The rotation vector is a compact representation of a rotation in 3D space, where the direction of the vector indicates the axis of rotation and the magnitude represents the angle of rotation.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`global_rotation_vector` to get or set the rotation vector between the global frame and this frame in the convention of the frame.
+            - method :meth:`set_global_rotation_vector` to set the rotation vector between the global frame and this frame in a specific convention.
+            - method :meth:`get_rotation_vector` to get the rotation vector between the parent frame and this frame in a specific convention.
 
         Parameters
         ----------
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
 
         degrees : bool, optional
-            If True, the rotation vector is returned in degrees. Default is False.
+            If True, the rotation vector is returned in degrees. Default is False (radians).
 
         Returns
         -------
         numpy.ndarray
-            The rotation vector between the global frame and the frame in the given convention with shape (3,).
+            The rotation vector between the global frame and this frame in the given convention with shape (3,).
+
+        Examples
+        --------
+        Lets consider a train and a person standing into the train.
+
+        First we can define the train frame relative to the global frame (the canonical frame) and then we can define the person frame relative to the train frame.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            train = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=None)
+            person = Frame.from_axes(origin=[0, 1, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=train)
+
+        Lets assume the train moves and the person moves inside the train.
+
+        .. code-block:: python
+
+            train.set_translation([10, 0, 0], convention=0) # The train moves of 10 units along the x axis of the global frame.
+
+            person.set_translation([0, 2, 0], convention=0) # The person moves by 1 unit along the y axis of the train frame.
+            person.set_euler_angles([0, 0, 45], convention=0, degrees=True) # The person rotates of 45 degrees around the z axis of the train frame.
+
+        If an application using an other convention required the rotation vector between the global frame and the person frame in the convention 4, you can access this rotation vector with the :meth:`get_global_rotation_vector` method:
+
+        .. code-block:: python
+
+            global_rotation_vector_person = person.get_global_rotation_vector(convention=4, degrees=True) # Get the rotation vector between the global frame and the person frame in convention 4 in degrees.
+
         """
         global_frame = self.get_global_frame()
         return global_frame.get_rotation_vector(convention=convention, degrees=degrees)
 
     def set_global_rotation_vector(self, rotation_vector: numpy.ndarray, *, convention: Optional[int] = None, degrees: bool = False) -> None:
         r"""
-        Set the rotation vector between the global frame and the frame in the given convention.
+        Set the rotation vector representation of the rotation between the global frame and this frame in the given convention.
+
+        The rotation vector must be a array-like with 3 elements representing the axis of rotation and the angle of rotation. The direction of the vector indicates the axis of rotation and the magnitude represents the angle of rotation.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - attribute :attr:`global_rotation_vector` to get or set the rotation vector between the global frame and this frame in the convention of the frame.
+            - method :meth:`get_global_rotation_vector` to get the rotation vector between the global frame and this frame in a specific convention.
+            - method :meth:`set_rotation_vector` to set the rotation vector between the parent frame and this frame in a specific convention.
 
         Parameters
         ----------
         rotation_vector : numpy.ndarray
-            The rotation vector between the global frame and the frame in the given convention with shape (3,).
-        
+            The rotation vector between the global frame and this frame in the given convention as an array-like with 3 elements.
+
         convention : Optional[int], optional
-            The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is the convention of the frame.
+            Integer in ``[0, 7]`` selecting the convention. Defaults to the frame’s own convention.
 
         degrees : bool, optional
-            If True, the rotation vector is in degrees. Default is False.
+            If True, the rotation vector is in degrees. Default is False (radians).
+
+        Examples
+        --------
+        Lets consider a train and a person standing into the train.
+
+        First we can define the train frame relative to the global frame (the canonical frame) and then we can define the person frame relative to the train frame.
+
+        .. code-block:: python
+
+            from py3dframe import Frame
+
+            train = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=None)
+            person = Frame.from_axes(origin=[0, 1, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], parent=train)
+
+        Lets assume the train moves.
+
+        .. code-block:: python
+
+            train.set_translation([10, 0, 0], convention=0) # The train moves of 10 units along the x axis of the global frame.
+
+        If an application using an other convention gives the new rotation vector between the global frame and the person frame in the convention 4, you can set this rotation vector with the :meth:`set_global_rotation_vector` method:
+
+        .. code-block:: python
+
+            import numpy
+
+            rotation_vector = ... # Get the new rotation vector between the global frame and the person frame in convention 4 from the application.
+
+            person.set_global_rotation_vector(rotation_vector, convention=4, degrees=True) # Set the rotation vector between the global frame and the person frame in convention 4 in degrees.
+
+        The person frame is updated accordingly to keep the correct transformation between the global frame and the person frame.
+
+        Then we can determine the new orientation and position of the person relative to the train frame:
+
+        .. code-block:: python
+
+            print("Person origin in the train frame:", person.origin)
+            print("Person axes in the train frame:", person.axes)
+        
         """
         if not isinstance(degrees, bool):
             raise TypeError("The degrees parameter must be a boolean.")
@@ -1862,17 +3369,31 @@ class Frame:
     @property
     def global_rotation_vector(self) -> numpy.ndarray:
         r"""
-        Getter and setter for the rotation vector between the global frame and the frame in the convention of the frame.
-        The rotation vector is in radians.
+        The rotation vector representation of the rotation between the global frame and this frame in the convention of the frame.
+
+        The rotation vector describes the rotation using an axis of rotation and an angle of rotation in radians.
+
+        .. note::
+
+            This property is settable.
 
         .. seealso::
 
-            - method :meth:`py3dframe.Frame.get_global_rotation_vector` to get the rotation vector in a specific convention.
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`convention` to get or set the convention of the frame.
+            - method :meth:`get_global_rotation_vector` to get the rotation vector in a specific convention.
+            - method :meth:`set_global_rotation_vector` to set the rotation vector in a specific convention.
+
+        Parameters
+        ----------
+        rotation_vector : numpy.ndarray
+            The rotation vector between the global frame and this frame in the convention of the frame as an array-like with 3 elements. The rotation vector is in radians.
 
         Returns
         -------
         numpy.ndarray
-            The rotation vector between the global frame and the frame in the convention of the frame with shape (3,).
+            The rotation vector between the global frame and this frame in the convention of the frame with shape (3,). The rotation vector is in radians.
+
         """
         return self.get_global_rotation_vector(convention=self._convention, degrees=False)
 
@@ -1885,7 +3406,27 @@ class Frame:
     @property
     def global_axes(self) -> numpy.ndarray:
         r"""
-        Getter and setter for the basis vectors of the frame in the global frame coordinates.
+        The basis vectors of the frame relative to the global frame.
+
+        The axes is a 3x3 matrix with shape (3, 3) representing the basis vectors of the frame in the global frame coordinates.
+        The first column is the x-axis, the second column is the y-axis and the third column is the z-axis.
+
+        .. note::
+
+            This property is settable.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`global_x_axis` to access the x-axis of the frame.
+            - attribute :attr:`global_y_axis` to access the y-axis of the frame.
+            - attribute :attr:`global_z_axis` to access the z-axis of the frame.
+            - attribute :attr:`axes` to access the basis vectors relative to the parent frame.
+
+        Parameters
+        ----------
+        axes : numpy.ndarray
+            The basis vectors of the frame in the global frame coordinates as an array-like with shape (3, 3).
 
         Returns
         -------
@@ -1905,11 +3446,20 @@ class Frame:
     @property
     def global_x_axis(self) -> numpy.ndarray:
         r"""
-        Getter for the x-axis of the frame in the global frame coordinates.
+        The x-axis of the frame relative to the global frame.
 
-        .. warning::
+        The x-axis is a 3 elements vector with shape (3, 1) representing the coordinates of the x-axis of the frame in the global frame coordinates.
 
-            The global_x_axis attributes can't be changed. To change the x-axis, use the global_axes attribute.
+        .. note::
+
+            This property is not settable. To change the x-axis, use the :attr:`global_axes` attribute.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`global_y_axis` to access the y-axis of the frame.
+            - attribute :attr:`global_z_axis` to access the z-axis of the frame.
+            - attribute :attr:`x_axis` to access the x-axis of the frame in the parent frame coordinates.
 
         Returns
         -------
@@ -1924,11 +3474,20 @@ class Frame:
     @property
     def global_y_axis(self) -> numpy.ndarray:
         r"""
-        Getter for the y-axis of the frame in the global frame coordinates.
+        The y-axis of the frame relative to the global frame.
 
-        .. warning::
+        The y-axis is a 3 elements vector with shape (3, 1) representing the coordinates of the y-axis of the frame in the global frame coordinates.
 
-            The global_y_axis attributes can't be changed. To change the y-axis, use the global_axes attribute.
+        .. note::
+
+            This property is not settable. To change the y-axis, use the :attr:`global_axes` attribute.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`global_x_axis` to access the x-axis of the frame.
+            - attribute :attr:`global_z_axis` to access the z-axis of the frame.
+            - attribute :attr:`y_axis` to access the y-axis of the frame in the parent frame coordinates.
 
         Returns
         -------
@@ -1943,11 +3502,20 @@ class Frame:
     @property
     def global_z_axis(self) -> numpy.ndarray:
         r"""
-        Getter for the z-axis of the frame in the global frame coordinates.
+        The z-axis of the frame relative to the global frame.
 
-        .. warning::
+        The z-axis is a 3 elements vector with shape (3, 1) representing the coordinates of the z-axis of the frame in the global frame coordinates.
 
-            The global_z_axis attributes can't be changed. To change the z-axis, use the global_axes attribute.
+        .. note::
+
+            This property is not settable. To change the z-axis, use the :attr:`global_axes` attribute.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :attr:`global_x_axis` to access the x-axis of the frame.
+            - attribute :attr:`global_y_axis` to access the y-axis of the frame.
+            - attribute :attr:`z_axis` to access the z-axis of the frame in the parent frame coordinates.
 
         Returns
         -------
@@ -1961,12 +3529,29 @@ class Frame:
     @property
     def global_origin(self) -> numpy.ndarray:
         r"""
-        Getter and setter for the origin of the frame in the global frame coordinates.
+        The origin of the frame relative to the global frame.
+
+        The origin is a 3 elements vector with shape (3, 1) representing the coordinates of the origin of the frame in the global frame coordinates.
+
+        .. note::
+
+            This property is settable.
+
+        .. seealso::
+
+            - attribute :attr:`parent` to get or set the parent frame.
+            - attribute :meth:`origin` to access the origin of the frame in the parent frame coordinates.
+
+        Parameters
+        ----------
+        origin : numpy.ndarray
+            The origin of the frame in the global frame coordinates as an array-like with 3 elements.
 
         Returns
         -------
         numpy.ndarray
             The origin of the frame in the global frame coordinates with shape (3, 1).
+            
         """
         origin = self.get_global_translation(convention=0)
         return origin
@@ -1988,8 +3573,12 @@ class Frame:
         str
             The string representation of the Frame object.
         """
-        return f"Frame(origin={self.global_origin}, x_axis={self.global_x_axis}, y_axis={self.global_y_axis}, z_axis={self.global_z_axis}"
-    
+        global_frame = self.get_global_frame()
+        global_origin = global_frame.origin.flatten()
+        global_x_axis = global_frame.x_axis.flatten()
+        global_y_axis = global_frame.y_axis.flatten()
+        global_z_axis = global_frame.z_axis.flatten()
+        return f"Frame(origin=[[{global_origin[0]}] [{global_origin[1]}] [{global_origin[2]}]], x_axis=[[{global_x_axis[0]}] [{global_x_axis[1]}] [{global_x_axis[2]}]], y_axis=[[{global_y_axis[0]}] [{global_y_axis[1]}] [{global_y_axis[2]}]], z_axis=[[{global_z_axis[0]}] [{global_z_axis[1]}] [{global_z_axis[2]}]])"
 
 
     def __eq__(self, other: Frame) -> bool:
@@ -2015,7 +3604,6 @@ class Frame:
         return numpy.allclose(global_frame._T_dev, other_global_frame._T_dev) and numpy.allclose(global_frame._R_dev.as_quat(), other_global_frame._R_dev.as_quat())
     
 
-
     def __ne__(self, other: Frame) -> bool:
         r"""
         Return the inequality of the Frame object.
@@ -2033,6 +3621,50 @@ class Frame:
             True if the Frame objects are not equal, False otherwise.
         """
         return not self.__eq__(other)
+    
+    def copy(self) -> Frame:
+        r"""
+        Return a copy of the Frame object.
+
+        .. note::
+
+            Only the frame itself is copied. The parent frame is not copied and is shared between the original and the copy.
+
+        .. seealso::
+
+            - method :meth:`deepcopy` to create a deep copy of the Frame object (including the parent frame).
+
+        Returns
+        -------
+        Frame
+            A copy of the Frame object.
+        """
+        new_frame = Frame(translation=self._T_dev.copy(), rotation=copy.deepcopy(self._R_dev), convention=0, parent=None)
+        new_frame._parent = self._parent  # Shallow copy of the parent
+        new_frame.convention = self._convention # Use the setter to ensure convention is valid
+        return new_frame
+
+    def deepcopy(self) -> Frame:
+        r"""
+        Return a deep copy of the Frame object.
+
+        .. note::
+
+            The parent frame is also copied recursively.
+
+        .. seealso::
+
+            - method :meth:`copy` to create a shallow copy of the Frame object (the parent frame is shared).
+
+        Returns
+        -------
+        Frame
+            A deep copy of the Frame object.
+        """
+        new_frame = Frame(translation=self._T_dev.copy(), rotation=copy.deepcopy(self._R_dev), convention=0, parent=None)
+        new_frame._parent = None if self._parent is None else self._parent.deepcopy()  # Deep copy of the parent
+        new_frame.convention = self._convention # Use the setter to ensure convention is valid
+        return new_frame
 
 
     # ====================================================================================================================================
@@ -2064,7 +3696,7 @@ class Frame:
 
         .. seealso::
 
-            - method :meth:`py3dframe.Frame.load_from_dict` to load the Frame object from a dictionary.
+            - method :meth:`load_from_dict` to load the Frame object from a dictionary.
 
             For the reader, only one of the rotation keys is needed to reconstruct the frame. The other keys are provided for convenience and user experience.
             The reader chooses the key to use in the following order of preference if several are given:
@@ -2157,7 +3789,7 @@ class Frame:
 
         .. seealso::
 
-            - method :meth:`py3dframe.Frame.save_to_dict` to save the Frame object to a dictionary.
+            - method :meth:`save_to_dict` to save the Frame object to a dictionary.
 
         .. note::
 
@@ -2233,7 +3865,7 @@ class Frame:
 
         .. seealso::
 
-            - method :meth:`py3dframe.Frame.save_to_dict` to save the Frame object to a dictionary.
+            - method :meth:`save_to_dict` to save the Frame object to a dictionary.
 
         Parameters
         ----------
@@ -2253,7 +3885,7 @@ class Frame:
 
         .. seealso::
 
-            - method :meth:`py3dframe.Frame.load_from_dict` to load the Frame object from a dictionary.
+            - method :meth:`load_from_dict` to load the Frame object from a dictionary.
 
         Parameters
         ----------

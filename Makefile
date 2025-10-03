@@ -9,7 +9,7 @@ current_branch := $(shell git rev-parse --abbrev-ref HEAD)
 message ?= Default-commit-message
 level ?= patch
 
-# 1. Default help command to list available Sphinx options
+# 0. Default help command to list available Sphinx options
 help:
 	@echo "Available commands:"
 	@echo "  help       - Show this help message"
@@ -23,23 +23,36 @@ help:
 
 .PHONY: help Makefile
 
-# 2. Generate HTML documentation
-html:
-	$(SPHINXBUILD) -b html $(SOURCEDIR) $(BUILDDIR)/html
+# 1. Check the Tests
+test:
+	@. $(VENV)/bin/activate && pytest tests
 
-# 3. Generate LaTeX PDF documentation
-latexpdf:
-	$(SPHINXBUILD) -b latex $(SOURCEDIR) $(BUILDDIR)/latex
-	cd $(BUILDDIR)/latex && pdflatex py3dframe.tex && pdflatex py3dframe.tex
-
-# 4. Clean the documentation
-clean:
-	@$(SPHINXBUILD) -M clean "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O);
-	cd $(BUILDDIR); mkdir -p html; mkdir -p latex
-
-# 5. Update the version of the package
+# 2. Update the version of the package
 bump:
 	bumpver update --$(level) --no-fetch
+
+# 3. Clean the documentation
+clean:
+	@echo "Cleaning up generated files at docs/source/generated/"
+	@rm -rf docs/source/generated
+	@echo "Removing build directory: $(BUILDDIR)"
+	@$(SPHINXBUILD) -M clean "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O);
+	@echo "Recreating necessary directories..."
+	cd $(BUILDDIR); mkdir -p html; mkdir -p latex
+	@echo "Clean complete."
+
+# 4. Generate autosummary documentation
+autosummary:
+	@echo "Generating autosummary files in docs/source/api_doc/*.rst"
+	@sphinx-autogen -o docs/source/generated/ docs/source/api_doc/*.rst
+	@echo "Autosummary generation complete."
+	@echo "Run python autosummary_change_titles.py to update the names in the generated files."
+	@python3 autosummary_change_titles.py
+
+# 5. Generate HTML documentation
+html:
+	@echo "Generating HTML documentation at $(BUILDDIR)/html/"
+	$(SPHINXBUILD) -b html $(SOURCEDIR) $(BUILDDIR)/html
 
 # 6. Git Push origin Master
 git:
@@ -56,7 +69,3 @@ app:
 	rm run_gui.py
 	rm -rf build
 	rm run_gui.spec
-
-# 8. Tests the package
-test:
-	pytest tests
