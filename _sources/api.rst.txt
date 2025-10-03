@@ -4,7 +4,7 @@ API Reference
 The package ``py3dframe`` is composed of the following main classes:
 
 - :class:`py3dframe.Rotation` class is used to manage 3D rotations (alias of ``scipy.spatial.transform.Rotation``).
-- :class:`py3dframe.Frame` class is used to manage 3D frames.
+- :class:`py3dframe.Frame` class is used to represent 3D frames of reference.
 - :class:`py3dframe.FrameTransform` class is used to manage 3D transformations between frames.
 
 .. toctree::

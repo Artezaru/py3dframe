@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>py3dframe.FrameTransform &#8212; py3dframe 1.0.1 documentation</title>
+    <title>py3dframe.FrameTransform &#8212; py3dframe 1.1.0 documentation</title>
   
   
   
@@ -38,15 +38,15 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=292eb321"></script>
+    <script src="../_static/documentation_options.js?v=fc837d61"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api_doc/frame_transform';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="py3dframe.FrameTransform.input_frame" href="Transform_generated/py3dframe.FrameTransform.input_frame.html" />
-    <link rel="prev" title="py3dframe.Frame.load_from_json" href="Frame_generated/py3dframe.Frame.load_from_json.html" />
+    <link rel="next" title="input_frame" href="../generated/py3dframe.FrameTransform.input_frame.html" />
+    <link rel="prev" title="deepcopy" href="../generated/py3dframe.Frame.deepcopy.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -111,7 +111,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.0.1 documentation</p>
+    <p class="title logo__title">py3dframe 1.1.0 documentation</p>
   
 </a></div>
     
@@ -269,87 +269,92 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="rotation.html">py3dframe.Rotation</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="frame.html">py3dframe.Frame</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.canonical.html">py3dframe.Frame.canonical</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_rotation.html">py3dframe.Frame.from_rotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_axes.html">py3dframe.Frame.from_axes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_rotation_matrix.html">py3dframe.Frame.from_rotation_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_quaternion.html">py3dframe.Frame.from_quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_euler_angles.html">py3dframe.Frame.from_euler_angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.from_rotation_vector.html">py3dframe.Frame.from_rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.parent.html">py3dframe.Frame.parent</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.convention.html">py3dframe.Frame.convention</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.origin.html">py3dframe.Frame.origin</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.axes.html">py3dframe.Frame.axes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.x_axis.html">py3dframe.Frame.x_axis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.y_axis.html">py3dframe.Frame.y_axis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.z_axis.html">py3dframe.Frame.z_axis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.translation.html">py3dframe.Frame.translation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_translation.html">py3dframe.Frame.get_translation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_translation.html">py3dframe.Frame.set_translation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.rotation.html">py3dframe.Frame.rotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_rotation.html">py3dframe.Frame.get_rotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_rotation.html">py3dframe.Frame.set_rotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.rotation_matrix.html">py3dframe.Frame.rotation_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_rotation_matrix.html">py3dframe.Frame.get_rotation_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_rotation_matrix.html">py3dframe.Frame.set_rotation_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.quaternion.html">py3dframe.Frame.quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_quaternion.html">py3dframe.Frame.get_quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_quaternion.html">py3dframe.Frame.set_quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.euler_angles.html">py3dframe.Frame.euler_angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_euler_angles.html">py3dframe.Frame.get_euler_angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_euler_angles.html">py3dframe.Frame.set_euler_angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.rotation_vector.html">py3dframe.Frame.rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_rotation_vector.html">py3dframe.Frame.get_rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_rotation_vector.html">py3dframe.Frame.set_rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_frame.html">py3dframe.Frame.get_global_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_origin.html">py3dframe.Frame.global_origin</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_axes.html">py3dframe.Frame.global_axes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_x_axis.html">py3dframe.Frame.global_x_axis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_y_axis.html">py3dframe.Frame.global_y_axis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_z_axis.html">py3dframe.Frame.global_z_axis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_translation.html">py3dframe.Frame.global_translation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_translation.html">py3dframe.Frame.get_global_translation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_translation.html">py3dframe.Frame.set_global_translation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_rotation.html">py3dframe.Frame.global_rotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_rotation.html">py3dframe.Frame.get_global_rotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_rotation.html">py3dframe.Frame.set_global_rotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_rotation_matrix.html">py3dframe.Frame.global_rotation_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_rotation_matrix.html">py3dframe.Frame.get_global_rotation_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_rotation_matrix.html">py3dframe.Frame.set_global_rotation_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_quaternion.html">py3dframe.Frame.global_quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_quaternion.html">py3dframe.Frame.get_global_quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_quaternion.html">py3dframe.Frame.set_global_quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_euler_angles.html">py3dframe.Frame.global_euler_angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_euler_angles.html">py3dframe.Frame.get_global_euler_angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_euler_angles.html">py3dframe.Frame.set_global_euler_angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.global_rotation_vector.html">py3dframe.Frame.global_rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.get_global_rotation_vector.html">py3dframe.Frame.get_global_rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.set_global_rotation_vector.html">py3dframe.Frame.set_global_rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.save_to_dict.html">py3dframe.Frame.save_to_dict</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.load_from_dict.html">py3dframe.Frame.load_from_dict</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.save_to_json.html">py3dframe.Frame.save_to_json</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Frame_generated/py3dframe.Frame.load_from_json.html">py3dframe.Frame.load_from_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.convention.html">convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.parent.html">parent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.get_global_frame.html">get_global_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.canonical.html">canonical</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.from_axes.html">from_axes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.origin.html">origin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.axes.html">axes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.x_axis.html">x_axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.y_axis.html">y_axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.z_axis.html">z_axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.global_origin.html">global_origin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.global_axes.html">global_axes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.global_x_axis.html">global_x_axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.global_y_axis.html">global_y_axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.global_z_axis.html">global_z_axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.from_rotation.html">from_rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.translation.html">translation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.get_translation.html">get_translation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.set_translation.html">set_translation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.rotation.html">rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.get_rotation.html">get_rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.set_rotation.html">set_rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.global_translation.html">global_translation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.get_global_translation.html">get_global_translation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.set_global_translation.html">set_global_translation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.global_rotation.html">global_rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.get_global_rotation.html">get_global_rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.set_global_rotation.html">set_global_rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.from_rotation_matrix.html">from_rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.rotation_matrix.html">rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.get_rotation_matrix.html">get_rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.set_rotation_matrix.html">set_rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.global_rotation_matrix.html">global_rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.get_global_rotation_matrix.html">get_global_rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.set_global_rotation_matrix.html">set_global_rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.from_quaternion.html">from_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.quaternion.html">quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.get_quaternion.html">get_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.set_quaternion.html">set_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.global_quaternion.html">global_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.get_global_quaternion.html">get_global_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.set_global_quaternion.html">set_global_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.from_euler_angles.html">from_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.euler_angles.html">euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.get_euler_angles.html">get_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.set_euler_angles.html">set_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.global_euler_angles.html">global_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.get_global_euler_angles.html">get_global_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.set_global_euler_angles.html">set_global_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.from_rotation_vector.html">from_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.rotation_vector.html">rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.get_rotation_vector.html">get_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.set_rotation_vector.html">set_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.global_rotation_vector.html">global_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.get_global_rotation_vector.html">get_global_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.set_global_rotation_vector.html">set_global_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.save_to_dict.html">save_to_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.load_from_dict.html">load_from_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.save_to_json.html">save_to_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.load_from_json.html">load_from_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.copy.html">copy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.Frame.deepcopy.html">deepcopy</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">py3dframe.FrameTransform</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.input_frame.html">py3dframe.FrameTransform.input_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.output_frame.html">py3dframe.FrameTransform.output_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.dynamic.html">py3dframe.FrameTransform.dynamic</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.convention.html">py3dframe.FrameTransform.convention</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.get_translation.html">py3dframe.FrameTransform.get_translation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.translation.html">py3dframe.FrameTransform.translation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.get_rotation.html">py3dframe.FrameTransform.get_rotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.rotation.html">py3dframe.FrameTransform.rotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.get_rotation_matrix.html">py3dframe.FrameTransform.get_rotation_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.rotation_matrix.html">py3dframe.FrameTransform.rotation_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.get_quaternion.html">py3dframe.FrameTransform.get_quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.quaternion.html">py3dframe.FrameTransform.quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.get_euler_angles.html">py3dframe.FrameTransform.get_euler_angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.euler_angles.html">py3dframe.FrameTransform.euler_angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.get_rotation_vector.html">py3dframe.FrameTransform.get_rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.rotation_vector.html">py3dframe.FrameTransform.rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.transform.html">py3dframe.FrameTransform.transform</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.inverse_transform.html">py3dframe.FrameTransform.inverse_transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.input_frame.html">input_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.output_frame.html">output_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.dynamic.html">dynamic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.convention.html">convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.get_active_input_frame.html">get_active_input_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.get_active_output_frame.html">get_active_output_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.get_translation.html">get_translation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.translation.html">translation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.get_rotation.html">get_rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.rotation.html">rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.get_rotation_matrix.html">get_rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.rotation_matrix.html">rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.get_quaternion.html">get_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.quaternion.html">quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.get_euler_angles.html">get_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.euler_angles.html">euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.get_rotation_vector.html">get_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.rotation_vector.html">rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.transform.html">transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.inverse_transform.html">inverse_transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTransform.inverse.html">inverse</a></li>
 </ul>
 </details></li>
 </ul>
@@ -425,10 +430,21 @@
                   
   <section id="py3dframe-frametransform">
 <h1>py3dframe.FrameTransform<a class="headerlink" href="#py3dframe-frametransform" title="Link to this heading">#</a></h1>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#set-the-input-and-output-frames" id="id1">Set the input and output frames</a></p></li>
+<li><p><a class="reference internal" href="#access-the-parameters-of-the-transformation" id="id2">Access the parameters of the transformation</a></p></li>
+<li><p><a class="reference internal" href="#perform-the-transformation-from-input-to-output-and-vice-versa" id="id3">Perform the transformation from input to output and vice versa</a></p></li>
+<li><p><a class="reference internal" href="#manipulate-the-transformation" id="id4">Manipulate the transformation</a></p></li>
+<li><p><a class="reference internal" href="#examples-of-usage" id="id5">Examples of Usage</a></p></li>
+</ul>
+</nav>
 <dl class="py class">
 <dt class="sig sig-object py" id="py3dframe.FrameTransform">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py3dframe.</span></span><span class="sig-name descname"><span class="pre">FrameTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="frame.html#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="frame.html#py3dframe.Frame" title="py3dframe.frame.Frame"><span class="pre">Frame</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dynamic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convention</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/frame_transform.html#FrameTransform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.FrameTransform" title="Link to this definition">#</a></dt>
-<dd><p>Lets consider two orthonormal reference frames <span class="math notranslate nohighlight">\(E\)</span> and <span class="math notranslate nohighlight">\(F\)</span> of <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span> (see <a class="reference internal" href="frame.html#py3dframe.Frame" title="py3dframe.Frame"><code class="xref py py-class docutils literal notranslate"><span class="pre">py3dframe.Frame</span></code></a>).
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py3dframe.</span></span><span class="sig-name descname"><span class="pre">FrameTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dynamic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convention</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/frame_transform.html#FrameTransform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.FrameTransform" title="Link to this definition">#</a></dt>
+<dd><p>Class to represent a transformation between two frames of reference.</p>
+<p>Lets consider two orthonormal reference frames <span class="math notranslate nohighlight">\(E\)</span> and <span class="math notranslate nohighlight">\(F\)</span> of <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span> (see <a class="reference internal" href="frame.html#py3dframe.Frame" title="py3dframe.Frame"><code class="xref py py-class docutils literal notranslate"><span class="pre">py3dframe.Frame</span></code></a>).
 The transformation from the frame E (input frame) to the frame F (output frame) can be stored in a FrameTransform object.</p>
 <p>Lets consider a point <span class="math notranslate nohighlight">\(X\)</span> whose coordinates in the frame E are <span class="math notranslate nohighlight">\(\mathbf{X}_i\)</span> and in the frame F are <span class="math notranslate nohighlight">\(\mathbf{X}_o\)</span>.
 There exist 8 principal conventions to express the transformation between the frame E and the frame F.</p>
@@ -468,36 +484,128 @@ There exist 8 principal conventions to express the transformation between the fr
 </table>
 </div>
 <p>Because the frames are orthonormal, the matrix <span class="math notranslate nohighlight">\(\mathbf{R}\)</span> is an orthogonal matrix, i.e. <span class="math notranslate nohighlight">\(\mathbf{R}^T = \mathbf{R}^{-1}\)</span>.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<ul class="simple">
-<li><p>function <a class="reference internal" href="switch_RT_convention.html#py3dframe.switch_RT_convention" title="py3dframe.switch_RT_convention"><code class="xref py py-func docutils literal notranslate"><span class="pre">py3dframe.switch_RT_convention()</span></code></a> to convert the transformation between the frames E and F from one convention to another.</p></li>
-</ul>
-</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>input_frame</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="frame.html#py3dframe.Frame" title="py3dframe.Frame"><em>Frame</em></a><em>]</em><em>, </em><em>optional</em>) – The input frame of the transformation. Default is None - the global frame.</p></li>
 <li><p><strong>output_frame</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="frame.html#py3dframe.Frame" title="py3dframe.Frame"><em>Frame</em></a><em>]</em><em>, </em><em>optional</em>) – The output frame of the transformation. Default is None - the global frame.</p></li>
 <li><p><strong>dynamic</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the transformation will be affected by the changes in the input frame or the output frame. Default is True.</p></li>
-<li><p><strong>convention</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em><em>, </em><em>optional</em>) – The convention to express the transformation. It can be an integer between 0 and 7 or a string corresponding to the conventions. Default is 0.</p></li>
+<li><p><strong>convention</strong> (<em>int</em><em>, </em><em>optional</em>) – Integer in <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">7]</span></code> selecting the convention to express the transformation. Default is 0.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>TypeError</strong> – If the input_frame or the output_frame is not a Frame object (or None).
-    If the rotation_matrix is not an array_like object (or None).
-    If the translation is not an array_like object (or None).
     If the dynamic is not a boolean.
     If the convention is not an integer or a string.</p></li>
-<li><p><strong>ValueError</strong> – If the rotation_matrix is not a 3x3 matrix.
-    If the translation_vector is not a 3-element vector.
-    If the convention is not between 0 and 7 or a valid string.
-    If the user provides both the rotation_matrix and the translation_vector and the input_frame and the output_frame.</p></li>
+<li><p><strong>ValueError</strong> – If the convention is not between 0 and 7.</p></li>
 </ul>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
+</dd></dl>
+
+<section id="set-the-input-and-output-frames">
+<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Set the input and output frames</a><a class="headerlink" href="#set-the-input-and-output-frames" title="Link to this heading">#</a></h2>
+<p>The input and output frames of the transformation can be set and accessed via the corresponding properties.
+To freeze the transformation with respect to changes in the input and output frames, set the <code class="docutils literal notranslate"><span class="pre">dynamic</span></code> attribute to False.</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.input_frame.html#py3dframe.FrameTransform.input_frame" title="py3dframe.FrameTransform.input_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.input_frame</span></code></a></p></td>
+<td><p>The input frame of the transformation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.output_frame.html#py3dframe.FrameTransform.output_frame" title="py3dframe.FrameTransform.output_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.output_frame</span></code></a></p></td>
+<td><p>The output frame of the transformation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.dynamic.html#py3dframe.FrameTransform.dynamic" title="py3dframe.FrameTransform.dynamic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.dynamic</span></code></a></p></td>
+<td><p>The dynamic attribute controls whether the transformation is affected by changes in the input or output frame.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.convention.html#py3dframe.FrameTransform.convention" title="py3dframe.FrameTransform.convention"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.convention</span></code></a></p></td>
+<td><p>The convention to express the transformation between the input frame and the output frame.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.get_active_input_frame.html#py3dframe.FrameTransform.get_active_input_frame" title="py3dframe.FrameTransform.get_active_input_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.get_active_input_frame</span></code></a>()</p></td>
+<td><p>Get a copy of the active input frame of the transformation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.get_active_output_frame.html#py3dframe.FrameTransform.get_active_output_frame" title="py3dframe.FrameTransform.get_active_output_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.get_active_output_frame</span></code></a>()</p></td>
+<td><p>Get a copy of the active output frame of the transformation.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="access-the-parameters-of-the-transformation">
+<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Access the parameters of the transformation</a><a class="headerlink" href="#access-the-parameters-of-the-transformation" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.get_translation.html#py3dframe.FrameTransform.get_translation" title="py3dframe.FrameTransform.get_translation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.get_translation</span></code></a>(*[, convention])</p></td>
+<td><p>Get the translation vector between the input frame and the output frame in a specified convention.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.translation.html#py3dframe.FrameTransform.translation" title="py3dframe.FrameTransform.translation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.translation</span></code></a></p></td>
+<td><p>Getter for the translation vector between the input frame and the output frame in the convention of the transformation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.get_rotation.html#py3dframe.FrameTransform.get_rotation" title="py3dframe.FrameTransform.get_rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.get_rotation</span></code></a>(*[, convention])</p></td>
+<td><p>Get the rotation between the input frame and the output frame in a specified convention.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.rotation.html#py3dframe.FrameTransform.rotation" title="py3dframe.FrameTransform.rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.rotation</span></code></a></p></td>
+<td><p>Getter for the rotation between the input frame and the output frame in the convention of the transformation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.get_rotation_matrix.html#py3dframe.FrameTransform.get_rotation_matrix" title="py3dframe.FrameTransform.get_rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.get_rotation_matrix</span></code></a>(*[, ...])</p></td>
+<td><p>Get the rotation matrix representation of the rotation between the input frame and the output frame in a specified convention.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.rotation_matrix.html#py3dframe.FrameTransform.rotation_matrix" title="py3dframe.FrameTransform.rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.rotation_matrix</span></code></a></p></td>
+<td><p>Getter for the rotation matrix representation of the rotation between the input frame and the output frame in the convention of the transformation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.get_quaternion.html#py3dframe.FrameTransform.get_quaternion" title="py3dframe.FrameTransform.get_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.get_quaternion</span></code></a>(*[, ...])</p></td>
+<td><p>Get the quaternion representation of the rotation between the input frame and the output frame in a specified convention.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.quaternion.html#py3dframe.FrameTransform.quaternion" title="py3dframe.FrameTransform.quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.quaternion</span></code></a></p></td>
+<td><p>Getter for the quaternion representation of the rotation between the input frame and the output frame in the convention of the transformation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.get_euler_angles.html#py3dframe.FrameTransform.get_euler_angles" title="py3dframe.FrameTransform.get_euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.get_euler_angles</span></code></a>(*[, ...])</p></td>
+<td><p>Get the Euler angles representation of the rotation between the input frame and the output frame in a specified convention.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.euler_angles.html#py3dframe.FrameTransform.euler_angles" title="py3dframe.FrameTransform.euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.euler_angles</span></code></a></p></td>
+<td><p>Getter for the Euler angles representation of the rotation between the input frame and the output frame in the convention of the transformation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.get_rotation_vector.html#py3dframe.FrameTransform.get_rotation_vector" title="py3dframe.FrameTransform.get_rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.get_rotation_vector</span></code></a>(*[, ...])</p></td>
+<td><p>Get the rotation vector representation of the rotation between the input frame and the output frame in a specified convention.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.rotation_vector.html#py3dframe.FrameTransform.rotation_vector" title="py3dframe.FrameTransform.rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.rotation_vector</span></code></a></p></td>
+<td><p>Getter for the rotation vector representation of the rotation between the input frame and the output frame in the convention of the transformation.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="perform-the-transformation-from-input-to-output-and-vice-versa">
+<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Perform the transformation from input to output and vice versa</a><a class="headerlink" href="#perform-the-transformation-from-input-to-output-and-vice-versa" title="Link to this heading">#</a></h2>
+<p>To transform points or vectors from the input frame to the output frame, use the <code class="docutils literal notranslate"><span class="pre">transform</span></code> method.
+To transform points or vectors from the output frame to the input frame, use the <code class="docutils literal notranslate"><span class="pre">inverse_transform</span></code> method.</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.transform.html#py3dframe.FrameTransform.transform" title="py3dframe.FrameTransform.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.transform</span></code></a>(*[, point, vector])</p></td>
+<td><p>Transform a point or a vector from the input frame to the output frame.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.inverse_transform.html#py3dframe.FrameTransform.inverse_transform" title="py3dframe.FrameTransform.inverse_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.inverse_transform</span></code></a>(*[, point, ...])</p></td>
+<td><p>Transform a point or a vector from the output frame to the input frame.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="manipulate-the-transformation">
+<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Manipulate the transformation</a><a class="headerlink" href="#manipulate-the-transformation" title="Link to this heading">#</a></h2>
+<p>Some operations can be performed on FrameTransform objects.</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTransform.inverse.html#py3dframe.FrameTransform.inverse" title="py3dframe.FrameTransform.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.inverse</span></code></a>()</p></td>
+<td><p>Get the inverse transformation by swapping the input frame and the output frame.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="examples-of-usage">
+<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Examples of Usage</a><a class="headerlink" href="#examples-of-usage" title="Link to this heading">#</a></h2>
 <p>To create a FrameTransform object, the user must provide two Frame objects.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">py3dframe</span><span class="w"> </span><span class="kn">import</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">FrameTransform</span>
 
@@ -512,14 +620,25 @@ There exist 8 principal conventions to express the transformation between the fr
 <li><p>If the <code class="docutils literal notranslate"><span class="pre">dynamic</span></code> parameter is set to <code class="docutils literal notranslate"><span class="pre">True</span></code> and then changed to <code class="docutils literal notranslate"><span class="pre">False</span></code>, the FrameTransform object will correspond to the transformation between the input frame and the output frame at the time of the change of the <code class="docutils literal notranslate"><span class="pre">dynamic</span></code> parameter.</p></li>
 </ul>
 <p>The user can access the rotation matrix and the translation vector of the transformation as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">rotation_matrix</span>
-<span class="n">T</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">translation</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">get_rotation_matrix</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># Rotation matrix in convention 0</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">get_translation</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># Translation vector in convention 0</span>
 </pre></div>
 </div>
 <p>The user can also access the input frame and the output frame of the transformation as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">frame_E</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">input_frame</span>
-<span class="n">frame_F</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">output_frame</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">frame_E</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">get_active_input_frame</span><span class="p">()</span>
+<span class="n">frame_F</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">get_active_output_frame</span><span class="p">()</span>
 </pre></div>
+</div>
+<p>To update the input frame or the output frame of the transformation, the user can use the corresponding properties.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">frame_G</span> <span class="o">=</span> <span class="n">Frame</span><span class="o">.</span><span class="n">from_axes</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">x_axis</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">y_axis</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">z_axis</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="c1"># Another local frame</span>
+<span class="n">transform</span><span class="o">.</span><span class="n">input_frame</span> <span class="o">=</span> <span class="n">frame_G</span> <span class="c1"># Update the input frame of the transformation</span>
+<span class="n">transform</span><span class="o">.</span><span class="n">output_frame</span> <span class="o">=</span> <span class="n">frame_F</span> <span class="c1"># Update the output frame of the transformation</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">dynamic</span></code> parameter is set to <code class="docutils literal notranslate"><span class="pre">False</span></code>, the FrameTransform object will not be affected by the changes in the input frame or the output frame.
+Set <code class="docutils literal notranslate"><span class="pre">dynamic</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code> to reactivate the dynamic mode (you can then reset it to <code class="docutils literal notranslate"><span class="pre">False</span></code> again if needed).</p>
 </div>
 <p>The FrameTransform object can be used to transform points or vectors from the input frame to the output frame and vice versa.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X_i</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
@@ -531,87 +650,8 @@ There exist 8 principal conventions to express the transformation between the fr
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X_i</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
 <span class="n">X_o</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">X_i</span><span class="p">)</span> <span class="c1"># X_i = R X_o + T</span>
 <span class="n">V_i</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-<span class="n">V_o</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">vector</span><span class="o">=</span><span class="n">V_i</span><span class="p">)</span> <span class="c1"># V_i = R V_o</span>
+    <span class="n">V_o</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">vector</span><span class="o">=</span><span class="n">V_i</span><span class="p">)</span> <span class="c1"># V_i = R V_o</span>
 </pre></div>
-</div>
-</dd></dl>
-
-<section id="set-the-input-and-output-frames">
-<h2>Set the input and output frames<a class="headerlink" href="#set-the-input-and-output-frames" title="Link to this heading">#</a></h2>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.input_frame.html#py3dframe.FrameTransform.input_frame" title="py3dframe.FrameTransform.input_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.input_frame</span></code></a></p></td>
-<td><p>Getter and setter for the input_frame attribute.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.output_frame.html#py3dframe.FrameTransform.output_frame" title="py3dframe.FrameTransform.output_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.output_frame</span></code></a></p></td>
-<td><p>Getter and setter for the output_frame attribute.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.dynamic.html#py3dframe.FrameTransform.dynamic" title="py3dframe.FrameTransform.dynamic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.dynamic</span></code></a></p></td>
-<td><p>Getter and setter for the dynamic attribute.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.convention.html#py3dframe.FrameTransform.convention" title="py3dframe.FrameTransform.convention"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.convention</span></code></a></p></td>
-<td><p>Getter and setter for the convention parameter.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="access-the-parameters-of-the-transformation">
-<h2>Access the parameters of the transformation<a class="headerlink" href="#access-the-parameters-of-the-transformation" title="Link to this heading">#</a></h2>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.get_translation.html#py3dframe.FrameTransform.get_translation" title="py3dframe.FrameTransform.get_translation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.get_translation</span></code></a>(*[, convention])</p></td>
-<td><p>Get the translation vector between the input frame and the output frame in the given convention.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.translation.html#py3dframe.FrameTransform.translation" title="py3dframe.FrameTransform.translation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.translation</span></code></a></p></td>
-<td><p>Getter for the translation vector between the input frame and the output frame in the convention of the frame.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.get_rotation.html#py3dframe.FrameTransform.get_rotation" title="py3dframe.FrameTransform.get_rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.get_rotation</span></code></a>(*[, convention])</p></td>
-<td><p>Get the rotation between the input frame and the output frame in the given convention.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.rotation.html#py3dframe.FrameTransform.rotation" title="py3dframe.FrameTransform.rotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.rotation</span></code></a></p></td>
-<td><p>Getter for the rotation between the input frame and the output frame in the convention of the frame.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.get_rotation_matrix.html#py3dframe.FrameTransform.get_rotation_matrix" title="py3dframe.FrameTransform.get_rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.get_rotation_matrix</span></code></a>(*[, ...])</p></td>
-<td><p>Get the rotation matrix between the input frame and the output frame in the given convention.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.rotation_matrix.html#py3dframe.FrameTransform.rotation_matrix" title="py3dframe.FrameTransform.rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.rotation_matrix</span></code></a></p></td>
-<td><p>Getter for the rotation matrix between the input frame and the output frame in the convention of the frame.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.get_quaternion.html#py3dframe.FrameTransform.get_quaternion" title="py3dframe.FrameTransform.get_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.get_quaternion</span></code></a>(*[, ...])</p></td>
-<td><p>Get the quaternion between the input frame and the output frame in the given convention.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.quaternion.html#py3dframe.FrameTransform.quaternion" title="py3dframe.FrameTransform.quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.quaternion</span></code></a></p></td>
-<td><p>Getter for the quaternion between the input frame and the output frame in the convention of the frame.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.get_euler_angles.html#py3dframe.FrameTransform.get_euler_angles" title="py3dframe.FrameTransform.get_euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.get_euler_angles</span></code></a>(*[, ...])</p></td>
-<td><p>Get the Euler angles between the input frame and the output frame in the given convention.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.euler_angles.html#py3dframe.FrameTransform.euler_angles" title="py3dframe.FrameTransform.euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.euler_angles</span></code></a></p></td>
-<td><p>Getter for the Euler angles between the input frame and the output frame in the convention of the frame.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.get_rotation_vector.html#py3dframe.FrameTransform.get_rotation_vector" title="py3dframe.FrameTransform.get_rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.get_rotation_vector</span></code></a>(*[, ...])</p></td>
-<td><p>Get the rotation vector between the input frame and the output frame in the given convention.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.rotation_vector.html#py3dframe.FrameTransform.rotation_vector" title="py3dframe.FrameTransform.rotation_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.rotation_vector</span></code></a></p></td>
-<td><p>Getter for the rotation vector between the input frame and the output frame in the convention of the frame.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="perform-the-transformation">
-<h2>Perform the transformation<a class="headerlink" href="#perform-the-transformation" title="Link to this heading">#</a></h2>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.transform.html#py3dframe.FrameTransform.transform" title="py3dframe.FrameTransform.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.transform</span></code></a>(*[, point, vector])</p></td>
-<td><p>Transform a point or a vector from the input frame to the output frame.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="Transform_generated/py3dframe.FrameTransform.inverse_transform.html#py3dframe.FrameTransform.inverse_transform" title="py3dframe.FrameTransform.inverse_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTransform.inverse_transform</span></code></a>(*[, point, ...])</p></td>
-<td><p>Transform a point or a vector from the output frame to the input frame.</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 </section>
 </section>
@@ -627,20 +667,20 @@ There exist 8 principal conventions to express the transformation between the fr
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="Frame_generated/py3dframe.Frame.load_from_json.html"
+       href="../generated/py3dframe.Frame.deepcopy.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">py3dframe.Frame.load_from_json</p>
+        <p class="prev-next-title">deepcopy</p>
       </div>
     </a>
     <a class="right-next"
-       href="Transform_generated/py3dframe.FrameTransform.input_frame.html"
+       href="../generated/py3dframe.FrameTransform.input_frame.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">py3dframe.FrameTransform.input_frame</p>
+        <p class="prev-next-title">input_frame</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -666,7 +706,9 @@ There exist 8 principal conventions to express the transformation between the fr
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTransform"><code class="docutils literal notranslate"><span class="pre">FrameTransform</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-input-and-output-frames">Set the input and output frames</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#access-the-parameters-of-the-transformation">Access the parameters of the transformation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perform-the-transformation">Perform the transformation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perform-the-transformation-from-input-to-output-and-vice-versa">Perform the transformation from input to output and vice versa</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manipulate-the-transformation">Manipulate the transformation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-usage">Examples of Usage</a></li>
 </ul>
   </nav></div>
 
