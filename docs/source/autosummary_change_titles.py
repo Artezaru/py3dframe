@@ -1,6 +1,6 @@
 import os
 
-gen_folder = os.path.join(os.getcwd(), "docs", "source", "generated")
+gen_folder = os.path.join(os.path.dirname(__file__), "generated")
 
 for filename in os.listdir(gen_folder):
     if filename.endswith(".rst"):

@@ -30,7 +30,10 @@ jobs:
         pip install .
 
     - name: Build documentation
-      run: sphinx-build -b html docs/source/ public/
+      run: |
+        sphinx-autogen -o docs/source/generated/ docs/source/api_doc/*.rst
+        python3 docs/source/autosummary_change_titles.py
+        sphinx-build -b html docs/source/ public/
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4

@@ -47,7 +47,7 @@ autosummary:
 	@sphinx-autogen -o docs/source/generated/ docs/source/api_doc/*.rst
 	@echo "Autosummary generation complete."
 	@echo "Run python autosummary_change_titles.py to update the names in the generated files."
-	@python3 autosummary_change_titles.py
+	@python3 docs/source/autosummary_change_titles.py
 
 # 5. Generate HTML documentation
 html:
