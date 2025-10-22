@@ -127,4 +127,4 @@ For vectors, the translation vector is not taken into account.
     X_i = [1, 2, 3]
     X_o = transform.transform(point=X_i) # X_i = R X_o + T
     V_i = [1, 2, 3]
-        V_o = transform.transform(vector=V_i) # V_i = R V_o
+    V_o = transform.transform(vector=V_i) # V_i = R V_o
