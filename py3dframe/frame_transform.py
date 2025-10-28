@@ -808,7 +808,6 @@ class FrameTransform:
         return self.get_quaternion(convention=self._convention, scalar_first=True)
 
 
-
     def get_euler_angles(self, *, convention: Optional[int] = None, seq: str = 'xyz', degrees: bool = False) -> numpy.ndarray:
         r"""
         Get the Euler angles representation of the rotation between the input frame and the output frame in a specified convention.

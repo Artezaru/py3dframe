@@ -2,7 +2,37 @@
 
 ## Description
 
-3D Frame of Reference managing tools. Only orthogonal and right-handed frames are supported.
+`py3dframe` provides tools to create, manipulate and query **orthogonal,
+right‑handed 3‑D frames of reference**.  
+
+All input arrays are automatically converted to `numpy.float64` so that
+every calculation is performed in double‑precision, guaranteeing numerical
+stability throughout the library.
+
+## Authors
+
+- Artezaru <artezaru.github@proton.me>
+
+- **Git Plateform**: https://github.com/Artezaru/py3dframe.git
+- **Online Documentation**: https://Artezaru.github.io/py3dframe
+
+## Installation
+
+Install with pip
+
+```
+pip install py3dframe
+```
+
+```
+pip install git+https://github.com/Artezaru/py3dframe.git
+```
+
+Clone with git
+
+```
+git clone https://github.com/Artezaru/py3dframe.git
+```
 
 # Usage
 
@@ -28,16 +58,16 @@ You can also construct a frame from a rotation and a translation using one of th
 
 | Index | Formula |
 |-------|---------|
-| 0 | **X_E** = **R** ⋅ **X_F** + **T** |
-| 1 | **X_E** = **R** ⋅ **X_F** − **T** |
-| 2 | **X_E** = **R** (**X_F** + **T**) |
-| 3 | **X_E** = **R** (**X_F** − **T**) |
-| 4 | **X_F** = **R** ⋅ **X_E** + **T** |
-| 5 | **X_F** = **R** ⋅ **X_E** − **T** |
-| 6 | **X_F** = **R** (**X_E** + **T**) |
-| 7 | **X_F** = **R** (**X_E** − **T**) |
+| 0 | **Xe** = **R** ⋅ **Xf** + **T** |
+| 1 | **Xe** = **R** ⋅ **Xf** − **T** |
+| 2 | **Xe** = **R** (**Xf** + **T**) |
+| 3 | **Xe** = **R** (**Xf** − **T**) |
+| 4 | **Xf** = **R** ⋅ **Xe** + **T** |
+| 5 | **Xf** = **R** ⋅ **Xe** − **T** |
+| 6 | **Xf** = **R** (**Xe** + **T**) |
+| 7 | **Xf** = **R** (**Xe** − **T**) |
 
-Where **X_E** is the point expressed in the parent (or global) frame E, **X_F** is the point expressed in the child (or local) frame F, **R** is the rotation matrix and **T** is the translation vector.
+Where **Xe** is the point expressed in the parent (or global) frame E, **Xf** is the point expressed in the child (or local) frame F, **R** is the rotation matrix and **T** is the translation vector.
 
 ```python
 from py3dframe import Frame, Rotation
@@ -106,31 +136,6 @@ vector_E = transform.inverse_transform(vector=vector_F)
 ```
 
 When the frame E moves, the `transform` object will automatically update the transformation between the two frames.
-
-## Authors
-
-- Artezaru <artezaru.github@proton.me>
-
-- **Git Plateform**: https://github.com/Artezaru/py3dframe.git
-- **Online Documentation**: https://Artezaru.github.io/py3dframe
-
-## Installation
-
-Install with pip
-
-```
-pip install py3dframe
-```
-
-```
-pip install git+https://github.com/Artezaru/py3dframe.git
-```
-
-Clone with git
-
-```
-git clone https://github.com/Artezaru/py3dframe.git
-```
 
 ## License
 
