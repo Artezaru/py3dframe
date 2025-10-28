@@ -34,11 +34,11 @@ Clone with git
 git clone https://github.com/Artezaru/py3dframe.git
 ```
 
-# Usage
+## Usage
 
 This section will guide you through the basic usage of the `py3dframe` package.
 
-## Construct a right-handed frame
+### Construct a right-handed frame
 
 To create a frame, you can provide the origin and the axes of the frame as follows:
 
@@ -78,7 +78,7 @@ translation = np.array([1, 2, 3]).reshape(3, 1)
 frame = Frame.from_rotation(translation=translation, rotation=rotation, convention=0)
 ```
 
-## Construct a system of frames
+### Construct a system of frames
 
 Let’s consider a person walking in a train.
 The person is represented by a frame F and the train is represented by a frame E.
@@ -100,7 +100,7 @@ frame_F = Frame.from_rotation(translation=translation, rotation=rotation, conven
 
 In this case, when the frame E moves, the frame F moves with it.
 
-## Transformation between frames
+### Transformation between frames
 
 The transformation between two frames can be computed using the `FrameTransform` class:
 
