@@ -1,10 +1,14 @@
 Welcome to py3dframe's documentation!
-=========================================================================================
+=====================================
 
-Description of the package
---------------------------
+``py3dframe`` provides tools to create, manipulate and query **orthogonal,
+right‑handed 3‑D frames of reference**.  
 
-3D Frame of Reference managing tools. Only orthogonal and right-handed frames are supported.
+.. note::
+
+   All input arrays are automatically converted to ``numpy.float64`` so that
+   every calculation is performed in double‑precision, guaranteeing numerical
+   stability throughout the library.
 
 Contents
 --------
