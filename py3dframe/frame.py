@@ -187,6 +187,8 @@ class Frame:
     @_T_dev.setter
     def _T_dev(self, T: numpy.ndarray) -> None:
         T = numpy.asarray(T).reshape((3,1)).astype(numpy.float64)
+        if numpy.any(~numpy.isfinite(T)):
+            raise ValueError("The translation must be finite.")
         self.__T_dev = T
         self.__T_dev.flags.writeable = False
 
@@ -1095,7 +1097,6 @@ class Frame:
             instance._remove_parent_dev()
         return instance
 
-
     
     # ====================================================================================================================================
     # User methods
@@ -1314,6 +1315,30 @@ class Frame:
         -------
         numpy.ndarray
             The basis vectors of the frame in the parent frame coordinates with shape (3, 3).
+
+        
+        Examples
+        --------
+
+        Lets define the axes of a frame.
+
+            import numpy
+            from py3dframe import Frame
+
+            frame = Frame.canonical()
+
+            # Define the axes of the frame (Axes will be normalized)
+            x_axis = numpy.array([1, 0, 0])
+            y_axis = numpy.array([0, 2, 0])
+            z_axis = numpy.array([0, 0, 3])
+
+            axes = numpy.column_stack((x_axis, y_axis, z_axis))
+            frame.axes = axes
+            print("Axes of the frame:", frame.axes)
+            # Output: Axes of the frame: [[1. 0. 0.]
+            #                          [0. 1. 0.]
+            #                          [0. 0. 1.]]    
+
         """
         return self.get_rotation_matrix(convention=0)
     
@@ -3624,7 +3649,7 @@ class Frame:
     
     def copy(self) -> Frame:
         r"""
-        Return a copy of the Frame object.
+        Return a copy of the Frame object. Same parent frame (shallow copy).
 
         .. note::
 
@@ -3646,7 +3671,7 @@ class Frame:
 
     def deepcopy(self) -> Frame:
         r"""
-        Return a deep copy of the Frame object.
+        Return a deep copy of the Frame object. Deep copy of the parent frame.
 
         .. note::
 
