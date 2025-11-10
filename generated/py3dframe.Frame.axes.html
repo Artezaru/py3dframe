@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>axes &#8212; py3dframe 1.1.5 documentation</title>
+    <title>axes &#8212; py3dframe 1.2.0 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=a48ae3df"></script>
+    <script src="../_static/documentation_options.js?v=6efca38a"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'generated/py3dframe.Frame.axes';</script>
@@ -110,7 +110,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.1.5 documentation</p>
+    <p class="title logo__title">py3dframe 1.2.0 documentation</p>
   
 </a></div>
     
@@ -357,6 +357,13 @@
 </ul>
 </details></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">manipulations submodule:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../api_doc/rotate_around_axis.html">py3dframe.manipulations.rotate_around_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_doc/translate.html">py3dframe.manipulations.translate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_doc/translate_along_axis.html">py3dframe.manipulations.translate_along_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_doc/mirror_across_plane.html">py3dframe.manipulations.mirror_across_plane</a></li>
+</ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">matrix submodule:</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../api_doc/is_O3.html">py3dframe.matrix.is_O3</a></li>
@@ -463,6 +470,23 @@ The first column is the x-axis, the second column is the y-axis and the third co
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<p>Lets define the axes of a frame.</p>
+<blockquote>
+<div><p>import numpy
+from py3dframe import Frame</p>
+<p>frame = Frame.canonical()</p>
+<p># Define the axes of the frame (Axes will be normalized)
+x_axis = numpy.array([1, 0, 0])
+y_axis = numpy.array([0, 2, 0])
+z_axis = numpy.array([0, 0, 3])</p>
+<p>axes = numpy.column_stack((x_axis, y_axis, z_axis))
+frame.axes = axes
+print(“Axes of the frame:”, frame.axes)
+# Output: Axes of the frame: [[1. 0. 0.]
+#                          [0. 1. 0.]
+#                          [0. 0. 1.]]</p>
+</div></blockquote>
 </dd></dl>
 
 </section>
