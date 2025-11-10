@@ -84,7 +84,7 @@ Let’s consider a person walking in a train.
 The person is represented by a frame F and the train is represented by a frame E.
 It is possible to represent the position of the person in the train by defining the frame F in the frame E coordinates.
 
-![System of frames](https://raw.githubusercontent.com/Artezaru/pyzernike/master/pyzernike/resources/train_person_frame.png)
+![System of frames](https://raw.githubusercontent.com/Artezaru/py3dframe/master/py3dframe/resources/train_person_frame.png)
 
 ```python
 from py3dframe import Frame, FrameTransform
