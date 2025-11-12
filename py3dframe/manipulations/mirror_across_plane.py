@@ -120,10 +120,10 @@ def mirror_across_plane(
         frame = frame.copy()
 
     if use_global:
-        frame_origin = frame.global_origin
+        frame_origin = frame.global_origin.flatten() 
         frame_axes = frame.global_axes
     else:
-        frame_origin = frame.origin
+        frame_origin = frame.origin.flatten()
         frame_axes = frame.axes # Columns stack of x, y, z axes
 
     # Create the vectors to mirror
