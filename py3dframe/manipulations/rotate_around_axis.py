@@ -21,7 +21,7 @@ import numpy
 def rotate_around_axis(
     frame: Frame,
     axis: numpy.ndarray,
-    angle_rad: float,
+    angle: float,
     point: Optional[numpy.ndarray] = None,
     use_global: bool = False,
     inplace: bool = True,
@@ -52,7 +52,7 @@ def rotate_around_axis(
     axis : numpy.ndarray
         A 3D vector representing the axis around which to rotate the frame. The vector not need to be normalized.
 
-    angle_rad : float
+    angle : float
         The angle in radians to rotate around the specified axis.
 
     point : Optional[numpy.ndarray], optional
@@ -99,10 +99,10 @@ def rotate_around_axis(
     """
     if not isinstance(frame, Frame):
         raise TypeError("The 'frame' parameter must be an instance of Frame.")
-    if not isinstance(angle_rad, Real):
-        raise TypeError("The 'angle_rad' parameter must be a real number.")
-    if not numpy.isfinite(angle_rad):
-        raise ValueError("The 'angle_rad' parameter must be finite.")
+    if not isinstance(angle, Real):
+        raise TypeError("The 'angle' parameter must be a real number.")
+    if not numpy.isfinite(angle):
+        raise ValueError("The 'angle' parameter must be finite.")
     
     axis = numpy.asarray(axis, dtype=float).flatten()
     if axis.shape != (3,):
@@ -123,23 +123,23 @@ def rotate_around_axis(
         if not numpy.isfinite(point).all():
             raise ValueError("The 'point' parameter must contain finite values.")
     else:
-        point = frame.origin if not use_global else frame.global_origin
+        point = frame.origin.flatten() if not use_global else frame.global_origin.flatten()
 
     if not inplace:
         frame = frame.copy()
 
     if use_global:
-        frame_origin = frame.global_origin
-        frame_axes = frame.global_axes
+        frame_origin = frame.global_origin.flatten() # (3,)
+        frame_axes = frame.global_axes # Columns stack of x, y, z axes
     else:
-        frame_origin = frame.origin
+        frame_origin = frame.origin.flatten() # (3,)
         frame_axes = frame.axes # Columns stack of x, y, z axes
 
     # Create the inputs points
-    input_origin = frame_origin
-    input_x = frame_origin + frame_axes[:, 0]
-    input_y = frame_origin + frame_axes[:, 1]
-    input_z = frame_origin + frame_axes[:, 2]
+    input_origin = frame_origin # (3,)
+    input_x = frame_origin + frame_axes[:, 0] # (3,)
+    input_y = frame_origin + frame_axes[:, 1] # (3,)
+    input_z = frame_origin + frame_axes[:, 2] # (3,)
     input_points = numpy.stack((input_origin, input_x, input_y, input_z), axis=0)
 
     # Rotate the points around the axis
@@ -165,8 +165,8 @@ def rotate_around_axis(
     y_proj = numpy.dot(perpendicular_components, local_y)
 
     # Rotate the local_x and local_y
-    x_rotated = local_x * numpy.cos(angle_rad) + local_y * numpy.sin(angle_rad)
-    y_rotated = -local_x * numpy.sin(angle_rad) + local_y * numpy.cos(angle_rad)
+    x_rotated = local_x * numpy.cos(angle) + local_y * numpy.sin(angle)
+    y_rotated = -local_x * numpy.sin(angle) + local_y * numpy.cos(angle)
 
     rotated_perpendicular_components = x_proj[:, numpy.newaxis] * x_rotated + y_proj[:, numpy.newaxis] * y_rotated
     rotated_vectors = parallel_components + rotated_perpendicular_components
