@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>py3dframe.manipulations.rotate_around_axis &#8212; py3dframe 1.2.0 documentation</title>
+    <title>py3dframe.manipulations.rotate_around_axis &#8212; py3dframe 1.2.1 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+    <script src="../../../_static/documentation_options.js?v=ca842793"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/py3dframe/manipulations/rotate_around_axis';</script>
@@ -107,7 +107,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.2.0 documentation</p>
+    <p class="title logo__title">py3dframe 1.2.1 documentation</p>
   
 </a></div>
     
@@ -335,7 +335,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">rotate_around_axis</span><span class="p">(</span>
     <span class="n">frame</span><span class="p">:</span> <span class="n">Frame</span><span class="p">,</span>
     <span class="n">axis</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="n">angle_rad</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">point</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">use_global</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -366,7 +366,7 @@
 <span class="sd">    axis : numpy.ndarray</span>
 <span class="sd">        A 3D vector representing the axis around which to rotate the frame. The vector not need to be normalized.</span>
 
-<span class="sd">    angle_rad : float</span>
+<span class="sd">    angle : float</span>
 <span class="sd">        The angle in radians to rotate around the specified axis.</span>
 
 <span class="sd">    point : Optional[numpy.ndarray], optional</span>
@@ -413,10 +413,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">Frame</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The &#39;frame&#39; parameter must be an instance of Frame.&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">angle_rad</span><span class="p">,</span> <span class="n">Real</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The &#39;angle_rad&#39; parameter must be a real number.&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">numpy</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">angle_rad</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The &#39;angle_rad&#39; parameter must be finite.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">Real</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The &#39;angle&#39; parameter must be a real number.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">numpy</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">angle</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The &#39;angle&#39; parameter must be finite.&quot;</span><span class="p">)</span>
     
     <span class="n">axis</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">axis</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,):</span>
@@ -437,23 +437,23 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">numpy</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">point</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The &#39;point&#39; parameter must contain finite values.&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">point</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">origin</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">use_global</span> <span class="k">else</span> <span class="n">frame</span><span class="o">.</span><span class="n">global_origin</span>
+        <span class="n">point</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">origin</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">use_global</span> <span class="k">else</span> <span class="n">frame</span><span class="o">.</span><span class="n">global_origin</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
         <span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">use_global</span><span class="p">:</span>
-        <span class="n">frame_origin</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">global_origin</span>
-        <span class="n">frame_axes</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">global_axes</span>
+        <span class="n">frame_origin</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">global_origin</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="c1"># (3,)</span>
+        <span class="n">frame_axes</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">global_axes</span> <span class="c1"># Columns stack of x, y, z axes</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">frame_origin</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">origin</span>
+        <span class="n">frame_origin</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">origin</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="c1"># (3,)</span>
         <span class="n">frame_axes</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">axes</span> <span class="c1"># Columns stack of x, y, z axes</span>
 
     <span class="c1"># Create the inputs points</span>
-    <span class="n">input_origin</span> <span class="o">=</span> <span class="n">frame_origin</span>
-    <span class="n">input_x</span> <span class="o">=</span> <span class="n">frame_origin</span> <span class="o">+</span> <span class="n">frame_axes</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="n">input_y</span> <span class="o">=</span> <span class="n">frame_origin</span> <span class="o">+</span> <span class="n">frame_axes</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="n">input_z</span> <span class="o">=</span> <span class="n">frame_origin</span> <span class="o">+</span> <span class="n">frame_axes</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">input_origin</span> <span class="o">=</span> <span class="n">frame_origin</span> <span class="c1"># (3,)</span>
+    <span class="n">input_x</span> <span class="o">=</span> <span class="n">frame_origin</span> <span class="o">+</span> <span class="n">frame_axes</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="c1"># (3,)</span>
+    <span class="n">input_y</span> <span class="o">=</span> <span class="n">frame_origin</span> <span class="o">+</span> <span class="n">frame_axes</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="c1"># (3,)</span>
+    <span class="n">input_z</span> <span class="o">=</span> <span class="n">frame_origin</span> <span class="o">+</span> <span class="n">frame_axes</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="c1"># (3,)</span>
     <span class="n">input_points</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">input_origin</span><span class="p">,</span> <span class="n">input_x</span><span class="p">,</span> <span class="n">input_y</span><span class="p">,</span> <span class="n">input_z</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="c1"># Rotate the points around the axis</span>
@@ -479,8 +479,8 @@
     <span class="n">y_proj</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">perpendicular_components</span><span class="p">,</span> <span class="n">local_y</span><span class="p">)</span>
 
     <span class="c1"># Rotate the local_x and local_y</span>
-    <span class="n">x_rotated</span> <span class="o">=</span> <span class="n">local_x</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle_rad</span><span class="p">)</span> <span class="o">+</span> <span class="n">local_y</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle_rad</span><span class="p">)</span>
-    <span class="n">y_rotated</span> <span class="o">=</span> <span class="o">-</span><span class="n">local_x</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle_rad</span><span class="p">)</span> <span class="o">+</span> <span class="n">local_y</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle_rad</span><span class="p">)</span>
+    <span class="n">x_rotated</span> <span class="o">=</span> <span class="n">local_x</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">+</span> <span class="n">local_y</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+    <span class="n">y_rotated</span> <span class="o">=</span> <span class="o">-</span><span class="n">local_x</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">+</span> <span class="n">local_y</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
 
     <span class="n">rotated_perpendicular_components</span> <span class="o">=</span> <span class="n">x_proj</span><span class="p">[:,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">x_rotated</span> <span class="o">+</span> <span class="n">y_proj</span><span class="p">[:,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">y_rotated</span>
     <span class="n">rotated_vectors</span> <span class="o">=</span> <span class="n">parallel_components</span> <span class="o">+</span> <span class="n">rotated_perpendicular_components</span>

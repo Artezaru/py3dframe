@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>py3dframe.manipulations.rotate_around_axis &#8212; py3dframe 1.2.0 documentation</title>
+    <title>py3dframe.manipulations.rotate_around_axis &#8212; py3dframe 1.2.1 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=6efca38a"></script>
+    <script src="../_static/documentation_options.js?v=ca842793"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api_doc/rotate_around_axis';</script>
@@ -110,7 +110,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.2.0 documentation</p>
+    <p class="title logo__title">py3dframe 1.2.1 documentation</p>
   
 </a></div>
     
@@ -438,7 +438,7 @@
 <h1>py3dframe.manipulations.rotate_around_axis<a class="headerlink" href="#py3dframe-manipulations-rotate-around-axis" title="Link to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="py3dframe.manipulations.rotate_around_axis">
-<span class="sig-prename descclassname"><span class="pre">py3dframe.manipulations.</span></span><span class="sig-name descname"><span class="pre">rotate_around_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_rad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/manipulations/rotate_around_axis.html#rotate_around_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.manipulations.rotate_around_axis" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">py3dframe.manipulations.</span></span><span class="sig-name descname"><span class="pre">rotate_around_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/manipulations/rotate_around_axis.html#rotate_around_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.manipulations.rotate_around_axis" title="Link to this definition">#</a></dt>
 <dd><p>Rotate a frame around a specified axis by a given angle.</p>
 <p>The frame is rotated around the specified axis by the given angle in radians.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">use_global</span></code> is set to True, the rotation is applied in the global coordinate system.
@@ -459,7 +459,7 @@ Otherwise, the rotation is applied in the local coordinate system of the frame (
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>frame</strong> (<a class="reference internal" href="frame.html#py3dframe.Frame" title="py3dframe.Frame"><em>Frame</em></a>) – The frame to rotate.</p></li>
 <li><p><strong>axis</strong> (<em>numpy.ndarray</em>) – A 3D vector representing the axis around which to rotate the frame. The vector not need to be normalized.</p></li>
-<li><p><strong>angle_rad</strong> (<em>float</em>) – The angle in radians to rotate around the specified axis.</p></li>
+<li><p><strong>angle</strong> (<em>float</em>) – The angle in radians to rotate around the specified axis.</p></li>
 <li><p><strong>point</strong> (<em>Optional</em><em>[</em><em>numpy.ndarray</em><em>]</em><em>, </em><em>optional</em>) – A 3D point representing a point through which the rotation axis passes.
 If None, the rotation is performed around the frame’s origin. Default is None.</p></li>
 <li><p><strong>use_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the rotation is applied in the global coordinate system.
