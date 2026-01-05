@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>save_to_json &#8212; py3dframe 1.2.3 documentation</title>
+    <title>get_parent_name &#8212; py3dframe 1.3.0 documentation</title>
   
   
   
@@ -38,14 +38,14 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=590429e0"></script>
+    <script src="../_static/documentation_options.js?v=1f29e9d3"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'generated/py3dframe.Frame.save_to_json';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'generated/py3dframe.FrameTree.get_parent_name';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="load_from_json" href="py3dframe.Frame.load_from_json.html" />
-    <link rel="prev" title="load_from_dict" href="py3dframe.Frame.load_from_dict.html" />
+    <link rel="next" title="get_child_names" href="py3dframe.FrameTree.get_child_names.html" />
+    <link rel="prev" title="get_frame" href="py3dframe.FrameTree.get_frame.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -110,7 +110,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.2.3 documentation</p>
+    <p class="title logo__title">py3dframe 1.3.0 documentation</p>
   
 </a></div>
     
@@ -267,7 +267,7 @@
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Main classes:</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../api_doc/rotation.html">py3dframe.Rotation</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../api_doc/frame.html">py3dframe.Frame</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api_doc/frame.html">py3dframe.Frame</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.convention.html">convention</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.parent.html">parent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.get_global_frame.html">get_global_frame</a></li>
@@ -324,12 +324,37 @@
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.global_rotation_vector.html">global_rotation_vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.get_global_rotation_vector.html">get_global_rotation_vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.set_global_rotation_vector.html">set_global_rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.save_to_dict.html">save_to_dict</a></li>
-<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.load_from_dict.html">load_from_dict</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">save_to_json</a></li>
-<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.load_from_json.html">load_from_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.to_dict.html">to_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.from_dict.html">from_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.to_json.html">to_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.from_json.html">from_json</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.copy.html">copy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.deepcopy.html">deepcopy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../api_doc/frame_tree.html">py3dframe.FrameTree</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.connect_frame.html">connect_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.disconnect_frame.html">disconnect_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.move_frame.html">move_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.list_frames.html">list_frames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.get_frame.html">get_frame</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">get_parent_name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.get_child_names.html">get_child_names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.get_transform.html">get_transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.transform.html">transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.to_dict.html">to_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.from_dict.html">from_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.to_json.html">to_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.from_json.html">from_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__repr__.html">__repr__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__str__.html">__str__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__len__.html">__len__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__contains__.html">__contains__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__getitem__.html">__getitem__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__setitem__.html">__setitem__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__delitem__.html">__delitem__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__bool__.html">__bool__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.print_tree.html">print_tree</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api_doc/frame_transform.html">py3dframe.FrameTransform</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -418,9 +443,9 @@
     <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API Reference</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../api_doc/frame.html" class="nav-link">py3dframe.Frame</a></li>
+    <li class="breadcrumb-item"><a href="../api_doc/frame_tree.html" class="nav-link">py3dframe.FrameTree</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">save_to_json</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">get_parent_name</span></li>
   </ul>
 </nav>
 </div>
@@ -437,26 +462,39 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="save-to-json">
-<h1>save_to_json<a class="headerlink" href="#save-to-json" title="Link to this heading">#</a></h1>
+  <section id="get-parent-name">
+<h1>get_parent_name<a class="headerlink" href="#get-parent-name" title="Link to this heading">#</a></h1>
 <dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.save_to_json">
-<span class="sig-prename descclassname"><span class="pre">Frame.</span></span><span class="sig-name descname"><span class="pre">save_to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.save_to_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.save_to_json" title="Link to this definition">#</a></dt>
-<dd><p>Save the Frame object to a JSON file.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<ul class="simple">
-<li><p>method <a class="reference internal" href="py3dframe.Frame.save_to_dict.html#py3dframe.Frame.save_to_dict" title="py3dframe.Frame.save_to_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save_to_dict()</span></code></a> to save the Frame object to a dictionary.</p></li>
-</ul>
-</div>
+<dt class="sig sig-object py" id="py3dframe.FrameTree.get_parent_name">
+<span class="sig-prename descclassname"><span class="pre">FrameTree.</span></span><span class="sig-name descname"><span class="pre">get_parent_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/frame_tree.html#FrameTree.get_parent_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.FrameTree.get_parent_name" title="Link to this definition">#</a></dt>
+<dd><p>Get the name of the parent frame of a specified frame in the FrameTree.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – The name of the JSON file.</p>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The name of the frame whose parent name to retrieve.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The name of the parent frame, or None if the frame is the root frame.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[str]</p>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">py3dframe</span><span class="w"> </span><span class="kn">import</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">FrameTree</span>
+
+<span class="c1"># Create some frames</span>
+<span class="n">root_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Root_Frame&quot;</span><span class="p">)</span>
+<span class="n">child_frame_1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Child_Frame_1&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create a FrameTree and add frames</span>
+<span class="n">frame_tree</span> <span class="o">=</span> <span class="n">FrameTree</span><span class="p">()</span>
+<span class="n">frame_tree</span><span class="o">.</span><span class="n">add_frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Root_Frame&quot;</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">root_frame</span><span class="p">)</span>
+<span class="n">frame_tree</span><span class="o">.</span><span class="n">add_frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Child_Frame_1&quot;</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">child_frame_1</span><span class="p">,</span> <span class="n">parent_name</span><span class="o">=</span><span class="s2">&quot;Root_Frame&quot;</span><span class="p">)</span>
+
+<span class="c1"># Get parent frame name</span>
+<span class="n">parent_name</span> <span class="o">=</span> <span class="n">frame_tree</span><span class="o">.</span><span class="n">get_parent_name</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Child_Frame_1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
@@ -472,20 +510,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="py3dframe.Frame.load_from_dict.html"
+       href="py3dframe.FrameTree.get_frame.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">load_from_dict</p>
+        <p class="prev-next-title">get_frame</p>
       </div>
     </a>
     <a class="right-next"
-       href="py3dframe.Frame.load_from_json.html"
+       href="py3dframe.FrameTree.get_child_names.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">load_from_json</p>
+        <p class="prev-next-title">get_child_names</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -508,7 +546,7 @@
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.save_to_json"><code class="docutils literal notranslate"><span class="pre">Frame.save_to_json()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree.get_parent_name"><code class="docutils literal notranslate"><span class="pre">FrameTree.get_parent_name()</span></code></a></li>
 </ul>
   </nav></div>
 
@@ -516,7 +554,7 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/generated/py3dframe.Frame.save_to_json.rst.txt"
+      <li><a href="../_sources/generated/py3dframe.FrameTree.get_parent_name.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>

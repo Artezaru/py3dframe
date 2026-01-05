@@ -1,0 +1,1363 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>py3dframe.frame_tree &#8212; py3dframe 1.3.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=1f29e9d3"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/py3dframe/frame_tree';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">py3dframe 1.3.0 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../usage.html">
+    Usage
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../usage.html">
+    Usage
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">py3dframe.frame_tree</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for py3dframe.frame_tree</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2025 Artezaru</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.frame</span><span class="w"> </span><span class="kn">import</span> <span class="n">Frame</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.frame_transform</span><span class="w"> </span><span class="kn">import</span> <span class="n">FrameTransform</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<div class="viewcode-block" id="FrameTree">
+<a class="viewcode-back" href="../../api_doc/frame_tree.html#py3dframe.FrameTree">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FrameTree</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class to manage a tree/system of Frame objects better than using individual Frame objects with parent/child relationships.</span>
+<span class="sd">    </span>
+<span class="sd">    .. warning::</span>
+<span class="sd">    </span>
+<span class="sd">        All the connected frames are stored in a tree structure must have ``parent=None`` because the :class:`FrameTree` manages the relationships.</span>
+<span class="sd">        Avoid modifying the ``parent`` attribute of the Frame objects connected to a FrameTree to prevent inconsistencies.</span>
+<span class="sd">        </span>
+<span class="sd">    By default, the root frame is considered the canonical frame of :math:`\mathcal{R}^3` and is associated with the name &#39;root&#39;.</span>
+<span class="sd">    </span>
+<span class="sd">    .. code-block:: console</span>
+<span class="sd">    </span>
+<span class="sd">        Root_Frame (Canonical Frame)</span>
+<span class="sd">        ├── Child_Frame_1</span>
+<span class="sd">        │   ├── Grandchild_Frame_1</span>
+<span class="sd">        │   └── Grandchild_Frame_2</span>
+<span class="sd">        └── Child_Frame_2</span>
+<span class="sd">            └── Grandchild_Frame_3</span>
+<span class="sd">            </span>
+<span class="sd">    parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    root_frame : Optional[Frame], optional</span>
+<span class="sd">        The root Frame of the FrameTree. If None, the canonical Frame of :math:`\mathcal{R}^3` is used. Default is None.</span>
+<span class="sd">            </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root_frame</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">root_frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">root_frame</span><span class="p">,</span> <span class="n">Frame</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;root_frame must be a Frame object or None.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">root_frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">root_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="o">.</span><span class="n">canonical</span><span class="p">()</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_names</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;root&#39;</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;root&#39;</span><span class="p">:</span> <span class="n">root_frame</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;root&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_children</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;root&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+        
+        
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_root_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">Frame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the root Frame of the FrameTree.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        frame : Frame</span>
+<span class="sd">            The Frame object to set as the root frame.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame, FrameTree</span>
+<span class="sd">            </span>
+<span class="sd">            # Create a FrameTree</span>
+<span class="sd">            frame_tree = FrameTree()</span>
+<span class="sd">            </span>
+<span class="sd">            # Create a new root frame</span>
+<span class="sd">            new_root_frame = Frame(name=&quot;New_Root_Frame&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Set the new root frame</span>
+<span class="sd">            frame_tree.set_root_frame(new_root_frame)</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">Frame</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;frame must be a Frame object.&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="s1">&#39;root&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">frame</span>
+        
+        
+    <span class="k">def</span><span class="w"> </span><span class="nf">replace_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">Frame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Replace a Frame in the FrameTree with another Frame.</span>
+<span class="sd">        </span>
+<span class="sd">        The new Frame will inherit the parent and children of the replaced Frame.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            The name of the frame to replace.</span>
+<span class="sd">        frame : Frame</span>
+<span class="sd">            The new Frame object to replace the existing frame.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame, FrameTree</span>
+<span class="sd">            </span>
+<span class="sd">            # Create some frames</span>
+<span class="sd">            root_frame = Frame(name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            child_frame = Frame(name=&quot;Child_Frame&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Create a FrameTree and add frames</span>
+<span class="sd">            frame_tree = FrameTree()</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Root_Frame&quot;, frame=root_frame)</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Child_Frame&quot;, frame=child_frame, parent_name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Create a new frame to replace the existing one</span>
+<span class="sd">            new_child_frame = Frame(name=&quot;New_Child_Frame&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Replace the existing frame</span>
+<span class="sd">            frame_tree.replace_frame(name=&quot;Child_Frame&quot;, frame=new_child_frame)</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;name must be a string.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The frame &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; does not exist in the FrameTree.&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">Frame</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;frame must be a Frame object.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">frame</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The new frame must have parent=None. The FrameTree manages the parent/child relationships to avoid inconsistencies.&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># remove the current relationships</span>
+        <span class="n">current_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">current_frame</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># Get the parent and children of the existing frame</span>
+        <span class="n">parent_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">child_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        
+        <span class="c1"># Set the parent of the new frame</span>
+        <span class="n">parent_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">parent_name</span><span class="p">]</span>
+        <span class="n">frame</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent_frame</span>
+        
+        <span class="c1"># Replace the frame in the tree</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">frame</span>
+        
+        <span class="c1"># Update the children to have the new frame as their parent</span>
+        <span class="k">for</span> <span class="n">child_name</span> <span class="ow">in</span> <span class="n">child_names</span><span class="p">:</span>
+            <span class="n">child_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">child_name</span><span class="p">]</span>
+            <span class="n">child_frame</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">frame</span>
+        
+        
+<div class="viewcode-block" id="FrameTree.connect_frame">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.connect_frame.html#py3dframe.FrameTree.connect_frame">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">connect_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">parent_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a Frame to the FrameTree.</span>
+<span class="sd">        </span>
+<span class="sd">        If the parent_name is None (equivalent to &#39;root&#39;), the frame is added as the root frame (Canonical frame of :math:`\mathcal{R}^3`). Otherwise, it is added as a child of the specified parent frame.</span>
+<span class="sd">        </span>
+<span class="sd">        .. seealso::</span>
+<span class="sd">        </span>
+<span class="sd">            :meth:`FrameTree.disconnect_frame` : Remove a frame from the FrameTree.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            The name of the frame to add.</span>
+<span class="sd">        frame : Frame</span>
+<span class="sd">            The Frame object to add.</span>
+<span class="sd">        parent_name : Optional[str], optional</span>
+<span class="sd">            The name of the parent frame. If None, the frame is added as the root frame. Default is None.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame, FrameTree</span>
+<span class="sd">            </span>
+<span class="sd">            # Create some frames</span>
+<span class="sd">            root_frame = Frame(name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            child_frame_1 = Frame(name=&quot;Child_Frame_1&quot;)</span>
+<span class="sd">            child_frame_2 = Frame(name=&quot;Child_Frame_2&quot;)</span>
+<span class="sd">            grandchild_frame_1 = Frame(name=&quot;Grandchild_Frame_1&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Create a FrameTree and add frames</span>
+<span class="sd">            frame_tree = FrameTree()</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Root_Frame&quot;, frame=root_frame)</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Child_Frame_1&quot;, frame=child_frame_1, parent_name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Child_Frame_2&quot;, frame=child_frame_2, parent_name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Grandchild_Frame_1&quot;, frame=grandchild_frame_1, parent_name=&quot;Child_Frame_1&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Input validation</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">Frame</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;frame must be a Frame object.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">frame</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The frame to be added must have parent=None. The FrameTree manages the parent/child relationships to avoid inconsistencies.&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;name must be a string.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;A frame with the name &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; already exists in the FrameTree.&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">parent_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">parent_name</span> <span class="o">=</span> <span class="s1">&#39;root&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parent_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;parent_name must be a string or None.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">parent_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The parent frame &#39;</span><span class="si">{</span><span class="n">parent_name</span><span class="si">}</span><span class="s2">&#39; does not exist in the FrameTree.&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Set the parent frame</span>
+        <span class="n">parent_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">parent_name</span><span class="p">]</span>
+        <span class="n">frame</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent_frame</span>
+        
+        <span class="c1"># Add the frame to the tree</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">parent_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">parent_name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+
+        
+        
+<div class="viewcode-block" id="FrameTree.disconnect_frame">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.disconnect_frame.html#py3dframe.FrameTree.disconnect_frame">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">disconnect_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">recursive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove a Frame from the FrameTree.</span>
+<span class="sd">        </span>
+<span class="sd">        The frame is removed from the FrameTree and its parent is set to None.</span>
+<span class="sd">        </span>
+<span class="sd">        .. seealso::</span>
+<span class="sd">        </span>
+<span class="sd">            :meth:`FrameTree.connect_frame` : Add a frame to the FrameTree.</span>
+<span class="sd">            </span>
+<span class="sd">        .. warning::</span>
+<span class="sd">        </span>
+<span class="sd">            The root frame (Canonical frame of :math:`\mathcal{R}^3`) cannot be removed from the FrameTree.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            The name of the frame to remove.</span>
+<span class="sd">            </span>
+<span class="sd">        recursive : bool, optional</span>
+<span class="sd">            If True, all child frames of the specified frame are also removed recursively. If False, the child frames are not removed and will have their parent set to the parent of the removed frame. Default is True.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame, FrameTree</span>
+<span class="sd">            </span>
+<span class="sd">            # Create some frames</span>
+<span class="sd">            root_frame = Frame(name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            child_frame_1 = Frame(name=&quot;Child_Frame_1&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Create a FrameTree and add frames</span>
+<span class="sd">            frame_tree = FrameTree()</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Root_Frame&quot;, frame=root_frame)</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Child_Frame_1&quot;, frame=child_frame_1, parent_name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Disconnect a frame</span>
+<span class="sd">            frame_tree.disconnect_frame(name=&quot;Child_Frame_1&quot;, recursive=True)</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Input validation</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;name must be a string.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The frame &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; does not exist in the FrameTree.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;root&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The root frame cannot be removed from the FrameTree.&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">recursive</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;recursive must be a boolean.&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Remove child frames recursively if specified</span>
+        <span class="n">child_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child_names</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">recursive</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">child_name</span> <span class="ow">in</span> <span class="n">child_names</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">disconnect_frame</span><span class="p">(</span><span class="n">child_name</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">child_name</span> <span class="ow">in</span> <span class="n">child_names</span><span class="p">:</span>
+                <span class="c1"># Set the parent of the child frame to the parent of the removed frame</span>
+                <span class="n">child_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">child_name</span><span class="p">]</span>
+                <span class="n">parent_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                <span class="n">parent_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">parent_name</span><span class="p">]</span>
+                <span class="n">child_frame</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent_frame</span>
+                
+                <span class="c1"># Update the tree structure</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="p">[</span><span class="n">child_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">parent_name</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">parent_name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_name</span><span class="p">)</span>
+                
+        <span class="c1"># Set the parent of the frame to None</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">frame</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># Remove the frame from the tree</span>
+        <span class="n">parent_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">parent_name</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+
+        
+        
+<div class="viewcode-block" id="FrameTree.move_frame">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.move_frame.html#py3dframe.FrameTree.move_frame">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">move_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">new_parent_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Move a Frame to a new parent frame in the FrameTree.</span>
+<span class="sd">        </span>
+<span class="sd">        The frame&#39;s parent is updated to the new parent frame.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            The name of the frame to move.</span>
+<span class="sd">            </span>
+<span class="sd">        new_parent_name : Optional[str], optional</span>
+<span class="sd">            The name of the new parent frame. If None, the frame is moved to be a child of the root frame. Default is None.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame, FrameTree</span>
+<span class="sd">            </span>
+<span class="sd">            # Create some frames</span>
+<span class="sd">            root_frame = Frame(name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            child_frame_1 = Frame(name=&quot;Child_Frame_1&quot;)</span>
+<span class="sd">            child_frame_2 = Frame(name=&quot;Child_Frame_2&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Create a FrameTree and add frames</span>
+<span class="sd">            frame_tree = FrameTree()</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Root_Frame&quot;, frame=root_frame)</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Child_Frame_1&quot;, frame=child_frame_1, parent_name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Child_Frame_2&quot;, frame=child_frame_2, parent_name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Move a frame to a new parent</span>
+<span class="sd">            frame_tree.move_frame(name=&quot;Child_Frame_1&quot;, new_parent_name=&quot;Child_Frame_2&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Input validation</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;name must be a string.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The frame &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; does not exist in the FrameTree.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;root&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The root frame cannot be moved in the FrameTree.&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">new_parent_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">new_parent_name</span> <span class="o">=</span> <span class="s1">&#39;root&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new_parent_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;new_parent_name must be a string or None.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">new_parent_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The new parent frame &#39;</span><span class="si">{</span><span class="n">new_parent_name</span><span class="si">}</span><span class="s2">&#39; does not exist in the FrameTree.&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Update the parent frame</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">old_parent_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">new_parent_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">new_parent_name</span><span class="p">]</span>
+        <span class="n">frame</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">new_parent_frame</span>
+        
+        <span class="c1"># Update the tree structure</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_parent_name</span>
+        
+        <span class="c1"># Remove from old parent&#39;s children</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">old_parent_name</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        
+        <span class="c1"># Add to new parent&#39;s children</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">new_parent_name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+
+        
+    
+<div class="viewcode-block" id="FrameTree.get_frame">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.get_frame.html#py3dframe.FrameTree.get_frame">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a Frame from the FrameTree by its name.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            The name of the frame to retrieve.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Frame</span>
+<span class="sd">            The Frame object with the specified name.</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame, FrameTree</span>
+<span class="sd">            </span>
+<span class="sd">            # Create some frames</span>
+<span class="sd">            root_frame = Frame(name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Create a FrameTree and add frames</span>
+<span class="sd">            frame_tree = FrameTree()</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Root_Frame&quot;, frame=root_frame)</span>
+<span class="sd">            </span>
+<span class="sd">            # Get a frame by name</span>
+<span class="sd">            retrieved_frame = frame_tree.get_frame(name=&quot;Root_Frame&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Input validation</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;name must be a string.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The frame &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; does not exist in the FrameTree.&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">name</span><span class="p">]</span></div>
+
+    
+    
+<div class="viewcode-block" id="FrameTree.get_child_names">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.get_child_names.html#py3dframe.FrameTree.get_child_names">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_child_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the names of the child frames of a specified frame in the FrameTree.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            The name of the frame whose child names to retrieve.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[str]</span>
+<span class="sd">            A list of names of the child frames.</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame, FrameTree</span>
+<span class="sd">            </span>
+<span class="sd">            # Create some frames</span>
+<span class="sd">            root_frame = Frame(name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            child_frame_1 = Frame(name=&quot;Child_Frame_1&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Create a FrameTree and add frames</span>
+<span class="sd">            frame_tree = FrameTree()</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Root_Frame&quot;, frame=root_frame)</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Child_Frame_1&quot;, frame=child_frame_1, parent_name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Get child frame names</span>
+<span class="sd">            child_names = frame_tree.get_child_names(name=&quot;Root_Frame&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Input validation</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;name must be a string.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The frame &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; does not exist in the FrameTree.&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
+
+    
+    
+<div class="viewcode-block" id="FrameTree.get_parent_name">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.get_parent_name.html#py3dframe.FrameTree.get_parent_name">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_parent_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the name of the parent frame of a specified frame in the FrameTree.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            The name of the frame whose parent name to retrieve.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Optional[str]</span>
+<span class="sd">            The name of the parent frame, or None if the frame is the root frame.</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame, FrameTree</span>
+<span class="sd">            </span>
+<span class="sd">            # Create some frames</span>
+<span class="sd">            root_frame = Frame(name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            child_frame_1 = Frame(name=&quot;Child_Frame_1&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Create a FrameTree and add frames</span>
+<span class="sd">            frame_tree = FrameTree()</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Root_Frame&quot;, frame=root_frame)</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Child_Frame_1&quot;, frame=child_frame_1, parent_name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Get parent frame name</span>
+<span class="sd">            parent_name = frame_tree.get_parent_name(name=&quot;Child_Frame_1&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Input validation</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;name must be a string.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The frame &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; does not exist in the FrameTree.&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="p">[</span><span class="n">name</span><span class="p">]</span></div>
+
+    
+    
+<div class="viewcode-block" id="FrameTree.list_frames">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.list_frames.html#py3dframe.FrameTree.list_frames">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">list_frames</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List all frame names in the FrameTree.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[str]</span>
+<span class="sd">            A list of all frame names in the FrameTree.</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame, FrameTree</span>
+<span class="sd">            </span>
+<span class="sd">            # Create some frames</span>
+<span class="sd">            root_frame = Frame(name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            child_frame_1 = Frame(name=&quot;Child_Frame_1&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Create a FrameTree and add frames</span>
+<span class="sd">            frame_tree = FrameTree()</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Root_Frame&quot;, frame=root_frame)</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Child_Frame_1&quot;, frame=child_frame_1, parent_name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # List all frame names</span>
+<span class="sd">            frame_names = frame_tree.list_frames()</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">)</span></div>
+
+    
+    
+<div class="viewcode-block" id="FrameTree.get_transform">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.get_transform.html#py3dframe.FrameTree.get_transform">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_frame</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">output_frame</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrameTransform</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the FrameTransform between two frames in the FrameTree.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        input_frame : Optional[str], optional</span>
+<span class="sd">            The name of the input frame. If None, the root frame is used. Default is None.</span>
+<span class="sd">        output_frame : Optional[str], optional</span>
+<span class="sd">            The name of the output frame. If None, the root frame is used. Default is None.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        FrameTransform</span>
+<span class="sd">            The FrameTransform object representing the transformation from the input frame to the output frame.</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame, FrameTree</span>
+<span class="sd">            </span>
+<span class="sd">            # Create some frames</span>
+<span class="sd">            root_frame = Frame(name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            child_frame_1 = Frame(name=&quot;Child_Frame_1&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Create a FrameTree and add frames</span>
+<span class="sd">            frame_tree = FrameTree()</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Root_Frame&quot;, frame=root_frame)</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Child_Frame_1&quot;, frame=child_frame_1, parent_name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Get the FrameTransform between two frames</span>
+<span class="sd">            transform = frame_tree.get_transform(input_frame=&quot;Child_Frame_1&quot;, output_frame=&quot;Root_Frame&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">input_frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">input_frame</span> <span class="o">=</span> <span class="s1">&#39;root&#39;</span>
+        <span class="k">if</span> <span class="n">output_frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">output_frame</span> <span class="o">=</span> <span class="s1">&#39;root&#39;</span>
+        
+        <span class="n">input_f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_frame</span><span class="p">(</span><span class="n">input_frame</span><span class="p">)</span>
+        <span class="n">output_f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_frame</span><span class="p">(</span><span class="n">output_frame</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">FrameTransform</span><span class="p">(</span><span class="n">input_frame</span><span class="o">=</span><span class="n">input_f</span><span class="p">,</span> <span class="n">output_frame</span><span class="o">=</span><span class="n">output_f</span><span class="p">)</span></div>
+
+    
+    
+<div class="viewcode-block" id="FrameTree.transform">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.transform.html#py3dframe.FrameTree.transform">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_frame</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">output_frame</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">vector</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform a point or a vector from the input frame to the output frame.</span>
+
+<span class="sd">        If the point is provided, the method will return the coordinates of the point in the output frame.</span>
+<span class="sd">        If the vector is provided, the method will return the coordinates of the vector in the output frame.</span>
+
+<span class="sd">        Several points / vectors can be transformed at the same time by providing a 2D numpy array with shape (3, N).</span>
+
+<span class="sd">        If both the point and the vector are provided, the method will raise a ValueError.</span>
+<span class="sd">        If neither the point nor the vector is provided, the method will return None.</span>
+
+<span class="sd">        In the convention 0:</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">            X_{\text{output_frame}} = R^{-1} * (X_{\text{input_frame}} - T)</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">            V_{\text{output_frame}} = R^{-1} * V_{\text{input_frame}}</span>
+<span class="sd">            </span>
+<span class="sd">        .. seealso::</span>
+<span class="sd">        </span>
+<span class="sd">            :class:`FrameTransform` : Class to represent transformations between two frames and apply them to points and vectors.</span>
+<span class="sd">            </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        point : Optional[array_like], optional</span>
+<span class="sd">            The coordinates of the point in the input frame with shape (3, N). Default is None.</span>
+<span class="sd">        </span>
+<span class="sd">        vector : Optional[array_like], optional</span>
+<span class="sd">            The coordinates of the vector in the input frame with shape (3, N). Default is None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            The coordinates of the point or the vector in the output frame with shape (3, N).</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the point or the vector is not provided.</span>
+<span class="sd">            If point and vector are both provided.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        </span>
+<span class="sd">        Lets create a FrameTree object with the global frame as input frame and a local frame as output frame.</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            import numpy as np</span>
+<span class="sd">            from py3dframe import Frame, FrameTransform</span>
+
+<span class="sd">            frame_E = Frame.canonical() # Input frame - Global frame</span>
+<span class="sd">            frame_F = Frame.from_axes(origin=[1, 2, 3], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1]) # Output frame - Local frame</span>
+
+<span class="sd">            frame_tree = FrameTree()</span>
+<span class="sd">            frame_tree.connect_frame(name=&quot;E&quot;, frame=frame_E)</span>
+<span class="sd">            frame_tree.connect_frame(name=&quot;F&quot;, frame=frame_F, parent_name=&quot;E&quot;)</span>
+
+<span class="sd">        The FrameTree object can be used to transform points or vectors from the input frame to the output frame (same as FrameTransform).</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            X_i = np.array([1, 2, 3]).reshape((3, 1)) # Point in the input frame coordinates</span>
+<span class="sd">            X_o = frame_tree.transform(input_frame=&quot;E&quot;, output_frame=&quot;F&quot;, point=X_i) # Transform the point to the output frame coordinates</span>
+<span class="sd">            print(X_o)</span>
+<span class="sd">            # Output: [[0.] [0.] [0.]]</span>
+
+<span class="sd">            V_i = np.array([1, 0, 0]).reshape((3, 1)) # Vector in the input frame coordinates</span>
+<span class="sd">            V_o = frame_tree.transform(input_frame=&quot;E&quot;, output_frame=&quot;F&quot;, vector=V_i) # Transform the vector to the output frame coordinates</span>
+<span class="sd">            print(V_o)</span>
+<span class="sd">            # Output: [[1.] [0.] [0.]]</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">transform</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tranform</span><span class="p">(</span><span class="n">input_frame</span><span class="o">=</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">output_frame</span><span class="o">=</span><span class="n">output_frame</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">transform</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">point</span><span class="p">,</span> <span class="n">vector</span><span class="o">=</span><span class="n">vector</span><span class="p">)</span></div>
+
+    
+
+<div class="viewcode-block" id="FrameTree.print_tree">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.print_tree.html#py3dframe.FrameTree.print_tree">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">print_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print the FrameTree structure.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame, FrameTree</span>
+<span class="sd">            </span>
+<span class="sd">            # Create some frames</span>
+<span class="sd">            root_frame = Frame(name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            child_frame_1 = Frame(name=&quot;Child_Frame_1&quot;)</span>
+<span class="sd">            grandchild_frame_1 = Frame(name=&quot;Grandchild_Frame_1&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Create a FrameTree and add frames</span>
+<span class="sd">            frame_tree = FrameTree()</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Root_Frame&quot;, frame=root_frame)</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Child_Frame_1&quot;, frame=child_frame_1, parent_name=&quot;Root_Frame&quot;)</span>
+<span class="sd">            frame_tree.add_frame(name=&quot;Grandchild_Frame_1&quot;, frame=grandchild_frame_1, parent_name=&quot;Child_Frame_1&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Print the FrameTree structure</span>
+<span class="sd">            frame_tree.print_tree()</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_print_subtree</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">prefix</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;├── &quot;</span> <span class="o">+</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">children</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child_names</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">child_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">children</span><span class="p">):</span>
+                <span class="n">_print_subtree</span><span class="p">(</span><span class="n">child_name</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;│   &quot;</span><span class="p">)</span>
+        
+        <span class="n">_print_subtree</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">)</span></div>
+
+        
+        
+<div class="viewcode-block" id="FrameTree.__len__">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.__len__.html#py3dframe.FrameTree.__len__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="FrameTree.__contains__">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.__contains__.html#py3dframe.FrameTree.__contains__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span></div>
+
+    
+<div class="viewcode-block" id="FrameTree.__repr__">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.__repr__.html#py3dframe.FrameTree.__repr__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;FrameTree(num_frames=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+
+    
+<div class="viewcode-block" id="FrameTree.__str__">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.__str__.html#py3dframe.FrameTree.__str__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;FrameTree with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2"> frames.&quot;</span></div>
+
+    
+<div class="viewcode-block" id="FrameTree.__getitem__">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.__getitem__.html#py3dframe.FrameTree.__getitem__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_frame</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="FrameTree.__setitem__">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.__setitem__.html#py3dframe.FrameTree.__setitem__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">Frame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect_frame</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span></div>
+
+        
+<div class="viewcode-block" id="FrameTree.__delitem__">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.__delitem__.html#py3dframe.FrameTree.__delitem__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disconnect_frame</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="FrameTree.__bool__">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.__bool__.html#py3dframe.FrameTree.__bool__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
+
+    
+    
+<div class="viewcode-block" id="FrameTree.to_dict">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.to_dict.html#py3dframe.FrameTree.to_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Serialize the FrameTree to a dictionary.</span>
+<span class="sd">        </span>
+<span class="sd">        The dictionary contains the serialized Frame objects and their relationships.</span>
+<span class="sd">        </span>
+<span class="sd">        .. seealso::</span>
+<span class="sd">        </span>
+<span class="sd">            - :meth:`Frame.to_dict` : Serialize a Frame object to a dictionary.</span>
+<span class="sd">            - :meth:`FrameTree.from_dict` : Deserialize a FrameTree from a dictionary.</span>
+<span class="sd">            </span>
+<span class="sd">        The serialization have the following structure:</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            {</span>
+<span class="sd">                &quot;frames&quot;: {</span>
+<span class="sd">                    &quot;frame_name_1&quot;: { ... Frame serialized dictionary ... },</span>
+<span class="sd">                    &quot;frame_name_2&quot;: { ... Frame serialized dictionary ... },</span>
+<span class="sd">                    ...</span>
+<span class="sd">                },</span>
+<span class="sd">                &quot;parents&quot;: {</span>
+<span class="sd">                    &quot;frame_name_1&quot;: &quot;parent_frame_name&quot;,</span>
+<span class="sd">                    &quot;frame_name_2&quot;: &quot;parent_frame_name&quot;,</span>
+<span class="sd">                    ...</span>
+<span class="sd">                }</span>
+<span class="sd">            }</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            The serialized FrameTree as a dictionary.</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;frames&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">&quot;parents&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">:</span>
+            <span class="n">frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;frames&quot;</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+            <span class="n">parent_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parents</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;parents&quot;</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">parent_name</span>
+        
+        <span class="k">return</span> <span class="n">data</span></div>
+
+    
+<div class="viewcode-block" id="FrameTree.from_dict">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.from_dict.html#py3dframe.FrameTree.from_dict">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span>  <span class="n">FrameTree</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Deserialize a FrameTree from a dictionary.</span>
+<span class="sd">        </span>
+<span class="sd">        The dictionary must contain the serialized Frame objects and their relationships.</span>
+<span class="sd">        </span>
+<span class="sd">        .. seealso::</span>
+<span class="sd">        </span>
+<span class="sd">            - :meth:`Frame.from_dict` : Deserialize a Frame object from a dictionary.</span>
+<span class="sd">            - :meth:`FrameTree.to_dict` : Serialize a FrameTree to a dictionary.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : dict</span>
+<span class="sd">            The serialized FrameTree as a dictionary.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        FrameTree</span>
+<span class="sd">            The deserialized FrameTree object.</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">frame_tree</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+        
+        <span class="n">frames_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;frames&quot;</span><span class="p">]</span>
+        <span class="n">parents_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;parents&quot;</span><span class="p">]</span>
+        
+        <span class="c1"># First, create all frames without parents</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">frame_data</span> <span class="ow">in</span> <span class="n">frames_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>           
+            <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;root&#39;</span><span class="p">:</span>
+                <span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">frame_data</span><span class="p">)</span>
+                <span class="n">frame_tree</span><span class="o">.</span><span class="n">set_root_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">frame_data</span><span class="p">)</span>
+                <span class="n">frame_tree</span><span class="o">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">frame</span>
+                <span class="n">frame_tree</span><span class="o">.</span><span class="n">_names</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">frame_tree</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">frame_tree</span><span class="o">.</span><span class="n">_parents</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;root&#39;</span>
+                <span class="n">frame_tree</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="s1">&#39;root&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        
+        <span class="c1"># Then, connect frames to their parents</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">parent_name</span> <span class="ow">in</span> <span class="n">parents_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;root&#39;</span><span class="p">:</span>
+                <span class="n">frame_tree</span><span class="o">.</span><span class="n">move_frame</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">new_parent_name</span><span class="o">=</span><span class="n">parent_name</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">frame_tree</span></div>
+
+    
+    
+<div class="viewcode-block" id="FrameTree.to_json">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.to_json.html#py3dframe.FrameTree.to_json">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save the FrameTree object to a JSON file.</span>
+
+<span class="sd">        .. seealso::</span>
+
+<span class="sd">            - method :meth:`to_dict` to save the FrameTree object to a dictionary.</span>
+<span class="sd">            </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            The name of the JSON file.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
+
+            
+            
+<div class="viewcode-block" id="FrameTree.from_json">
+<a class="viewcode-back" href="../../generated/py3dframe.FrameTree.from_json.html#py3dframe.FrameTree.from_json">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrameTree</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load a FrameTree object from a JSON file.</span>
+
+<span class="sd">        .. seealso::</span>
+
+<span class="sd">            - method :meth:`from_dict` to load the FrameTree object from a dictionary.</span>
+<span class="sd">            </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            The name of the JSON file.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        FrameTree</span>
+<span class="sd">            The loaded FrameTree object.</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">frame_tree</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">frame_tree</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, Artezaru.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

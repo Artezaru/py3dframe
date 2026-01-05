@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>py3dframe.frame &#8212; py3dframe 1.2.3 documentation</title>
+    <title>py3dframe.frame &#8212; py3dframe 1.3.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=590429e0"></script>
+    <script src="../../_static/documentation_options.js?v=1f29e9d3"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/py3dframe/frame';</script>
@@ -107,7 +107,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.2.3 documentation</p>
+    <p class="title logo__title">py3dframe 1.3.0 documentation</p>
   
 </a></div>
     
@@ -337,6 +337,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.switch_RT_convention</span><span class="w"> </span><span class="kn">import</span> <span class="n">switch_RT_convention</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_SO3</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.rotation</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rotation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.__version__</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
 
 <div class="viewcode-block" id="Frame">
 <a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame">[docs]</a>
@@ -4111,9 +4112,9 @@
     <span class="c1"># ====================================================================================================================================</span>
     <span class="c1"># Load and Save method</span>
     <span class="c1"># ====================================================================================================================================</span>
-<div class="viewcode-block" id="Frame.save_to_dict">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.save_to_dict.html#py3dframe.Frame.save_to_dict">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">save_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;quaternion&quot;</span><span class="p">,</span> <span class="s2">&quot;rotation_vector&quot;</span><span class="p">,</span> <span class="s2">&quot;rotation_matrix&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<div class="viewcode-block" id="Frame.to_dict">
+<a class="viewcode-back" href="../../generated/py3dframe.Frame.to_dict.html#py3dframe.Frame.to_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;quaternion&quot;</span><span class="p">,</span> <span class="s2">&quot;rotation_vector&quot;</span><span class="p">,</span> <span class="s2">&quot;rotation_matrix&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save the Frame object to a dictionary.</span>
 
@@ -4121,14 +4122,16 @@
 
 <span class="sd">        .. code-block:: python</span>
 
-<span class="sd">            {</span>
+<span class="sd">            {   </span>
+<span class="sd">                &quot;package&quot;: &quot;py3dframe&quot;,</span>
+<span class="sd">                &quot;class&quot;: &quot;Frame&quot;,</span>
+<span class="sd">                &quot;version&quot;: __version__,</span>
 <span class="sd">                &quot;translation&quot;: [float, float, float],</span>
 <span class="sd">                &quot;quaternion&quot;: [float, float, float, float],</span>
 <span class="sd">                &quot;rotation_vector&quot;: [float, float, float],</span>
 <span class="sd">                &quot;rotation_matrix&quot;: [[float, float, float], [float, float, float], [float, float, float]],</span>
 <span class="sd">                &quot;euler_angles&quot;: [float, float, float],</span>
 <span class="sd">                &quot;convention&quot;: int</span>
-<span class="sd">                &quot;parent&quot;: None</span>
 <span class="sd">            }</span>
 
 <span class="sd">        - The quaternion is given in WXYZ format (scalar first).</span>
@@ -4139,7 +4142,10 @@
 
 <span class="sd">        .. seealso::</span>
 
-<span class="sd">            - method :meth:`load_from_dict` to load the Frame object from a dictionary.</span>
+<span class="sd">            - method :meth:`from_dict` to load the Frame object from a dictionary.</span>
+<span class="sd">            - class :class:`FrameTree` to save/load a system of frames.</span>
+<span class="sd">            </span>
+<span class="sd">        .. note::</span>
 
 <span class="sd">            For the reader, only one of the rotation keys is needed to reconstruct the frame. The other keys are provided for convenience and user experience.</span>
 <span class="sd">            The reader chooses the key to use in the following order of preference if several are given:</span>
@@ -4154,8 +4160,12 @@
 <span class="sd">            ``euler_angles`` can raise a this warning : </span>
 <span class="sd">            </span>
 <span class="sd">            - UserWarning: Gimbal lock detected. Setting third angle to zero since it is not possible to uniquely determine all angles.</span>
-
+<span class="sd">            </span>
 <span class="sd">            I recommand to not use it.</span>
+<span class="sd">            </span>
+<span class="sd">        .. warning::</span>
+<span class="sd">        </span>
+<span class="sd">            - ``parent`` frame is not saved (only local frame is saved), so the loaded frame must be reattached to the parent frame if needed. (See also :class:`FrameTree` to save/load a system of frames).</span>
 
 <span class="sd">        .. note::</span>
 
@@ -4171,6 +4181,40 @@
 <span class="sd">        -------</span>
 <span class="sd">        Dict[str, Any]</span>
 <span class="sd">            The dictionary containing the Frame object.</span>
+<span class="sd">            </span>
+<span class="sd">            </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        </span>
+<span class="sd">        Create a Frame object and save it to a dictionary using the default method (quaternion, rotation_vector, rotation_matrix):</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame</span>
+<span class="sd">            frame = Frame.from_axes(origin=[1, 2, 3], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0)</span>
+<span class="sd">            frame_dict = frame.to_dict()</span>
+<span class="sd">        </span>
+<span class="sd">            # Reload the Frame object from the dictionary:</span>
+<span class="sd">        </span>
+<span class="sd">            loaded_frame = Frame.from_dict(frame_dict)</span>
+<span class="sd">            </span>
+<span class="sd">        Warning, the method no longer saves the parent frame. To save/load a system of frames, consider using the :class:`FrameTree` class.</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame</span>
+<span class="sd">            </span>
+<span class="sd">            parent = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0)</span>
+<span class="sd">            child = Frame.from_axes(origin=[1, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0, parent=parent)</span>
+<span class="sd">            </span>
+<span class="sd">            child_dict = child.to_dict(method=[&quot;quaternion&quot;, &quot;rotation_vector&quot;])</span>
+<span class="sd">            parent_dict = parent.to_dict(method=[&quot;quaternion&quot;, &quot;rotation_vector&quot;])</span>
+<span class="sd">            </span>
+<span class="sd">            # Reload the frames from the dictionaries</span>
+<span class="sd">            loaded_parent = Frame.from_dict(parent_dict)</span>
+<span class="sd">            loaded_child = Frame.from_dict(child_dict)</span>
+<span class="sd">            loaded_child.parent = loaded_parent # IMPORTANT </span>
+<span class="sd">            </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Check if the method is a string or a list of strings</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -4181,6 +4225,9 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The method must be one of the following : &#39;quaternion&#39;, &#39;rotation_vector&#39;, &#39;rotation_matrix&#39; or &#39;euler_angles&#39;.&quot;</span><span class="p">)</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="s2">&quot;py3dframe&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="s2">&quot;Frame&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">__version__</span><span class="p">,</span>
             <span class="s2">&quot;translation&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">translation</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
             <span class="s2">&quot;convention&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convention</span><span class="p">,</span>
         <span class="p">}</span>
@@ -4197,19 +4244,15 @@
                 <span class="n">data</span><span class="p">[</span><span class="s2">&quot;euler_angles&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_euler_angles</span><span class="p">(</span><span class="n">convention</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">seq</span><span class="o">=</span><span class="s2">&quot;xyz&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 
         <span class="c1"># Add the parent frame to the dictionary</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">save_to_dict</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">data</span></div>
 
 
 
 
-<div class="viewcode-block" id="Frame.load_from_dict">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.load_from_dict.html#py3dframe.Frame.load_from_dict">[docs]</a>
+<div class="viewcode-block" id="Frame.from_dict">
+<a class="viewcode-back" href="../../generated/py3dframe.Frame.from_dict.html#py3dframe.Frame.from_dict">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">load_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load the Frame object from a dictionary.</span>
 
@@ -4218,13 +4261,15 @@
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            {</span>
+<span class="sd">                &quot;package&quot;: &quot;py3dframe&quot;,</span>
+<span class="sd">                &quot;class&quot;: &quot;Frame&quot;,</span>
+<span class="sd">                &quot;version&quot;: __version__,</span>
 <span class="sd">                &quot;translation&quot;: [float, float, float],</span>
 <span class="sd">                &quot;quaternion&quot;: [float, float, float, float],</span>
 <span class="sd">                &quot;rotation_vector&quot;: [float, float, float],</span>
 <span class="sd">                &quot;rotation_matrix&quot;: [[float, float, float], [float, float, float], [float, float, float]],</span>
 <span class="sd">                &quot;euler_angles&quot;: [float, float, float],</span>
 <span class="sd">                &quot;convention&quot;: int</span>
-<span class="sd">                &quot;parent&quot;: None</span>
 <span class="sd">            }</span>
 
 <span class="sd">        - The quaternion is given in WXYZ format (scalar first).</span>
@@ -4235,7 +4280,8 @@
 
 <span class="sd">        .. seealso::</span>
 
-<span class="sd">            - method :meth:`save_to_dict` to save the Frame object to a dictionary.</span>
+<span class="sd">            - method :meth:`to_dict` to save the Frame object to a dictionary.</span>
+<span class="sd">            - :meth:`FrameTree.from_dict` to load a system of frames from a dictionary.</span>
 
 <span class="sd">        .. note::</span>
 
@@ -4254,6 +4300,10 @@
 <span class="sd">            - UserWarning: Gimbal lock detected. Setting third angle to zero since it is not possible to uniquely determine all angles.</span>
 
 <span class="sd">            I recommand to not use it.</span>
+<span class="sd">            </span>
+<span class="sd">        .. warning::</span>
+<span class="sd">        </span>
+<span class="sd">            - ``parent`` frame is not loaded (only local frame is saved), so the loaded frame must be reattached to the parent frame if needed. (See also :class:`FrameTree` to save/load a system of frames).</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -4264,6 +4314,42 @@
 <span class="sd">        -------</span>
 <span class="sd">        Frame</span>
 <span class="sd">            The Frame object.</span>
+<span class="sd">            </span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        </span>
+<span class="sd">        Create a Frame object and save it to a dictionary using the default method (quaternion, rotation_vector, rotation_matrix):</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame</span>
+<span class="sd">            frame = Frame.from_axes(origin=[1, 2, 3], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0)</span>
+<span class="sd">            frame_dict = frame.to_dict()</span>
+<span class="sd">        </span>
+<span class="sd">            # Reload the Frame object from the dictionary:</span>
+<span class="sd">        </span>
+<span class="sd">            loaded_frame = Frame.from_dict(frame_dict)</span>
+<span class="sd">            </span>
+<span class="sd">        Warning, the method no longer saves the parent frame. To save/load a system of frames, consider using the :class:`FrameTree` class.</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame</span>
+<span class="sd">            </span>
+<span class="sd">            parent = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0)</span>
+<span class="sd">            child = Frame.from_axes(origin=[1, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0, parent=parent)</span>
+<span class="sd">            </span>
+<span class="sd">            child_dict = child.to_dict(method=[&quot;quaternion&quot;, &quot;rotation_vector&quot;])</span>
+<span class="sd">            parent_dict = parent.to_dict(method=[&quot;quaternion&quot;, &quot;rotation_vector&quot;])</span>
+<span class="sd">            </span>
+<span class="sd">            # Reload the frames from the dictionaries</span>
+<span class="sd">            </span>
+<span class="sd">            loaded_parent = Frame.from_dict(parent_dict)</span>
+<span class="sd">            loaded_child = Frame.from_dict(child_dict)</span>
+<span class="sd">            loaded_child.parent = loaded_parent # IMPORTANT </span>
+<span class="sd">            </span>
+<span class="sd">            </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Check if the data is a dictionary and contains the required keys</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -4274,16 +4360,11 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The dictionary must contain at least one of the &#39;quaternion&#39;, &#39;rotation_vector&#39;, &#39;rotation_matrix&#39; or &#39;euler_angles&#39; keys.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="s2">&quot;convention&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The dictionary must contain the &#39;convention&#39; key.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="s2">&quot;parent&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The dictionary must contain the &#39;parent&#39; key.&quot;</span><span class="p">)</span>
+
         <span class="c1"># Convert the data to the correct types</span>
         <span class="n">translation</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;translation&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
         <span class="n">convention</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;convention&quot;</span><span class="p">]</span>
-        <span class="n">parent</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">parent_frame</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">parent_frame</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load_from_dict</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+
         <span class="c1"># According to the order of preference, create the rotation object</span>
         <span class="k">if</span> <span class="s2">&quot;quaternion&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
             <span class="n">quaternion</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;quaternion&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">4</span><span class="p">,))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
@@ -4299,45 +4380,85 @@
             <span class="n">rotation</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_euler</span><span class="p">(</span><span class="s2">&quot;xyz&quot;</span><span class="p">,</span> <span class="n">euler_angles</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The dictionary must contain at least one of the &#39;quaternion&#39;, &#39;rotation_vector&#39;, &#39;rotation_matrix&#39; or &#39;euler_angles&#39; keys.&quot;</span><span class="p">)</span>
+        
         <span class="c1"># Create the Frame object</span>
-        <span class="n">frame</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_rotation</span><span class="p">(</span><span class="n">translation</span><span class="o">=</span><span class="n">translation</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent_frame</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_rotation</span><span class="p">(</span><span class="n">translation</span><span class="o">=</span><span class="n">translation</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">convention</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">frame</span></div>
 
 
 
 
-<div class="viewcode-block" id="Frame.save_to_json">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.save_to_json.html#py3dframe.Frame.save_to_json">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">save_to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.to_json">
+<a class="viewcode-back" href="../../generated/py3dframe.Frame.to_json.html#py3dframe.Frame.to_json">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save the Frame object to a JSON file.</span>
 
 <span class="sd">        .. seealso::</span>
 
-<span class="sd">            - method :meth:`save_to_dict` to save the Frame object to a dictionary.</span>
+<span class="sd">            - method :meth:`to_dict` to save the Frame object to a dictionary.</span>
+<span class="sd">            </span>
+<span class="sd">        .. warning::</span>
+<span class="sd">        </span>
+<span class="sd">            - ``parent`` frame is not saved (only local frame is saved), so the loaded frame must be reattached to the parent frame if needed. (See also :class:`FrameTree` to save/load a system of frames).</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        filename : str</span>
 <span class="sd">            The name of the JSON file.</span>
+<span class="sd">            </span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        </span>
+<span class="sd">        Create a Frame object and save it to a JSON file using the default method (quaternion, rotation_vector, rotation_matrix):</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame</span>
+<span class="sd">            frame = Frame.from_axes(origin=[1, 2, 3], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0)</span>
+<span class="sd">            frame.to_json(&quot;frame.json&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Reload the Frame object from the JSON file:</span>
+<span class="sd">            </span>
+<span class="sd">            loaded_frame = Frame.from_json(&quot;frame.json&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">        Warning, the method no longer saves the parent frame. To save/load a system of frames, consider using the :class:`FrameTree` class.</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame</span>
+<span class="sd">            </span>
+<span class="sd">            parent = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0)</span>
+<span class="sd">            child = Frame.from_axes(origin=[1, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0, parent=parent)</span>
+<span class="sd">            </span>
+<span class="sd">            child.to_json(&quot;child_frame.json&quot;)</span>
+<span class="sd">            parent.to_json(&quot;parent_frame.json&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Reload the frames from the JSON files</span>
+<span class="sd">            </span>
+<span class="sd">            loaded_parent = Frame.from_json(&quot;parent_frame.json&quot;)</span>
+<span class="sd">            loaded_child = Frame.from_json(&quot;child_frame.json&quot;)</span>
+<span class="sd">            loaded_child.parent = loaded_parent # IMPORTANT</span>
+<span class="sd">            </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_to_dict</span><span class="p">()</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
 
     
 
 
-<div class="viewcode-block" id="Frame.load_from_json">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.load_from_json.html#py3dframe.Frame.load_from_json">[docs]</a>
+<div class="viewcode-block" id="Frame.from_json">
+<a class="viewcode-back" href="../../generated/py3dframe.Frame.from_json.html#py3dframe.Frame.from_json">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">load_from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load the Frame object from a JSON file.</span>
 
 <span class="sd">        .. seealso::</span>
 
-<span class="sd">            - method :meth:`load_from_dict` to load the Frame object from a dictionary.</span>
+<span class="sd">            - method :meth:`from_dict` to load the Frame object from a dictionary.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -4348,10 +4469,46 @@
 <span class="sd">        -------</span>
 <span class="sd">        Frame</span>
 <span class="sd">            The Frame object.</span>
+<span class="sd">            </span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        </span>
+<span class="sd">        Create a Frame object and save it to a JSON file using the default method (quaternion, rotation_vector, rotation_matrix):</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame</span>
+<span class="sd">            frame = Frame.from_axes(origin=[1, 2, 3], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0)</span>
+<span class="sd">            frame.to_json(&quot;frame.json&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Reload the Frame object from the JSON file:</span>
+<span class="sd">            </span>
+<span class="sd">            loaded_frame = Frame.from_json(&quot;frame.json&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">        Warning, the method no longer saves the parent frame. To save/load a system of frames, consider using the :class:`FrameTree` class.</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from py3dframe import Frame</span>
+<span class="sd">            </span>
+<span class="sd">            parent = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0)</span>
+<span class="sd">            child = Frame.from_axes(origin=[1, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0, parent=parent)</span>
+<span class="sd">            </span>
+<span class="sd">            child.to_json(&quot;child_frame.json&quot;)</span>
+<span class="sd">            parent.to_json(&quot;parent_frame.json&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Reload the frames from the JSON files</span>
+<span class="sd">            </span>
+<span class="sd">            loaded_parent = Frame.from_json(&quot;parent_frame.json&quot;)</span>
+<span class="sd">            loaded_child = Frame.from_json(&quot;child_frame.json&quot;)</span>
+<span class="sd">            loaded_child.parent = loaded_parent # IMPORTANT</span>
+<span class="sd">            </span>
+<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-        <span class="n">frame</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">load_from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">frame</span></div>
 </div>
 

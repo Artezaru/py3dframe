@@ -242,10 +242,10 @@ A Frame object can be saved and loaded using the methods below.
 .. autosummary::
    :toctree: ../generated/
 
-    Frame.save_to_dict
-    Frame.load_from_dict
-    Frame.save_to_json
-    Frame.load_from_json
+    Frame.to_dict
+    Frame.from_dict
+    Frame.to_json
+    Frame.from_json
 
 A Frame object can be copied using the method below.
 

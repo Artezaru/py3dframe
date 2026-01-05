@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>save_to_dict &#8212; py3dframe 1.2.3 documentation</title>
+    <title>move_frame &#8212; py3dframe 1.3.0 documentation</title>
   
   
   
@@ -38,14 +38,14 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=590429e0"></script>
+    <script src="../_static/documentation_options.js?v=1f29e9d3"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'generated/py3dframe.Frame.save_to_dict';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'generated/py3dframe.FrameTree.move_frame';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="load_from_dict" href="py3dframe.Frame.load_from_dict.html" />
-    <link rel="prev" title="set_global_rotation_vector" href="py3dframe.Frame.set_global_rotation_vector.html" />
+    <link rel="next" title="list_frames" href="py3dframe.FrameTree.list_frames.html" />
+    <link rel="prev" title="disconnect_frame" href="py3dframe.FrameTree.disconnect_frame.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -110,7 +110,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.2.3 documentation</p>
+    <p class="title logo__title">py3dframe 1.3.0 documentation</p>
   
 </a></div>
     
@@ -267,7 +267,7 @@
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Main classes:</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../api_doc/rotation.html">py3dframe.Rotation</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../api_doc/frame.html">py3dframe.Frame</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api_doc/frame.html">py3dframe.Frame</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.convention.html">convention</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.parent.html">parent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.get_global_frame.html">get_global_frame</a></li>
@@ -324,12 +324,37 @@
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.global_rotation_vector.html">global_rotation_vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.get_global_rotation_vector.html">get_global_rotation_vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.set_global_rotation_vector.html">set_global_rotation_vector</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">save_to_dict</a></li>
-<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.load_from_dict.html">load_from_dict</a></li>
-<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.save_to_json.html">save_to_json</a></li>
-<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.load_from_json.html">load_from_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.to_dict.html">to_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.from_dict.html">from_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.to_json.html">to_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.from_json.html">from_json</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.copy.html">copy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.Frame.deepcopy.html">deepcopy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../api_doc/frame_tree.html">py3dframe.FrameTree</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.connect_frame.html">connect_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.disconnect_frame.html">disconnect_frame</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">move_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.list_frames.html">list_frames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.get_frame.html">get_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.get_parent_name.html">get_parent_name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.get_child_names.html">get_child_names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.get_transform.html">get_transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.transform.html">transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.to_dict.html">to_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.from_dict.html">from_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.to_json.html">to_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.from_json.html">from_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__repr__.html">__repr__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__str__.html">__str__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__len__.html">__len__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__contains__.html">__contains__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__getitem__.html">__getitem__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__setitem__.html">__setitem__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__delitem__.html">__delitem__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__bool__.html">__bool__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.print_tree.html">print_tree</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api_doc/frame_transform.html">py3dframe.FrameTransform</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -418,9 +443,9 @@
     <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API Reference</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../api_doc/frame.html" class="nav-link">py3dframe.Frame</a></li>
+    <li class="breadcrumb-item"><a href="../api_doc/frame_tree.html" class="nav-link">py3dframe.FrameTree</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">save_to_dict</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">move_frame</span></li>
   </ul>
 </nav>
 </div>
@@ -437,69 +462,42 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="save-to-dict">
-<h1>save_to_dict<a class="headerlink" href="#save-to-dict" title="Link to this heading">#</a></h1>
+  <section id="move-frame">
+<h1>move_frame<a class="headerlink" href="#move-frame" title="Link to this heading">#</a></h1>
 <dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.Frame.save_to_dict">
-<span class="sig-prename descclassname"><span class="pre">Frame.</span></span><span class="sig-name descname"><span class="pre">save_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['quaternion',</span> <span class="pre">'rotation_vector',</span> <span class="pre">'rotation_matrix']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/frame.html#Frame.save_to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.Frame.save_to_dict" title="Link to this definition">#</a></dt>
-<dd><p>Save the Frame object to a dictionary.</p>
-<p>The dictionary has the following structure:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s2">&quot;translation&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
-    <span class="s2">&quot;quaternion&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
-    <span class="s2">&quot;rotation_vector&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
-    <span class="s2">&quot;rotation_matrix&quot;</span><span class="p">:</span> <span class="p">[[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
-    <span class="s2">&quot;euler_angles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
-    <span class="s2">&quot;convention&quot;</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="kc">None</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li><p>The quaternion is given in WXYZ format (scalar first).</p></li>
-<li><p>The rotation vector is given in radians.</p></li>
-<li><p>The Euler angles are given in radians and the axes are “xyz”.</p></li>
-<li><p>The rotation is given in the convention of the frame.</p></li>
-<li><p>The translation vector is given in the convention of the frame.</p></li>
-</ul>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<ul class="simple">
-<li><p>method <a class="reference internal" href="py3dframe.Frame.load_from_dict.html#py3dframe.Frame.load_from_dict" title="py3dframe.Frame.load_from_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load_from_dict()</span></code></a> to load the Frame object from a dictionary.</p></li>
-</ul>
-<p>For the reader, only one of the rotation keys is needed to reconstruct the frame. The other keys are provided for convenience and user experience.
-The reader chooses the key to use in the following order of preference if several are given:</p>
-<ul class="simple">
-<li><p>quaternion</p></li>
-<li><p>rotation_vector</p></li>
-<li><p>rotation_matrix</p></li>
-<li><p>euler_angles</p></li>
-</ul>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p><code class="docutils literal notranslate"><span class="pre">euler_angles</span></code> can raise a this warning :</p>
-<ul class="simple">
-<li><p>UserWarning: Gimbal lock detected. Setting third angle to zero since it is not possible to uniquely determine all angles.</p></li>
-</ul>
-<p>I recommand to not use it.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>For retrocompatibility, the default method “quaternion” must be used.</p>
-</div>
+<dt class="sig sig-object py" id="py3dframe.FrameTree.move_frame">
+<span class="sig-prename descclassname"><span class="pre">FrameTree.</span></span><span class="sig-name descname"><span class="pre">move_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_parent_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/frame_tree.html#FrameTree.move_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.FrameTree.move_frame" title="Link to this definition">#</a></dt>
+<dd><p>Move a Frame to a new parent frame in the FrameTree.</p>
+<p>The frame’s parent is updated to the new parent frame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>method</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – The method to use to save the rotation. It can be one of the following : “quaternion”, “rotation_vector”, “rotation_matrix” or “euler_angles”.
-Several methods can be used at the same time. Default is [“quaternion”, “rotation_vector”, “rotation_matrix”].</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – The name of the frame to move.</p></li>
+<li><p><strong>new_parent_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – The name of the new parent frame. If None, the frame is moved to be a child of the root frame. Default is None.</p></li>
+</ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The dictionary containing the Frame object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dict[str, Any]</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">py3dframe</span><span class="w"> </span><span class="kn">import</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">FrameTree</span>
+
+<span class="c1"># Create some frames</span>
+<span class="n">root_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Root_Frame&quot;</span><span class="p">)</span>
+<span class="n">child_frame_1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Child_Frame_1&quot;</span><span class="p">)</span>
+<span class="n">child_frame_2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Child_Frame_2&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create a FrameTree and add frames</span>
+<span class="n">frame_tree</span> <span class="o">=</span> <span class="n">FrameTree</span><span class="p">()</span>
+<span class="n">frame_tree</span><span class="o">.</span><span class="n">add_frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Root_Frame&quot;</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">root_frame</span><span class="p">)</span>
+<span class="n">frame_tree</span><span class="o">.</span><span class="n">add_frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Child_Frame_1&quot;</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">child_frame_1</span><span class="p">,</span> <span class="n">parent_name</span><span class="o">=</span><span class="s2">&quot;Root_Frame&quot;</span><span class="p">)</span>
+<span class="n">frame_tree</span><span class="o">.</span><span class="n">add_frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Child_Frame_2&quot;</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">child_frame_2</span><span class="p">,</span> <span class="n">parent_name</span><span class="o">=</span><span class="s2">&quot;Root_Frame&quot;</span><span class="p">)</span>
+
+<span class="c1"># Move a frame to a new parent</span>
+<span class="n">frame_tree</span><span class="o">.</span><span class="n">move_frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Child_Frame_1&quot;</span><span class="p">,</span> <span class="n">new_parent_name</span><span class="o">=</span><span class="s2">&quot;Child_Frame_2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
@@ -515,20 +513,20 @@ Several methods can be used at the same time. Default is [“quaternion”, “r
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="py3dframe.Frame.set_global_rotation_vector.html"
+       href="py3dframe.FrameTree.disconnect_frame.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">set_global_rotation_vector</p>
+        <p class="prev-next-title">disconnect_frame</p>
       </div>
     </a>
     <a class="right-next"
-       href="py3dframe.Frame.load_from_dict.html"
+       href="py3dframe.FrameTree.list_frames.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">load_from_dict</p>
+        <p class="prev-next-title">list_frames</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -551,7 +549,7 @@ Several methods can be used at the same time. Default is [“quaternion”, “r
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.Frame.save_to_dict"><code class="docutils literal notranslate"><span class="pre">Frame.save_to_dict()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree.move_frame"><code class="docutils literal notranslate"><span class="pre">FrameTree.move_frame()</span></code></a></li>
 </ul>
   </nav></div>
 
@@ -559,7 +557,7 @@ Several methods can be used at the same time. Default is [“quaternion”, “r
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/generated/py3dframe.Frame.save_to_dict.rst.txt"
+      <li><a href="../_sources/generated/py3dframe.FrameTree.move_frame.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>

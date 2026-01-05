@@ -25,20 +25,8 @@ The package ``py3dframe`` is composed of the following main classes:
 
    ./api_doc/rotation.rst
    ./api_doc/frame.rst
+   ./api_doc/frame_tree.rst
    ./api_doc/frame_transform.rst
-
-
-Transform 3D points and vectors between frames
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The package also provides several utility functions to transform and manipulate 3D points and vectors.
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Transform points and vectors:
-
-   ./api_doc/transform.rst
-   ./api_doc/vector_transform.rst
 
 
 Manipulate frames and transformations
