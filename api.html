@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>API Reference &#8212; py3dframe 1.2.2 documentation</title>
+    <title>API Reference &#8212; py3dframe 1.2.3 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=fd7cadf9"></script>
+    <script src="_static/documentation_options.js?v=590429e0"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -111,7 +111,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.2.2 documentation</p>
+    <p class="title logo__title">py3dframe 1.2.3 documentation</p>
   
 </a></div>
     
@@ -358,12 +358,12 @@
 </ul>
 </details></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">manipulations submodule:</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Frame manipulation functions:</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="api_doc/rotate_around_axis.html">py3dframe.manipulations.rotate_around_axis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/translate.html">py3dframe.manipulations.translate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/translate_along_axis.html">py3dframe.manipulations.translate_along_axis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/mirror_across_plane.html">py3dframe.manipulations.mirror_across_plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_doc/mirror_across_plane.html">py3dframe.mirror_across_plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_doc/rotate_around_axis.html">py3dframe.rotate_around_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_doc/translate.html">py3dframe.translate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_doc/translate_along_axis.html">py3dframe.translate_along_axis</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">matrix submodule:</span></p>
 <ul class="nav bd-sidenav">
@@ -434,6 +434,24 @@
                   
   <section id="api-reference">
 <h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">#</a></h1>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#overview-of-the-py3dframe-package" id="id1">Overview of the py3dframe package</a></p>
+<ul>
+<li><p><a class="reference internal" href="#main-classes" id="id2">Main classes</a></p></li>
+<li><p><a class="reference internal" href="#transform-3d-points-and-vectors-between-frames" id="id3">Transform 3D points and vectors between frames</a></p></li>
+<li><p><a class="reference internal" href="#manipulate-frames-and-transformations" id="id4">Manipulate frames and transformations</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#matrix-submodule" id="id5">Matrix submodule</a></p></li>
+<li><p><a class="reference internal" href="#frame-convention-conversion" id="id6">Frame convention conversion</a></p></li>
+</ul>
+</nav>
+<section id="overview-of-the-py3dframe-package">
+<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Overview of the py3dframe package</a><a class="headerlink" href="#overview-of-the-py3dframe-package" title="Link to this heading">#</a></h2>
+<section id="main-classes">
+<h3><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Main classes</a><a class="headerlink" href="#main-classes" title="Link to this heading">#</a></h3>
 <p>The package <code class="docutils literal notranslate"><span class="pre">py3dframe</span></code> is composed of the following main classes:</p>
 <ul class="simple">
 <li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">py3dframe.Rotation</span></code> class is used to manage 3D rotations (alias of <code class="docutils literal notranslate"><span class="pre">scipy.spatial.transform.Rotation</span></code>).</p></li>
@@ -448,16 +466,29 @@
 <li class="toctree-l1"><a class="reference internal" href="api_doc/frame_transform.html">py3dframe.FrameTransform</a></li>
 </ul>
 </div>
-<p>Some manipulation functions for <a class="reference internal" href="api_doc/frame.html#py3dframe.Frame" title="py3dframe.Frame"><code class="xref py py-class docutils literal notranslate"><span class="pre">py3dframe.Frame</span></code></a> objects are provided in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">py3dframe.manipulations</span></code> module:</p>
+</section>
+<section id="transform-3d-points-and-vectors-between-frames">
+<h3><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Transform 3D points and vectors between frames</a><a class="headerlink" href="#transform-3d-points-and-vectors-between-frames" title="Link to this heading">#</a></h3>
+<p>The package also provides several utility functions to transform and manipulate 3D points and vectors.</p>
 <div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">manipulations submodule:</span></p>
+</div>
+</section>
+<section id="manipulate-frames-and-transformations">
+<h3><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Manipulate frames and transformations</a><a class="headerlink" href="#manipulate-frames-and-transformations" title="Link to this heading">#</a></h3>
+<p>Some manipulation functions for <a class="reference internal" href="api_doc/frame.html#py3dframe.Frame" title="py3dframe.Frame"><code class="xref py py-class docutils literal notranslate"><span class="pre">py3dframe.Frame</span></code></a> objects are provided to easily create new frames from existing ones:</p>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Frame manipulation functions:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/rotate_around_axis.html">py3dframe.manipulations.rotate_around_axis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/translate.html">py3dframe.manipulations.translate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/translate_along_axis.html">py3dframe.manipulations.translate_along_axis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/mirror_across_plane.html">py3dframe.manipulations.mirror_across_plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_doc/mirror_across_plane.html">py3dframe.mirror_across_plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_doc/rotate_around_axis.html">py3dframe.rotate_around_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_doc/translate.html">py3dframe.translate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_doc/translate_along_axis.html">py3dframe.translate_along_axis</a></li>
 </ul>
 </div>
+</section>
+</section>
+<section id="matrix-submodule">
+<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Matrix submodule</a><a class="headerlink" href="#matrix-submodule" title="Link to this heading">#</a></h2>
 <p>Some additional utility functions are also provided in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">py3dframe.matrix</span></code> module in order to manipulate 3D matrices in <span class="math notranslate nohighlight">\(O(3)\)</span> and <span class="math notranslate nohighlight">\(SO(3)\)</span> groups:</p>
 <div class="toctree-wrapper compound">
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">matrix submodule:</span></p>
@@ -468,6 +499,9 @@
 <li class="toctree-l1"><a class="reference internal" href="api_doc/SO3_project.html">py3dframe.matrix.SO3_project</a></li>
 </ul>
 </div>
+</section>
+<section id="frame-convention-conversion">
+<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Frame convention conversion</a><a class="headerlink" href="#frame-convention-conversion" title="Link to this heading">#</a></h2>
 <p>Finally, to perform conversions between the different conventions used in the literature for representing 3D rotations and transformations, a function <a class="reference internal" href="api_doc/switch_RT_convention.html#py3dframe.switch_RT_convention" title="py3dframe.switch_RT_convention"><code class="xref py py-func docutils literal notranslate"><span class="pre">py3dframe.switch_RT_convention()</span></code></a> is provided:</p>
 <div class="toctree-wrapper compound">
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Conversion functions:</span></p>
@@ -476,6 +510,7 @@
 </ul>
 </div>
 <p>To learn how to use the package effectively, refer to the documentation <a class="reference internal" href="usage.html"><span class="doc">Usage</span></a>.</p>
+</section>
 </section>
 
 
@@ -518,6 +553,25 @@
 
 
   <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-py3dframe-package">Overview of the py3dframe package</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#main-classes">Main classes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transform-3d-points-and-vectors-between-frames">Transform 3D points and vectors between frames</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manipulate-frames-and-transformations">Manipulate frames and transformations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-submodule">Matrix submodule</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#frame-convention-conversion">Frame convention conversion</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -551,7 +605,7 @@
 
   <p class="copyright">
     
-      © Copyright 2025-2025, Artezaru.
+      © Copyright 2025-2026, Artezaru.
       <br/>
     
   </p>

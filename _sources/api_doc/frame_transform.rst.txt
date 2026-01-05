@@ -116,7 +116,9 @@ The FrameTransform object can be used to transform points or vectors from the in
 
 .. code-block:: python
 
-    X_i = [1, 2, 3]
+    import numpy
+
+    X_i = numpy.array([1, 2, 3]).reshape((3, 1)) # Point in input frame
     X_o = transform.transform(point=X_i)
     X_i = transform.inverse_transform(point=X_o)
 
@@ -124,7 +126,7 @@ For vectors, the translation vector is not taken into account.
 
 .. code-block:: python
 
-    X_i = [1, 2, 3]
+    X_i = numpy.array([1, 2, 3]).reshape((3, 1)) # Point in input frame
     X_o = transform.transform(point=X_i) # X_i = R X_o + T
-    V_i = [1, 2, 3]
+    V_i = numpy.array([1, 2, 3]).reshape((3, 1)) # Vector in input frame
     V_o = transform.transform(vector=V_i) # V_i = R V_o

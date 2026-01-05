@@ -1,6 +1,6 @@
-.. currentmodule:: py3dframe.manipulations
+.. currentmodule:: py3dframe
 
-py3dframe.manipulations.translate
+py3dframe.translate
 ==================================
 
 .. autofunction:: translate

@@ -1,6 +1,6 @@
-.. currentmodule:: py3dframe.manipulations
+.. currentmodule:: py3dframe
 
-py3dframe.manipulations.rotate_around_axis
+py3dframe.rotate_around_axis
 ============================================
 
 .. autofunction:: rotate_around_axis

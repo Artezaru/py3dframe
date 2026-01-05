@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>py3dframe.FrameTransform &#8212; py3dframe 1.2.2 documentation</title>
+    <title>py3dframe.FrameTransform &#8212; py3dframe 1.2.3 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=fd7cadf9"></script>
+    <script src="../_static/documentation_options.js?v=590429e0"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -111,7 +111,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.2.2 documentation</p>
+    <p class="title logo__title">py3dframe 1.2.3 documentation</p>
   
 </a></div>
     
@@ -358,12 +358,12 @@
 </ul>
 </details></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">manipulations submodule:</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Frame manipulation functions:</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="rotate_around_axis.html">py3dframe.manipulations.rotate_around_axis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="translate.html">py3dframe.manipulations.translate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="translate_along_axis.html">py3dframe.manipulations.translate_along_axis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mirror_across_plane.html">py3dframe.manipulations.mirror_across_plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mirror_across_plane.html">py3dframe.mirror_across_plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rotate_around_axis.html">py3dframe.rotate_around_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="translate.html">py3dframe.translate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="translate_along_axis.html">py3dframe.translate_along_axis</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">matrix submodule:</span></p>
 <ul class="nav bd-sidenav">
@@ -648,15 +648,17 @@ To transform points or vectors from the output frame to the input frame, use the
 Set <code class="docutils literal notranslate"><span class="pre">dynamic</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code> to reactivate the dynamic mode (you can then reset it to <code class="docutils literal notranslate"><span class="pre">False</span></code> again if needed).</p>
 </div>
 <p>The FrameTransform object can be used to transform points or vectors from the input frame to the output frame and vice versa.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X_i</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+
+<span class="n">X_i</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># Point in input frame</span>
 <span class="n">X_o</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">X_i</span><span class="p">)</span>
 <span class="n">X_i</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">X_o</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>For vectors, the translation vector is not taken into account.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X_i</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X_i</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># Point in input frame</span>
 <span class="n">X_o</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">X_i</span><span class="p">)</span> <span class="c1"># X_i = R X_o + T</span>
-<span class="n">V_i</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">V_i</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># Vector in input frame</span>
 <span class="n">V_o</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">vector</span><span class="o">=</span><span class="n">V_i</span><span class="p">)</span> <span class="c1"># V_i = R V_o</span>
 </pre></div>
 </div>
@@ -753,7 +755,7 @@ Set <code class="docutils literal notranslate"><span class="pre">dynamic</span><
 
   <p class="copyright">
     
-      © Copyright 2025-2025, Artezaru.
+      © Copyright 2025-2026, Artezaru.
       <br/>
     
   </p>

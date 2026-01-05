@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>py3dframe.manipulations.mirror_across_plane &#8212; py3dframe 1.2.2 documentation</title>
+    <title>py3dframe.mirror_across_plane &#8212; py3dframe 1.2.3 documentation</title>
   
   
   
@@ -38,14 +38,14 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=fd7cadf9"></script>
+    <script src="../_static/documentation_options.js?v=590429e0"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api_doc/mirror_across_plane';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="py3dframe.matrix.is_O3" href="is_O3.html" />
-    <link rel="prev" title="py3dframe.manipulations.translate_along_axis" href="translate_along_axis.html" />
+    <link rel="next" title="py3dframe.rotate_around_axis" href="rotate_around_axis.html" />
+    <link rel="prev" title="inverse" href="../generated/py3dframe.FrameTransform.inverse.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -110,7 +110,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.2.2 documentation</p>
+    <p class="title logo__title">py3dframe 1.2.3 documentation</p>
   
 </a></div>
     
@@ -357,12 +357,12 @@
 </ul>
 </details></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">manipulations submodule:</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Frame manipulation functions:</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="rotate_around_axis.html">py3dframe.manipulations.rotate_around_axis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="translate.html">py3dframe.manipulations.translate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="translate_along_axis.html">py3dframe.manipulations.translate_along_axis</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">py3dframe.manipulations.mirror_across_plane</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">py3dframe.mirror_across_plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rotate_around_axis.html">py3dframe.rotate_around_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="translate.html">py3dframe.translate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="translate_along_axis.html">py3dframe.translate_along_axis</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">matrix submodule:</span></p>
 <ul class="nav bd-sidenav">
@@ -417,7 +417,7 @@
     
     <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API Reference</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">py3dframe.manipulations.mirror_across_plane</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">py3dframe.mirror_across_plane</span></li>
   </ul>
 </nav>
 </div>
@@ -434,11 +434,11 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="py3dframe-manipulations-mirror-across-plane">
-<h1>py3dframe.manipulations.mirror_across_plane<a class="headerlink" href="#py3dframe-manipulations-mirror-across-plane" title="Link to this heading">#</a></h1>
+  <section id="py3dframe-mirror-across-plane">
+<h1>py3dframe.mirror_across_plane<a class="headerlink" href="#py3dframe-mirror-across-plane" title="Link to this heading">#</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="py3dframe.manipulations.mirror_across_plane">
-<span class="sig-prename descclassname"><span class="pre">py3dframe.manipulations.</span></span><span class="sig-name descname"><span class="pre">mirror_across_plane</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/manipulations/mirror_across_plane.html#mirror_across_plane"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.manipulations.mirror_across_plane" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="py3dframe.mirror_across_plane">
+<span class="sig-prename descclassname"><span class="pre">py3dframe.</span></span><span class="sig-name descname"><span class="pre">mirror_across_plane</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/mirror_across_plane.html#mirror_across_plane"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.mirror_across_plane" title="Link to this definition">#</a></dt>
 <dd><p>Mirror a frame across a specified plane.</p>
 <p>The frame is mirrored across the plane defined by a normal vector and a point on the plane.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">use_global</span></code> is set to True, the mirroring is applied in the global coordinate system.
@@ -455,8 +455,8 @@ However <a class="reference internal" href="frame.html#py3dframe.Frame" title="p
 <p class="admonition-title">See also</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="frame.html#py3dframe.Frame" title="py3dframe.Frame"><code class="xref py py-class docutils literal notranslate"><span class="pre">py3dframe.Frame</span></code></a> : for more information about the Frame class.</p></li>
-<li><p><a class="reference internal" href="translate.html#py3dframe.manipulations.translate" title="py3dframe.manipulations.translate"><code class="xref py py-func docutils literal notranslate"><span class="pre">translate()</span></code></a> : to translate a frame by given offsets along each axis.</p></li>
-<li><p><a class="reference internal" href="rotate_around_axis.html#py3dframe.manipulations.rotate_around_axis" title="py3dframe.manipulations.rotate_around_axis"><code class="xref py py-func docutils literal notranslate"><span class="pre">rotate_around_axis()</span></code></a> : to rotate a frame around a specific axis</p></li>
+<li><p><a class="reference internal" href="translate.html#py3dframe.translate" title="py3dframe.translate"><code class="xref py py-func docutils literal notranslate"><span class="pre">py3dframe.translate()</span></code></a> : to translate a frame by given offsets along each axis.</p></li>
+<li><p><a class="reference internal" href="rotate_around_axis.html#py3dframe.rotate_around_axis" title="py3dframe.rotate_around_axis"><code class="xref py py-func docutils literal notranslate"><span class="pre">py3dframe.rotate_around_axis()</span></code></a> : to rotate a frame around a specific axis</p></li>
 </ul>
 </div>
 <dl class="field-list simple">
@@ -512,20 +512,20 @@ If False, a new mirrored frame is returned and the input frame remains unchanged
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="translate_along_axis.html"
+       href="../generated/py3dframe.FrameTransform.inverse.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">py3dframe.manipulations.translate_along_axis</p>
+        <p class="prev-next-title">inverse</p>
       </div>
     </a>
     <a class="right-next"
-       href="is_O3.html"
+       href="rotate_around_axis.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">py3dframe.matrix.is_O3</p>
+        <p class="prev-next-title">py3dframe.rotate_around_axis</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -548,7 +548,7 @@ If False, a new mirrored frame is returned and the input frame remains unchanged
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.manipulations.mirror_across_plane"><code class="docutils literal notranslate"><span class="pre">mirror_across_plane()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.mirror_across_plane"><code class="docutils literal notranslate"><span class="pre">mirror_across_plane()</span></code></a></li>
 </ul>
   </nav></div>
 
@@ -586,7 +586,7 @@ If False, a new mirrored frame is returned and the input frame remains unchanged
 
   <p class="copyright">
     
-      © Copyright 2025-2025, Artezaru.
+      © Copyright 2025-2026, Artezaru.
       <br/>
     
   </p>
