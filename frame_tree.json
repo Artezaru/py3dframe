@@ -1,13 +1,13 @@
 {
     "frames": {
-        "root": {
+        "Subchild_Frame_2_2": {
             "package": "py3dframe",
             "class": "Frame",
             "version": "1.3.0",
             "translation": [
+                1.0,
                 0.0,
-                0.0,
-                0.0
+                1.0
             ],
             "convention": 0,
             "quaternion": [
@@ -78,14 +78,14 @@
                 ]
             ]
         },
-        "Subchild_Frame_2_2": {
+        "root": {
             "package": "py3dframe",
             "class": "Frame",
             "version": "1.3.0",
             "translation": [
-                1.0,
                 0.0,
-                1.0
+                0.0,
+                0.0
             ],
             "convention": 0,
             "quaternion": [
@@ -158,9 +158,9 @@
         }
     },
     "parents": {
-        "root": null,
-        "Child_Frame_2": "root",
         "Subchild_Frame_2_2": "Child_Frame_2",
+        "Child_Frame_2": "root",
+        "root": null,
         "Subchild_Frame_2_1": "root"
     }
 }

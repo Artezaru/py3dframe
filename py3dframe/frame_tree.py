@@ -104,6 +104,15 @@ class FrameTree(object):
         
         The new Frame will inherit the parent and children of the replaced Frame.
         
+        .. warning::
+        
+            The root frame cannot be replaced in the FrameTree with this method.
+            
+        .. seealso::
+        
+            - :meth:`FrameTree.connect_frame` : Add a frame to the FrameTree.
+            - :meth:`set_root_frame` : Set the root frame of the FrameTree.
+        
         Parameters
         ----------
         name : str
@@ -143,6 +152,8 @@ class FrameTree(object):
             raise TypeError("name must be a string.")
         if name not in self._names:
             raise ValueError(f"The frame '{name}' does not exist in the FrameTree.")
+        if name == 'root':
+            raise ValueError("The root frame cannot be replaced in the FrameTree.")
         
         if not isinstance(frame, Frame):
             raise TypeError("frame must be a Frame object.")
@@ -404,6 +415,71 @@ class FrameTree(object):
         
         # Add to new parent's children
         self._children[new_parent_name].append(name)
+        
+        
+    def rename_frame(self, old_name: str, new_name: str) -> None:
+        r"""
+        Rename a Frame in the FrameTree.
+        
+        Parameters
+        ----------
+        old_name : str
+            The current name of the frame to rename.
+        new_name : str
+            The new name for the frame.
+        
+        Returns
+        -------
+        None
+        
+        
+        Examples
+        --------
+        
+        .. code-block:: python
+        
+            from py3dframe import Frame, FrameTree
+            
+            # Create some frames
+            root_frame = Frame(name="Root_Frame")
+            child_frame_1 = Frame(name="Child_Frame_1")
+            
+            # Create a FrameTree and add frames
+            frame_tree = FrameTree()
+            frame_tree.add_frame(name="Root_Frame", frame=root_frame)
+            frame_tree.add_frame(name="Child_Frame_1", frame=child_frame_1, parent_name="Root_Frame")
+            
+            # Rename a frame
+            frame_tree.rename_frame(old_name="Child_Frame_1", new_name="Renamed_Child_Frame")
+        
+        """
+        # Input validation
+        if not isinstance(old_name, str):
+            raise TypeError("old_name must be a string.")
+        if not isinstance(new_name, str):
+            raise TypeError("new_name must be a string.")
+        if old_name not in self._names:
+            raise ValueError(f"The frame '{old_name}' does not exist in the FrameTree.")
+        if new_name in self._names:
+            raise ValueError(f"A frame with the name '{new_name}' already exists in the FrameTree.")
+        
+        # Rename the frame in the tree
+        self._frames[new_name] = self._frames.pop(old_name)
+        self._parents[new_name] = self._parents.pop(old_name)
+        self._children[new_name] = self._children.pop(old_name)
+        
+        # Update parent's children list
+        parent_name = self._parents[new_name]
+        self._children[parent_name].remove(old_name)
+        self._children[parent_name].append(new_name)
+        
+        # Update children's parent name
+        for child_name in self._children[new_name]:
+            self._parents[child_name] = new_name
+        
+        # Update names set
+        self._names.remove(old_name)
+        self._names.add(new_name)
         
     
     def get_frame(self, name: str) -> Frame:
@@ -756,12 +832,6 @@ class FrameTree(object):
     
     def __getitem__(self, name: str) -> Frame:
         return self.get_frame(name)
-    
-    def __setitem__(self, name: str, frame: Frame) -> None:
-        self.connect_frame(name, frame)
-        
-    def __delitem__(self, name: str) -> None:
-        self.disconnect_frame(name)
     
     def __bool__(self) -> bool:
         return len(self) > 0
