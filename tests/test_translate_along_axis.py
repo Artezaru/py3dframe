@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 from py3dframe import Frame
-from py3dframe.manipulations import translate_along_axis
+from py3dframe import translate_along_axis
 
 
 def create_test_frame():

@@ -1,6 +1,6 @@
-.. currentmodule:: py3dframe.manipulations
+.. currentmodule:: py3dframe
 
-py3dframe.manipulations.mirror_across_plane
+py3dframe.mirror_across_plane
 ============================================
 
 .. autofunction:: mirror_across_plane

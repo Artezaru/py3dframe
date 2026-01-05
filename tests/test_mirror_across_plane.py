@@ -2,7 +2,7 @@
 import pytest
 import numpy as np
 from py3dframe import Frame
-from py3dframe.manipulations import mirror_across_plane
+from py3dframe import mirror_across_plane
 
 
 

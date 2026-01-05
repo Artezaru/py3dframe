@@ -20,9 +20,6 @@ __all__.extend(["__version__"])
 from . import matrix
 __all__.extend(["matrix"])
 
-from . import manipulations
-__all__.extend(["manipulations"])
-
 from .rotation import Rotation
 from .frame import Frame
 from .frame_transform import FrameTransform
@@ -33,4 +30,16 @@ __all__.extend([
     "Frame",
     "FrameTransform",
     "switch_RT_convention",
+])
+
+from .translate import translate
+from .rotate_around_axis import rotate_around_axis
+from .translate_along_axis import translate_along_axis
+from .mirror_across_plane import mirror_across_plane
+
+__all__.extend([
+    "translate",
+    "rotate_around_axis",
+    "translate_along_axis",
+    "mirror_across_plane",
 ])

@@ -1,6 +1,18 @@
 API Reference
 ==============
 
+.. contents:: Table of Contents
+   :local:
+   :depth: 2
+   :backlinks: top
+
+
+Overview of the py3dframe package
+---------------------------------
+
+Main classes
+~~~~~~~~~~~~~~~~~~~
+
 The package ``py3dframe`` is composed of the following main classes:
 
 - :class:`py3dframe.Rotation` class is used to manage 3D rotations (alias of ``scipy.spatial.transform.Rotation``).
@@ -15,16 +27,37 @@ The package ``py3dframe`` is composed of the following main classes:
    ./api_doc/frame.rst
    ./api_doc/frame_transform.rst
 
-Some manipulation functions for :class:`py3dframe.Frame` objects are provided in the :mod:`py3dframe.manipulations` module:
+
+Transform 3D points and vectors between frames
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The package also provides several utility functions to transform and manipulate 3D points and vectors.
 
 .. toctree::
    :maxdepth: 1
-   :caption: manipulations submodule:
+   :caption: Transform points and vectors:
 
+   ./api_doc/transform.rst
+   ./api_doc/vector_transform.rst
+
+
+Manipulate frames and transformations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Some manipulation functions for :class:`py3dframe.Frame` objects are provided to easily create new frames from existing ones:
+ 
+.. toctree::
+   :maxdepth: 1
+   :caption: Frame manipulation functions:
+
+   ./api_doc/mirror_across_plane.rst
    ./api_doc/rotate_around_axis.rst
    ./api_doc/translate.rst
    ./api_doc/translate_along_axis.rst
-   ./api_doc/mirror_across_plane.rst
+
+
+Matrix submodule
+------------------------------
 
 Some additional utility functions are also provided in the :mod:`py3dframe.matrix` module in order to manipulate 3D matrices in :math:`O(3)` and :math:`SO(3)` groups:
 
@@ -36,6 +69,9 @@ Some additional utility functions are also provided in the :mod:`py3dframe.matri
    ./api_doc/is_SO3.rst
    ./api_doc/O3_project.rst
    ./api_doc/SO3_project.rst
+
+Frame convention conversion
+--------------------------------
 
 Finally, to perform conversions between the different conventions used in the literature for representing 3D rotations and transformations, a function :func:`py3dframe.switch_RT_convention` is provided:
 

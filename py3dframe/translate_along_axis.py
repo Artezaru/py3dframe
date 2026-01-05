@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from ..frame import Frame
+from .frame import Frame
 from numbers import Real
 
 import numpy
@@ -41,8 +41,8 @@ def translate_along_axis(
     .. seealso:: 
 
         - :class:`py3dframe.Frame` : for more information about the Frame class.
-        - :func:`py3dframe.manipulations.rotate_around_axis` : to rotate a frame around a specific axis.
-        - :func:`py3dframe.manipulations.translate` : to translate a frame by given offsets along each axis.
+        - :func:`py3dframe.rotate_around_axis` : to rotate a frame around a specific axis.
+        - :func:`py3dframe.translate` : to translate a frame by given offsets along each axis.
 
     Parameters
     ----------
@@ -76,7 +76,7 @@ def translate_along_axis(
     .. code-block:: python
 
         from py3dframe import Frame
-        from py3dframe.manipulations import translate_along_axis
+        from py3dframe import translate_along_axis
         import numpy as np
 
         # Create a default frame

@@ -2,7 +2,7 @@
 import pytest
 import numpy as np
 from py3dframe import Frame
-from py3dframe.manipulations import rotate_around_axis
+from py3dframe import rotate_around_axis
 
 
 

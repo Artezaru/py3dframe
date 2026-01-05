@@ -18,7 +18,7 @@ First to create a frame, you can give the origin and the axes of the frame as fo
     y_axis = np.array([0, 1, 0])
     z_axis = np.array([0, 0, 1])
 
-    frame = Frame.FrameTransform(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
+    frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
 
 
 You can also construct a frame from a rotation and a translation using one the 8 possible conventions:

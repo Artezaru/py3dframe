@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from ..frame import Frame
+from .frame import Frame
 from numbers import Real
 
 import numpy
@@ -40,8 +40,8 @@ def translate(
     .. seealso:: 
 
         - :class:`py3dframe.Frame` : for more information about the Frame class.
-        - :func:`py3dframe.manipulations.rotate_around_axis` : to rotate a frame around a specific axis.
-        - :func:`py3dframe.manipulations.translate_along_axis` : to translate a frame along a specific axis.
+        - :func:`py3dframe.rotate_around_axis` : to rotate a frame around a specific axis.
+        - :func:`py3dframe.translate_along_axis` : to translate a frame along a specific axis.
 
     Parameters
     ----------
@@ -78,7 +78,7 @@ def translate(
     .. code-block:: python
 
         from py3dframe import Frame
-        from py3dframe.manipulations import translate
+        from py3dframe import translate
 
         # Create a default frame
         frame = Frame.canonical()

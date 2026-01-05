@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from ..frame import Frame
+from .frame import Frame
 from numbers import Real
 
 import numpy
@@ -44,8 +44,8 @@ def mirror_across_plane(
     .. seealso::
 
         - :class:`py3dframe.Frame` : for more information about the Frame class.
-        - :func:`translate` : to translate a frame by given offsets along each axis.
-        - :func:`rotate_around_axis` : to rotate a frame around a specific axis
+        - :func:`py3dframe.translate` : to translate a frame by given offsets along each axis.
+        - :func:`py3dframe.rotate_around_axis` : to rotate a frame around a specific axis
 
     Parameters
     ----------
