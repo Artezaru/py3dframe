@@ -22,12 +22,14 @@ __all__.extend(["matrix"])
 
 from .rotation import Rotation
 from .frame import Frame
+from .frame_tree import FrameTree
 from .frame_transform import FrameTransform
 from .switch_RT_convention import switch_RT_convention
 
 __all__.extend([
     "Rotation",
     "Frame",
+    "FrameTree",
     "FrameTransform",
     "switch_RT_convention",
 ])

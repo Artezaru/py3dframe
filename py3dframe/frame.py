@@ -25,6 +25,7 @@ import copy
 from .switch_RT_convention import switch_RT_convention
 from .matrix import is_SO3
 from .rotation import Rotation
+from .__version__ import __version__
 
 class Frame:
     r"""
@@ -3695,7 +3696,7 @@ class Frame:
     # ====================================================================================================================================
     # Load and Save method
     # ====================================================================================================================================
-    def save_to_dict(self, method: Union[str, Sequence[str]] = ["quaternion", "rotation_vector", "rotation_matrix"]) -> Dict[str, Any]:
+    def to_dict(self, method: Union[str, Sequence[str]] = ["quaternion", "rotation_vector", "rotation_matrix"]) -> Dict[str, Any]:
         r"""
         Save the Frame object to a dictionary.
 
@@ -3703,14 +3704,16 @@ class Frame:
 
         .. code-block:: python
 
-            {
+            {   
+                "package": "py3dframe",
+                "class": "Frame",
+                "version": __version__,
                 "translation": [float, float, float],
                 "quaternion": [float, float, float, float],
                 "rotation_vector": [float, float, float],
                 "rotation_matrix": [[float, float, float], [float, float, float], [float, float, float]],
                 "euler_angles": [float, float, float],
                 "convention": int
-                "parent": None
             }
 
         - The quaternion is given in WXYZ format (scalar first).
@@ -3721,7 +3724,10 @@ class Frame:
 
         .. seealso::
 
-            - method :meth:`load_from_dict` to load the Frame object from a dictionary.
+            - method :meth:`from_dict` to load the Frame object from a dictionary.
+            - class :class:`FrameTree` to save/load a system of frames.
+            
+        .. note::
 
             For the reader, only one of the rotation keys is needed to reconstruct the frame. The other keys are provided for convenience and user experience.
             The reader chooses the key to use in the following order of preference if several are given:
@@ -3736,8 +3742,12 @@ class Frame:
             ``euler_angles`` can raise a this warning : 
             
             - UserWarning: Gimbal lock detected. Setting third angle to zero since it is not possible to uniquely determine all angles.
-
+            
             I recommand to not use it.
+            
+        .. warning::
+        
+            - ``parent`` frame is not saved (only local frame is saved), so the loaded frame must be reattached to the parent frame if needed. (See also :class:`FrameTree` to save/load a system of frames).
 
         .. note::
 
@@ -3753,6 +3763,40 @@ class Frame:
         -------
         Dict[str, Any]
             The dictionary containing the Frame object.
+            
+            
+        Examples
+        --------
+        
+        Create a Frame object and save it to a dictionary using the default method (quaternion, rotation_vector, rotation_matrix):
+        
+        .. code-block:: python
+        
+            from py3dframe import Frame
+            frame = Frame.from_axes(origin=[1, 2, 3], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0)
+            frame_dict = frame.to_dict()
+        
+            # Reload the Frame object from the dictionary:
+        
+            loaded_frame = Frame.from_dict(frame_dict)
+            
+        Warning, the method no longer saves the parent frame. To save/load a system of frames, consider using the :class:`FrameTree` class.
+        
+        .. code-block:: python
+        
+            from py3dframe import Frame
+            
+            parent = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0)
+            child = Frame.from_axes(origin=[1, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0, parent=parent)
+            
+            child_dict = child.to_dict(method=["quaternion", "rotation_vector"])
+            parent_dict = parent.to_dict(method=["quaternion", "rotation_vector"])
+            
+            # Reload the frames from the dictionaries
+            loaded_parent = Frame.from_dict(parent_dict)
+            loaded_child = Frame.from_dict(child_dict)
+            loaded_child.parent = loaded_parent # IMPORTANT 
+            
         """
         # Check if the method is a string or a list of strings
         if isinstance(method, str):
@@ -3763,6 +3807,9 @@ class Frame:
             raise ValueError("The method must be one of the following : 'quaternion', 'rotation_vector', 'rotation_matrix' or 'euler_angles'.")
 
         data = {
+            "package": "py3dframe",
+            "class": "Frame",
+            "version": __version__,
             "translation": self.translation.flatten().tolist(),
             "convention": self._convention,
         }
@@ -3779,16 +3826,12 @@ class Frame:
                 data["euler_angles"] = self.get_euler_angles(convention=None, degrees=False, seq="xyz").tolist()
 
         # Add the parent frame to the dictionary
-        if self._parent is None:
-            data["parent"] = None
-        else:
-            data["parent"] = self._parent.save_to_dict(method=method)
         return data
 
 
 
     @classmethod
-    def load_from_dict(cls, data: Dict[str, Any]) -> Frame:
+    def from_dict(cls, data: Dict[str, Any]) -> Frame:
         r"""
         Load the Frame object from a dictionary.
 
@@ -3797,13 +3840,15 @@ class Frame:
         .. code-block:: python
 
             {
+                "package": "py3dframe",
+                "class": "Frame",
+                "version": __version__,
                 "translation": [float, float, float],
                 "quaternion": [float, float, float, float],
                 "rotation_vector": [float, float, float],
                 "rotation_matrix": [[float, float, float], [float, float, float], [float, float, float]],
                 "euler_angles": [float, float, float],
                 "convention": int
-                "parent": None
             }
 
         - The quaternion is given in WXYZ format (scalar first).
@@ -3814,7 +3859,8 @@ class Frame:
 
         .. seealso::
 
-            - method :meth:`save_to_dict` to save the Frame object to a dictionary.
+            - method :meth:`to_dict` to save the Frame object to a dictionary.
+            - :meth:`FrameTree.from_dict` to load a system of frames from a dictionary.
 
         .. note::
 
@@ -3833,6 +3879,10 @@ class Frame:
             - UserWarning: Gimbal lock detected. Setting third angle to zero since it is not possible to uniquely determine all angles.
 
             I recommand to not use it.
+            
+        .. warning::
+        
+            - ``parent`` frame is not loaded (only local frame is saved), so the loaded frame must be reattached to the parent frame if needed. (See also :class:`FrameTree` to save/load a system of frames).
 
         Parameters
         ----------
@@ -3843,6 +3893,42 @@ class Frame:
         -------
         Frame
             The Frame object.
+            
+        
+        Examples
+        --------
+        
+        Create a Frame object and save it to a dictionary using the default method (quaternion, rotation_vector, rotation_matrix):
+        
+        .. code-block:: python
+        
+            from py3dframe import Frame
+            frame = Frame.from_axes(origin=[1, 2, 3], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0)
+            frame_dict = frame.to_dict()
+        
+            # Reload the Frame object from the dictionary:
+        
+            loaded_frame = Frame.from_dict(frame_dict)
+            
+        Warning, the method no longer saves the parent frame. To save/load a system of frames, consider using the :class:`FrameTree` class.
+        
+        .. code-block:: python
+        
+            from py3dframe import Frame
+            
+            parent = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0)
+            child = Frame.from_axes(origin=[1, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0, parent=parent)
+            
+            child_dict = child.to_dict(method=["quaternion", "rotation_vector"])
+            parent_dict = parent.to_dict(method=["quaternion", "rotation_vector"])
+            
+            # Reload the frames from the dictionaries
+            
+            loaded_parent = Frame.from_dict(parent_dict)
+            loaded_child = Frame.from_dict(child_dict)
+            loaded_child.parent = loaded_parent # IMPORTANT 
+            
+            
         """
         # Check if the data is a dictionary and contains the required keys
         if not isinstance(data, dict):
@@ -3853,16 +3939,11 @@ class Frame:
             raise ValueError("The dictionary must contain at least one of the 'quaternion', 'rotation_vector', 'rotation_matrix' or 'euler_angles' keys.")
         if not "convention" in data:
             raise ValueError("The dictionary must contain the 'convention' key.")
-        if not "parent" in data:
-            raise ValueError("The dictionary must contain the 'parent' key.")
+
         # Convert the data to the correct types
         translation = numpy.asarray(data["translation"]).reshape((3,1)).astype(numpy.float64)
         convention = data["convention"]
-        parent = data["parent"]
-        if parent is None:
-            parent_frame = None
-        else:
-            parent_frame = cls.load_from_dict(parent)
+
         # According to the order of preference, create the rotation object
         if "quaternion" in data:
             quaternion = numpy.asarray(data["quaternion"]).reshape((4,)).astype(numpy.float64)
@@ -3878,39 +3959,79 @@ class Frame:
             rotation = Rotation.from_euler("xyz", euler_angles, degrees=False)
         else:
             raise ValueError("The dictionary must contain at least one of the 'quaternion', 'rotation_vector', 'rotation_matrix' or 'euler_angles' keys.")
+        
         # Create the Frame object
-        frame = cls.from_rotation(translation=translation, rotation=rotation, parent=parent_frame, convention=convention)
+        frame = cls.from_rotation(translation=translation, rotation=rotation, parent=None, convention=convention)
         return frame
 
 
 
-    def save_to_json(self, filename: str) -> None:
+    def to_json(self, filename: str) -> None:
         """
         Save the Frame object to a JSON file.
 
         .. seealso::
 
-            - method :meth:`save_to_dict` to save the Frame object to a dictionary.
+            - method :meth:`to_dict` to save the Frame object to a dictionary.
+            
+        .. warning::
+        
+            - ``parent`` frame is not saved (only local frame is saved), so the loaded frame must be reattached to the parent frame if needed. (See also :class:`FrameTree` to save/load a system of frames).
 
         Parameters
         ----------
         filename : str
             The name of the JSON file.
+            
+        
+        Examples
+        --------
+        
+        Create a Frame object and save it to a JSON file using the default method (quaternion, rotation_vector, rotation_matrix):
+        
+        .. code-block:: python
+        
+            from py3dframe import Frame
+            frame = Frame.from_axes(origin=[1, 2, 3], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0)
+            frame.to_json("frame.json")
+            
+            # Reload the Frame object from the JSON file:
+            
+            loaded_frame = Frame.from_json("frame.json")
+            
+        Warning, the method no longer saves the parent frame. To save/load a system of frames, consider using the :class:`FrameTree` class.
+        
+        .. code-block:: python
+        
+            from py3dframe import Frame
+            
+            parent = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0)
+            child = Frame.from_axes(origin=[1, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0, parent=parent)
+            
+            child.to_json("child_frame.json")
+            parent.to_json("parent_frame.json")
+            
+            # Reload the frames from the JSON files
+            
+            loaded_parent = Frame.from_json("parent_frame.json")
+            loaded_child = Frame.from_json("child_frame.json")
+            loaded_child.parent = loaded_parent # IMPORTANT
+            
         """
-        data = self.save_to_dict()
+        data = self.to_dict()
         with open(filename, 'w') as f:
             json.dump(data, f, indent=4)
     
 
 
     @classmethod
-    def load_from_json(cls, filename: str) -> Frame:
+    def from_json(cls, filename: str) -> Frame:
         """
         Load the Frame object from a JSON file.
 
         .. seealso::
 
-            - method :meth:`load_from_dict` to load the Frame object from a dictionary.
+            - method :meth:`from_dict` to load the Frame object from a dictionary.
 
         Parameters
         ----------
@@ -3921,8 +4042,44 @@ class Frame:
         -------
         Frame
             The Frame object.
+            
+        
+        Examples
+        --------
+        
+        Create a Frame object and save it to a JSON file using the default method (quaternion, rotation_vector, rotation_matrix):
+        
+        .. code-block:: python
+        
+            from py3dframe import Frame
+            frame = Frame.from_axes(origin=[1, 2, 3], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0)
+            frame.to_json("frame.json")
+            
+            # Reload the Frame object from the JSON file:
+            
+            loaded_frame = Frame.from_json("frame.json")
+            
+        Warning, the method no longer saves the parent frame. To save/load a system of frames, consider using the :class:`FrameTree` class.
+        
+        .. code-block:: python
+        
+            from py3dframe import Frame
+            
+            parent = Frame.from_axes(origin=[0, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0)
+            child = Frame.from_axes(origin=[1, 0, 0], x_axis=[1, 0, 0], y_axis=[0, 1, 0], z_axis=[0, 0, 1], convention=0, parent=parent)
+            
+            child.to_json("child_frame.json")
+            parent.to_json("parent_frame.json")
+            
+            # Reload the frames from the JSON files
+            
+            loaded_parent = Frame.from_json("parent_frame.json")
+            loaded_child = Frame.from_json("child_frame.json")
+            loaded_child.parent = loaded_parent # IMPORTANT
+            
+        
         """
         with open(filename, 'r') as f:
             data = json.load(f)
-        frame = cls.load_from_dict(data)
+        frame = cls.from_dict(data)
         return frame
