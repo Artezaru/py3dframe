@@ -10,7 +10,7 @@ py3dframe.FrameTree
 
 .. autoclass:: FrameTree
 
-Set the tree connections
+Update the tree connections
 --------------------------------
 
 The connections between frames in the tree can be set using the :meth:`connect_frame` method.
@@ -20,21 +20,14 @@ The connections between frames in the tree can be set using the :meth:`connect_f
 
     FrameTree.connect_frame
     FrameTree.disconnect_frame
-    FrameTree.move_frame
-    FrameTree.set_frame
-    FrameTree.set_root_frame
-
-
-Access frames in the tree
---------------------------------
-
-.. autosummary::
-   :toctree: ../generated/
-
     FrameTree.list_frames
+    FrameTree.get_child_names
     FrameTree.get_frame
     FrameTree.get_parent_name
-    FrameTree.get_child_names
+    FrameTree.move_frame
+    FrameTree.rename_frame
+    FrameTree.replace_frame
+    FrameTree.set_root_frame
 
 
 Transformations between frames in the tree
@@ -69,8 +62,6 @@ Additional methods
     FrameTree.__len__
     FrameTree.__contains__
     FrameTree.__getitem__
-    FrameTree.__setitem__
-    FrameTree.__delitem__
     FrameTree.__bool__
     FrameTree.print_tree
 

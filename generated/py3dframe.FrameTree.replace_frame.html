@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>__delitem__ &#8212; py3dframe 1.3.0 documentation</title>
+    <title>replace_frame &#8212; py3dframe 1.3.1 documentation</title>
   
   
   
@@ -38,14 +38,14 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=1f29e9d3"></script>
+    <script src="../_static/documentation_options.js?v=bb516dca"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'generated/py3dframe.FrameTree.__delitem__';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'generated/py3dframe.FrameTree.replace_frame';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="__bool__" href="py3dframe.FrameTree.__bool__.html" />
-    <link rel="prev" title="__setitem__" href="py3dframe.FrameTree.__setitem__.html" />
+    <link rel="next" title="set_root_frame" href="py3dframe.FrameTree.set_root_frame.html" />
+    <link rel="prev" title="rename_frame" href="py3dframe.FrameTree.rename_frame.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -110,7 +110,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.3.0 documentation</p>
+    <p class="title logo__title">py3dframe 1.3.1 documentation</p>
   
 </a></div>
     
@@ -335,12 +335,14 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../api_doc/frame_tree.html">py3dframe.FrameTree</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.connect_frame.html">connect_frame</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.disconnect_frame.html">disconnect_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.move_frame.html">move_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.set_root_frame.html">set_root_frame</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.list_frames.html">list_frames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.get_child_names.html">get_child_names</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.get_frame.html">get_frame</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.get_parent_name.html">get_parent_name</a></li>
-<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.get_child_names.html">get_child_names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.move_frame.html">move_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.rename_frame.html">rename_frame</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">replace_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.set_root_frame.html">set_root_frame</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.get_transform.html">get_transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.transform.html">transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.to_dict.html">to_dict</a></li>
@@ -352,8 +354,6 @@
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__len__.html">__len__</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__contains__.html">__contains__</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__getitem__.html">__getitem__</a></li>
-<li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__setitem__.html">__setitem__</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">__delitem__</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.__bool__.html">__bool__</a></li>
 <li class="toctree-l2"><a class="reference internal" href="py3dframe.FrameTree.print_tree.html">print_tree</a></li>
 </ul>
@@ -446,7 +446,7 @@
     
     <li class="breadcrumb-item"><a href="../api_doc/frame_tree.html" class="nav-link">py3dframe.FrameTree</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">__delitem__</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">replace_frame</span></li>
   </ul>
 </nav>
 </div>
@@ -463,19 +463,54 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="delitem">
-<h1>__delitem__<a class="headerlink" href="#delitem" title="Link to this heading">#</a></h1>
+  <section id="replace-frame">
+<h1>replace_frame<a class="headerlink" href="#replace-frame" title="Link to this heading">#</a></h1>
 <dl class="py method">
-<dt class="sig sig-object py" id="py3dframe.FrameTree.__delitem__">
-<span class="sig-prename descclassname"><span class="pre">FrameTree.</span></span><span class="sig-name descname"><span class="pre">__delitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/frame_tree.html#FrameTree.__delitem__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.FrameTree.__delitem__" title="Link to this definition">#</a></dt>
-<dd><dl class="field-list simple">
+<dt class="sig sig-object py" id="py3dframe.FrameTree.replace_frame">
+<span class="sig-prename descclassname"><span class="pre">FrameTree.</span></span><span class="sig-name descname"><span class="pre">replace_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py3dframe/frame_tree.html#FrameTree.replace_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#py3dframe.FrameTree.replace_frame" title="Link to this definition">#</a></dt>
+<dd><p>Replace a Frame in the FrameTree with another Frame.</p>
+<p>The new Frame will inherit the parent and children of the replaced Frame.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The root frame cannot be replaced in the FrameTree with this method.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="py3dframe.FrameTree.connect_frame.html#py3dframe.FrameTree.connect_frame" title="py3dframe.FrameTree.connect_frame"><code class="xref py py-meth docutils literal notranslate"><span class="pre">FrameTree.connect_frame()</span></code></a> : Add a frame to the FrameTree.</p></li>
+<li><p><a class="reference internal" href="py3dframe.FrameTree.set_root_frame.html#py3dframe.FrameTree.set_root_frame" title="py3dframe.FrameTree.set_root_frame"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_root_frame()</span></code></a> : Set the root frame of the FrameTree.</p></li>
+</ul>
+</div>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>)</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – The name of the frame to replace.</p></li>
+<li><p><strong>frame</strong> (<a class="reference internal" href="../api_doc/frame.html#py3dframe.Frame" title="py3dframe.Frame"><em>Frame</em></a>) – The new Frame object to replace the existing frame.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">py3dframe</span><span class="w"> </span><span class="kn">import</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">FrameTree</span>
+
+<span class="c1"># Create some frames</span>
+<span class="n">root_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Root_Frame&quot;</span><span class="p">)</span>
+<span class="n">child_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Child_Frame&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create a FrameTree and add frames</span>
+<span class="n">frame_tree</span> <span class="o">=</span> <span class="n">FrameTree</span><span class="p">()</span>
+<span class="n">frame_tree</span><span class="o">.</span><span class="n">add_frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Root_Frame&quot;</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">root_frame</span><span class="p">)</span>
+<span class="n">frame_tree</span><span class="o">.</span><span class="n">add_frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Child_Frame&quot;</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">child_frame</span><span class="p">,</span> <span class="n">parent_name</span><span class="o">=</span><span class="s2">&quot;Root_Frame&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create a new frame to replace the existing one</span>
+<span class="n">new_child_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;New_Child_Frame&quot;</span><span class="p">)</span>
+
+<span class="c1"># Replace the existing frame</span>
+<span class="n">frame_tree</span><span class="o">.</span><span class="n">replace_frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Child_Frame&quot;</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">new_child_frame</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
@@ -491,20 +526,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="py3dframe.FrameTree.__setitem__.html"
+       href="py3dframe.FrameTree.rename_frame.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">__setitem__</p>
+        <p class="prev-next-title">rename_frame</p>
       </div>
     </a>
     <a class="right-next"
-       href="py3dframe.FrameTree.__bool__.html"
+       href="py3dframe.FrameTree.set_root_frame.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">__bool__</p>
+        <p class="prev-next-title">set_root_frame</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -527,7 +562,7 @@
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree.__delitem__"><code class="docutils literal notranslate"><span class="pre">FrameTree.__delitem__()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree.replace_frame"><code class="docutils literal notranslate"><span class="pre">FrameTree.replace_frame()</span></code></a></li>
 </ul>
   </nav></div>
 
@@ -535,7 +570,7 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/generated/py3dframe.FrameTree.__delitem__.rst.txt"
+      <li><a href="../_sources/generated/py3dframe.FrameTree.replace_frame.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>

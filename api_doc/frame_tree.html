@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>py3dframe.FrameTree &#8212; py3dframe 1.3.0 documentation</title>
+    <title>py3dframe.FrameTree &#8212; py3dframe 1.3.1 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=1f29e9d3"></script>
+    <script src="../_static/documentation_options.js?v=bb516dca"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -111,7 +111,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.3.0 documentation</p>
+    <p class="title logo__title">py3dframe 1.3.1 documentation</p>
   
 </a></div>
     
@@ -336,12 +336,14 @@
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">py3dframe.FrameTree</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.connect_frame.html">connect_frame</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.disconnect_frame.html">disconnect_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.move_frame.html">move_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.set_root_frame.html">set_root_frame</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.list_frames.html">list_frames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.get_child_names.html">get_child_names</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.get_frame.html">get_frame</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.get_parent_name.html">get_parent_name</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.get_child_names.html">get_child_names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.move_frame.html">move_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.rename_frame.html">rename_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.replace_frame.html">replace_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.set_root_frame.html">set_root_frame</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.get_transform.html">get_transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.transform.html">transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.to_dict.html">to_dict</a></li>
@@ -353,8 +355,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.__len__.html">__len__</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.__contains__.html">__contains__</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.__getitem__.html">__getitem__</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.__setitem__.html">__setitem__</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.__delitem__.html">__delitem__</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.__bool__.html">__bool__</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../generated/py3dframe.FrameTree.print_tree.html">print_tree</a></li>
 </ul>
@@ -466,12 +466,11 @@
 <nav class="contents local" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#set-the-tree-connections" id="id1">Set the tree connections</a></p></li>
-<li><p><a class="reference internal" href="#access-frames-in-the-tree" id="id2">Access frames in the tree</a></p></li>
-<li><p><a class="reference internal" href="#transformations-between-frames-in-the-tree" id="id3">Transformations between frames in the tree</a></p></li>
-<li><p><a class="reference internal" href="#save-and-load-frametree-objects" id="id4">Save and load FrameTree objects</a></p></li>
-<li><p><a class="reference internal" href="#additional-methods" id="id5">Additional methods</a></p></li>
-<li><p><a class="reference internal" href="#usage-example" id="id6">Usage example</a></p></li>
+<li><p><a class="reference internal" href="#update-the-tree-connections" id="id1">Update the tree connections</a></p></li>
+<li><p><a class="reference internal" href="#transformations-between-frames-in-the-tree" id="id2">Transformations between frames in the tree</a></p></li>
+<li><p><a class="reference internal" href="#save-and-load-frametree-objects" id="id3">Save and load FrameTree objects</a></p></li>
+<li><p><a class="reference internal" href="#additional-methods" id="id4">Additional methods</a></p></li>
+<li><p><a class="reference internal" href="#usage-example" id="id5">Usage example</a></p></li>
 </ul>
 </nav>
 <dl class="py class">
@@ -499,8 +498,8 @@ Avoid modifying the <code class="docutils literal notranslate"><span class="pre"
 </dl>
 </dd></dl>
 
-<section id="set-the-tree-connections">
-<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Set the tree connections</a><a class="headerlink" href="#set-the-tree-connections" title="Link to this heading">#</a></h2>
+<section id="update-the-tree-connections">
+<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Update the tree connections</a><a class="headerlink" href="#update-the-tree-connections" title="Link to this heading">#</a></h2>
 <p>The connections between frames in the tree can be set using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">connect_frame()</span></code> method.</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -510,31 +509,29 @@ Avoid modifying the <code class="docutils literal notranslate"><span class="pre"
 <tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTree.disconnect_frame.html#py3dframe.FrameTree.disconnect_frame" title="py3dframe.FrameTree.disconnect_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTree.disconnect_frame</span></code></a>(name[, recursive])</p></td>
 <td><p>Remove a Frame from the FrameTree.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTree.move_frame.html#py3dframe.FrameTree.move_frame" title="py3dframe.FrameTree.move_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTree.move_frame</span></code></a>(name[, new_parent_name])</p></td>
-<td><p>Move a Frame to a new parent frame in the FrameTree.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTree.set_root_frame.html#py3dframe.FrameTree.set_root_frame" title="py3dframe.FrameTree.set_root_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTree.set_root_frame</span></code></a>(frame)</p></td>
-<td><p>Set the root Frame of the FrameTree.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="access-frames-in-the-tree">
-<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Access frames in the tree</a><a class="headerlink" href="#access-frames-in-the-tree" title="Link to this heading">#</a></h2>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
-<tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTree.list_frames.html#py3dframe.FrameTree.list_frames" title="py3dframe.FrameTree.list_frames"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTree.list_frames</span></code></a>()</p></td>
 <td><p>List all frame names in the FrameTree.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTree.get_frame.html#py3dframe.FrameTree.get_frame" title="py3dframe.FrameTree.get_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTree.get_frame</span></code></a>(name)</p></td>
-<td><p>Get a Frame from the FrameTree by its name.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTree.get_parent_name.html#py3dframe.FrameTree.get_parent_name" title="py3dframe.FrameTree.get_parent_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTree.get_parent_name</span></code></a>(name)</p></td>
-<td><p>Get the name of the parent frame of a specified frame in the FrameTree.</p></td>
-</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTree.get_child_names.html#py3dframe.FrameTree.get_child_names" title="py3dframe.FrameTree.get_child_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTree.get_child_names</span></code></a>(name)</p></td>
 <td><p>Get the names of the child frames of a specified frame in the FrameTree.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTree.get_frame.html#py3dframe.FrameTree.get_frame" title="py3dframe.FrameTree.get_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTree.get_frame</span></code></a>(name)</p></td>
+<td><p>Get a Frame from the FrameTree by its name.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTree.get_parent_name.html#py3dframe.FrameTree.get_parent_name" title="py3dframe.FrameTree.get_parent_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTree.get_parent_name</span></code></a>(name)</p></td>
+<td><p>Get the name of the parent frame of a specified frame in the FrameTree.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTree.move_frame.html#py3dframe.FrameTree.move_frame" title="py3dframe.FrameTree.move_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTree.move_frame</span></code></a>(name[, new_parent_name])</p></td>
+<td><p>Move a Frame to a new parent frame in the FrameTree.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTree.rename_frame.html#py3dframe.FrameTree.rename_frame" title="py3dframe.FrameTree.rename_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTree.rename_frame</span></code></a>(old_name, new_name)</p></td>
+<td><p>Rename a Frame in the FrameTree.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTree.replace_frame.html#py3dframe.FrameTree.replace_frame" title="py3dframe.FrameTree.replace_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTree.replace_frame</span></code></a>(name, frame)</p></td>
+<td><p>Replace a Frame in the FrameTree with another Frame.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTree.set_root_frame.html#py3dframe.FrameTree.set_root_frame" title="py3dframe.FrameTree.set_root_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTree.set_root_frame</span></code></a>(frame)</p></td>
+<td><p>Set the root Frame of the FrameTree.</p></td>
 </tr>
 </tbody>
 </table>
@@ -591,12 +588,6 @@ Avoid modifying the <code class="docutils literal notranslate"><span class="pre"
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTree.__getitem__.html#py3dframe.FrameTree.__getitem__" title="py3dframe.FrameTree.__getitem__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTree.__getitem__</span></code></a>(name)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTree.__setitem__.html#py3dframe.FrameTree.__setitem__" title="py3dframe.FrameTree.__setitem__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTree.__setitem__</span></code></a>(name, frame)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTree.__delitem__.html#py3dframe.FrameTree.__delitem__" title="py3dframe.FrameTree.__delitem__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTree.__delitem__</span></code></a>(name)</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="../generated/py3dframe.FrameTree.__bool__.html#py3dframe.FrameTree.__bool__" title="py3dframe.FrameTree.__bool__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTree.__bool__</span></code></a>()</p></td>
@@ -692,8 +683,7 @@ Avoid modifying the <code class="docutils literal notranslate"><span class="pre"
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#py3dframe.FrameTree"><code class="docutils literal notranslate"><span class="pre">FrameTree</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-tree-connections">Set the tree connections</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#access-frames-in-the-tree">Access frames in the tree</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#update-the-tree-connections">Update the tree connections</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformations-between-frames-in-the-tree">Transformations between frames in the tree</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#save-and-load-frametree-objects">Save and load FrameTree objects</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-methods">Additional methods</a></li>
