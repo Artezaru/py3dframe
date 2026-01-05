@@ -92,6 +92,8 @@ class FrameTree(object):
         """
         if not isinstance(frame, Frame):
             raise TypeError("frame must be a Frame object.")
+        if frame.parent is not None:
+            raise ValueError("The root frame must have parent=None. The FrameTree manages the parent/child relationships to avoid inconsistencies.")
         
         self._frames['root'] = frame
         
