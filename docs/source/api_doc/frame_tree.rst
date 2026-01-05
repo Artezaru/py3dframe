@@ -21,6 +21,8 @@ The connections between frames in the tree can be set using the :meth:`connect_f
     FrameTree.connect_frame
     FrameTree.disconnect_frame
     FrameTree.move_frame
+    FrameTree.set_frame
+    FrameTree.set_root_frame
 
 
 Access frames in the tree
