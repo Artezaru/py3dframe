@@ -36,7 +36,7 @@ class Frame:
         Only right-handed orthogonal frames are supported (orthonormal basis vectors with a positive determinant).
 
     A frame of reference is defined by 
-    
+
     - An origin :math:`O_F` as a 3-element vector.
     - Three basis vectors :math:`\mathbf{e}_1`, :math:`\mathbf{e}_2` and :math:`\mathbf{e}_3` as 3-element vectors.
 
@@ -3346,6 +3346,7 @@ class Frame:
 
         degrees : bool, optional
             If True, the rotation vector is in degrees. Default is False (radians).
+
 
         Examples
         --------

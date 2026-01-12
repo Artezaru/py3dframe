@@ -17,6 +17,7 @@ The package ``py3dframe`` is composed of the following main classes:
 
 - :class:`py3dframe.Rotation` class is used to manage 3D rotations (alias of ``scipy.spatial.transform.Rotation``).
 - :class:`py3dframe.Frame` class is used to represent 3D frames of reference.
+- :class:`py3dframe.FrameTree` class is used to manage hierarchical relationships between multiple frames (easier than using :attr:`py3dframe.Frame.parent` attributes).
 - :class:`py3dframe.FrameTransform` class is used to manage 3D transformations between frames.
 
 .. toctree::
@@ -57,6 +58,7 @@ Some additional utility functions are also provided in the :mod:`py3dframe.matri
    ./api_doc/is_SO3.rst
    ./api_doc/O3_project.rst
    ./api_doc/SO3_project.rst
+
 
 Frame convention conversion
 --------------------------------
