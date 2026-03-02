@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>py3dframe.frame &#8212; py3dframe 1.3.2 documentation</title>
+    <title>py3dframe.frame &#8212; py3dframe 2.0.0 documentation</title>
   
   
   
@@ -30,6 +30,12 @@
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
   <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -37,9 +43,12 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=8ca9e7a0"></script>
-    <script src="../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/documentation_options.js?v=51b770b3"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/py3dframe/frame';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -107,7 +116,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.3.2 documentation</p>
+    <p class="title logo__title">py3dframe 2.0.0 documentation</p>
   
 </a></div>
     
@@ -136,8 +145,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../usage.html">
-    Usage
+  <a class="nav-link nav-internal" href="../../_gallery/index.html">
+    Example Gallery
   </a>
 </li>
 
@@ -227,8 +236,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../usage.html">
-    Usage
+  <a class="nav-link nav-internal" href="../../_gallery/index.html">
+    Example Gallery
   </a>
 </li>
 
@@ -340,7 +349,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.__version__</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
 
 <div class="viewcode-block" id="Frame">
-<a class="viewcode-back" href="../../api_doc/frame.html#py3dframe.Frame">[docs]</a>
+<a class="viewcode-back" href="../../_docs/frame.html#py3dframe.Frame">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Frame</span><span class="p">:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A Frame object represents a frame of reference of :math:`\mathbb{R}^3`.</span>
@@ -700,7 +709,7 @@
     <span class="c1"># Class methods to create a Frame object</span>
     <span class="c1"># ====================================================================================================================================</span>
 <div class="viewcode-block" id="Frame.canonical">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.canonical.html#py3dframe.Frame.canonical">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.canonical.html#py3dframe.Frame.canonical">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">canonical</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
@@ -755,7 +764,7 @@
 
     
 <div class="viewcode-block" id="Frame.from_rotation">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.from_rotation.html#py3dframe.Frame.from_rotation">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.from_rotation.html#py3dframe.Frame.from_rotation">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_rotation</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
@@ -863,7 +872,7 @@
 
 
 <div class="viewcode-block" id="Frame.from_axes">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.from_axes.html#py3dframe.Frame.from_axes">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.from_axes.html#py3dframe.Frame.from_axes">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_axes</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
@@ -972,7 +981,7 @@
 
 
 <div class="viewcode-block" id="Frame.from_rotation_matrix">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.from_rotation_matrix.html#py3dframe.Frame.from_rotation_matrix">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.from_rotation_matrix.html#py3dframe.Frame.from_rotation_matrix">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_rotation_matrix</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
@@ -1088,7 +1097,7 @@
     
 
 <div class="viewcode-block" id="Frame.from_quaternion">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.from_quaternion.html#py3dframe.Frame.from_quaternion">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.from_quaternion.html#py3dframe.Frame.from_quaternion">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_quaternion</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
@@ -1203,7 +1212,7 @@
     
 
 <div class="viewcode-block" id="Frame.from_euler_angles">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.from_euler_angles.html#py3dframe.Frame.from_euler_angles">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.from_euler_angles.html#py3dframe.Frame.from_euler_angles">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_euler_angles</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
@@ -1322,7 +1331,7 @@
     
 
 <div class="viewcode-block" id="Frame.from_rotation_vector">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.from_rotation_vector.html#py3dframe.Frame.from_rotation_vector">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.from_rotation_vector.html#py3dframe.Frame.from_rotation_vector">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_rotation_vector</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
@@ -1766,7 +1775,7 @@
 
 
 <div class="viewcode-block" id="Frame.get_rotation">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.get_rotation.html#py3dframe.Frame.get_rotation">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.get_rotation.html#py3dframe.Frame.get_rotation">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">Rotation</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Access the rotation between the parent frame and this frame in a specific convention.</span>
@@ -1822,7 +1831,7 @@
 
     
 <div class="viewcode-block" id="Frame.set_rotation">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.set_rotation.html#py3dframe.Frame.set_rotation">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.set_rotation.html#py3dframe.Frame.set_rotation">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rotation</span><span class="p">:</span> <span class="n">Rotation</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the rotation between the parent frame and this frame in a specific convention.</span>
@@ -1910,7 +1919,7 @@
     
 
 <div class="viewcode-block" id="Frame.get_translation">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.get_translation.html#py3dframe.Frame.get_translation">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.get_translation.html#py3dframe.Frame.get_translation">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_translation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Access the translation vector between the parent frame and this frame in a specific convention.</span>
@@ -1966,7 +1975,7 @@
 
     
 <div class="viewcode-block" id="Frame.set_translation">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.set_translation.html#py3dframe.Frame.set_translation">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.set_translation.html#py3dframe.Frame.set_translation">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_translation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">translation</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the translation vector between the parent frame and this frame in a specific convention.</span>
@@ -2054,7 +2063,7 @@
     
 
 <div class="viewcode-block" id="Frame.get_rotation_matrix">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.get_rotation_matrix.html#py3dframe.Frame.get_rotation_matrix">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.get_rotation_matrix.html#py3dframe.Frame.get_rotation_matrix">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Access the rotation matrix between the parent frame and this frame in a specific convention.</span>
@@ -2108,7 +2117,7 @@
 
     
 <div class="viewcode-block" id="Frame.set_rotation_matrix">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.set_rotation_matrix.html#py3dframe.Frame.set_rotation_matrix">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.set_rotation_matrix.html#py3dframe.Frame.set_rotation_matrix">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rotation_matrix</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the rotation matrix between the parent frame and this frame in a specific convention.</span>
@@ -2196,7 +2205,7 @@
 
 
 <div class="viewcode-block" id="Frame.get_quaternion">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.get_quaternion.html#py3dframe.Frame.get_quaternion">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.get_quaternion.html#py3dframe.Frame.get_quaternion">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_quaternion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">scalar_first</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Access the quaternion representation of the rotation between the parent frame and this frame in a specific convention.</span>
@@ -2255,7 +2264,7 @@
 
     
 <div class="viewcode-block" id="Frame.set_quaternion">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.set_quaternion.html#py3dframe.Frame.set_quaternion">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.set_quaternion.html#py3dframe.Frame.set_quaternion">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_quaternion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quaternion</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">scalar_first</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the quaternion representation of the rotation between the parent frame and this frame in a specific convention.</span>
@@ -2349,7 +2358,7 @@
 
     
 <div class="viewcode-block" id="Frame.get_euler_angles">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.get_euler_angles.html#py3dframe.Frame.get_euler_angles">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.get_euler_angles.html#py3dframe.Frame.get_euler_angles">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_euler_angles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">degrees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">seq</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;xyz&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Access the Euler angles representation of the rotation between the parent frame and this frame in a specific convention.</span>
@@ -2417,7 +2426,7 @@
 
     
 <div class="viewcode-block" id="Frame.set_euler_angles">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.set_euler_angles.html#py3dframe.Frame.set_euler_angles">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.set_euler_angles.html#py3dframe.Frame.set_euler_angles">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_euler_angles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">euler_angles</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">degrees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">seq</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;xyz&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the Euler angles representation of the rotation between the parent frame and this frame in a specific convention.</span>
@@ -2521,7 +2530,7 @@
 
 
 <div class="viewcode-block" id="Frame.get_rotation_vector">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.get_rotation_vector.html#py3dframe.Frame.get_rotation_vector">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.get_rotation_vector.html#py3dframe.Frame.get_rotation_vector">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_rotation_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">degrees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Access the rotation vector representation of the rotation between the parent frame and this frame in a specific convention.</span>
@@ -2580,7 +2589,7 @@
 
 
 <div class="viewcode-block" id="Frame.set_rotation_vector">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.set_rotation_vector.html#py3dframe.Frame.set_rotation_vector">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.set_rotation_vector.html#py3dframe.Frame.set_rotation_vector">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_rotation_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rotation_vector</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">degrees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the rotation vector representation of the rotation between the parent frame and this frame in a specific convention.</span>
@@ -2678,7 +2687,7 @@
     <span class="c1"># Global transformation methods</span>
     <span class="c1"># ====================================================================================================================================</span>
 <div class="viewcode-block" id="Frame.get_global_frame">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.get_global_frame.html#py3dframe.Frame.get_global_frame">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.get_global_frame.html#py3dframe.Frame.get_global_frame">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_global_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the global frame of the frame. The representation of the frame with respect to the global canonical frame.</span>
@@ -2782,7 +2791,7 @@
     
 
 <div class="viewcode-block" id="Frame.get_global_rotation">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.get_global_rotation.html#py3dframe.Frame.get_global_rotation">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.get_global_rotation.html#py3dframe.Frame.get_global_rotation">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_global_rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">Rotation</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Access the rotation between the global frame and this frame in the given convention.</span>
@@ -2842,7 +2851,7 @@
 
 
 <div class="viewcode-block" id="Frame.set_global_rotation">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.set_global_rotation.html#py3dframe.Frame.set_global_rotation">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.set_global_rotation.html#py3dframe.Frame.set_global_rotation">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_global_rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rotation</span><span class="p">:</span> <span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">Rotation</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the rotation between the global frame and this frame in the given convention.</span>
@@ -2978,7 +2987,7 @@
 
 
 <div class="viewcode-block" id="Frame.get_global_translation">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.get_global_translation.html#py3dframe.Frame.get_global_translation">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.get_global_translation.html#py3dframe.Frame.get_global_translation">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_global_translation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Access the translation vector between the global frame and this frame in the given convention.</span>
@@ -3037,7 +3046,7 @@
 
     
 <div class="viewcode-block" id="Frame.set_global_translation">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.set_global_translation.html#py3dframe.Frame.set_global_translation">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.set_global_translation.html#py3dframe.Frame.set_global_translation">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_global_translation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">translation</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the translation vector between the global frame and this frame in the given convention.</span>
@@ -3173,7 +3182,7 @@
     
 
 <div class="viewcode-block" id="Frame.get_global_rotation_matrix">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.get_global_rotation_matrix.html#py3dframe.Frame.get_global_rotation_matrix">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.get_global_rotation_matrix.html#py3dframe.Frame.get_global_rotation_matrix">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_global_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Access the rotation matrix representation of the rotation between the global frame and this frame in the given convention.</span>
@@ -3222,7 +3231,7 @@
 
 
 <div class="viewcode-block" id="Frame.set_global_rotation_matrix">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.set_global_rotation_matrix.html#py3dframe.Frame.set_global_rotation_matrix">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.set_global_rotation_matrix.html#py3dframe.Frame.set_global_rotation_matrix">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_global_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rotation_matrix</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the rotation matrix representation of the rotation between the global frame and this frame in the given convention.</span>
@@ -3315,7 +3324,7 @@
 
     
 <div class="viewcode-block" id="Frame.get_global_quaternion">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.get_global_quaternion.html#py3dframe.Frame.get_global_quaternion">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.get_global_quaternion.html#py3dframe.Frame.get_global_quaternion">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_global_quaternion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">scalar_first</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Access the quaternion representation of the rotation between the global frame and this frame in the given convention.</span>
@@ -3377,7 +3386,7 @@
 
 
 <div class="viewcode-block" id="Frame.set_global_quaternion">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.set_global_quaternion.html#py3dframe.Frame.set_global_quaternion">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.set_global_quaternion.html#py3dframe.Frame.set_global_quaternion">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_global_quaternion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quaternion</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">scalar_first</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the quaternion representation of the rotation between the global frame and this frame in the given convention.</span>
@@ -3485,7 +3494,7 @@
 
 
 <div class="viewcode-block" id="Frame.get_global_euler_angles">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.get_global_euler_angles.html#py3dframe.Frame.get_global_euler_angles">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.get_global_euler_angles.html#py3dframe.Frame.get_global_euler_angles">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_global_euler_angles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">degrees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">seq</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;xyz&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Access the Euler angles representation of the rotation between the global frame and this frame in the given convention.</span>
@@ -3549,7 +3558,7 @@
 
 
 <div class="viewcode-block" id="Frame.set_global_euler_angles">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.set_global_euler_angles.html#py3dframe.Frame.set_global_euler_angles">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.set_global_euler_angles.html#py3dframe.Frame.set_global_euler_angles">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_global_euler_angles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">euler_angles</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">degrees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">seq</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;xyz&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the Euler angles representation of the rotation between the global frame and this frame in the given convention.</span>
@@ -3668,7 +3677,7 @@
 
 
 <div class="viewcode-block" id="Frame.get_global_rotation_vector">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.get_global_rotation_vector.html#py3dframe.Frame.get_global_rotation_vector">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.get_global_rotation_vector.html#py3dframe.Frame.get_global_rotation_vector">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_global_rotation_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">degrees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Access the rotation vector representation of the rotation between the global frame and this frame in the given convention.</span>
@@ -3730,7 +3739,7 @@
 
 
 <div class="viewcode-block" id="Frame.set_global_rotation_vector">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.set_global_rotation_vector.html#py3dframe.Frame.set_global_rotation_vector">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.set_global_rotation_vector.html#py3dframe.Frame.set_global_rotation_vector">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_global_rotation_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rotation_vector</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">convention</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">degrees</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the rotation vector representation of the rotation between the global frame and this frame in the given convention.</span>
@@ -4060,7 +4069,7 @@
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
     
 <div class="viewcode-block" id="Frame.copy">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.copy.html#py3dframe.Frame.copy">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.copy.html#py3dframe.Frame.copy">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a copy of the Frame object. Same parent frame (shallow copy).</span>
@@ -4085,7 +4094,7 @@
 
 
 <div class="viewcode-block" id="Frame.deepcopy">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.deepcopy.html#py3dframe.Frame.deepcopy">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.deepcopy.html#py3dframe.Frame.deepcopy">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a deep copy of the Frame object. Deep copy of the parent frame.</span>
@@ -4114,7 +4123,7 @@
     <span class="c1"># Load and Save method</span>
     <span class="c1"># ====================================================================================================================================</span>
 <div class="viewcode-block" id="Frame.to_dict">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.to_dict.html#py3dframe.Frame.to_dict">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.to_dict.html#py3dframe.Frame.to_dict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;quaternion&quot;</span><span class="p">,</span> <span class="s2">&quot;rotation_vector&quot;</span><span class="p">,</span> <span class="s2">&quot;rotation_matrix&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save the Frame object to a dictionary.</span>
@@ -4251,7 +4260,7 @@
 
 
 <div class="viewcode-block" id="Frame.from_dict">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.from_dict.html#py3dframe.Frame.from_dict">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.from_dict.html#py3dframe.Frame.from_dict">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
@@ -4390,7 +4399,7 @@
 
 
 <div class="viewcode-block" id="Frame.to_json">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.to_json.html#py3dframe.Frame.to_json">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.to_json.html#py3dframe.Frame.to_json">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save the Frame object to a JSON file.</span>
@@ -4451,7 +4460,7 @@
 
 
 <div class="viewcode-block" id="Frame.from_json">
-<a class="viewcode-back" href="../../generated/py3dframe.Frame.from_json.html#py3dframe.Frame.from_json">[docs]</a>
+<a class="viewcode-back" href="../../_autosummary/py3dframe.Frame.from_json.html#py3dframe.Frame.from_json">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -4563,7 +4572,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>

@@ -13,20 +13,10 @@ Or install it directly from the GitHub repository using:
 
     pip install git+https://github.com/Artezaru/py3dframe.git
 
-Development Installation
-------------------------------
+Requiements
+------------
 
-To install the package for development, first clone the repository using:
+The following dependencies are required to use ``py3dframe``:
 
-.. code-block:: bash
-
-    git clone https://github.com/Artezaru/py3dframe.git
-
-Then, go to the directory and run the following command:
-
-.. code-block:: bash
-
-    pip install -e .
-
-Use ``-e .[dev]`` to install it with the development dependencies.
-
+- **NumPy**: (https://numpy.org/) A fundamental package for scientific computing.
+- **SciPy**: (https://scipy.org/) A library used for scientific and technical computing.

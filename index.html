@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Welcome to py3dframe’s documentation! &#8212; py3dframe 1.3.2 documentation</title>
+    <title>Welcome to py3dframe’s documentation! &#8212; py3dframe 2.0.0 documentation</title>
   
   
   
@@ -31,6 +31,12 @@
 <link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
   <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -38,10 +44,13 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=8ca9e7a0"></script>
-    <script src="_static/doctools.js?v=9bcbadda"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/documentation_options.js?v=51b770b3"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -110,7 +119,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.3.2 documentation</p>
+    <p class="title logo__title">py3dframe 2.0.0 documentation</p>
   
 </a></div>
     
@@ -139,8 +148,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="usage.html">
-    Usage
+  <a class="nav-link nav-internal" href="_gallery/index.html">
+    Example Gallery
   </a>
 </li>
 
@@ -234,8 +243,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="usage.html">
-    Usage
+  <a class="nav-link nav-internal" href="_gallery/index.html">
+    Example Gallery
   </a>
 </li>
 
@@ -291,33 +300,143 @@
                   
   <section id="welcome-to-py3dframe-s-documentation">
 <h1>Welcome to py3dframe’s documentation!<a class="headerlink" href="#welcome-to-py3dframe-s-documentation" title="Link to this heading">#</a></h1>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#description-of-the-package" id="id1">Description of the package</a></p></li>
+<li><p><a class="reference internal" href="#contents" id="id2">Contents</a></p></li>
+<li><p><a class="reference internal" href="#basic-usage" id="id3">Basic usage</a></p></li>
+<li><p><a class="reference internal" href="#author" id="id4">Author</a></p></li>
+<li><p><a class="reference internal" href="#license" id="id5">License</a></p></li>
+</ul>
+</nav>
+<section id="description-of-the-package">
+<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Description of the package</a><a class="headerlink" href="#description-of-the-package" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">py3dframe</span></code> provides tools to create, manipulate and query <strong>orthogonal,
 right‑handed 3‑D frames of reference</strong>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>All input arrays are automatically converted to <code class="docutils literal notranslate"><span class="pre">numpy.float64</span></code> so that
-every calculation is performed in double‑precision, guaranteeing numerical
-stability throughout the library.</p>
+<p>The package is designed to work with double-precision floating-point numbers to ensure numerical stability in all calculations.
+Therefore, all float arrays are automatically converted to <code class="docutils literal notranslate"><span class="pre">numpy.float64</span></code> for computation and all integer arrays are converted to <code class="docutils literal notranslate"><span class="pre">numpy.int64</span></code> for computation.
+This means that when you pass arrays to the functions in the package, they will be converted to these data types if they are not already in that format.</p>
 </div>
+</section>
 <section id="contents">
-<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading">#</a></h2>
-<p>The documentation is divided into the following sections:</p>
-<ul class="simple">
-<li><p><strong>Installation</strong>: This section describes how to install the package.</p></li>
-<li><p><strong>API Reference</strong>: This section contains the documentation of the package’s API.</p></li>
-<li><p><strong>Usage</strong>: This section contains the documentation of how to use the package.</p></li>
-</ul>
+<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Contents</a><a class="headerlink" href="#contents" title="Link to this heading">#</a></h2>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-row-cols-3 sd-row-cols-xs-3 sd-row-cols-sm-3 sd-row-cols-md-3 sd-row-cols-lg-3 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-text-center docutils">
+<img alt="" class="sd-card-img-top" src="_images/download.png" />
+<div class="sd-card-header docutils">
+<p class="sd-card-text">Installation</p>
+</div>
+<div class="sd-card-body docutils">
+<p class="sd-card-text">This section describes how to install the package into a Python environment.
+It includes instructions for installing the package using pip, as well as any necessary dependencies.</p>
+</div>
+<div class="sd-card-footer docutils">
+<p class="sd-card-text"><span class="sd-d-grid"><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-secondary sd-stretched-link reference internal" href="installation.html"><span class="doc">To the installation guide</span></a></span></p>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-text-center docutils">
+<img alt="" class="sd-card-img-top" src="_images/api.png" />
+<div class="sd-card-header docutils">
+<p class="sd-card-text">API Reference</p>
+</div>
+<div class="sd-card-body docutils">
+<p class="sd-card-text">The reference guide contains a detailed description of the functions,
+modules, and objects included in <code class="docutils literal notranslate"><span class="pre">py3dframe</span></code>. The reference describes how the
+methods work and which parameters can be used.</p>
+</div>
+<div class="sd-card-footer docutils">
+<p class="sd-card-text"><span class="sd-d-grid"><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-secondary sd-stretched-link reference internal" href="api.html"><span class="doc">To the API reference</span></a></span></p>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-text-center docutils">
+<img alt="" class="sd-card-img-top" src="_images/examples.png" />
+<div class="sd-card-header docutils">
+<p class="sd-card-text">Examples Gallery</p>
+</div>
+<div class="sd-card-body docutils">
+<p class="sd-card-text">This section contains a collection of examples demonstrating how to use the package for various applications.
+Each example includes a description of the problem being solved, the code used to solve it, and the resulting output.</p>
+</div>
+<div class="sd-card-footer docutils">
+<p class="sd-card-text"><span class="sd-d-grid"><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-secondary sd-stretched-link reference internal" href="_gallery/index.html"><span class="doc">To the examples gallery</span></a></span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-</ul>
+</div>
+</section>
+<section id="basic-usage">
+<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Basic usage</a><a class="headerlink" href="#basic-usage" title="Link to this heading">#</a></h2>
+<p>First to create a frame, you can give the origin and the axes of the frame as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">py3dframe</span><span class="w"> </span><span class="kn">import</span> <span class="n">Frame</span>
+
+<span class="n">origin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">x_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">y_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">z_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="o">.</span><span class="n">from_axes</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">origin</span><span class="p">,</span> <span class="n">x_axis</span><span class="o">=</span><span class="n">x_axis</span><span class="p">,</span> <span class="n">y_axis</span><span class="o">=</span><span class="n">y_axis</span><span class="p">,</span> <span class="n">z_axis</span><span class="o">=</span><span class="n">z_axis</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also construct a frame from a rotation and a translation using one the 8 possible conventions:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Index</p></th>
+<th class="head"><p>Formula</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathbf{X}_E = \mathbf{R} \mathbf{X}_F + \mathbf{T}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathbf{X}_E = \mathbf{R} \mathbf{X}_F - \mathbf{T}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathbf{X}_E = \mathbf{R} (\mathbf{X}_F + \mathbf{T})\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathbf{X}_E = \mathbf{R} (\mathbf{X}_F - \mathbf{T})\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathbf{X}_F = \mathbf{R} \mathbf{X}_E + \mathbf{T}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathbf{X}_F = \mathbf{R} \mathbf{X}_E - \mathbf{T}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathbf{X}_F = \mathbf{R} (\mathbf{X}_E + \mathbf{T})\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathbf{X}_F = \mathbf{R} (\mathbf{X}_E - \mathbf{T})\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Where <span class="math notranslate nohighlight">\(\mathbf{X}_E\)</span> is the point expressed in the parent (or global) frame <span class="math notranslate nohighlight">\(E\)</span>, <span class="math notranslate nohighlight">\(\mathbf{X}_F\)</span> is the point expressed in the child (or local) frame <span class="math notranslate nohighlight">\(F\)</span>, <span class="math notranslate nohighlight">\(\mathbf{R}\)</span> is the rotation matrix and <span class="math notranslate nohighlight">\(\mathbf{T}\)</span> is the translation vector.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">py3dframe</span><span class="w"> </span><span class="kn">import</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">Rotation</span>
+
+<span class="n">rotation</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_euler</span><span class="p">(</span><span class="s1">&#39;xyz&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">translation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="o">.</span><span class="n">from_rotation</span><span class="p">(</span><span class="n">translation</span><span class="o">=</span><span class="n">translation</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
 </div>
 </section>
 <section id="author">
-<h2>Author<a class="headerlink" href="#author" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Author</a><a class="headerlink" href="#author" title="Link to this heading">#</a></h2>
 <p>The package <code class="docutils literal notranslate"><span class="pre">py3dframe</span></code> was created by the following authors:</p>
 <ul class="simple">
 <li><p>Artezaru &lt;<a class="reference external" href="mailto:artezaru&#46;github&#37;&#52;&#48;proton&#46;me">artezaru<span>&#46;</span>github<span>&#64;</span>proton<span>&#46;</span>me</a>&gt;</p></li>
@@ -329,7 +448,7 @@ stability throughout the library.</p>
 </ul>
 </section>
 <section id="license">
-<h2>License<a class="headerlink" href="#license" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">License</a><a class="headerlink" href="#license" title="Link to this heading">#</a></h2>
 <p>Please refer to the [LICENSE] file for the license of the package.</p>
 </section>
 </section>
@@ -372,7 +491,9 @@ stability throughout the library.</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#description-of-the-package">Description of the package</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contents">Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic usage</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#author">Author</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#license">License</a></li>
 </ul>
@@ -421,7 +542,7 @@ stability throughout the library.</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>

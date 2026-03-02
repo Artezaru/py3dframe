@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>API Reference &#8212; py3dframe 1.3.2 documentation</title>
+    <title>API Reference &#8212; py3dframe 2.0.0 documentation</title>
   
   
   
@@ -31,6 +31,12 @@
 <link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
   <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -38,14 +44,17 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=8ca9e7a0"></script>
-    <script src="_static/doctools.js?v=9bcbadda"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/documentation_options.js?v=51b770b3"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="py3dframe.Rotation" href="api_doc/rotation.html" />
+    <link rel="next" title="py3dframe.Rotation" href="_docs/rotation.html" />
     <link rel="prev" title="Installation" href="installation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -111,7 +120,7 @@
   
   
   
-    <p class="title logo__title">py3dframe 1.3.2 documentation</p>
+    <p class="title logo__title">py3dframe 2.0.0 documentation</p>
   
 </a></div>
     
@@ -140,8 +149,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="usage.html">
-    Usage
+  <a class="nav-link nav-internal" href="_gallery/index.html">
+    Example Gallery
   </a>
 </li>
 
@@ -233,8 +242,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="usage.html">
-    Usage
+  <a class="nav-link nav-internal" href="_gallery/index.html">
+    Example Gallery
   </a>
 </li>
 
@@ -265,142 +274,140 @@
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
-  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Main classes:</span></p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="_docs/rotation.html">py3dframe.Rotation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="_docs/frame.html">py3dframe.Frame</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.convention.html">py3dframe.Frame.convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.parent.html">py3dframe.Frame.parent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.get_global_frame.html">py3dframe.Frame.get_global_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.canonical.html">py3dframe.Frame.canonical</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.from_axes.html">py3dframe.Frame.from_axes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.origin.html">py3dframe.Frame.origin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.axes.html">py3dframe.Frame.axes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.x_axis.html">py3dframe.Frame.x_axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.y_axis.html">py3dframe.Frame.y_axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.z_axis.html">py3dframe.Frame.z_axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.global_origin.html">py3dframe.Frame.global_origin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.global_axes.html">py3dframe.Frame.global_axes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.global_x_axis.html">py3dframe.Frame.global_x_axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.global_y_axis.html">py3dframe.Frame.global_y_axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.global_z_axis.html">py3dframe.Frame.global_z_axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.from_rotation.html">py3dframe.Frame.from_rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.translation.html">py3dframe.Frame.translation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.get_translation.html">py3dframe.Frame.get_translation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.set_translation.html">py3dframe.Frame.set_translation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.rotation.html">py3dframe.Frame.rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.get_rotation.html">py3dframe.Frame.get_rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.set_rotation.html">py3dframe.Frame.set_rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.global_translation.html">py3dframe.Frame.global_translation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.get_global_translation.html">py3dframe.Frame.get_global_translation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.set_global_translation.html">py3dframe.Frame.set_global_translation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.global_rotation.html">py3dframe.Frame.global_rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.get_global_rotation.html">py3dframe.Frame.get_global_rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.set_global_rotation.html">py3dframe.Frame.set_global_rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.from_rotation_matrix.html">py3dframe.Frame.from_rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.rotation_matrix.html">py3dframe.Frame.rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.get_rotation_matrix.html">py3dframe.Frame.get_rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.set_rotation_matrix.html">py3dframe.Frame.set_rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.global_rotation_matrix.html">py3dframe.Frame.global_rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.get_global_rotation_matrix.html">py3dframe.Frame.get_global_rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.set_global_rotation_matrix.html">py3dframe.Frame.set_global_rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.from_quaternion.html">py3dframe.Frame.from_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.quaternion.html">py3dframe.Frame.quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.get_quaternion.html">py3dframe.Frame.get_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.set_quaternion.html">py3dframe.Frame.set_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.global_quaternion.html">py3dframe.Frame.global_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.get_global_quaternion.html">py3dframe.Frame.get_global_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.set_global_quaternion.html">py3dframe.Frame.set_global_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.from_euler_angles.html">py3dframe.Frame.from_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.euler_angles.html">py3dframe.Frame.euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.get_euler_angles.html">py3dframe.Frame.get_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.set_euler_angles.html">py3dframe.Frame.set_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.global_euler_angles.html">py3dframe.Frame.global_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.get_global_euler_angles.html">py3dframe.Frame.get_global_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.set_global_euler_angles.html">py3dframe.Frame.set_global_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.from_rotation_vector.html">py3dframe.Frame.from_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.rotation_vector.html">py3dframe.Frame.rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.get_rotation_vector.html">py3dframe.Frame.get_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.set_rotation_vector.html">py3dframe.Frame.set_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.global_rotation_vector.html">py3dframe.Frame.global_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.get_global_rotation_vector.html">py3dframe.Frame.get_global_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.set_global_rotation_vector.html">py3dframe.Frame.set_global_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.to_dict.html">py3dframe.Frame.to_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.from_dict.html">py3dframe.Frame.from_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.to_json.html">py3dframe.Frame.to_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.from_json.html">py3dframe.Frame.from_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.copy.html">py3dframe.Frame.copy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.Frame.deepcopy.html">py3dframe.Frame.deepcopy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="_docs/frame_tree.html">py3dframe.FrameTree</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.connect_frame.html">py3dframe.FrameTree.connect_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.disconnect_frame.html">py3dframe.FrameTree.disconnect_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.list_frames.html">py3dframe.FrameTree.list_frames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.get_child_names.html">py3dframe.FrameTree.get_child_names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.get_frame.html">py3dframe.FrameTree.get_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.get_parent_name.html">py3dframe.FrameTree.get_parent_name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.move_frame.html">py3dframe.FrameTree.move_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.rename_frame.html">py3dframe.FrameTree.rename_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.replace_frame.html">py3dframe.FrameTree.replace_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.set_root_frame.html">py3dframe.FrameTree.set_root_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.get_transform.html">py3dframe.FrameTree.get_transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.transform.html">py3dframe.FrameTree.transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.to_dict.html">py3dframe.FrameTree.to_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.from_dict.html">py3dframe.FrameTree.from_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.to_json.html">py3dframe.FrameTree.to_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.from_json.html">py3dframe.FrameTree.from_json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.__repr__.html">py3dframe.FrameTree.__repr__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.__str__.html">py3dframe.FrameTree.__str__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.__len__.html">py3dframe.FrameTree.__len__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.__contains__.html">py3dframe.FrameTree.__contains__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.__getitem__.html">py3dframe.FrameTree.__getitem__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.__bool__.html">py3dframe.FrameTree.__bool__</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTree.print_tree.html">py3dframe.FrameTree.print_tree</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="_docs/frame_transform.html">py3dframe.FrameTransform</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.input_frame.html">py3dframe.FrameTransform.input_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.output_frame.html">py3dframe.FrameTransform.output_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.dynamic.html">py3dframe.FrameTransform.dynamic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.convention.html">py3dframe.FrameTransform.convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.get_active_input_frame.html">py3dframe.FrameTransform.get_active_input_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.get_active_output_frame.html">py3dframe.FrameTransform.get_active_output_frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.get_translation.html">py3dframe.FrameTransform.get_translation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.translation.html">py3dframe.FrameTransform.translation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.get_rotation.html">py3dframe.FrameTransform.get_rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.rotation.html">py3dframe.FrameTransform.rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.get_rotation_matrix.html">py3dframe.FrameTransform.get_rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.rotation_matrix.html">py3dframe.FrameTransform.rotation_matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.get_quaternion.html">py3dframe.FrameTransform.get_quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.quaternion.html">py3dframe.FrameTransform.quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.get_euler_angles.html">py3dframe.FrameTransform.get_euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.euler_angles.html">py3dframe.FrameTransform.euler_angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.get_rotation_vector.html">py3dframe.FrameTransform.get_rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.rotation_vector.html">py3dframe.FrameTransform.rotation_vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.transform.html">py3dframe.FrameTransform.transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.inverse_transform.html">py3dframe.FrameTransform.inverse_transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/py3dframe.FrameTransform.inverse.html">py3dframe.FrameTransform.inverse</a></li>
+</ul>
+</details></li>
+</ul>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="api_doc/rotation.html">py3dframe.Rotation</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="api_doc/frame.html">py3dframe.Frame</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.convention.html">convention</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.parent.html">parent</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.get_global_frame.html">get_global_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.canonical.html">canonical</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.from_axes.html">from_axes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.origin.html">origin</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.axes.html">axes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.x_axis.html">x_axis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.y_axis.html">y_axis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.z_axis.html">z_axis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.global_origin.html">global_origin</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.global_axes.html">global_axes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.global_x_axis.html">global_x_axis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.global_y_axis.html">global_y_axis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.global_z_axis.html">global_z_axis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.from_rotation.html">from_rotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.translation.html">translation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.get_translation.html">get_translation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.set_translation.html">set_translation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.rotation.html">rotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.get_rotation.html">get_rotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.set_rotation.html">set_rotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.global_translation.html">global_translation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.get_global_translation.html">get_global_translation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.set_global_translation.html">set_global_translation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.global_rotation.html">global_rotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.get_global_rotation.html">get_global_rotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.set_global_rotation.html">set_global_rotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.from_rotation_matrix.html">from_rotation_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.rotation_matrix.html">rotation_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.get_rotation_matrix.html">get_rotation_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.set_rotation_matrix.html">set_rotation_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.global_rotation_matrix.html">global_rotation_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.get_global_rotation_matrix.html">get_global_rotation_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.set_global_rotation_matrix.html">set_global_rotation_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.from_quaternion.html">from_quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.quaternion.html">quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.get_quaternion.html">get_quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.set_quaternion.html">set_quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.global_quaternion.html">global_quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.get_global_quaternion.html">get_global_quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.set_global_quaternion.html">set_global_quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.from_euler_angles.html">from_euler_angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.euler_angles.html">euler_angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.get_euler_angles.html">get_euler_angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.set_euler_angles.html">set_euler_angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.global_euler_angles.html">global_euler_angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.get_global_euler_angles.html">get_global_euler_angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.set_global_euler_angles.html">set_global_euler_angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.from_rotation_vector.html">from_rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.rotation_vector.html">rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.get_rotation_vector.html">get_rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.set_rotation_vector.html">set_rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.global_rotation_vector.html">global_rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.get_global_rotation_vector.html">get_global_rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.set_global_rotation_vector.html">set_global_rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.to_dict.html">to_dict</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.from_dict.html">from_dict</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.to_json.html">to_json</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.from_json.html">from_json</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.copy.html">copy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.Frame.deepcopy.html">deepcopy</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="api_doc/frame_tree.html">py3dframe.FrameTree</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.connect_frame.html">connect_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.disconnect_frame.html">disconnect_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.list_frames.html">list_frames</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.get_child_names.html">get_child_names</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.get_frame.html">get_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.get_parent_name.html">get_parent_name</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.move_frame.html">move_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.rename_frame.html">rename_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.replace_frame.html">replace_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.set_root_frame.html">set_root_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.get_transform.html">get_transform</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.transform.html">transform</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.to_dict.html">to_dict</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.from_dict.html">from_dict</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.to_json.html">to_json</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.from_json.html">from_json</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.__repr__.html">__repr__</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.__str__.html">__str__</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.__len__.html">__len__</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.__contains__.html">__contains__</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.__getitem__.html">__getitem__</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.__bool__.html">__bool__</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTree.print_tree.html">print_tree</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="api_doc/frame_transform.html">py3dframe.FrameTransform</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.input_frame.html">input_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.output_frame.html">output_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.dynamic.html">dynamic</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.convention.html">convention</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.get_active_input_frame.html">get_active_input_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.get_active_output_frame.html">get_active_output_frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.get_translation.html">get_translation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.translation.html">translation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.get_rotation.html">get_rotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.rotation.html">rotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.get_rotation_matrix.html">get_rotation_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.rotation_matrix.html">rotation_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.get_quaternion.html">get_quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.quaternion.html">quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.get_euler_angles.html">get_euler_angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.euler_angles.html">euler_angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.get_rotation_vector.html">get_rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.rotation_vector.html">rotation_vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.transform.html">transform</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.inverse_transform.html">inverse_transform</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/py3dframe.FrameTransform.inverse.html">inverse</a></li>
-</ul>
-</details></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Frame manipulation functions:</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="api_doc/mirror_across_plane.html">py3dframe.mirror_across_plane</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/rotate_around_axis.html">py3dframe.rotate_around_axis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/translate.html">py3dframe.translate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/translate_along_axis.html">py3dframe.translate_along_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_docs/mirror_across_plane.html">py3dframe.mirror_across_plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_docs/rotate_around_axis.html">py3dframe.rotate_around_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_docs/translate.html">py3dframe.translate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_docs/translate_along_axis.html">py3dframe.translate_along_axis</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">matrix submodule:</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="api_doc/is_O3.html">py3dframe.matrix.is_O3</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/is_SO3.html">py3dframe.matrix.is_SO3</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/O3_project.html">py3dframe.matrix.O3_project</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/SO3_project.html">py3dframe.matrix.SO3_project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_docs/is_O3.html">py3dframe.matrix.is_O3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_docs/is_SO3.html">py3dframe.matrix.is_SO3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_docs/O3_project.html">py3dframe.matrix.O3_project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_docs/SO3_project.html">py3dframe.matrix.SO3_project</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Conversion functions:</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="api_doc/switch_RT_convention.html">py3dframe.switch_RT_convention</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_docs/switch_RT_convention.html">py3dframe.switch_RT_convention</a></li>
 </ul>
 </div>
 </nav></div>
@@ -463,50 +470,35 @@
 <nav class="contents local" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#overview-of-the-py3dframe-package" id="id1">Overview of the py3dframe package</a></p>
-<ul>
-<li><p><a class="reference internal" href="#main-classes" id="id2">Main classes</a></p></li>
-<li><p><a class="reference internal" href="#manipulate-frames-and-transformations" id="id3">Manipulate frames and transformations</a></p></li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#matrix-submodule" id="id4">Matrix submodule</a></p></li>
-<li><p><a class="reference internal" href="#frame-convention-conversion" id="id5">Frame convention conversion</a></p></li>
+<li><p><a class="reference internal" href="#main-classes" id="id1">Main classes</a></p></li>
+<li><p><a class="reference internal" href="#frame-manipulation-functions" id="id2">Frame manipulation functions</a></p></li>
+<li><p><a class="reference internal" href="#matrix-submodule" id="id3">Matrix submodule</a></p></li>
+<li><p><a class="reference internal" href="#frame-convention-conversion" id="id4">Frame convention conversion</a></p></li>
 </ul>
 </nav>
-<section id="overview-of-the-py3dframe-package">
-<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Overview of the py3dframe package</a><a class="headerlink" href="#overview-of-the-py3dframe-package" title="Link to this heading">#</a></h2>
 <section id="main-classes">
-<h3><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Main classes</a><a class="headerlink" href="#main-classes" title="Link to this heading">#</a></h3>
+<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Main classes</a><a class="headerlink" href="#main-classes" title="Link to this heading">#</a></h2>
 <p>The package <code class="docutils literal notranslate"><span class="pre">py3dframe</span></code> is composed of the following main classes:</p>
 <ul class="simple">
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">py3dframe.Rotation</span></code> class is used to manage 3D rotations (alias of <code class="docutils literal notranslate"><span class="pre">scipy.spatial.transform.Rotation</span></code>).</p></li>
-<li><p><a class="reference internal" href="api_doc/frame.html#py3dframe.Frame" title="py3dframe.Frame"><code class="xref py py-class docutils literal notranslate"><span class="pre">py3dframe.Frame</span></code></a> class is used to represent 3D frames of reference.</p></li>
-<li><p><a class="reference internal" href="api_doc/frame_tree.html#py3dframe.FrameTree" title="py3dframe.FrameTree"><code class="xref py py-class docutils literal notranslate"><span class="pre">py3dframe.FrameTree</span></code></a> class is used to manage hierarchical relationships between multiple frames (easier than using <a class="reference internal" href="generated/py3dframe.Frame.parent.html#py3dframe.Frame.parent" title="py3dframe.Frame.parent"><code class="xref py py-attr docutils literal notranslate"><span class="pre">py3dframe.Frame.parent</span></code></a> attributes).</p></li>
-<li><p><a class="reference internal" href="api_doc/frame_transform.html#py3dframe.FrameTransform" title="py3dframe.FrameTransform"><code class="xref py py-class docutils literal notranslate"><span class="pre">py3dframe.FrameTransform</span></code></a> class is used to manage 3D transformations between frames.</p></li>
+<li><p><a class="reference internal" href="_docs/rotation.html"><span class="doc">Rotation</span></a> class is used to manage 3D rotations (alias of <code class="docutils literal notranslate"><span class="pre">scipy.spatial.transform.Rotation</span></code>).</p></li>
+<li><p><a class="reference internal" href="_docs/frame.html"><span class="doc">Frame</span></a> class is used to represent 3D frames of reference.</p></li>
+<li><p><a class="reference internal" href="_docs/frame_tree.html"><span class="doc">FrameTree</span></a> class is used to manage hierarchical relationships between multiple frames (easier than using <a class="reference internal" href="_autosummary/py3dframe.Frame.parent.html#py3dframe.Frame.parent" title="py3dframe.Frame.parent"><code class="xref py py-attr docutils literal notranslate"><span class="pre">py3dframe.Frame.parent</span></code></a> attributes).</p></li>
+<li><p><a class="reference internal" href="_docs/frame_transform.html"><span class="doc">FrameTransform</span></a> class is used to manage 3D transformations between frames.</p></li>
 </ul>
 <div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Main classes:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/rotation.html">py3dframe.Rotation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/frame.html">py3dframe.Frame</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/frame_tree.html">py3dframe.FrameTree</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/frame_transform.html">py3dframe.FrameTransform</a></li>
-</ul>
 </div>
 </section>
-<section id="manipulate-frames-and-transformations">
-<h3><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Manipulate frames and transformations</a><a class="headerlink" href="#manipulate-frames-and-transformations" title="Link to this heading">#</a></h3>
-<p>Some manipulation functions for <a class="reference internal" href="api_doc/frame.html#py3dframe.Frame" title="py3dframe.Frame"><code class="xref py py-class docutils literal notranslate"><span class="pre">py3dframe.Frame</span></code></a> objects are provided to easily create new frames from existing ones:</p>
+<section id="frame-manipulation-functions">
+<h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Frame manipulation functions</a><a class="headerlink" href="#frame-manipulation-functions" title="Link to this heading">#</a></h2>
+<p>Some manipulation functions for <a class="reference internal" href="_docs/frame.html#py3dframe.Frame" title="py3dframe.Frame"><code class="xref py py-class docutils literal notranslate"><span class="pre">py3dframe.Frame</span></code></a> objects are provided to easily create new frames from existing ones:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="_docs/rotate_around_axis.html"><span class="doc">Rotation around an axis</span></a> function is used to create a new frame by rotating an existing frame around a specified axis.</p></li>
+<li><p><a class="reference internal" href="_docs/mirror_across_plane.html"><span class="doc">Symmetry across a plane</span></a> function is used to create a new frame by mirroring an existing frame across a specified plane.</p></li>
+<li><p><a class="reference internal" href="_docs/translate.html"><span class="doc">Translation</span></a> function is used to create a new frame by translating an existing frame by a specified translation vector.</p></li>
+<li><p><a class="reference internal" href="_docs/translate_along_axis.html"><span class="doc">Translation along an axis</span></a> function is used to create a new frame by translating an existing frame along a specified axis by a specified distance.</p></li>
+</ul>
 <div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Frame manipulation functions:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/mirror_across_plane.html">py3dframe.mirror_across_plane</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/rotate_around_axis.html">py3dframe.rotate_around_axis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/translate.html">py3dframe.translate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/translate_along_axis.html">py3dframe.translate_along_axis</a></li>
-</ul>
 </div>
-</section>
 </section>
 <section id="matrix-submodule">
 <h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Matrix submodule</a><a class="headerlink" href="#matrix-submodule" title="Link to this heading">#</a></h2>
@@ -514,23 +506,22 @@
 <div class="toctree-wrapper compound">
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">matrix submodule:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/is_O3.html">py3dframe.matrix.is_O3</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/is_SO3.html">py3dframe.matrix.is_SO3</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/O3_project.html">py3dframe.matrix.O3_project</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/SO3_project.html">py3dframe.matrix.SO3_project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_docs/is_O3.html">py3dframe.matrix.is_O3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_docs/is_SO3.html">py3dframe.matrix.is_SO3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_docs/O3_project.html">py3dframe.matrix.O3_project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_docs/SO3_project.html">py3dframe.matrix.SO3_project</a></li>
 </ul>
 </div>
 </section>
 <section id="frame-convention-conversion">
 <h2><a class="toc-backref" href="#table-of-contents" role="doc-backlink">Frame convention conversion</a><a class="headerlink" href="#frame-convention-conversion" title="Link to this heading">#</a></h2>
-<p>Finally, to perform conversions between the different conventions used in the literature for representing 3D rotations and transformations, a function <a class="reference internal" href="api_doc/switch_RT_convention.html#py3dframe.switch_RT_convention" title="py3dframe.switch_RT_convention"><code class="xref py py-func docutils literal notranslate"><span class="pre">py3dframe.switch_RT_convention()</span></code></a> is provided:</p>
+<p>Finally, to perform conversions between the different conventions used in the literature for representing 3D rotations and transformations, a function <a class="reference internal" href="_docs/switch_RT_convention.html#py3dframe.switch_RT_convention" title="py3dframe.switch_RT_convention"><code class="xref py py-func docutils literal notranslate"><span class="pre">py3dframe.switch_RT_convention()</span></code></a> is provided:</p>
 <div class="toctree-wrapper compound">
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Conversion functions:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="api_doc/switch_RT_convention.html">py3dframe.switch_RT_convention</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_docs/switch_RT_convention.html">py3dframe.switch_RT_convention</a></li>
 </ul>
 </div>
-<p>To learn how to use the package effectively, refer to the documentation <a class="reference internal" href="usage.html"><span class="doc">Usage</span></a>.</p>
 </section>
 </section>
 
@@ -554,7 +545,7 @@
       </div>
     </a>
     <a class="right-next"
-       href="api_doc/rotation.html"
+       href="_docs/rotation.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
@@ -581,11 +572,8 @@
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-py3dframe-package">Overview of the py3dframe package</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#main-classes">Main classes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manipulate-frames-and-transformations">Manipulate frames and transformations</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-classes">Main classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#frame-manipulation-functions">Frame manipulation functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-submodule">Matrix submodule</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#frame-convention-conversion">Frame convention conversion</a></li>
 </ul>
@@ -634,7 +622,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
