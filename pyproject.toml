@@ -6,8 +6,8 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "py3dframe"
-requires-python = ">= 3.10"
+name = "pysdic"
+requires-python = ">= 3.11"
 dynamic = ["version"]
 description = "3D Frame of Reference managing tools. Only orthogonal and right-handed frames are supported."
 license = {file = "LICENSE"}
@@ -20,41 +20,26 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "numpy>=1.24.0",
-    "scipy>=1.10.0",
+    "numpy>=2.4.2",
+    "scipy>=1.17.1",
 ]
 
 [project.urls]
-Homepage = "https://github.com/Artezaru/py3dframe"
-Documentation = "https://Artezaru.github.io/py3dframe"
-Source = "https://github.com/Artezaru/py3dframe"
-Tracker = "https://github.com/Artezaru/py3dframe/issues"
+Homepage = "https://github.com/Artezaru/pysdic"
+Documentation = "https://Artezaru.github.io/pysdic"
+Source = "https://github.com/Artezaru/pysdic"
+Tracker = "https://github.com/Artezaru/pysdic/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["py3dframe", "py3dframe*"]
+include = ["pysdic", "pysdic*"]
 exclude = ["laboratory", "laboratory.*", "tests", "tests*", "examples", "examples*"]
 
 [tool.setuptools.package-data]
-"py3dframe.resources" = ["*"]
+"pysdic.resources" = ["*"]
 
 [tool.setuptools.dynamic]
-version = {attr = "py3dframe.__version__.__version__"}
-
-[project.optional-dependencies]
-dev = [
-    "sphinx",
-    "pydata-sphinx-theme",
-    "numpydoc",
-    "pytest",
-    "pytest-cov",
-    "bumpver",
-    "twine",
-    "wheel",
-    "build",
-    "setuptools",
-    "setuptools-scm",
-]
+version = {attr = "pysdic.__version__.__version__"}
 
 [project.readme]
 file = "README.md"

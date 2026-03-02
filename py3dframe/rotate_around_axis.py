@@ -34,7 +34,7 @@ def rotate_around_axis(
     If ``use_global`` is set to True, the rotation is applied in the global coordinate system.
     Otherwise, the rotation is applied in the local coordinate system of the frame (in the parent frame).
 
-    .. figure:: ../../../py3dframe/resources/rotation_around_axis.png
+    .. figure:: /_static/rotation_around_axis.png
         :alt: Rotation Around Axis
         :align: center
 

@@ -277,10 +277,10 @@ def test_load_save():
     frame = Frame.from_axes(origin=origin, x_axis=x_axis, y_axis=y_axis, z_axis=z_axis)
 
     # Save the frame
-    data = frame.save_to_dict()
+    data = frame.to_dict()
 
     # Load the frame
-    frame_loaded = Frame.load_from_dict(data)
+    frame_loaded = Frame.from_dict(data)
 
     # Check if the loaded frame is consistent
     assert np.allclose(frame_loaded.origin, origin)

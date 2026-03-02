@@ -1,61 +1,100 @@
-# This file is used to configure the documentation of the package
-# It is used by the Sphinx documentation generator to generate the documentation
-# The documentation is generated in the docs folder of the package
-# The documentation is generated in HTML and LaTeX format
-
-# For the full list of built-in configuration values, see the documentation:
-# https://www.sphinx-doc.org/en/master/usage/configuration.html
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
-
-# 0. Import the necessary modules
-
+# -----
+# Import the necessary modules
+# -----
 import os
 import sys
+
 sys.path.insert(0, os.path.abspath("../.."))
 
-# 1. Set the project informations
+import datetime
+import pydata_sphinx_theme
+
+# -----
+# Path setup
+# -----
+
+project_directory = os.path.join(os.path.abspath(os.path.dirname(__file__)), "..", "..")
+doc_source_directory = os.path.join(project_directory, "docs", "source")
+
+sys.path.insert(0, project_directory)
+sys.path.insert(0, doc_source_directory)
+
+# -----
+# Project information
+# -----
+
 
 def read_version():
-    version_file = os.path.join(os.path.dirname(__file__), '..', '..', 'py3dframe', '__version__.py')
+    version_file = os.path.join(project_directory, "py3dframe", "__version__.py")
     with open(version_file, "r") as file:
-        exec(file.read()) 
+        exec(file.read())
     return locals()["__version__"]
 
-import datetime
+
 project = "py3dframe"
 copyright = f"2025-{datetime.datetime.now().year}, Artezaru"
 author = "Artezaru"
 release = read_version()
 
-# 2. General configuration
+# -----
+# Extensions and general configuration
+# -----
 
-import pydata_sphinx_theme
 html_theme = "pydata_sphinx_theme"
-
-extensions = [
-    "sphinx.ext.autodoc", # Automatically document the code
-    "sphinx.ext.viewcode", # Add links to the code
-    "sphinx.ext.napoleon", # Support for Google and Numpy docstring formats
-    "sphinx.ext.githubpages", # Publish the documentation on GitHub
-    "sphinx.ext.autosummary", # Generate summaries of the modules
+html_static_path = [
+    os.path.join(doc_source_directory, "_static"),
 ]
 
-autosummary_generate = False  # Turn off autosummary generation
-autodoc_typehints = "description"
+extensions = [
+    "sphinx_copybutton",  # Add copy button to code blocks
+    "sphinx.ext.autodoc",  # Automatically document the code
+    "sphinx.ext.viewcode",  # Add links to the code
+    "sphinx.ext.napoleon",  # Support for Google and Numpy docstring formats
+    "sphinx.ext.githubpages",  # Publish the documentation on GitHub
+    "sphinx.ext.autosummary",  # Generate summaries of the modules
+    "sphinx.ext.mathjax",  # Render math in the documentation
+    "sphinx_gallery.gen_gallery",  # Generate galleries of examples
+    "sphinx_design",  # Add design elements to the documentation
+    "sphinx.ext.intersphinx",  # Link to other projects' documentation
+]
 
+# -----
+# Autosummary configuration
+# -----
+autosummary_generate = True
+
+# -----
+# Autodoc configuration
+# -----
+autodoc_typehints = "description"
+add_module_names = False
+
+# -----
+# Napoleon configuration
+# -----
 napoleon_google_docstring = False
 napoleon_numpy_docstring = True
 
-# 3. Options for Latex output
-
-latex_elements = {
-    "papersize": "a4paper",
-    "pointsize": "10pt",
-    "preamble": "",
+# -----
+# Intersphinx configuration
+# -----
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+    "numpy": ("https://numpy.org/doc/stable/", None),
+    "scipy": ("https://docs.scipy.org/doc/scipy/", None),
 }
 
-latex_documents = [
-    ("index", "py3dframe.tex", "py3dframe Documentation",
-     "Artezaru", "manual"),
-]
+# -----
+# Sphinx Gallery configuration
+# -----
+sphinx_gallery_conf = {
+    "examples_dirs": [
+        os.path.join(project_directory, "gallery"),
+    ],
+    "gallery_dirs": [
+        os.path.join(doc_source_directory, "_gallery"),
+    ],
+    "backreferences_dir": os.path.join(doc_source_directory, "_gallery_backreferences"),
+    "capture_repr": ["__repr__", "__str__", "_repr_html_"],
+    "filename_pattern": r"\.py$",
+}

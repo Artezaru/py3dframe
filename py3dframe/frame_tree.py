@@ -84,7 +84,7 @@ class FrameTree(object):
             frame_tree = FrameTree()
             
             # Create a new root frame
-            new_root_frame = Frame(name="New_Root_Frame")
+            new_root_frame = Frame.canonical()
             
             # Set the new root frame
             frame_tree.set_root_frame(new_root_frame)
@@ -119,33 +119,6 @@ class FrameTree(object):
             The name of the frame to replace.
         frame : Frame
             The new Frame object to replace the existing frame.
-        
-        Returns
-        -------
-        None
-        
-        
-        Examples
-        --------
-        
-        .. code-block:: python
-        
-            from py3dframe import Frame, FrameTree
-            
-            # Create some frames
-            root_frame = Frame(name="Root_Frame")
-            child_frame = Frame(name="Child_Frame")
-            
-            # Create a FrameTree and add frames
-            frame_tree = FrameTree()
-            frame_tree.add_frame(name="Root_Frame", frame=root_frame)
-            frame_tree.add_frame(name="Child_Frame", frame=child_frame, parent_name="Root_Frame")
-            
-            # Create a new frame to replace the existing one
-            new_child_frame = Frame(name="New_Child_Frame")
-            
-            # Replace the existing frame
-            frame_tree.replace_frame(name="Child_Frame", frame=new_child_frame)
         
         """
         if not isinstance(name, str):
@@ -200,31 +173,6 @@ class FrameTree(object):
         parent_name : Optional[str], optional
             The name of the parent frame. If None, the frame is added as the root frame. Default is None.
         
-        Returns
-        -------
-        None
-        
-        
-        Examples
-        --------
-        
-        .. code-block:: python
-        
-            from py3dframe import Frame, FrameTree
-            
-            # Create some frames
-            root_frame = Frame(name="Root_Frame")
-            child_frame_1 = Frame(name="Child_Frame_1")
-            child_frame_2 = Frame(name="Child_Frame_2")
-            grandchild_frame_1 = Frame(name="Grandchild_Frame_1")
-            
-            # Create a FrameTree and add frames
-            frame_tree = FrameTree()
-            frame_tree.add_frame(name="Root_Frame", frame=root_frame)
-            frame_tree.add_frame(name="Child_Frame_1", frame=child_frame_1, parent_name="Root_Frame")
-            frame_tree.add_frame(name="Child_Frame_2", frame=child_frame_2, parent_name="Root_Frame")
-            frame_tree.add_frame(name="Grandchild_Frame_1", frame=grandchild_frame_1, parent_name="Child_Frame_1")
-        
         """
         # Input validation
         if not isinstance(frame, Frame):
@@ -278,30 +226,7 @@ class FrameTree(object):
         recursive : bool, optional
             If True, all child frames of the specified frame are also removed recursively. If False, the child frames are not removed and will have their parent set to the parent of the removed frame. Default is True.
         
-        Returns
-        -------
-        None
-        
-        
-        Examples
-        --------
-        
-        .. code-block:: python
-        
-            from py3dframe import Frame, FrameTree
-            
-            # Create some frames
-            root_frame = Frame(name="Root_Frame")
-            child_frame_1 = Frame(name="Child_Frame_1")
-            
-            # Create a FrameTree and add frames
-            frame_tree = FrameTree()
-            frame_tree.add_frame(name="Root_Frame", frame=root_frame)
-            frame_tree.add_frame(name="Child_Frame_1", frame=child_frame_1, parent_name="Root_Frame")
-            
-            # Disconnect a frame
-            frame_tree.disconnect_frame(name="Child_Frame_1", recursive=True)
-        
+
         """
         # Input validation
         if not isinstance(name, str):
@@ -362,29 +287,7 @@ class FrameTree(object):
         Returns
         -------
         None
-        
-        
-        Examples
-        --------
-        
-        .. code-block:: python
-        
-            from py3dframe import Frame, FrameTree
-            
-            # Create some frames
-            root_frame = Frame(name="Root_Frame")
-            child_frame_1 = Frame(name="Child_Frame_1")
-            child_frame_2 = Frame(name="Child_Frame_2")
-            
-            # Create a FrameTree and add frames
-            frame_tree = FrameTree()
-            frame_tree.add_frame(name="Root_Frame", frame=root_frame)
-            frame_tree.add_frame(name="Child_Frame_1", frame=child_frame_1, parent_name="Root_Frame")
-            frame_tree.add_frame(name="Child_Frame_2", frame=child_frame_2, parent_name="Root_Frame")
-            
-            # Move a frame to a new parent
-            frame_tree.move_frame(name="Child_Frame_1", new_parent_name="Child_Frame_2")
-        
+
         """
         # Input validation
         if not isinstance(name, str):
@@ -432,26 +335,7 @@ class FrameTree(object):
         -------
         None
         
-        
-        Examples
-        --------
-        
-        .. code-block:: python
-        
-            from py3dframe import Frame, FrameTree
-            
-            # Create some frames
-            root_frame = Frame(name="Root_Frame")
-            child_frame_1 = Frame(name="Child_Frame_1")
-            
-            # Create a FrameTree and add frames
-            frame_tree = FrameTree()
-            frame_tree.add_frame(name="Root_Frame", frame=root_frame)
-            frame_tree.add_frame(name="Child_Frame_1", frame=child_frame_1, parent_name="Root_Frame")
-            
-            # Rename a frame
-            frame_tree.rename_frame(old_name="Child_Frame_1", new_name="Renamed_Child_Frame")
-        
+
         """
         # Input validation
         if not isinstance(old_name, str):
@@ -496,24 +380,7 @@ class FrameTree(object):
         Frame
             The Frame object with the specified name.
         
-        
-        Examples
-        --------
-        
-        .. code-block:: python
-        
-            from py3dframe import Frame, FrameTree
-            
-            # Create some frames
-            root_frame = Frame(name="Root_Frame")
-            
-            # Create a FrameTree and add frames
-            frame_tree = FrameTree()
-            frame_tree.add_frame(name="Root_Frame", frame=root_frame)
-            
-            # Get a frame by name
-            retrieved_frame = frame_tree.get_frame(name="Root_Frame")
-        
+
         """
         # Input validation
         if not isinstance(name, str):
@@ -539,24 +406,7 @@ class FrameTree(object):
             A list of names of the child frames.
         
         
-        Examples
-        --------
-        
-        .. code-block:: python
-        
-            from py3dframe import Frame, FrameTree
-            
-            # Create some frames
-            root_frame = Frame(name="Root_Frame")
-            child_frame_1 = Frame(name="Child_Frame_1")
-            
-            # Create a FrameTree and add frames
-            frame_tree = FrameTree()
-            frame_tree.add_frame(name="Root_Frame", frame=root_frame)
-            frame_tree.add_frame(name="Child_Frame_1", frame=child_frame_1, parent_name="Root_Frame")
-            
-            # Get child frame names
-            child_names = frame_tree.get_child_names(name="Root_Frame")
+
         
         """
         # Input validation
@@ -582,25 +432,7 @@ class FrameTree(object):
         Optional[str]
             The name of the parent frame, or None if the frame is the root frame.
         
-        
-        Examples
-        --------
-        
-        .. code-block:: python
-        
-            from py3dframe import Frame, FrameTree
-            
-            # Create some frames
-            root_frame = Frame(name="Root_Frame")
-            child_frame_1 = Frame(name="Child_Frame_1")
-            
-            # Create a FrameTree and add frames
-            frame_tree = FrameTree()
-            frame_tree.add_frame(name="Root_Frame", frame=root_frame)
-            frame_tree.add_frame(name="Child_Frame_1", frame=child_frame_1, parent_name="Root_Frame")
-            
-            # Get parent frame name
-            parent_name = frame_tree.get_parent_name(name="Child_Frame_1")
+
         
         """
         # Input validation
@@ -621,25 +453,7 @@ class FrameTree(object):
         List[str]
             A list of all frame names in the FrameTree.
         
-        
-        Examples
-        --------
-        
-        .. code-block:: python
-        
-            from py3dframe import Frame, FrameTree
-            
-            # Create some frames
-            root_frame = Frame(name="Root_Frame")
-            child_frame_1 = Frame(name="Child_Frame_1")
-            
-            # Create a FrameTree and add frames
-            frame_tree = FrameTree()
-            frame_tree.add_frame(name="Root_Frame", frame=root_frame)
-            frame_tree.add_frame(name="Child_Frame_1", frame=child_frame_1, parent_name="Root_Frame")
-            
-            # List all frame names
-            frame_names = frame_tree.list_frames()
+
         
         """
         return list(self._names)
@@ -660,26 +474,7 @@ class FrameTree(object):
         -------
         FrameTransform
             The FrameTransform object representing the transformation from the input frame to the output frame.
-        
-        
-        Examples
-        --------
-        
-        .. code-block:: python
-        
-            from py3dframe import Frame, FrameTree
-            
-            # Create some frames
-            root_frame = Frame(name="Root_Frame")
-            child_frame_1 = Frame(name="Child_Frame_1")
-            
-            # Create a FrameTree and add frames
-            frame_tree = FrameTree()
-            frame_tree.add_frame(name="Root_Frame", frame=root_frame)
-            frame_tree.add_frame(name="Child_Frame_1", frame=child_frame_1, parent_name="Root_Frame")
-            
-            # Get the FrameTransform between two frames
-            transform = frame_tree.get_transform(input_frame="Child_Frame_1", output_frame="Root_Frame")
+
         
         """
         if input_frame is None:
@@ -770,40 +565,13 @@ class FrameTree(object):
             # Output: [[1.] [0.] [0.]]
             
         """
-        transform = self.get_tranform(input_frame=input_frame, output_frame=output_frame)
+        transform = self.get_transform(input_frame=input_frame, output_frame=output_frame)
         return transform.transform(point=point, vector=vector)
     
 
     def print_tree(self) -> None:
         r"""
-        Print the FrameTree structure.
-        
-        Returns
-        -------
-        None
-        
-        
-        Examples
-        --------
-        
-        .. code-block:: python
-        
-            from py3dframe import Frame, FrameTree
-            
-            # Create some frames
-            root_frame = Frame(name="Root_Frame")
-            child_frame_1 = Frame(name="Child_Frame_1")
-            grandchild_frame_1 = Frame(name="Grandchild_Frame_1")
-            
-            # Create a FrameTree and add frames
-            frame_tree = FrameTree()
-            frame_tree.add_frame(name="Root_Frame", frame=root_frame)
-            frame_tree.add_frame(name="Child_Frame_1", frame=child_frame_1, parent_name="Root_Frame")
-            frame_tree.add_frame(name="Grandchild_Frame_1", frame=grandchild_frame_1, parent_name="Child_Frame_1")
-            
-            # Print the FrameTree structure
-            frame_tree.print_tree()
-        
+        Print the FrameTree structure.        
         """
         def _print_subtree(name: str, prefix: Optional[str] = None) -> None:
             if prefix is None:

@@ -1,0 +1,447 @@
+{
+ "Frame.from_rotation": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "py3dframe.frame",
+   "module_short": "py3dframe",
+   "name": "Frame.from_rotation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "py3dframe",
+   "module_short": "py3dframe",
+   "name": "Frame.from_rotation"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe.Frame",
+   "module_short": "py3dframe.Frame",
+   "name": "from_rotation"
+  }
+ ],
+ "FrameTransform": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "py3dframe.frame_transform",
+   "module_short": "py3dframe",
+   "name": "FrameTransform"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "py3dframe",
+   "module_short": "py3dframe",
+   "name": "FrameTransform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe",
+   "module_short": "py3dframe",
+   "name": "FrameTransform"
+  }
+ ],
+ "Rotation.from_euler": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "scipy.spatial.transform._rotation",
+   "module_short": "scipy.spatial.transform",
+   "name": "Rotation.from_euler"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "scipy.spatial.transform",
+   "module_short": "scipy.spatial.transform",
+   "name": "Rotation.from_euler"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "scipy.spatial",
+   "module_short": "scipy.spatial",
+   "name": "Rotation.from_euler"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "scipy",
+   "module_short": "scipy",
+   "name": "Rotation.from_euler"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe.Rotation",
+   "module_short": "py3dframe.Rotation",
+   "name": "from_euler"
+  }
+ ],
+ "frame_E": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe.frame",
+   "module_short": "py3dframe",
+   "name": "Frame"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe",
+   "module_short": "py3dframe",
+   "name": "Frame"
+  }
+ ],
+ "frame_E.global_origin": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe.frame",
+   "module_short": "py3dframe",
+   "name": "Frame.global_origin"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe",
+   "module_short": "py3dframe",
+   "name": "Frame.global_origin"
+  }
+ ],
+ "frame_E.origin": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe.frame",
+   "module_short": "py3dframe",
+   "name": "Frame.origin"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe",
+   "module_short": "py3dframe",
+   "name": "Frame.origin"
+  }
+ ],
+ "frame_F": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe.frame",
+   "module_short": "py3dframe",
+   "name": "Frame"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe",
+   "module_short": "py3dframe",
+   "name": "Frame"
+  }
+ ],
+ "frame_F.euler_angles": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe.frame",
+   "module_short": "py3dframe",
+   "name": "Frame.euler_angles"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe",
+   "module_short": "py3dframe",
+   "name": "Frame.euler_angles"
+  }
+ ],
+ "frame_F.global_origin": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe.frame",
+   "module_short": "py3dframe",
+   "name": "Frame.global_origin"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe",
+   "module_short": "py3dframe",
+   "name": "Frame.global_origin"
+  }
+ ],
+ "frame_F.origin": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe.frame",
+   "module_short": "py3dframe",
+   "name": "Frame.origin"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe",
+   "module_short": "py3dframe",
+   "name": "Frame.origin"
+  }
+ ],
+ "np.allclose": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "_ArrayFunctionDispatcher"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "allclose"
+  }
+ ],
+ "np.array": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "array"
+  }
+ ],
+ "point_E": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "point_E.flatten": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "point_E_bis": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "point_F": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "point_F.flatten": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "py3dframe.FrameTransform": [
+  {
+   "is_class": false,
+   "is_explicit": true,
+   "module": "py3dframe",
+   "module_short": "py3dframe",
+   "name": "FrameTransform"
+  }
+ ],
+ "rotation": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "scipy.spatial.transform._rotation",
+   "module_short": "scipy.spatial.transform",
+   "name": "Rotation"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "scipy.spatial.transform",
+   "module_short": "scipy.spatial.transform",
+   "name": "Rotation"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "scipy.spatial",
+   "module_short": "scipy.spatial",
+   "name": "Rotation"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "scipy",
+   "module_short": "scipy",
+   "name": "Rotation"
+  }
+ ],
+ "transform": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe.frame_transform",
+   "module_short": "py3dframe",
+   "name": "FrameTransform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe",
+   "module_short": "py3dframe",
+   "name": "FrameTransform"
+  }
+ ],
+ "transform.inverse_transform": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe.frame_transform",
+   "module_short": "py3dframe",
+   "name": "FrameTransform.inverse_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe",
+   "module_short": "py3dframe",
+   "name": "FrameTransform.inverse_transform"
+  }
+ ],
+ "transform.rotation.as_euler": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe.frame_transform",
+   "module_short": "py3dframe",
+   "name": "FrameTransform.rotation"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe",
+   "module_short": "py3dframe",
+   "name": "FrameTransform.rotation"
+  }
+ ],
+ "transform.transform": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe.frame_transform",
+   "module_short": "py3dframe",
+   "name": "FrameTransform.transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe",
+   "module_short": "py3dframe",
+   "name": "FrameTransform.transform"
+  }
+ ],
+ "transform.translation": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe.frame_transform",
+   "module_short": "py3dframe",
+   "name": "FrameTransform.translation"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "py3dframe",
+   "module_short": "py3dframe",
+   "name": "FrameTransform.translation"
+  }
+ ],
+ "translation": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "vector_E": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "vector_E.flatten": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "vector_E_bis": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "vector_F": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "vector_F.flatten": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ]
+}

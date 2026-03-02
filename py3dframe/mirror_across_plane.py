@@ -32,7 +32,7 @@ def mirror_across_plane(
     If ``use_global`` is set to True, the mirroring is applied in the global coordinate system.
     Otherwise, the mirroring is applied in the local coordinate system of the frame (in the parent frame).
 
-    .. figure:: ../../../py3dframe/resources/mirroring_across_plane.png
+    .. figure:: /_static/mirroring_across_plane.png
         :alt: Mirroring Across Plane
         :align: center
 
