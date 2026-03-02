@@ -6,7 +6,7 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pysdic"
+name = "py3dframe"
 requires-python = ">= 3.11"
 dynamic = ["version"]
 description = "3D Frame of Reference managing tools. Only orthogonal and right-handed frames are supported."
@@ -25,21 +25,21 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Artezaru/pysdic"
-Documentation = "https://Artezaru.github.io/pysdic"
-Source = "https://github.com/Artezaru/pysdic"
-Tracker = "https://github.com/Artezaru/pysdic/issues"
+Homepage = "https://github.com/Artezaru/py3dframe"
+Documentation = "https://Artezaru.github.io/py3dframe"
+Source = "https://github.com/Artezaru/py3dframe"
+Tracker = "https://github.com/Artezaru/py3dframe/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["pysdic", "pysdic*"]
+include = ["py3dframe", "py3dframe*"]
 exclude = ["laboratory", "laboratory.*", "tests", "tests*", "examples", "examples*"]
 
 [tool.setuptools.package-data]
-"pysdic.resources" = ["*"]
+"py3dframe.resources" = ["*"]
 
 [tool.setuptools.dynamic]
-version = {attr = "pysdic.__version__.__version__"}
+version = {attr = "py3dframe.__version__.__version__"}
 
 [project.readme]
 file = "README.md"
